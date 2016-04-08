@@ -1,0 +1,3 @@
+[submodule "Carthage/Checkouts/Freddy"]
+	path = Carthage/Checkouts/Freddy
+	url = ssh://git@github.com/bignerdranch/Freddy.git
