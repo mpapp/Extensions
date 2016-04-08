@@ -8,12 +8,18 @@
 
 import Foundation
 
-public class REvaluator: Evaluator {
-    override public var identifier: String {
+public class REvaluator: NSObject {
+    public var identifier: String {
         return "org.cran.r"
     }
     
-    override public var fileExtensions: Set<String> {
+    public var fileExtensions: Set<String> {
         return ["R"]
+    }
+}
+
+extension REvaluator: Evaluator {
+    public func evaluate(input: String, outputHandler:(AnyObject)->Void, errorHandler: (EvaluatorError, String) -> Void) throws {
+        preconditionFailure()
     }
 }

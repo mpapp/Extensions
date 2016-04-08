@@ -8,12 +8,25 @@
 
 import Foundation
 
-@objc public class Extension: NSObject {
-    var identifier:String {
-        fatalError("Implement in subclass")
-    }
+protocol ExtensionLike {
+    var identifier:String { get }
+    var procedures:[Procedure] { get }
+}
+
+enum ExtensionError:ErrorType {
+    case MissingEvaluatorKey
+    case InvalidEvaluatorClass(String)
+    case InvalidEvaluatorType(AnyClass?)
+    case NotPropertyList([String:AnyObject])
+}
+
+@objc public class Extension: NSObject, ExtensionLike {
+    let identifier:String
+    let procedures:[Procedure]
     
-    var evaluator:Evaluator {
-        fatalError("Implement in subclass")
+    init(identifier:String, procedures:[Procedure]) {
+        self.identifier = identifier
+        self.procedures = procedures
+        super.init()
     }
 }

@@ -10,23 +10,38 @@ import Foundation
 import WebKit
 import JavaScriptCore
 
-public class JavaScriptEvaluator: Evaluator {
-    override public var fileExtensions: Set<String> {
+public class JavaScriptEvaluator:NSObject, Evaluator {
+    
+    public var identifier: String {
+        preconditionFailure("Implement in subclass.")
+    }
+    
+    public var fileExtensions: Set<String> {
         return ["js"]
+    }
+    
+    public func evaluate(input:String, outputHandler:(AnyObject)->Void, errorHandler:(EvaluatorError, String)->Void) throws {
+        preconditionFailure("Implement in subclass")
     }
 }
 
 // MARK:
 // MARK: WebKit
 
-public class JavaScriptEvaluatorWebKit: JavaScriptEvaluator {
+@objc public class JavaScriptEvaluatorWebKit:JavaScriptEvaluator {
     private let webView:WebView
     
     public let isPresented: Bool
     
-    init(isPresented:Bool = false) {
-        self.isPresented = isPresented
-        self.webView = WebView(frame: NSMakeRect(0, 0, 0, 0))
+    init(webView:WebView? = nil) {
+        self.isPresented = webView != nil
+
+        if let webView = webView {
+            self.webView = webView
+        }
+        else {
+            self.webView = WebView(frame: NSMakeRect(0, 0, 0, 0))
+        }
         
         super.init()
         
@@ -44,7 +59,7 @@ public class JavaScriptEvaluatorWebKit: JavaScriptEvaluator {
         }
     }
     
-    override public var identifier: String {
+    public override var identifier: String {
         return "org.javascript.webkit"
     }
     
@@ -69,48 +84,6 @@ public class JavaScriptEvaluatorWebKit: JavaScriptEvaluator {
         
         self.webView.windowScriptObject.evaluateWebScript(input)
     }
-    
-    // A helper for NSNumber based evaluation
-    private func evaluate(input: String, outputHandler: (NSNumber) -> Void, errorHandler: (EvaluatorError, String) -> Void) throws {
-        try evaluate(input, outputHandler: { (output:AnyObject) in
-            guard let outputNumber = output as? NSNumber else {
-                errorHandler(EvaluatorError.UnexpectedReturnValueType, "Return value is of unexpected type: \(output.dynamicType) (expecting NSNumber)")
-                return
-            }
-            
-            outputHandler(outputNumber)
-            
-            }, errorHandler: errorHandler)
-    }
-    
-    public override func evaluate(input: String, outputHandler: (Bool) -> Void, errorHandler: (EvaluatorError, String) -> Void) throws {
-        try evaluate(input, outputHandler: { (output:NSNumber) in
-            outputHandler(output.boolValue)
-        }, errorHandler: errorHandler)
-    }
-    
-    public override func evaluate(input: String, outputHandler: (Int) -> Void, errorHandler: (EvaluatorError, String) -> Void) throws {
-        try evaluate(input, outputHandler: { (output:NSNumber) in
-            outputHandler(Int(output.intValue))
-            }, errorHandler: errorHandler)
-    }
-    
-    public override func evaluate(input: String, outputHandler: (Double) -> Void, errorHandler: (EvaluatorError, String) -> Void) throws {
-        try evaluate(input, outputHandler: { (output:NSNumber) in
-            outputHandler(Double(output.doubleValue))
-            }, errorHandler: errorHandler)
-    }
-    
-    public override func evaluate(input: String, outputHandler: (String) -> Void, errorHandler: (EvaluatorError, String) -> Void) throws {
-        try evaluate(input, outputHandler: { (output:AnyObject) in
-            guard let outputString = output as? String else {
-                errorHandler(EvaluatorError.UnexpectedReturnValueType, "Return value is of unexpected type: \(output.dynamicType) (expecting String)")
-                return
-            }
-            
-            outputHandler(outputString)
-            }, errorHandler: errorHandler)
-    }
 }
 
 extension JavaScriptEvaluatorWebKit: WebFrameLoadDelegate {
@@ -133,7 +106,7 @@ extension JavaScriptEvaluatorWebKit: WebUIDelegate {
 // MARK: JSC
 
 public class JavaScriptEvaluatorJSC: JavaScriptEvaluator {
-    override public var identifier: String {
+    public override var identifier: String {
         return "org.javascript.javascriptcore"
     }
 }

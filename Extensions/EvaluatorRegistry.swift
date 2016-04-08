@@ -25,8 +25,9 @@ public class EvaluatorRegistry {
                   REvaluator()]
         
         var evals = [String:Evaluator]()
-        for e in es {
-            evals[e.identifier] = e
+    
+        for eval in es {
+            //evals[eval.identifier] = eval
         }
         
         return evals

@@ -21,6 +21,11 @@
 		5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */; };
 		5F1996CE1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js in Resources */ = {isa = PBXBuildFile; fileRef = 5F1996CD1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js */; };
 		5F1996D01CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html in Resources */ = {isa = PBXBuildFile; fileRef = 5F1996CF1CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html */; };
+		5F1996D21CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996D11CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift */; };
+		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
+		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
+		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
+		5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4851CB8374F00F4B7EA /* Procedure.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +37,19 @@
 			remoteInfo = Extensions;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5F1996D91CB7E33600B1C5DB /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Extensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +69,11 @@
 		5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvaluatorDebugViewController.xib; sourceTree = "<group>"; };
 		5F1996CD1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JavaScriptEvaluatorWebKit.js; sourceTree = "<group>"; };
 		5F1996CF1CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = JavaScriptEvaluatorWebKit.html; sourceTree = "<group>"; };
+		5F1996D11CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+JSONSerialization.swift"; sourceTree = "<group>"; };
+		5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/Mac/Freddy.framework; sourceTree = "<group>"; };
+		5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Freddy.framework.dSYM; path = Carthage/Build/Mac/Freddy.framework.dSYM; sourceTree = "<group>"; };
+		5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionRegistry.swift; sourceTree = "<group>"; };
+		5F7EE4851CB8374F00F4B7EA /* Procedure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Procedure.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
+				5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */,
 				5F1996AC1CB5B31D00B1C5DB /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,8 +101,7 @@
 		5F1996811CB5AE8F00B1C5DB = {
 			isa = PBXGroup;
 			children = (
-				5F1996AD1CB5B32100B1C5DB /* JavaScriptCore.framework */,
-				5F1996AB1CB5B31D00B1C5DB /* WebKit.framework */,
+				5F1996D71CB7E1EC00B1C5DB /* Frameworks */,
 				5F19968D1CB5AE8F00B1C5DB /* Extensions */,
 				5F1996B61CB5B58400B1C5DB /* ExtensionsTests */,
 				5F19968C1CB5AE8F00B1C5DB /* Products */,
@@ -100,14 +123,10 @@
 				5F19968E1CB5AE8F00B1C5DB /* Extensions.h */,
 				5F1996901CB5AE8F00B1C5DB /* Info.plist */,
 				5F1996A11CB5AF2100B1C5DB /* Extension.swift */,
-				5F1996A31CB5AF6D00B1C5DB /* Evaluator.swift */,
-				5F1996A51CB5AFEC00B1C5DB /* EvaluatorRegistry.swift */,
-				5F1996A91CB5B1DC00B1C5DB /* JavaScriptEvaluators.swift */,
-				5F1996AF1CB5B36100B1C5DB /* REvaluator.swift */,
-				5F1996C91CB7036100B1C5DB /* EvaluatorDebugViewController.swift */,
-				5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */,
-				5F1996CD1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js */,
-				5F1996CF1CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html */,
+				5F1996D11CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift */,
+				5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */,
+				5F7EE4851CB8374F00F4B7EA /* Procedure.swift */,
+				5F7EE4871CB845B800F4B7EA /* Evaluators */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -119,6 +138,56 @@
 				5F1996B91CB5B58400B1C5DB /* Info.plist */,
 			);
 			path = ExtensionsTests;
+			sourceTree = "<group>";
+		};
+		5F1996D71CB7E1EC00B1C5DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */,
+				5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */,
+				5F1996AD1CB5B32100B1C5DB /* JavaScriptCore.framework */,
+				5F1996AB1CB5B31D00B1C5DB /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5F7EE4871CB845B800F4B7EA /* Evaluators */ = {
+			isa = PBXGroup;
+			children = (
+				5F1996A31CB5AF6D00B1C5DB /* Evaluator.swift */,
+				5F1996A51CB5AFEC00B1C5DB /* EvaluatorRegistry.swift */,
+				5F7EE48D1CB8465200F4B7EA /* Evaluator Debug View Controller */,
+				5F7EE48A1CB8462900F4B7EA /* JavaScript */,
+				5F7EE48B1CB8463200F4B7EA /* R */,
+			);
+			name = Evaluators;
+			sourceTree = "<group>";
+		};
+		5F7EE48A1CB8462900F4B7EA /* JavaScript */ = {
+			isa = PBXGroup;
+			children = (
+				5F1996A91CB5B1DC00B1C5DB /* JavaScriptEvaluators.swift */,
+				5F1996CF1CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html */,
+				5F1996CD1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js */,
+			);
+			name = JavaScript;
+			sourceTree = "<group>";
+		};
+		5F7EE48B1CB8463200F4B7EA /* R */ = {
+			isa = PBXGroup;
+			children = (
+				5F1996AF1CB5B36100B1C5DB /* REvaluator.swift */,
+			);
+			name = R;
+			sourceTree = "<group>";
+		};
+		5F7EE48D1CB8465200F4B7EA /* Evaluator Debug View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5F1996C91CB7036100B1C5DB /* EvaluatorDebugViewController.swift */,
+				5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */,
+			);
+			name = "Evaluator Debug View Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,6 +212,7 @@
 				5F1996871CB5AE8F00B1C5DB /* Frameworks */,
 				5F1996881CB5AE8F00B1C5DB /* Headers */,
 				5F1996891CB5AE8F00B1C5DB /* Resources */,
+				5F1996D91CB7E33600B1C5DB /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -214,6 +284,7 @@
 			files = (
 				5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */,
 				5F1996CE1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js in Resources */,
+				5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */,
 				5F1996D01CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,11 +303,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */,
 				5F1996B01CB5B36100B1C5DB /* REvaluator.swift in Sources */,
 				5F1996A21CB5AF2100B1C5DB /* Extension.swift in Sources */,
+				5F1996D21CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift in Sources */,
 				5F1996CB1CB7036100B1C5DB /* EvaluatorDebugViewController.swift in Sources */,
 				5F1996A41CB5AF6D00B1C5DB /* Evaluator.swift in Sources */,
 				5F1996AA1CB5B1DC00B1C5DB /* JavaScriptEvaluators.swift in Sources */,
+				5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */,
 				5F1996A61CB5AFEC00B1C5DB /* EvaluatorRegistry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,6 +431,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					$SRCROOT/Carthage/Build/Mac,
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Extensions/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -377,6 +455,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					$SRCROOT/Carthage/Build/Mac,
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Extensions/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
