@@ -9,12 +9,20 @@
 			<string>example-1.js</string>
 			<key>evaluator</key>
 			<string>org.javascript.webkit</string>
+			<key>inputTypes</key>
+			<array/>
+			<key>outputTypes</key>
+			<array/>
 		</dict>
 		<dict>
 			<key>source</key>
 			<string>example-2.js</string>
 			<key>evaluator</key>
 			<string>org.javascript.webkit</string>
+			<key>inputTypes</key>
+			<array/>
+			<key>outputTypes</key>
+			<array/>
 		</dict>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>

@@ -99,11 +99,29 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         return error
     }
     
-    private class func JSONEncode(processable:Processable) {
+    private class func JSONEncode(processable:Processable?) -> AnyObject? {
+        guard let input = processable else {
+            return nil
+        }
         
+        switch input {
+        case .DoubleData(let d):
+            return NSNumber(double: d)
+        case .IntData(let i):
+            return NSNumber(integer:i)
+        case .PListEncodableArray(let ps):
+            return ps
+        case .PListEncodableScalar(let p):
+            return p
+        case .StringData(let str):
+            return str
+        }
     }
     
-    public override func evaluate(source: String, input:Processable, outputHandler: (AnyObject) -> Void, errorHandler: (EvaluatorError, String) -> Void) {
+    public override func evaluate(source: String,
+                                  input:Processable,
+                                  outputHandler: (AnyObject) -> Void,
+                                  errorHandler: (EvaluatorError, String) -> Void) {
         
         // needed to wrap the passed in output handler to an Objective-C conventioned block.
         let outputBlock:@convention(block) (AnyObject) -> Void = {
@@ -122,7 +140,9 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         self.webView.windowScriptObject.callWebScriptMethod("setEvaluatorErrorHandler",
                                                             withArguments: [self.identifier, unsafeBitCast(errorBlock, AnyObject.self)])
         
+        self.webView.windowScriptObject.setValue(self.dynamicType.JSONEncode(input), forKey: "evaluatorInput")
         self.webView.windowScriptObject.evaluateWebScript(source)
+        self.webView.windowScriptObject.setValue(nil, forKey: "evaluatorInput") // user is expected to store the value in this global.
     }
 }
 
