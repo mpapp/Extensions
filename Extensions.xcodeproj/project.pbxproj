@@ -19,13 +19,19 @@
 		5F1996BA1CB5B58400B1C5DB /* Extensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */; };
 		5F1996CB1CB7036100B1C5DB /* EvaluatorDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996C91CB7036100B1C5DB /* EvaluatorDebugViewController.swift */; };
 		5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */; };
-		5F1996CE1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js in Resources */ = {isa = PBXBuildFile; fileRef = 5F1996CD1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js */; };
-		5F1996D01CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html in Resources */ = {isa = PBXBuildFile; fileRef = 5F1996CF1CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html */; };
-		5F1996D21CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996D11CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift */; };
+		5F1996D21CB7DFDA00B1C5DB /* Extension+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996D11CB7DFDA00B1C5DB /* Extension+Serialization.swift */; };
 		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
 		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
 		5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4851CB8374F00F4B7EA /* Procedure.swift */; };
+		5F7EE4911CB85C5600F4B7EA /* JavaScriptEvaluatorWebKit.html in Copy JS Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE48E1CB85C2B00F4B7EA /* JavaScriptEvaluatorWebKit.html */; };
+		5F7EE4A21CBA9BAA00F4B7EA /* JSExample.extension in Copy Extensions */ = {isa = PBXBuildFile; fileRef = 5F7EE49B1CBA9B8D00F4B7EA /* JSExample.extension */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F7EE4AB1CBAD42200F4B7EA /* example-1.js in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE4A61CBAC4A100F4B7EA /* example-1.js */; };
+		5F7EE4AC1CBAD42200F4B7EA /* example-2.js in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE4A81CBAC4A800F4B7EA /* example-2.js */; };
+		5F7EE4AE1CBAD43E00F4B7EA /* Freddy.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F7EE4AF1CBAD44100F4B7EA /* Extensions.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F7EE4B11CBAD9D200F4B7EA /* NSFileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */; };
+		5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,12 +45,36 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5F1996D91CB7E33600B1C5DB /* Copy Frameworks */ = {
+		5F7EE4901CB85C4900F4B7EA /* Copy JS Resources */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = JavaScriptEvaluatorWebKit;
+			dstSubfolderSpec = 7;
+			files = (
+				5F7EE4911CB85C5600F4B7EA /* JavaScriptEvaluatorWebKit.html in Copy JS Resources */,
+			);
+			name = "Copy JS Resources";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F7EE4A11CBA9B9900F4B7EA /* Copy Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				5F7EE4A21CBA9BAA00F4B7EA /* JSExample.extension in Copy Extensions */,
+			);
+			name = "Copy Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F7EE4AD1CBAD42E00F4B7EA /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5F7EE4AE1CBAD43E00F4B7EA /* Freddy.framework in Copy Frameworks */,
+				5F7EE4AF1CBAD44100F4B7EA /* Extensions.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,12 +98,18 @@
 		5F1996C91CB7036100B1C5DB /* EvaluatorDebugViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatorDebugViewController.swift; sourceTree = "<group>"; };
 		5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvaluatorDebugViewController.xib; sourceTree = "<group>"; };
 		5F1996CD1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JavaScriptEvaluatorWebKit.js; sourceTree = "<group>"; };
-		5F1996CF1CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = JavaScriptEvaluatorWebKit.html; sourceTree = "<group>"; };
-		5F1996D11CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+JSONSerialization.swift"; sourceTree = "<group>"; };
+		5F1996D11CB7DFDA00B1C5DB /* Extension+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Serialization.swift"; sourceTree = "<group>"; };
 		5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/Mac/Freddy.framework; sourceTree = "<group>"; };
 		5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Freddy.framework.dSYM; path = Carthage/Build/Mac/Freddy.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionRegistry.swift; sourceTree = "<group>"; };
 		5F7EE4851CB8374F00F4B7EA /* Procedure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Procedure.swift; sourceTree = "<group>"; };
+		5F7EE48E1CB85C2B00F4B7EA /* JavaScriptEvaluatorWebKit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = JavaScriptEvaluatorWebKit.html; path = JavaScriptEvaluatorWebKit/app/JavaScriptEvaluatorWebKit.html; sourceTree = SOURCE_ROOT; };
+		5F7EE49B1CBA9B8D00F4B7EA /* JSExample.extension */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSExample.extension; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F7EE49D1CBA9B8D00F4B7EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5F7EE4A61CBAC4A100F4B7EA /* example-1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "example-1.js"; sourceTree = "<group>"; };
+		5F7EE4A81CBAC4A800F4B7EA /* example-2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "example-2.js"; sourceTree = "<group>"; };
+		5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFileManager+Extensions.swift"; sourceTree = "<group>"; };
+		5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,12 +131,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5F7EE4981CBA9B8D00F4B7EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		5F1996811CB5AE8F00B1C5DB = {
 			isa = PBXGroup;
 			children = (
+				5F7EE49C1CBA9B8D00F4B7EA /* JSExample */,
 				5F1996D71CB7E1EC00B1C5DB /* Frameworks */,
 				5F19968D1CB5AE8F00B1C5DB /* Extensions */,
 				5F1996B61CB5B58400B1C5DB /* ExtensionsTests */,
@@ -113,6 +157,7 @@
 			children = (
 				5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */,
 				5F1996B51CB5B58400B1C5DB /* ExtensionsTests.xctest */,
+				5F7EE49B1CBA9B8D00F4B7EA /* JSExample.extension */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,10 +168,12 @@
 				5F19968E1CB5AE8F00B1C5DB /* Extensions.h */,
 				5F1996901CB5AE8F00B1C5DB /* Info.plist */,
 				5F1996A11CB5AF2100B1C5DB /* Extension.swift */,
-				5F1996D11CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift */,
+				5F1996D11CB7DFDA00B1C5DB /* Extension+Serialization.swift */,
 				5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */,
 				5F7EE4851CB8374F00F4B7EA /* Procedure.swift */,
 				5F7EE4871CB845B800F4B7EA /* Evaluators */,
+				5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */,
+				5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -166,8 +213,8 @@
 		5F7EE48A1CB8462900F4B7EA /* JavaScript */ = {
 			isa = PBXGroup;
 			children = (
+				5F7EE48E1CB85C2B00F4B7EA /* JavaScriptEvaluatorWebKit.html */,
 				5F1996A91CB5B1DC00B1C5DB /* JavaScriptEvaluators.swift */,
-				5F1996CF1CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html */,
 				5F1996CD1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js */,
 			);
 			name = JavaScript;
@@ -188,6 +235,24 @@
 				5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */,
 			);
 			name = "Evaluator Debug View Controller";
+			sourceTree = "<group>";
+		};
+		5F7EE49C1CBA9B8D00F4B7EA /* JSExample */ = {
+			isa = PBXGroup;
+			children = (
+				5F7EE4A31CBA9C0100F4B7EA /* Resources */,
+				5F7EE49D1CBA9B8D00F4B7EA /* Info.plist */,
+			);
+			path = JSExample;
+			sourceTree = "<group>";
+		};
+		5F7EE4A31CBA9C0100F4B7EA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5F7EE4A61CBAC4A100F4B7EA /* example-1.js */,
+				5F7EE4A81CBAC4A800F4B7EA /* example-2.js */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,7 +277,8 @@
 				5F1996871CB5AE8F00B1C5DB /* Frameworks */,
 				5F1996881CB5AE8F00B1C5DB /* Headers */,
 				5F1996891CB5AE8F00B1C5DB /* Resources */,
-				5F1996D91CB7E33600B1C5DB /* Copy Frameworks */,
+				5F7EE4901CB85C4900F4B7EA /* Copy JS Resources */,
+				5F7EE4A11CBA9B9900F4B7EA /* Copy Extensions */,
 			);
 			buildRules = (
 			);
@@ -230,6 +296,7 @@
 				5F1996B11CB5B58400B1C5DB /* Sources */,
 				5F1996B21CB5B58400B1C5DB /* Frameworks */,
 				5F1996B31CB5B58400B1C5DB /* Resources */,
+				5F7EE4AD1CBAD42E00F4B7EA /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -240,6 +307,23 @@
 			productName = ExtensionsTests;
 			productReference = 5F1996B51CB5B58400B1C5DB /* ExtensionsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5F7EE49A1CBA9B8D00F4B7EA /* JSExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F7EE49E1CBA9B8D00F4B7EA /* Build configuration list for PBXNativeTarget "JSExample" */;
+			buildPhases = (
+				5F7EE4971CBA9B8D00F4B7EA /* Sources */,
+				5F7EE4981CBA9B8D00F4B7EA /* Frameworks */,
+				5F7EE4991CBA9B8D00F4B7EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JSExample;
+			productName = JSExample;
+			productReference = 5F7EE49B1CBA9B8D00F4B7EA /* JSExample.extension */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -255,6 +339,9 @@
 						CreatedOnToolsVersion = 7.3;
 					};
 					5F1996B41CB5B58400B1C5DB = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					5F7EE49A1CBA9B8D00F4B7EA = {
 						CreatedOnToolsVersion = 7.3;
 					};
 				};
@@ -273,6 +360,7 @@
 			targets = (
 				5F19968A1CB5AE8F00B1C5DB /* Extensions */,
 				5F1996B41CB5B58400B1C5DB /* ExtensionsTests */,
+				5F7EE49A1CBA9B8D00F4B7EA /* JSExample */,
 			);
 		};
 /* End PBXProject section */
@@ -283,9 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */,
-				5F1996CE1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js in Resources */,
 				5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */,
-				5F1996D01CB7084D00B1C5DB /* JavaScriptEvaluatorWebKit.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +382,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5F7EE4991CBA9B8D00F4B7EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F7EE4AB1CBAD42200F4B7EA /* example-1.js in Resources */,
+				5F7EE4AC1CBAD42200F4B7EA /* example-2.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -303,15 +398,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F7EE4B11CBAD9D200F4B7EA /* NSFileManager+Extensions.swift in Sources */,
 				5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */,
 				5F1996B01CB5B36100B1C5DB /* REvaluator.swift in Sources */,
 				5F1996A21CB5AF2100B1C5DB /* Extension.swift in Sources */,
-				5F1996D21CB7DFDA00B1C5DB /* Extension+JSONSerialization.swift in Sources */,
+				5F1996D21CB7DFDA00B1C5DB /* Extension+Serialization.swift in Sources */,
 				5F1996CB1CB7036100B1C5DB /* EvaluatorDebugViewController.swift in Sources */,
 				5F1996A41CB5AF6D00B1C5DB /* Evaluator.swift in Sources */,
 				5F1996AA1CB5B1DC00B1C5DB /* JavaScriptEvaluators.swift in Sources */,
 				5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */,
 				5F1996A61CB5AFEC00B1C5DB /* EvaluatorRegistry.swift in Sources */,
+				5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +417,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F1996B81CB5B58400B1C5DB /* ExtensionsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F7EE4971CBA9B8D00F4B7EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +595,32 @@
 			};
 			name = Release;
 		};
+		5F7EE49F1CBA9B8D00F4B7EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = JSExample/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.manuscriptsapp.JSExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = extension;
+			};
+			name = Debug;
+		};
+		5F7EE4A01CBA9B8D00F4B7EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = JSExample/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.manuscriptsapp.JSExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = extension;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -517,6 +647,15 @@
 			buildConfigurations = (
 				5F1996BE1CB5B58400B1C5DB /* Debug */,
 				5F1996BF1CB5B58400B1C5DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5F7EE49E1CBA9B8D00F4B7EA /* Build configuration list for PBXNativeTarget "JSExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F7EE49F1CBA9B8D00F4B7EA /* Debug */,
+				5F7EE4A01CBA9B8D00F4B7EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

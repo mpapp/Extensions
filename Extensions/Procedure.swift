@@ -9,22 +9,26 @@
 import Foundation
 import Freddy
 
-class Procedure {
+public class Procedure {
     let evaluator:Evaluator
     let source:String
-    let resources:Set<NSURL>
+    //let resources:Set<NSURL>
     
-    required init(evaluator:Evaluator, source:String, resources:Set<NSURL>) {
+    required public init(evaluator:Evaluator, source:String, resources:Set<NSURL>) {
         self.evaluator = evaluator
         self.source = source
-        self.resources = resources
+        //self.resources = resources
     }
     
-    init(json: JSON) throws {
-        let evaluator = try EvaluatorRegistry.sharedInstance.evaluator(identifier: try json.string("evaluator"))
+    public init(json: JSON) throws {
+        let evaluatorID = try json.string("evaluator")
+        let evaluator = try EvaluatorRegistry.sharedInstance.evaluator(identifier: evaluatorID)
         self.evaluator = evaluator
         
         self.source = try json.string("source")
-        self.resources = Set(try json.array("resources").map { return NSURL(fileURLWithPath:try $0.string()) })
+        //self.resources = Set(try json.array("resources").map {
+        //    let path = try $0.string()
+        //    return NSURL(fileURLWithPath:path)
+        //    })
     }
 }

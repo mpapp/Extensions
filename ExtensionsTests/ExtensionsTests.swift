@@ -13,7 +13,9 @@ class ExtensionsTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        let bundleURL = NSBundle(forClass: self.dynamicType).bundleURL
+        try! ExtensionRegistry.sharedInstance.loadExtensions(bundleURL)
     }
     
     override func tearDown() {
@@ -21,8 +23,17 @@ class ExtensionsTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testResolvingWebKitEvaluator() {
+        try! EvaluatorRegistry.sharedInstance.evaluator(identifier: "org.javascript.webkit")
+    }
+    
+    func testLoadingWebKitExtension() {
+        let extensions = ExtensionRegistry.sharedInstance.extensionSet
+        XCTAssertTrue(extensions.count > 0, "No extensions have been loaded.")
         
+        let ext = try! ExtensionRegistry.sharedInstance.extensionWithIdentifier("com.manuscriptsapp.JSExample")
+        
+        XCTAssertTrue(ext.procedures.count == 2, "Unexpected procedure count: \(ext.procedures.count) != 2")
         
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.

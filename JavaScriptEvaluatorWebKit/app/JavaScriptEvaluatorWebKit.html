@@ -1,0 +1,43 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript (WebKit) Extensions</title>
+    <!-- <link rel="stylesheet" href="styles/app.css" /> -->
+</head>
+
+<body>
+    
+    <script>
+        window.evaluatorCompletionHandlers = {};
+        window.evaluatorErrorHandlers = {};
+        
+        window.evaluatorCompletionHandler = function(identifier) {
+            return window.evaluatorCompletionHandlers[identifier];
+        };
+    
+        window.evaluatorErrorHandler = function(identifier) {
+            return window.evaluatorErrorHandlers[identifier];
+        };
+    
+        window.setEvaluatorCompletionHandler = function(identifier, completionHandler) {
+            window.evaluatorCompletionHandlers[identifier] = completionHandler;
+        };
+        
+        window.setEvaluatorErrorHandler = function(identifier, errorHandler) {
+            window.evaluatorErrorHandlers[identifier] = errorHandler;
+        };
+    </script>
+    
+    <!--
+    Scripts
+    ================================================== 
+    -->
+    <!-- <script src="scripts/app.js"></script> -->
+    <script src="scripts/vendor.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>

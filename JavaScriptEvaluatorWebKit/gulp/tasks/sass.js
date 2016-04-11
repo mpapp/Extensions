@@ -24,14 +24,14 @@ gulp.task('styles', function () {
 
 // Styles Dist
 gulp.task('styles:dist', function () {
-  var manifest = require('../../dist/image-manifest');
+  //var manifest = require('../../dist/image-manifest');
   // See https://github.com/andrew/node-sass for more options
   return gulp.src('app/scss/app.scss')
     .pipe(sass({
       includePaths: [config.bower + '/foundation/scss']
     }))
     // .pipe(prefix('last 1 version'))  // add vendor prefixes if necessary
-    .pipe(fingerprint(manifest, {verbose: true}))
+    //.pipe(fingerprint(manifest, {verbose: true}))
     .pipe(csso())  // minify css
     .pipe(gulp.dest(config.dist + '/styles'))
     .pipe(size());

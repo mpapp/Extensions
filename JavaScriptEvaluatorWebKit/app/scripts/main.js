@@ -7,8 +7,8 @@
 
 'use strict';
 
-var App = require('./app.js');
+var ExampleProcedure = require('./example-procedure.js');
 
-var app = new App();
+var procedure = new ExampleProcedure();
 
 app.beep();

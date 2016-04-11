@@ -17,19 +17,20 @@ class ExtensionDescription: JSONDecodable, ExtensionLike {
     var procedures: [Procedure]
     
     required init(json: JSON) throws {
-        self.identifier = try json.string("identifier")
+        self.identifier = try json.string("CFBundleIdentifier")
         
-        self.procedures = try json.array("procedures").map { (procedureJSON:JSON) -> Procedure in
+        let procedures = try json.array("ExtensionProcedures").map { (procedureJSON:JSON) -> Procedure in
             return try Procedure(json: procedureJSON)
         }
+        
+        self.procedures = procedures
     }
 }
 
 extension Procedure: JSONEncodable {
-    func toJSON() -> JSON {
+    public func toJSON() -> JSON {
         return .Dictionary(["source":.String(self.source),
-                            "evaluator":.String(NSStringFromClass(self.evaluator.dynamicType)),
-                            "resources":.Array(self.resources.map { return JSON($0.absoluteString) } )])
+                            "evaluator":.String(NSStringFromClass(self.evaluator.dynamicType))])
     }
 }
 
@@ -67,4 +68,11 @@ extension Extension {
         return Extension(identifier: extensionDesc.identifier, procedures: extensionDesc.procedures)
     }
     
+    public class func fromBundle(bundle:NSBundle) throws -> Extension {
+        guard let infoDictionary = bundle.infoDictionary else {
+            throw ExtensionError.MissingInfoDictionary(bundle)
+        }
+        
+        return try Extension.fromPropertyListRepresentation(propertyList: infoDictionary.JSONEncodable)
+    }
 }

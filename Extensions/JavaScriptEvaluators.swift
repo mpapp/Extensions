@@ -32,6 +32,7 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
     private let webView:WebView
     
     public let isPresented: Bool
+    private var isLoaded: Bool = false
     
     init(webView:WebView? = nil) {
         self.isPresented = webView != nil
@@ -57,13 +58,49 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
             //self.webView.maintainsInactiveSelection = false
             self.webView.setMaintainsBackForwardList(false)
         }
+        
+        let evaluatorHTMLURL = NSBundle(forClass: self.dynamicType).URLForResource("JavaScriptEvaluatorWebKit", withExtension: "html", subdirectory: "JavaScriptEvaluatorWebKit")!
+        
+        let evaluatorLoadedBlock: @convention(block) (Void) -> Void = {
+            self.evaluatorLoaded()
+        }
+        
+        self.webView.mainFrame.loadRequest(NSURLRequest(URL: evaluatorHTMLURL))
+        self.webView.mainFrame.javaScriptContext.globalObject.setValue(unsafeBitCast(evaluatorLoadedBlock, AnyObject.self), forProperty: "evaluatorLoaded")
+    }
+    
+    private func evaluatorLoaded() {
+        precondition(!self.isLoaded, "Evaluator \(self) should be loaded only once.")
+        fputs("JS (WebKit) Evaluator loaded.", stderr)
+        self.isLoaded = true
     }
     
     public override var identifier: String {
         return "org.javascript.webkit"
     }
     
+    private var completionHandler:WebScriptObject {
+        let completionHandler = self.webView.windowScriptObject.callWebScriptMethod("evaluatorCompletionHandler", withArguments: [self.identifier])
+        
+        guard let completion = completionHandler as? WebScriptObject where !(completionHandler is WebUndefined) else {
+            preconditionFailure("Expecting a non-nil completion handler for \(self)")
+        }
+        
+        return completion
+    }
+    
+    private var errorHandler:WebScriptObject {
+        let errorHandler = self.webView.windowScriptObject.callWebScriptMethod("evaluatorErrorHandler", withArguments: [self.identifier])
+        
+        guard let error = errorHandler as? WebScriptObject where !(errorHandler is WebUndefined) else {
+            preconditionFailure("Expecting a non-nil completion handler for \(self)")
+        }
+        
+        return error
+    }
+    
     public override func evaluate(input: String, outputHandler: (AnyObject) -> Void, errorHandler: (EvaluatorError, String) -> Void) throws {
+        precondition(self.isLoaded, "Evaluator \(self) should have been loaded.")
         
         // needed to wrap the passed in output handler to an Objective-C conventioned block.
         let outputBlock:@convention(block) (AnyObject) -> Void = {
