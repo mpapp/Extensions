@@ -20,7 +20,7 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         return ["js"]
     }
     
-    public func evaluate(input:String, outputHandler:(AnyObject)->Void, errorHandler:(EvaluatorError, String)->Void) throws {
+    public func evaluate(source:String, input:Processable, outputHandler:(AnyObject)->Void, errorHandler:(EvaluatorError, String)->Void) {
         preconditionFailure("Implement in subclass")
     }
 }
@@ -99,8 +99,11 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         return error
     }
     
-    public override func evaluate(input: String, outputHandler: (AnyObject) -> Void, errorHandler: (EvaluatorError, String) -> Void) throws {
-        precondition(self.isLoaded, "Evaluator \(self) should have been loaded.")
+    private class func JSONEncode(processable:Processable) {
+        
+    }
+    
+    public override func evaluate(source: String, input:Processable, outputHandler: (AnyObject) -> Void, errorHandler: (EvaluatorError, String) -> Void) {
         
         // needed to wrap the passed in output handler to an Objective-C conventioned block.
         let outputBlock:@convention(block) (AnyObject) -> Void = {
@@ -119,7 +122,7 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         self.webView.windowScriptObject.callWebScriptMethod("setEvaluatorErrorHandler",
                                                             withArguments: [self.identifier, unsafeBitCast(errorBlock, AnyObject.self)])
         
-        self.webView.windowScriptObject.evaluateWebScript(input)
+        self.webView.windowScriptObject.evaluateWebScript(source)
     }
 }
 

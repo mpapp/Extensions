@@ -19,7 +19,7 @@ public class REvaluator: NSObject {
 }
 
 extension REvaluator: Evaluator {
-    public func evaluate(input: String, outputHandler:(AnyObject)->Void, errorHandler: (EvaluatorError, String) -> Void) throws {
+    public func evaluate(source: String, input:Processable, outputHandler:(AnyObject)->Void, errorHandler: (EvaluatorError, String) -> Void) {
         preconditionFailure()
     }
 }

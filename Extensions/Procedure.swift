@@ -9,12 +9,23 @@
 import Foundation
 import Freddy
 
+public enum Processable {
+    case StringData(String)
+    case IntData(Int)
+    case DoubleData(Double)
+    case PListEncodableScalar(AnyObject)
+    case PListEncodableArray([AnyObject])
+}
+
+public enum ProcedureError:ErrorType {
+    case EvaluationFailed(EvaluatorError, String)
+}
+
 public class Procedure {
     let evaluator:Evaluator
     let source:String
-    //let resources:Set<NSURL>
     
-    required public init(evaluator:Evaluator, source:String, resources:Set<NSURL>) {
+    required public init(evaluator:Evaluator, source:String) {
         self.evaluator = evaluator
         self.source = source
         //self.resources = resources
@@ -30,5 +41,21 @@ public class Procedure {
         //    let path = try $0.string()
         //    return NSURL(fileURLWithPath:path)
         //    })
+    }
+    
+    
+    public func evaluate(input:Processable, outputHandler:(output:Processable)->Void, errorHandler:(error:ErrorType)->Void) {
+        
+        /*
+        switch input {
+        case .DoubleData(let d):
+            self.evaluator.evaluate(self.source,
+                                    outputHandler: { outputHandler(output:Processable.DoubleData($0)) },
+                                    errorHandler: { errorHandler(error:ProcedureError.EvaluationFailed($0, $1)) })
+            
+        default:
+            
+        }
+        */
     }
 }
