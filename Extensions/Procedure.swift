@@ -26,6 +26,9 @@ public struct ProcessableOption : OptionSetType {
         case "double":
             self.rawValue = ProcessableOption.DoubleOption.rawValue
         
+        case "bool":
+            self.rawValue = ProcessableOption.BoolOption.rawValue
+            
         case "string":
             self.rawValue = ProcessableOption.StringOption.rawValue
         
@@ -51,10 +54,11 @@ public struct ProcessableOption : OptionSetType {
     
     static let NoneOption = ProcessableOption(rawValue:0)
     static let IntOption = ProcessableOption(rawValue:1)
-    static let DoubleOption = ProcessableOption(rawValue:2)
-    static let StringOption = ProcessableOption(rawValue:4)
-    static let PListEncodableScalarOption = ProcessableOption(rawValue:8)
-    static let PListEncodableArrayOption = ProcessableOption(rawValue:16)
+    static let BoolOption = ProcessableOption(rawValue:2)
+    static let DoubleOption = ProcessableOption(rawValue:4)
+    static let StringOption = ProcessableOption(rawValue:8)
+    static let PListEncodableScalarOption = ProcessableOption(rawValue:16)
+    static let PListEncodableArrayOption = ProcessableOption(rawValue:32)
     
     static let DefaultOptions = ProcessableOption.DoubleOption.union(.IntOption).union(.StringOption)
 }
@@ -63,13 +67,11 @@ public enum Processable:CustomStringConvertible {
     case StringData(String)
     case IntData(Int)
     case DoubleData(Double)
+    case BoolData(Bool)
     case PListEncodableScalar(AnyObject)
     case PListEncodableArray([AnyObject])
     
     public var description: String {
-        return "foob"
-        
-        /*
         switch self {
         case .StringData(let str):
             return str
@@ -80,13 +82,15 @@ public enum Processable:CustomStringConvertible {
         case .IntData(let i):
             return String(i)
             
+        case .BoolData(let b):
+            return String(b)
+            
         case .PListEncodableArray(let ps):
             return String(ps)
         
         case .PListEncodableScalar(let p):
             return String(p)
         }
- */
     }
 }
 
@@ -96,11 +100,11 @@ public enum ProcedureError:ErrorType {
 }
 
 public class Procedure {
-    let evaluator:Evaluator
-    let source:String
+    internal let evaluator:Evaluator
+    internal let source:String
     
-    let inputTypes:ProcessableOption
-    let outputTypes:ProcessableOption
+    internal let inputTypes:ProcessableOption
+    internal let outputTypes:ProcessableOption
     
     required public init(evaluator:Evaluator, source:String, inputTypes:ProcessableOption, outputTypes:ProcessableOption) {
         self.evaluator = evaluator
@@ -131,21 +135,7 @@ public class Procedure {
         self.outputTypes = try ProcessableOption(strings:outputTypeStrings)
     }
     
-    public func evaluate(input:Processable, outputHandler:(output:Processable)->Void, errorHandler:(error:ErrorType)->Void) {
-        
-        
-        //self.evaluator.evaluate(self.source, input: input, outputHandler: <#T##([AnyObject]) -> Void#>, errorHandler: <#T##(EvaluatorError, String) -> Void#>)
-        
-        /*
-        switch input {
-        case .DoubleData(let d):
-            self.evaluator.evaluate(self.source,
-                                    outputHandler: { outputHandler(output:Processable.DoubleData($0)) },
-                                    errorHandler: { errorHandler(error:ProcedureError.EvaluationFailed($0, $1)) })
-            
-        default:
-            
-        }
-        */
+    public func evaluate(input:Processable?, outputHandler:(output:Processable?)->Void, errorHandler:(error:ErrorType)->Void) {
+        self.evaluator.evaluate(self.source, input: input, outputHandler: outputHandler, errorHandler: { ProcedureError.EvaluationFailed($0, $1) })
     }
 }

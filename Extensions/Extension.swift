@@ -28,11 +28,11 @@ public enum ExtensionError:ErrorType {
 
 private class ExtensionState {
     private var procedures:[Procedure]
-    private var processable:Processable
+    private var processable:Processable?
     private var lastError:ErrorType?
-    private let procedureHandler:(input:Processable, output:Processable) -> Void
+    private let procedureHandler:(input:Processable?, output:Processable?) -> Void
     
-    private init(procedures:[Procedure], processable:Processable, procedureHandler:(input:Processable, output:Processable) -> Void) {
+    private init(procedures:[Procedure], processable:Processable?, procedureHandler:(input:Processable?, output:Processable?) -> Void) {
         self.procedures = procedures
         self.processable = processable
         self.procedureHandler = procedureHandler
@@ -49,7 +49,7 @@ private class ExtensionState {
         super.init()
     }
     
-    public func evaluate(input:Processable, procedureHandler:(input:Processable, output:Processable) -> Void, errorHandler:(error:ErrorType)->Void) throws {
+    public func evaluate(input:Processable?, procedureHandler:(input:Processable?, output:Processable?) -> Void, errorHandler:(error:ErrorType)->Void) throws {
         let state = ExtensionState(procedures:self.procedures, processable: input, procedureHandler: procedureHandler)
         
         if self.procedures.count == 0 {
@@ -60,7 +60,7 @@ private class ExtensionState {
         procedure.evaluate(input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
     }
     
-    private func outputHandler(state:ExtensionState) -> (output: Processable) -> Void {
+    private func outputHandler(state:ExtensionState) -> (output: Processable?) -> Void {
         return {
             let input = state.processable
             let output = $0

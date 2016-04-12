@@ -17,7 +17,7 @@ public class REvaluator: NSObject, Evaluator {
         return ["R"]
     }
     
-    public func evaluate(source: String, input:Processable, outputHandler:(AnyObject)->Void, errorHandler: (EvaluatorError, String) -> Void) {
+    public func evaluate(source: String, input:Processable?, outputHandler:(Processable?)->Void, errorHandler: (EvaluatorError, String) -> Void) {
         preconditionFailure()
     }
     

@@ -20,10 +20,36 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         return ["js"]
     }
     
-    public func evaluate(source:String, input:Processable, outputHandler:(AnyObject)->Void, errorHandler:(EvaluatorError, String)->Void) {
+    public func evaluate(source:String, input:Processable?, outputHandler:(Processable?)->Void, errorHandler:(EvaluatorError, String)->Void) {
         preconditionFailure("Override in subclass")
     }
     
+    public class func decode(propertyListEncoded:AnyObject?) -> Processable? {
+        if let n = propertyListEncoded as? NSNumber {
+            if n.isFloatingPoint {
+                return .DoubleData(n.doubleValue)
+            }
+            else if n.isBoolean {
+                return .BoolData(n.boolValue)
+            }
+            else {
+                return .IntData(n.integerValue)
+            }
+        }
+        else if let s = propertyListEncoded as? String {
+            return .StringData(s)
+        }
+        else if let a = propertyListEncoded as? [AnyObject] {
+            return .PListEncodableArray(a)
+        }
+        else if let propertyListEncoded = propertyListEncoded {
+            return .PListEncodableScalar(propertyListEncoded)
+        }
+        else {
+            return nil
+        }
+    }
+
     public class func encode(processable:Processable?) -> AnyObject? {
         guard let input = processable else {
             return nil
@@ -32,12 +58,19 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         switch input {
         case .DoubleData(let d):
             return NSNumber(double: d)
+        
         case .IntData(let i):
             return NSNumber(integer:i)
+        
+        case .BoolData(let b):
+            return NSNumber(bool: b)
+            
         case .PListEncodableArray(let ps):
             return ps
+        
         case .PListEncodableScalar(let p):
             return p
+        
         case .StringData(let str):
             return str
         }
@@ -98,34 +131,19 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         return "org.javascript.webkit"
     }
     
-    private var completionHandler:WebScriptObject {
-        let completionHandler = self.webView.windowScriptObject.callWebScriptMethod("evaluatorCompletionHandler", withArguments: [self.identifier])
-        
-        guard let completion = completionHandler as? WebScriptObject where !(completionHandler is WebUndefined) else {
-            preconditionFailure("Expecting a non-nil completion handler for \(self)")
-        }
-        
-        return completion
-    }
-    
-    private var errorHandler:WebScriptObject {
-        let errorHandler = self.webView.windowScriptObject.callWebScriptMethod("evaluatorErrorHandler", withArguments: [self.identifier])
-        
-        guard let error = errorHandler as? WebScriptObject where !(errorHandler is WebUndefined) else {
-            preconditionFailure("Expecting a non-nil completion handler for \(self)")
-        }
-        
-        return error
-    }
-    
     public override func evaluate(source: String,
-                                  input:Processable,
-                                  outputHandler: (AnyObject) -> Void,
+                                  input:Processable?,
+                                  outputHandler: (Processable?) -> Void,
                                   errorHandler: (EvaluatorError, String) -> Void) {
         
         // needed to wrap the passed in output handler to an Objective-C conventioned block.
         let outputBlock:@convention(block) (AnyObject) -> Void = {
-            return outputHandler($0)
+            if let decodedVal = self.dynamicType.decode($0) {
+                return outputHandler(decodedVal)
+            }
+            else {
+                errorHandler(EvaluatorError.MissingReturnValue, "Missing return value.")
+            }
         }
         
         // needed to wrap the passed in error handler to an Objective-C conventioned block 

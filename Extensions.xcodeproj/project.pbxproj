@@ -32,6 +32,7 @@
 		5F7EE4AF1CBAD44100F4B7EA /* Extensions.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F7EE4B11CBAD9D200F4B7EA /* NSFileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */; };
 		5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */; };
+		5FC2B2C51CBC9B02001F77FB /* NSNumber+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		5F7EE4A81CBAC4A800F4B7EA /* example-2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "example-2.js"; sourceTree = "<group>"; };
 		5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFileManager+Extensions.swift"; sourceTree = "<group>"; };
 		5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
+		5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNumber+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 				5F7EE4871CB845B800F4B7EA /* Evaluators */,
 				5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */,
 				5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */,
+				5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				5F1996A41CB5AF6D00B1C5DB /* Evaluator.swift in Sources */,
 				5F1996AA1CB5B1DC00B1C5DB /* JavaScriptEvaluators.swift in Sources */,
 				5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */,
+				5FC2B2C51CBC9B02001F77FB /* NSNumber+Extensions.swift in Sources */,
 				5F1996A61CB5AFEC00B1C5DB /* EvaluatorRegistry.swift in Sources */,
 				5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */,
 			);
