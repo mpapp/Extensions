@@ -59,12 +59,35 @@ public struct ProcessableOption : OptionSetType {
     static let DefaultOptions = ProcessableOption.DoubleOption.union(.IntOption).union(.StringOption)
 }
 
-public enum Processable {
+public enum Processable:CustomStringConvertible {
     case StringData(String)
     case IntData(Int)
     case DoubleData(Double)
     case PListEncodableScalar(AnyObject)
     case PListEncodableArray([AnyObject])
+    
+    public var description: String {
+        return "foob"
+        
+        /*
+        switch self {
+        case .StringData(let str):
+            return str
+            
+        case .DoubleData(let d):
+            return String(d)
+            
+        case .IntData(let i):
+            return String(i)
+            
+        case .PListEncodableArray(let ps):
+            return String(ps)
+        
+        case .PListEncodableScalar(let p):
+            return String(p)
+        }
+ */
+    }
 }
 
 public enum ProcedureError:ErrorType {
@@ -102,13 +125,16 @@ public class Procedure {
         let inputTypeStrings:[String] = try (0..<inputTypeCount).map { return try json.string("inputTypes", $0) }
         
         let outputTypeCount = try json.array("outputTypes", or: defaultOutputTypes).count
-        let outputTypeStrings:[String] = try (0..<outputTypeCount).map { return try json.string("inputTypes", $0) }
+        let outputTypeStrings:[String] = try (0..<outputTypeCount).map { return try json.string("outputTypes", $0) }
         
         self.inputTypes = try ProcessableOption(strings:inputTypeStrings)
         self.outputTypes = try ProcessableOption(strings:outputTypeStrings)
     }
     
     public func evaluate(input:Processable, outputHandler:(output:Processable)->Void, errorHandler:(error:ErrorType)->Void) {
+        
+        
+        //self.evaluator.evaluate(self.source, input: input, outputHandler: <#T##([AnyObject]) -> Void#>, errorHandler: <#T##(EvaluatorError, String) -> Void#>)
         
         /*
         switch input {

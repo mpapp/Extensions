@@ -35,7 +35,9 @@ class ExtensionsTests: XCTestCase {
         
         XCTAssertTrue(ext.procedures.count == 2, "Unexpected procedure count: \(ext.procedures.count) != 2")
         
-        try ext.evaluate(<#T##input: Processable##Processable#>, procedureHandler: <#T##(input: Processable) -> Processable#>, errorHandler: <#T##(error: ErrorType) -> Void#>)
+        try! ext.evaluate(Processable.StringData("foo"), procedureHandler: { (input:Processable, output:Processable) -> Void in
+                print("Input \(input) -> Output:\(output)")
+            }, errorHandler: { print("Error: \($0)") })
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }

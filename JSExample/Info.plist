@@ -10,9 +10,13 @@
 			<key>evaluator</key>
 			<string>org.javascript.webkit</string>
 			<key>inputTypes</key>
-			<array/>
+			<array>
+				<string>string</string>
+			</array>
 			<key>outputTypes</key>
-			<array/>
+			<array>
+				<string>int</string>
+			</array>
 		</dict>
 		<dict>
 			<key>source</key>

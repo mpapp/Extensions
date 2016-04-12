@@ -20,6 +20,8 @@ public protocol Evaluator:NSObjectProtocol {
     
     var fileExtensions:Set<String> { get }
     
+    static func encode(processable:Processable?) -> AnyObject?
+    
     func evaluate(source:String, input:Processable, outputHandler:(NSNumber) -> Void, errorHandler: (EvaluatorError, String) -> Void)
     func evaluate(source:String, input:Processable, outputHandler:(Bool)->Void, errorHandler:(EvaluatorError, String)->Void)
     func evaluate(source:String, input:Processable, outputHandler:(Int)->Void, errorHandler:(EvaluatorError, String)->Void)

@@ -21,7 +21,26 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
     }
     
     public func evaluate(source:String, input:Processable, outputHandler:(AnyObject)->Void, errorHandler:(EvaluatorError, String)->Void) {
-        preconditionFailure("Implement in subclass")
+        preconditionFailure("Override in subclass")
+    }
+    
+    public class func encode(processable:Processable?) -> AnyObject? {
+        guard let input = processable else {
+            return nil
+        }
+        
+        switch input {
+        case .DoubleData(let d):
+            return NSNumber(double: d)
+        case .IntData(let i):
+            return NSNumber(integer:i)
+        case .PListEncodableArray(let ps):
+            return ps
+        case .PListEncodableScalar(let p):
+            return p
+        case .StringData(let str):
+            return str
+        }
     }
 }
 
@@ -99,25 +118,6 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         return error
     }
     
-    private class func JSONEncode(processable:Processable?) -> AnyObject? {
-        guard let input = processable else {
-            return nil
-        }
-        
-        switch input {
-        case .DoubleData(let d):
-            return NSNumber(double: d)
-        case .IntData(let i):
-            return NSNumber(integer:i)
-        case .PListEncodableArray(let ps):
-            return ps
-        case .PListEncodableScalar(let p):
-            return p
-        case .StringData(let str):
-            return str
-        }
-    }
-    
     public override func evaluate(source: String,
                                   input:Processable,
                                   outputHandler: (AnyObject) -> Void,
@@ -134,15 +134,15 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
             return errorHandler(EvaluatorError(rawValue: $0)!, $1)
         }
         
-        self.webView.windowScriptObject.callWebScriptMethod("setEvaluatorCompletionHandler",
-                                                            withArguments: [self.identifier, unsafeBitCast(outputBlock, AnyObject.self)])
+        self.webView.windowScriptObject.setValue(self.dynamicType.encode(input), forKey: "input")
+        self.webView.windowScriptObject.setValue(unsafeBitCast(outputBlock, AnyObject.self), forKey:"output")
+        self.webView.windowScriptObject.setValue(unsafeBitCast(errorBlock, AnyObject.self), forKey:"error")
         
-        self.webView.windowScriptObject.callWebScriptMethod("setEvaluatorErrorHandler",
-                                                            withArguments: [self.identifier, unsafeBitCast(errorBlock, AnyObject.self)])
-        
-        self.webView.windowScriptObject.setValue(self.dynamicType.JSONEncode(input), forKey: "evaluatorInput")
         self.webView.windowScriptObject.evaluateWebScript(source)
-        self.webView.windowScriptObject.setValue(nil, forKey: "evaluatorInput") // user is expected to store the value in this global.
+
+        self.webView.windowScriptObject.setValue(nil, forKey: "input")
+        self.webView.windowScriptObject.setValue(nil, forKey: "output")
+        self.webView.windowScriptObject.setValue(nil, forKey: "error")
     }
 }
 
