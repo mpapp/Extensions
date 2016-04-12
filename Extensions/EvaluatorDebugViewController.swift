@@ -7,10 +7,13 @@
 //
 
 import Cocoa
+import WebKit
 
-class EvaluatorDebugViewController: NSViewController {
+public class EvaluatorDebugViewController: NSViewController {
 
-    override func viewDidLoad() {
+    @IBOutlet weak var webView: WebView!
+    
+    override public func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
     }

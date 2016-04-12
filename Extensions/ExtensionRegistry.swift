@@ -73,7 +73,7 @@ public class ExtensionRegistry {
             root = NSBundle.mainBundle().bundleURL
         }
         
-        let extensions = try self.dynamicType.loadExtensionBundles(root)
+        let extensions = try self.dynamicType.loadExtensionBundles(root, loadFailureHandler:loadFailureHandler)
         
         var extensionsDict = [String:Extension]()
         for ext in extensions {

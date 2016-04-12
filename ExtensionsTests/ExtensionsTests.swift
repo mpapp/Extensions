@@ -11,11 +11,19 @@ import Extensions
 
 class ExtensionsTests: XCTestCase {
     
+    private var debugWindowController:EvaluatorDebugWindowController?
+    
     override func setUp() {
         super.setUp()
-        
+
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "WebKitDeveloperExtras")
+        EvaluatorDebugWindowController.sharedInstance()        
+
         let bundleURL = NSBundle(forClass: self.dynamicType).bundleURL
-        try! ExtensionRegistry.sharedInstance.loadExtensions(bundleURL)
+        try! ExtensionRegistry.sharedInstance.loadExtensions(bundleURL, loadFailureHandler:{
+            XCTFail("Load failure: \($0)")
+        })
+        
     }
     
     override func tearDown() {
@@ -25,6 +33,7 @@ class ExtensionsTests: XCTestCase {
     
     func testResolvingWebKitEvaluator() {
         try! EvaluatorRegistry.sharedInstance.evaluator(identifier: "org.javascript.webkit")
+        XCTAssert(true, "Evaluator registry contains \"org.javascript.webkit\"")
     }
     
     func testLoadingWebKitExtension() {
@@ -35,11 +44,19 @@ class ExtensionsTests: XCTestCase {
         
         XCTAssertTrue(ext.procedures.count == 2, "Unexpected procedure count: \(ext.procedures.count) != 2")
         
-        try! ext.evaluate(Processable.StringData("foo"), procedureHandler: { (input:Processable, output:Processable) -> Void in
-                print("Input \(input) -> Output:\(output)")
-            }, errorHandler: { print("Error: \($0)") })
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let exp = expectationWithDescription("Evaluation ended successfully.")
+        
+        try! ext.evaluate(Processable.StringData("foo"), procedureHandler: {
+                print("Input \($0) -> Output:\($1)")
+                exp.fulfill()
+            }, errorHandler: {
+                XCTFail("Evaluation error: \($0)")
+            })
+
+        waitForExpectationsWithTimeout(15.0) { (err:NSError?) in
+            XCTAssertNil(err, "Unexpected error \(err)")
+        }
+
     }
     
 }

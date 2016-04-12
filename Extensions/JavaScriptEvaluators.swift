@@ -83,17 +83,26 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
 @objc public class JavaScriptEvaluatorWebKit:JavaScriptEvaluator {
     private let webView:WebView
     
-    public let isPresented: Bool
+    private(set) public var isPresented: Bool
     private var isLoaded: Bool = false
     
     init(webView:WebView? = nil) {
         self.isPresented = webView != nil
 
+        if !self.isPresented && EvaluatorDebugWindowController.sharedInstanceExists() {
+            self.isPresented = true
+        }
+        
         if let webView = webView {
             self.webView = webView
         }
         else {
-            self.webView = WebView(frame: NSMakeRect(0, 0, 0, 0))
+            if self.isPresented {
+                self.webView = EvaluatorDebugWindowController.sharedInstance().debugViewController.webView
+            }
+            else {
+                self.webView = WebView(frame: NSMakeRect(0, 0, 0, 0))
+            }
         }
         
         super.init()

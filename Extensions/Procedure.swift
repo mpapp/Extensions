@@ -28,7 +28,7 @@ public struct ProcessableOption : OptionSetType {
         
         case "bool":
             self.rawValue = ProcessableOption.BoolOption.rawValue
-            
+                        
         case "string":
             self.rawValue = ProcessableOption.StringOption.rawValue
         

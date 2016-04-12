@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="EvaluatorDebugViewController" customModule="Extensions" customModuleProvider="target">
             <connections>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+                <outlet property="webView" destination="xFk-bT-YXo" id="wy8-Km-zgb"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>

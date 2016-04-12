@@ -29,6 +29,10 @@
         window.setEvaluatorErrorHandler = function(identifier, errorHandler) {
             window.evaluatorErrorHandlers[identifier] = errorHandler;
         };
+    
+        window.evaluatorLoaded = function() {
+            console.log("Evaluator has been loaded");
+        };
     </script>
     
     <!--
