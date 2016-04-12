@@ -10,21 +10,13 @@ import Foundation
 import WebKit
 import JavaScriptCore
 
-public class JavaScriptEvaluator:NSObject, Evaluator {
+public protocol JavaScriptEvaluator:Evaluator {
     
-    public var identifier: String {
-        preconditionFailure("Implement in subclass.")
-    }
-    
-    public var fileExtensions: Set<String> {
-        return ["js"]
-    }
-    
-    public func evaluate(source:String, input:Processable?, outputHandler:(Processable?)->Void, errorHandler:(EvaluatorError, String)->Void) {
-        preconditionFailure("Override in subclass")
-    }
-    
-    public class func decode(propertyListEncoded:AnyObject?) -> Processable? {
+}
+
+extension JavaScriptEvaluator {
+
+    public static func decode(propertyListEncoded:AnyObject?) -> Processable? {
         if let n = propertyListEncoded as? NSNumber {
             if n.isFloatingPoint {
                 return .DoubleData(n.doubleValue)
@@ -50,7 +42,7 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         }
     }
 
-    public class func encode(processable:Processable?) -> AnyObject? {
+    public static func encode(processable:Processable?) -> AnyObject? {
         guard let input = processable else {
             return nil
         }
@@ -80,33 +72,69 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
 // MARK:
 // MARK: WebKit
 
-@objc public class JavaScriptEvaluatorWebKit:JavaScriptEvaluator {
-    private let webView:WebView
-    
+enum JavaScriptEvaluatorWebKitError:ErrorType {
+    case InvalidEvaluator(Evaluator)
+}
+
+@objc public final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator {
+    private(set) public var webView:WebView
     private(set) public var isPresented: Bool
+    
     private var isLoaded: Bool = false
     
-    init(webView:WebView? = nil) {
-        self.isPresented = webView != nil
-
-        if !self.isPresented && EvaluatorDebugWindowController.sharedInstanceExists() {
-            self.isPresented = true
+    public override required convenience init() {
+        self.init(webView:nil)
+    }
+    
+    public var fileExtensions: Set<String> {
+        return ["js"]
+    }
+    
+    public required init(evaluator: Evaluator) throws {
+        guard let jsEvaluator = evaluator as? JavaScriptEvaluatorWebKit else {
+            throw JavaScriptEvaluatorWebKitError.InvalidEvaluator(evaluator)
         }
         
-        if let webView = webView {
-            self.webView = webView
-        }
-        else {
-            if self.isPresented {
-                self.webView = EvaluatorDebugWindowController.sharedInstance().debugViewController.webView
-            }
-            else {
-                self.webView = WebView(frame: NSMakeRect(0, 0, 0, 0))
-            }
-        }
+        (self.isPresented, self.webView) = JavaScriptEvaluatorWebKit.initialize(jsEvaluator.webView)
         
         super.init()
         
+        self.load()
+    }
+    
+    private class func initialize(webView:WebView?) -> (isPresented:Bool, webView:WebView) {
+        var returnedWebView:WebView
+        var isPresented:Bool = webView != nil
+        
+        if !isPresented && EvaluatorDebugWindowController.sharedInstanceExists() {
+            isPresented = true
+        }
+    
+        if let webView = webView {
+            returnedWebView = webView
+        }
+        else {
+            if isPresented {
+                returnedWebView = EvaluatorDebugWindowController.sharedInstance().debugViewController.webView
+            }
+            else {
+                returnedWebView = WebView(frame: NSMakeRect(0, 0, 0, 0))
+            }
+        }
+        
+        return (isPresented, returnedWebView)
+    }
+    
+    public required init(webView:WebView? = nil) {
+        
+        (self.isPresented, self.webView) = JavaScriptEvaluatorWebKit.initialize(webView)
+        
+        super.init()
+        
+        self.load()
+    }
+    
+    private func load() -> Void {
         if (!self.isPresented) {
             self.webView.frameLoadDelegate = self
             self.webView.resourceLoadDelegate = self
@@ -120,7 +148,7 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
             self.webView.setMaintainsBackForwardList(false)
         }
         
-        let evaluatorHTMLURL = NSBundle(forClass: self.dynamicType).URLForResource("JavaScriptEvaluatorWebKit", withExtension: "html", subdirectory: "JavaScriptEvaluatorWebKit")!
+        let evaluatorHTMLURL = NSBundle(forClass: self.dynamicType).URLForResource("index", withExtension: "html", subdirectory: "JavaScriptEvaluatorWebKit")!
         
         let evaluatorLoadedBlock: @convention(block) (Void) -> Void = {
             self.evaluatorLoaded()
@@ -136,14 +164,14 @@ public class JavaScriptEvaluator:NSObject, Evaluator {
         self.isLoaded = true
     }
     
-    public override var identifier: String {
+    public var identifier: String {
         return "org.javascript.webkit"
     }
     
-    public override func evaluate(source: String,
-                                  input:Processable?,
-                                  outputHandler: (Processable?) -> Void,
-                                  errorHandler: (EvaluatorError, String) -> Void) {
+    public func evaluate(source: String,
+                         input:Processable?,
+                         outputHandler: (Processable?) -> Void,
+                         errorHandler: (EvaluatorError, String) -> Void) {
         
         // needed to wrap the passed in output handler to an Objective-C conventioned block.
         let outputBlock:@convention(block) (AnyObject) -> Void = {
@@ -192,8 +220,27 @@ extension JavaScriptEvaluatorWebKit: WebUIDelegate {
 // MARK:
 // MARK: JSC
 
-public class JavaScriptEvaluatorJSC: JavaScriptEvaluator {
-    public override var identifier: String {
+public final class JavaScriptEvaluatorJSC: NSObject, JavaScriptEvaluator {
+    public var identifier: String {
         return "org.javascript.javascriptcore"
+    }
+    
+    public var fileExtensions: Set<String> {
+        return ["js"]
+    }
+    
+    public override init() {
+        super.init()
+    }
+
+    public init(evaluator: Evaluator) throws {
+        
+    }
+    
+    public func evaluate(source: String,
+                         input: Processable?,
+                         outputHandler: (Processable?) -> Void,
+                         errorHandler: (EvaluatorError, String) -> Void) {
+        preconditionFailure("Implement me.")
     }
 }

@@ -9,18 +9,9 @@
 </head>
 
 <body>
-    
     <script>
         window.evaluatorCompletionHandlers = {};
         window.evaluatorErrorHandlers = {};
-        
-        window.evaluatorCompletionHandler = function(identifier) {
-            return window.evaluatorCompletionHandlers[identifier];
-        };
-    
-        window.evaluatorErrorHandler = function(identifier) {
-            return window.evaluatorErrorHandlers[identifier];
-        };
     
         window.setEvaluatorCompletionHandler = function(identifier, completionHandler) {
             window.evaluatorCompletionHandlers[identifier] = completionHandler;
@@ -29,10 +20,8 @@
         window.setEvaluatorErrorHandler = function(identifier, errorHandler) {
             window.evaluatorErrorHandlers[identifier] = errorHandler;
         };
-    
-        window.evaluatorLoaded = function() {
-            console.log("Evaluator has been loaded");
-        };
+        
+        window.evaluatorLoaded();
     </script>
     
     <!--

@@ -53,7 +53,7 @@ class ExtensionsTests: XCTestCase {
                 XCTFail("Evaluation error: \($0)")
             })
 
-        waitForExpectationsWithTimeout(15.0) { (err:NSError?) in
+        waitForExpectationsWithTimeout(50.0) { (err:NSError?) in
             XCTAssertNil(err, "Unexpected error \(err)")
         }
 

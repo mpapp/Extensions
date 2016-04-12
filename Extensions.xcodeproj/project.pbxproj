@@ -36,6 +36,9 @@
 		5FC2B2C81CBCA87E001F77FB /* EvaluatorDebugWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC2B2C61CBCA87E001F77FB /* EvaluatorDebugWindowController.swift */; };
 		5FC2B2C91CBCA87E001F77FB /* EvaluatorDebugWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2C71CBCA87E001F77FB /* EvaluatorDebugWindowController.xib */; };
 		5FC2B2CE1CBCAA75001F77FB /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */; };
+		5FC2B2DE1CBD3C49001F77FB /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2DD1CBD3C49001F77FB /* index.html */; };
+		5FC2B2E11CBD3D33001F77FB /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2DF1CBD3D33001F77FB /* scripts */; };
+		5FC2B2E21CBD3D33001F77FB /* styles in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2E01CBD3D33001F77FB /* styles */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +121,9 @@
 		5FC2B2C61CBCA87E001F77FB /* EvaluatorDebugWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatorDebugWindowController.swift; sourceTree = "<group>"; };
 		5FC2B2C71CBCA87E001F77FB /* EvaluatorDebugWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvaluatorDebugWindowController.xib; sourceTree = "<group>"; };
 		5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
+		5FC2B2DD1CBD3C49001F77FB /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = app/index.html; sourceTree = "<group>"; };
+		5FC2B2DF1CBD3D33001F77FB /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = dist/scripts; sourceTree = "<group>"; };
+		5FC2B2E01CBD3D33001F77FB /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = styles; path = dist/styles; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +267,9 @@
 		5F7EE4A31CBA9C0100F4B7EA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5FC2B2DF1CBD3D33001F77FB /* scripts */,
+				5FC2B2E01CBD3D33001F77FB /* styles */,
+				5FC2B2DD1CBD3C49001F77FB /* index.html */,
 				5F7EE4A61CBAC4A100F4B7EA /* example-1.js */,
 				5F7EE4A81CBAC4A800F4B7EA /* example-2.js */,
 			);
@@ -399,8 +408,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FC2B2E21CBD3D33001F77FB /* styles in Resources */,
 				5F7EE4AB1CBAD42200F4B7EA /* example-1.js in Resources */,
 				5F7EE4AC1CBAD42200F4B7EA /* example-2.js in Resources */,
+				5FC2B2DE1CBD3C49001F77FB /* index.html in Resources */,
+				5FC2B2E11CBD3D33001F77FB /* scripts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

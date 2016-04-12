@@ -118,7 +118,7 @@ public class Procedure {
     
     public init(json: JSON) throws {
         let evaluatorID = try json.string("evaluator")
-        let evaluator = try EvaluatorRegistry.sharedInstance.evaluator(identifier: evaluatorID)
+        let evaluator = try EvaluatorRegistry.sharedInstance.createEvaluator(identifier: evaluatorID)
         self.evaluator = evaluator
         self.source = try json.string("source")
         

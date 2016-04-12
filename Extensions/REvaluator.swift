@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class REvaluator: NSObject, Evaluator {
+public final class REvaluator: NSObject, Evaluator {
     public var identifier: String {
         return "org.cran.r"
     }
@@ -17,11 +17,23 @@ public class REvaluator: NSObject, Evaluator {
         return ["R"]
     }
     
+    public override init() {
+        super.init()
+    }
+    
+    public convenience init(evaluator: Evaluator) throws {
+        self.init()
+    }
+    
     public func evaluate(source: String, input:Processable?, outputHandler:(Processable?)->Void, errorHandler: (EvaluatorError, String) -> Void) {
         preconditionFailure()
     }
     
     public static func encode(processable: Processable?) -> AnyObject? {
+        preconditionFailure("Implement")
+    }
+    
+    public static func decode(processable: AnyObject?) -> Processable? {
         preconditionFailure("Implement")
     }
 }

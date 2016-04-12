@@ -20,7 +20,7 @@ public class EvaluatorRegistry {
     }
     
     lazy public var evaluators:[String:Evaluator] = {
-        let es:[Evaluator] = [JavaScriptEvaluatorWebKit(),
+        let es:[Evaluator] = [JavaScriptEvaluatorWebKit(webView:nil),
                               JavaScriptEvaluatorJSC(),
                               REvaluator()]
         
@@ -33,11 +33,11 @@ public class EvaluatorRegistry {
         return evals
     }()
     
-    public func evaluator(identifier identifier:String) throws -> Evaluator {
+    public func createEvaluator(identifier identifier:String) throws -> Evaluator {
         guard let e = self.evaluators[identifier] else {
             throw EvaluatorRegistryErrorCode.NoSuchEvaluator("No evaluator with identifier \(identifier)")
         }
         
-        return e
+        return try e.dynamicType.init(evaluator:e)
     }
 }
