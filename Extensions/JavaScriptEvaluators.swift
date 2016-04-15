@@ -10,11 +10,11 @@ import Foundation
 import WebKit
 import JavaScriptCore
 
-public protocol JavaScriptEvaluator:Evaluator { }
+internal protocol JavaScriptEvaluator:Evaluator { }
 
-public extension JavaScriptEvaluator {
+extension JavaScriptEvaluator {
 
-    public static func decode(propertyListEncoded:AnyObject?) -> Processable? {
+    static func decode(propertyListEncoded:AnyObject?) -> Processable? {
         if let n = propertyListEncoded as? NSNumber {
             if n.isFloatingPoint {
                 return .DoubleData(n.doubleValue)
@@ -40,7 +40,7 @@ public extension JavaScriptEvaluator {
         }
     }
 
-    public static func encode(processable:Processable?) -> AnyObject? {
+    static func encode(processable:Processable?) -> AnyObject? {
         guard let input = processable else {
             return NSNull()
         }
@@ -80,19 +80,19 @@ typealias OutputHandlerBlock = @convention(block) (AnyObject?) -> Void
 typealias InputHandlerBlock = @convention(block) (AnyObject?, OutputHandlerBlock) -> Void
 //typealias ErrorHandlerBlock = @convention(block) (Int, String) -> Void
 
-@objc public final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator {
-    private(set) public var webView:WebView
-    private(set) public var isPresented: Bool
+@objc final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator {
+    private(set) internal var webView:WebView
+    private(set) internal var isPresented: Bool
     
-    internal(set) public weak var containingExtension:Extension?
+    internal(set) internal weak var containingExtension:Extension?
     
     private var isLoaded: Bool = false
     
-    public var fileExtensions: Set<String> {
+    internal var fileExtensions: Set<String> {
         return ["js"]
     }
     
-    public required init(evaluator: Evaluator, containingExtension:Extension) throws {
+    internal required init(evaluator: Evaluator, containingExtension:Extension) throws {
         guard let jsEvaluator = evaluator as? JavaScriptEvaluatorWebKit else {
             throw JavaScriptEvaluatorWebKitError.InvalidEvaluator(evaluator)
         }
@@ -134,7 +134,7 @@ typealias InputHandlerBlock = @convention(block) (AnyObject?, OutputHandlerBlock
         return (isPresented, returnedWebView)
     }
     
-    public required init(webView:WebView? = nil) throws {
+    internal required init(webView:WebView? = nil) throws {
         
         (self.isPresented, self.webView) = JavaScriptEvaluatorWebKit.initialize(webView)
         
@@ -188,11 +188,11 @@ typealias InputHandlerBlock = @convention(block) (AnyObject?, OutputHandlerBlock
         self.isLoaded = true
     }
     
-    public var identifier: String {
+    var identifier: String {
         return "org.javascript.webkit"
     }
     
-    public func evaluate(source: String,
+    func evaluate(source: String,
                          input:Processable?,
                          outputHandler: (Processable?) -> Void,
                          errorHandler: (EvaluatorError) -> Void) {
@@ -276,14 +276,14 @@ public final class JavaScriptEvaluatorJSC: NSObject, JavaScriptEvaluator {
         super.init()
     }
 
-    public init(evaluator: Evaluator, containingExtension:Extension) throws {
+    init(evaluator: Evaluator, containingExtension:Extension) throws {
         preconditionFailure("Implement")
     }
     
-    public func evaluate(source: String,
-                         input: Processable?,
-                         outputHandler: (Processable?) -> Void,
-                         errorHandler: (EvaluatorError) -> Void) {
+    func evaluate(source: String,
+                  input: Processable?,
+                  outputHandler: (Processable?) -> Void,
+                  errorHandler: (EvaluatorError) -> Void) {
         preconditionFailure("Implement me.")
     }
 }

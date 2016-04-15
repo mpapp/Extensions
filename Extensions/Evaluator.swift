@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum EvaluatorError: ErrorType {
+internal enum EvaluatorError: ErrorType {
     case MissingReturnValue
     case UnexpectedReturnValueType
     case MissingExports(Extension?, Evaluator)
@@ -19,7 +19,7 @@ public enum EvaluatorError: ErrorType {
 
 // needs to conform to NSObjectProtocol such that when this type is used as a property type, one can use NSClassFromString 
 // (non-Objective Swift classes do not have reflection of this sort at the moment)
-public protocol Evaluator {
+internal protocol Evaluator {
     
     var identifier:String { get }
     var fileExtensions:Set<String> { get }
@@ -39,4 +39,4 @@ public protocol ExtensionContained {
     weak var containingExtension:Extension? { get set }
 }
 
-public protocol ExtensionContainedEvaluator:Evaluator, ExtensionContained { }
+internal protocol ExtensionContainedEvaluator:Evaluator, ExtensionContained { }

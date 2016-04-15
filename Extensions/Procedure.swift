@@ -94,12 +94,12 @@ public enum Processable:CustomStringConvertible {
     }
 }
 
-public enum ProcedureError:ErrorType {
+internal enum ProcedureError:ErrorType {
     case EvaluationFailed(EvaluatorError)
     case UnexpectedOption(String)
 }
 
-public class Procedure {
+internal class Procedure {
     //internal weak let evaluator:Evaluator?
     internal let source:String
     
@@ -108,7 +108,7 @@ public class Procedure {
     
     internal let evaluatorID:String
     
-    required public init(evaluatorID:String, source:String, inputTypes:ProcessableOption, outputTypes:ProcessableOption) {
+    required init(evaluatorID:String, source:String, inputTypes:ProcessableOption, outputTypes:ProcessableOption) {
         self.evaluatorID = evaluatorID
         self.source = source
         self.inputTypes = inputTypes
@@ -118,7 +118,7 @@ public class Procedure {
     private static let defaultInputTypes:[String] = ["int", "double", "string"]
     private static let defaultOutputTypes:[String] = Procedure.defaultInputTypes
     
-    public init(json: JSON) throws {
+    init(json: JSON) throws {
         self.evaluatorID = try json.string("evaluator")
         
         self.source = try json.string("source")

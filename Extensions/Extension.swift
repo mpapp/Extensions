@@ -24,7 +24,7 @@ public enum ExtensionError:ErrorType {
     case ExtensionFailedToLoad(NSBundle)
     case UnderlyingError(ErrorType)
     case ExtensionHasNoProcedures(Extension)
-    case EvaluationFailed(EvaluatorError)
+    case EvaluationFailed(ErrorType)
 }
 
 private class ExtensionState {
@@ -43,14 +43,7 @@ private class ExtensionState {
 @objc public class Extension: NSObject, ExtensionLike {
     public let identifier:String
     public let rootURL:NSURL
-    public let procedures:[Procedure]
-    
-    internal init(identifier:String, rootURL:NSURL, procedures:[Procedure]) {
-        self.identifier = identifier
-        self.rootURL = rootURL
-        self.procedures = procedures
-        super.init()
-    }
+    internal let procedures:[Procedure]
     
     public func evaluate(input:Processable?, procedureHandler:(input:Processable?, output:Processable?) -> Void, errorHandler:(error:ErrorType)->Void) throws {
         let state = ExtensionState(procedures:self.procedures, processable: input, procedureHandler: procedureHandler)
@@ -66,6 +59,17 @@ private class ExtensionState {
         let contents = try self.sourceContents(procedure)
         evaluator.evaluate(contents, input:input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
     }
+    
+    // MARK: -
+    // MARK: Internals & private parts
+    
+    internal init(identifier:String, rootURL:NSURL, procedures:[Procedure]) {
+        self.identifier = identifier
+        self.rootURL = rootURL
+        self.procedures = procedures
+        super.init()
+    }
+    
     
     private func sourceContents(procedure:Procedure) throws -> String {
         let URL = self.rootURL.URLByAppendingPathComponent("Contents/Resources").URLByAppendingPathComponent(procedure.source)

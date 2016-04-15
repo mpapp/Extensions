@@ -12,14 +12,14 @@ public enum EvaluatorRegistryErrorCode: ErrorType {
     case NoSuchEvaluator(String)
 }
 
-public class EvaluatorRegistry {
+internal class EvaluatorRegistry {
     
-    public static let sharedInstance:EvaluatorRegistry = EvaluatorRegistry()
+    static let sharedInstance:EvaluatorRegistry = EvaluatorRegistry()
 
     private init() {
     }
     
-    lazy public var evaluators:[String:Evaluator] = {
+    lazy var evaluators:[String:Evaluator] = {
         
         var es:[Evaluator?] = [JavaScriptEvaluatorJSC(),
                                REvaluator()]
@@ -42,7 +42,7 @@ public class EvaluatorRegistry {
         return evals
     }()
     
-    public func createEvaluator(procedure procedure:Procedure, containingExtension:Extension) throws -> Evaluator {
+    internal func createEvaluator(procedure procedure:Procedure, containingExtension:Extension) throws -> Evaluator {
         return try self.createEvaluator(identifier:procedure.evaluatorID, containingExtension: containingExtension)
     }
     
