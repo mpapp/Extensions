@@ -10,11 +10,9 @@ import Foundation
 import WebKit
 import JavaScriptCore
 
-public protocol JavaScriptEvaluator:Evaluator {
-    
-}
+public protocol JavaScriptEvaluator:Evaluator { }
 
-extension JavaScriptEvaluator {
+public extension JavaScriptEvaluator {
 
     public static func decode(propertyListEncoded:AnyObject?) -> Processable? {
         if let n = propertyListEncoded as? NSNumber {
@@ -74,32 +72,39 @@ extension JavaScriptEvaluator {
 
 enum JavaScriptEvaluatorWebKitError:ErrorType {
     case InvalidEvaluator(Evaluator)
+    case MissingContainingExtension(Evaluator)
+    case MissingResource(NSURL)
 }
 
 @objc public final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator {
     private(set) public var webView:WebView
     private(set) public var isPresented: Bool
     
-    private var isLoaded: Bool = false
+    internal(set) public weak var containingExtension:Extension?
     
-    public override required convenience init() {
-        self.init(webView:nil)
-    }
+    private var isLoaded: Bool = false
     
     public var fileExtensions: Set<String> {
         return ["js"]
     }
     
-    public required init(evaluator: Evaluator) throws {
+    public required init(evaluator: Evaluator, containingExtension:Extension) throws {
         guard let jsEvaluator = evaluator as? JavaScriptEvaluatorWebKit else {
             throw JavaScriptEvaluatorWebKitError.InvalidEvaluator(evaluator)
         }
         
+        self.containingExtension = containingExtension
+        
         (self.isPresented, self.webView) = JavaScriptEvaluatorWebKit.initialize(jsEvaluator.webView)
+        if self.isPresented && jsEvaluator.isLoaded {
+            self.isLoaded = true
+        }
         
         super.init()
-        
-        self.load()
+    
+        if !self.isLoaded {
+            try self.load()
+        }
     }
     
     private class func initialize(webView:WebView?) -> (isPresented:Bool, webView:WebView) {
@@ -125,16 +130,16 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
         return (isPresented, returnedWebView)
     }
     
-    public required init(webView:WebView? = nil) {
+    public required init(webView:WebView? = nil) throws {
         
         (self.isPresented, self.webView) = JavaScriptEvaluatorWebKit.initialize(webView)
         
         super.init()
         
-        self.load()
+        //try self.load()
     }
     
-    private func load() -> Void {
+    private func load() throws -> Void {
         if (!self.isPresented) {
             self.webView.frameLoadDelegate = self
             self.webView.resourceLoadDelegate = self
@@ -148,10 +153,18 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
             self.webView.setMaintainsBackForwardList(false)
         }
         
-        let evaluatorHTMLURL = NSBundle(forClass: self.dynamicType).URLForResource("index", withExtension: "html", subdirectory: "JavaScriptEvaluatorWebKit")!
+        guard let evaluatorHTMLURL = self.containingExtension?.rootURL.URLByAppendingPathComponent("Contents/Resources/index.html") else {
+            throw JavaScriptEvaluatorWebKitError.MissingContainingExtension(self)
+        }
         
         let evaluatorLoadedBlock: @convention(block) (Void) -> Void = {
             self.evaluatorLoaded()
+        }
+        
+        if evaluatorHTMLURL.fileURL {
+            guard let path = evaluatorHTMLURL.path where NSFileManager.defaultManager().fileExistsAtPath(path) else {
+                throw JavaScriptEvaluatorWebKitError.MissingResource(evaluatorHTMLURL)
+            }
         }
         
         self.webView.mainFrame.loadRequest(NSURLRequest(URL: evaluatorHTMLURL))
@@ -160,7 +173,7 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
     
     private func evaluatorLoaded() {
         precondition(!self.isLoaded, "Evaluator \(self) should be loaded only once.")
-        fputs("JS (WebKit) Evaluator loaded.", stderr)
+        print("JS (WebKit) Evaluator loaded.")
         self.isLoaded = true
     }
     
@@ -172,6 +185,11 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
                          input:Processable?,
                          outputHandler: (Processable?) -> Void,
                          errorHandler: (EvaluatorError, String) -> Void) {
+        while !self.isLoaded {
+            NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate:NSDate(timeIntervalSinceNow:0.01))
+        }
+        
+        precondition(self.isLoaded, "Evaluator should already be loaded.")
         
         // needed to wrap the passed in output handler to an Objective-C conventioned block.
         let outputBlock:@convention(block) (AnyObject) -> Void = {
@@ -189,15 +207,17 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
             return errorHandler(EvaluatorError(rawValue: $0)!, $1)
         }
         
-        self.webView.windowScriptObject.setValue(self.dynamicType.encode(input), forKey: "input")
-        self.webView.windowScriptObject.setValue(unsafeBitCast(outputBlock, AnyObject.self), forKey:"output")
-        self.webView.windowScriptObject.setValue(unsafeBitCast(errorBlock, AnyObject.self), forKey:"error")
-        
-        self.webView.windowScriptObject.evaluateWebScript(source)
-
-        self.webView.windowScriptObject.setValue(nil, forKey: "input")
-        self.webView.windowScriptObject.setValue(nil, forKey: "output")
-        self.webView.windowScriptObject.setValue(nil, forKey: "error")
+        dispatch_async(dispatch_get_main_queue()) { 
+            self.webView.windowScriptObject.setValue(self.dynamicType.encode(input), forKey: "input")
+            self.webView.windowScriptObject.setValue(unsafeBitCast(outputBlock, AnyObject.self), forKey:"output")
+            self.webView.windowScriptObject.setValue(unsafeBitCast(errorBlock, AnyObject.self), forKey:"error")
+            
+            self.webView.windowScriptObject.evaluateWebScript(source)
+            
+            //self.webView.windowScriptObject.setValue(nil, forKey: "input")
+            //self.webView.windowScriptObject.setValue(nil, forKey: "output")
+            //self.webView.windowScriptObject.setValue(nil, forKey: "error")
+        }
     }
 }
 
@@ -221,6 +241,9 @@ extension JavaScriptEvaluatorWebKit: WebUIDelegate {
 // MARK: JSC
 
 public final class JavaScriptEvaluatorJSC: NSObject, JavaScriptEvaluator {
+    
+    internal(set) public weak var containingExtension:Extension?
+    
     public var identifier: String {
         return "org.javascript.javascriptcore"
     }
@@ -233,8 +256,8 @@ public final class JavaScriptEvaluatorJSC: NSObject, JavaScriptEvaluator {
         super.init()
     }
 
-    public init(evaluator: Evaluator) throws {
-        
+    public init(evaluator: Evaluator, containingExtension:Extension) throws {
+        preconditionFailure("Implement")
     }
     
     public func evaluate(source: String,

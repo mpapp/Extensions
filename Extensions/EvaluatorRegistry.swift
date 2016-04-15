@@ -20,24 +20,39 @@ public class EvaluatorRegistry {
     }
     
     lazy public var evaluators:[String:Evaluator] = {
-        let es:[Evaluator] = [JavaScriptEvaluatorWebKit(webView:nil),
-                              JavaScriptEvaluatorJSC(),
-                              REvaluator()]
+        
+        var es:[Evaluator?] = [JavaScriptEvaluatorJSC(),
+                               REvaluator()]
+        
+        do {
+            es.append(try JavaScriptEvaluatorWebKit(webView:nil))
+        }
+        catch {
+            print("Error occurred when attempting to initialize a JavaScript evaluator: \(error)")
+        }
         
         var evals = [String:Evaluator]()
     
         for eval in es {
-            evals[eval.identifier] = eval
+            if let eval = eval {
+                evals[eval.identifier] = eval
+            }
         }
         
         return evals
     }()
     
-    public func createEvaluator(identifier identifier:String) throws -> Evaluator {
-        guard let e = self.evaluators[identifier] else {
+    public func createEvaluator(procedure procedure:Procedure, containingExtension:Extension) throws -> Evaluator {
+        return try self.createEvaluator(identifier:procedure.evaluatorID, containingExtension: containingExtension)
+    }
+    
+    internal func createEvaluator(identifier identifier:String, containingExtension:Extension) throws -> Evaluator {
+        guard var e = self.evaluators[identifier] else {
             throw EvaluatorRegistryErrorCode.NoSuchEvaluator("No evaluator with identifier \(identifier)")
         }
         
-        return try e.dynamicType.init(evaluator:e)
+        e = try e.dynamicType.init(evaluator:e, containingExtension:containingExtension)
+        
+        return e
     }
 }

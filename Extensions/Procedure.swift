@@ -100,14 +100,16 @@ public enum ProcedureError:ErrorType {
 }
 
 public class Procedure {
-    internal let evaluator:Evaluator
+    //internal weak let evaluator:Evaluator?
     internal let source:String
     
     internal let inputTypes:ProcessableOption
     internal let outputTypes:ProcessableOption
     
-    required public init(evaluator:Evaluator, source:String, inputTypes:ProcessableOption, outputTypes:ProcessableOption) {
-        self.evaluator = evaluator
+    internal let evaluatorID:String
+    
+    required public init(evaluatorID:String, source:String, inputTypes:ProcessableOption, outputTypes:ProcessableOption) {
+        self.evaluatorID = evaluatorID
         self.source = source
         self.inputTypes = inputTypes
         self.outputTypes = outputTypes
@@ -117,9 +119,8 @@ public class Procedure {
     private static let defaultOutputTypes:[String] = Procedure.defaultInputTypes
     
     public init(json: JSON) throws {
-        let evaluatorID = try json.string("evaluator")
-        let evaluator = try EvaluatorRegistry.sharedInstance.createEvaluator(identifier: evaluatorID)
-        self.evaluator = evaluator
+        self.evaluatorID = try json.string("evaluator")
+        
         self.source = try json.string("source")
         
         let defaultInputTypes = self.dynamicType.defaultInputTypes.map { JSON($0) }
@@ -133,9 +134,5 @@ public class Procedure {
         
         self.inputTypes = try ProcessableOption(strings:inputTypeStrings)
         self.outputTypes = try ProcessableOption(strings:outputTypeStrings)
-    }
-    
-    public func evaluate(input:Processable?, outputHandler:(output:Processable?)->Void, errorHandler:(error:ErrorType)->Void) {
-        self.evaluator.evaluate(self.source, input: input, outputHandler: outputHandler, errorHandler: { ProcedureError.EvaluationFailed($0, $1) })
     }
 }

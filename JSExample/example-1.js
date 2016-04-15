@@ -1,7 +1,9 @@
 console.log("Procedure 1")
-console.log("Input: " + window.input)
+console.log("Input 1: " + window.input)
+console.log("Output 1: " + window.output)
 
-window.input
-
-console.log("Output: " + window.output)
-window.output("foo")
+try {
+    console.log(window.output("foo"));
+} catch (e) {
+    console.error(e);
+}

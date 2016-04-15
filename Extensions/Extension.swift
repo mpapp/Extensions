@@ -24,6 +24,7 @@ public enum ExtensionError:ErrorType {
     case ExtensionFailedToLoad(NSBundle)
     case UnderlyingError(ErrorType)
     case ExtensionHasNoProcedures(Extension)
+    case EvaluationFailed(EvaluatorError, String)
 }
 
 private class ExtensionState {
@@ -41,10 +42,12 @@ private class ExtensionState {
 
 @objc public class Extension: NSObject, ExtensionLike {
     public let identifier:String
+    public let rootURL:NSURL
     public let procedures:[Procedure]
     
-    internal init(identifier:String, procedures:[Procedure]) {
+    internal init(identifier:String, rootURL:NSURL, procedures:[Procedure]) {
         self.identifier = identifier
+        self.rootURL = rootURL
         self.procedures = procedures
         super.init()
     }
@@ -57,10 +60,21 @@ private class ExtensionState {
         }
         
         let procedure = state.procedures.removeFirst()
-        procedure.evaluate(input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
+        
+        let evaluator = try EvaluatorRegistry.sharedInstance.createEvaluator(identifier:procedure.evaluatorID, containingExtension: self)
+        
+        let contents = try self.sourceContents(procedure)
+        evaluator.evaluate(contents, input:input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
+    }
+    
+    private func sourceContents(procedure:Procedure) throws -> String {
+        let URL = self.rootURL.URLByAppendingPathComponent("Contents/Resources").URLByAppendingPathComponent(procedure.source)
+        return try NSString(contentsOfURL: URL, encoding: NSUTF8StringEncoding) as String
     }
     
     private func outputHandler(state:ExtensionState) -> (output: Processable?) -> Void {
+        precondition(state.lastError == nil, "State already has lastError set to \(state.lastError)")
+
         return {
             let input = state.processable
             let output = $0
@@ -72,14 +86,23 @@ private class ExtensionState {
             
             if state.procedures.count > 0 {
                 let procedure = state.procedures.removeFirst()
-                procedure.evaluate(state.processable, outputHandler: self.outputHandler(state), errorHandler: self.errorHandler(state))
+                
+                do {
+                    let evaluator = try EvaluatorRegistry.sharedInstance.createEvaluator(identifier:procedure.evaluatorID, containingExtension: self)
+                    evaluator.evaluate(procedure.source, input:input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
+                }
+                catch {
+                    state.lastError = error
+                }
             }
         }
     }
     
-    private func errorHandler(state:ExtensionState) -> (error:ErrorType) -> Void {
+    private func errorHandler(state:ExtensionState) -> (EvaluatorError, String) -> Void {
+        precondition(state.lastError == nil, "State already has lastError set to \(state.lastError)")
+        
         return {
-            state.lastError = $0
+            state.lastError = ExtensionError.EvaluationFailed($0, $1)
         }
     }
 }

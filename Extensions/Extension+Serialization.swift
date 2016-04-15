@@ -30,7 +30,7 @@ class ExtensionDescription: JSONDecodable, ExtensionLike {
 extension Procedure: JSONEncodable {
     public func toJSON() -> JSON {
         return .Dictionary(["source":.String(self.source),
-                            "evaluator":.String(NSStringFromClass(self.evaluator.dynamicType))])
+                            "evaluator":.String(self.evaluatorID)])
     }
 }
 
@@ -56,7 +56,7 @@ extension Extension {
         return jsonDict
     }
     
-    public class func fromPropertyListRepresentation(propertyList plist: [String:AnyObject]) throws -> Extension {
+    public class func fromPropertyListRepresentation(propertyList plist: [String:AnyObject], rootURL:NSURL) throws -> Extension {
         let data = try NSJSONSerialization.dataWithJSONObject(plist, options: [])
         guard let str = String(data: data, encoding: NSUTF8StringEncoding) else {
             throw ExtensionError.NotPropertyList(plist)
@@ -65,7 +65,7 @@ extension Extension {
         let json = try JSON(jsonString: str)
         let extensionDesc = try ExtensionDescription(json: json)
         
-        return Extension(identifier: extensionDesc.identifier, procedures: extensionDesc.procedures)
+        return Extension(identifier: extensionDesc.identifier, rootURL:rootURL, procedures: extensionDesc.procedures)
     }
     
     public class func fromBundle(bundle:NSBundle) throws -> Extension {
@@ -73,6 +73,6 @@ extension Extension {
             throw ExtensionError.MissingInfoDictionary(bundle)
         }
         
-        return try Extension.fromPropertyListRepresentation(propertyList: infoDictionary.JSONEncodable)
+        return try Extension.fromPropertyListRepresentation(propertyList: infoDictionary.JSONEncodable, rootURL:bundle.bundleURL)
     }
 }

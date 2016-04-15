@@ -31,11 +31,6 @@ class ExtensionsTests: XCTestCase {
         super.tearDown()
     }
     
-    func testResolvingWebKitEvaluator() {
-        try! EvaluatorRegistry.sharedInstance.evaluator(identifier: "org.javascript.webkit")
-        XCTAssert(true, "Evaluator registry contains \"org.javascript.webkit\"")
-    }
-    
     func testLoadingWebKitExtension() {
         let extensions = ExtensionRegistry.sharedInstance.extensionSet
         XCTAssertTrue(extensions.count > 0, "No extensions have been loaded.")
@@ -46,12 +41,17 @@ class ExtensionsTests: XCTestCase {
         
         let exp = expectationWithDescription("Evaluation ended successfully.")
         
-        try! ext.evaluate(Processable.StringData("foo"), procedureHandler: {
+        do {
+            try ext.evaluate(Processable.StringData("foo"), procedureHandler: {
                 print("Input \($0) -> Output:\($1)")
                 exp.fulfill()
             }, errorHandler: {
                 XCTFail("Evaluation error: \($0)")
             })
+        }
+        catch {
+            XCTFail("Unexpected evaluation error: \(error)")
+        }
 
         waitForExpectationsWithTimeout(50.0) { (err:NSError?) in
             XCTAssertNil(err, "Unexpected error \(err)")

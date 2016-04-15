@@ -15,7 +15,7 @@ public enum EvaluatorError: Int {
 
 // needs to conform to NSObjectProtocol such that when this type is used as a property type, one can use NSClassFromString 
 // (non-Objective Swift classes do not have reflection of this sort at the moment)
-public protocol Evaluator:NSObjectProtocol {
+public protocol Evaluator {
     
     var identifier:String { get }
     var fileExtensions:Set<String> { get }
@@ -23,10 +23,16 @@ public protocol Evaluator:NSObjectProtocol {
     static func encode(processable:Processable?) -> AnyObject?
     static func decode(processable:AnyObject?) -> Processable?
     
-    init(evaluator:Evaluator) throws
+    init(evaluator:Evaluator, containingExtension:Extension) throws
     
     func evaluate(source:String,
                   input:Processable?,
                   outputHandler:(Processable?) -> Void,
                   errorHandler:(EvaluatorError, String) -> Void)
 }
+
+public protocol ExtensionContained {
+    weak var containingExtension:Extension? { get set }
+}
+
+public protocol ExtensionContainedEvaluator:Evaluator, ExtensionContained { }
