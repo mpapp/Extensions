@@ -1,7 +1,7 @@
 # Extensions
 Extensions.framework allows creation of plugins which involve execution of a script in an interpreted / JIT compiled language of some kind.
 
-# How to build
+## How to build
 
 In order to build this framework, you will need:
 
