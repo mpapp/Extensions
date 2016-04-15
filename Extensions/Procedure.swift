@@ -95,7 +95,7 @@ public enum Processable:CustomStringConvertible {
 }
 
 public enum ProcedureError:ErrorType {
-    case EvaluationFailed(EvaluatorError, String)
+    case EvaluationFailed(EvaluatorError)
     case UnexpectedOption(String)
 }
 

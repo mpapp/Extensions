@@ -42,7 +42,7 @@ public extension JavaScriptEvaluator {
 
     public static func encode(processable:Processable?) -> AnyObject? {
         guard let input = processable else {
-            return nil
+            return NSNull()
         }
         
         switch input {
@@ -75,6 +75,10 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
     case MissingContainingExtension(Evaluator)
     case MissingResource(NSURL)
 }
+
+typealias OutputHandlerBlock = @convention(block) (AnyObject?) -> Void
+typealias InputHandlerBlock = @convention(block) (AnyObject?, OutputHandlerBlock) -> Void
+//typealias ErrorHandlerBlock = @convention(block) (Int, String) -> Void
 
 @objc public final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator {
     private(set) public var webView:WebView
@@ -150,6 +154,7 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
             
             // WUT? Would this help with the issue we have with a "shadow caret"
             //self.webView.maintainsInactiveSelection = false
+            
             self.webView.setMaintainsBackForwardList(false)
         }
         
@@ -169,6 +174,11 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
         
         self.webView.mainFrame.javaScriptContext.globalObject.setValue(
             unsafeBitCast(evaluatorLoadedBlock, AnyObject.self), forProperty: "evaluatorLoaded")
+        
+        self.webView.mainFrame.javaScriptContext.exceptionHandler = { context, exception in
+            print("JS Exception during loading: \(exception)\n\(context)");
+        }
+        
         self.webView.mainFrame.loadRequest(NSURLRequest(URL: evaluatorHTMLURL))
     }
     
@@ -185,7 +195,7 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
     public func evaluate(source: String,
                          input:Processable?,
                          outputHandler: (Processable?) -> Void,
-                         errorHandler: (EvaluatorError, String) -> Void) {
+                         errorHandler: (EvaluatorError) -> Void) {
         while !self.isLoaded {
             NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate:NSDate(timeIntervalSinceNow:0.01))
         }
@@ -193,32 +203,40 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
         precondition(self.isLoaded, "Evaluator should already be loaded.")
         
         // needed to wrap the passed in output handler to an Objective-C conventioned block.
-        let outputBlock:@convention(block) (AnyObject) -> Void = {
+        let outputBlock:OutputHandlerBlock = {
             if let decodedVal = self.dynamicType.decode($0) {
                 return outputHandler(decodedVal)
             }
             else {
-                errorHandler(EvaluatorError.MissingReturnValue, "Missing return value.")
+                errorHandler(EvaluatorError.MissingReturnValue)
             }
         }
-        
-        // needed to wrap the passed in error handler to an Objective-C conventioned block 
-        // (also wrapping the incoming Int typed value to an EvaluatorError).
-        let errorBlock:@convention(block) (Int, String) -> Void = {
-            return errorHandler(EvaluatorError(rawValue: $0)!, $1)
-        }
-        
+
         dispatch_async(dispatch_get_main_queue()) {
-            self.webView.mainFrame.javaScriptContext.globalObject.setValue(self.dynamicType.encode(input), forProperty: "input")
-            self.webView.mainFrame.javaScriptContext.globalObject.setValue(
-                unsafeBitCast(outputBlock, AnyObject.self), forProperty: "output")
-            self.webView.mainFrame.javaScriptContext.globalObject.setValue(unsafeBitCast(errorBlock, AnyObject.self), forProperty:"error")
+            let exportsDict = NSMutableDictionary()
+            
+            self.webView.mainFrame.javaScriptContext.globalObject.setValue(exportsDict, forProperty: "exports")
+            
+            self.webView.mainFrame.javaScriptContext.exceptionHandler = { context, exception in
+                print("JS Exception during loading: \(exception)\n\(context)")
+                errorHandler(EvaluatorError.EvaluationFailed(self.containingExtension, self, exception))
+            }
             
             self.webView.windowScriptObject.evaluateWebScript(source)
+
+            guard let encodedInput = self.dynamicType.encode(input) else {
+                errorHandler(EvaluatorError.UnexpectedNilInput(self.containingExtension, self))
+                return
+            }
             
-            //self.webView.windowScriptObject.setValue(nil, forKey: "input")
-            //self.webView.windowScriptObject.setValue(nil, forKey: "output")
-            //self.webView.windowScriptObject.setValue(nil, forKey: "error")
+            guard let processFunc = self.webView.mainFrame.javaScriptContext.globalObject.valueForProperty("exports").valueForProperty("process") else {
+                errorHandler(EvaluatorError.MissingProcessFunction(self.containingExtension, self))
+                return
+            }
+            
+            processFunc.callWithArguments([encodedInput, unsafeBitCast(outputBlock, AnyObject.self)])
+            
+            self.webView.mainFrame.javaScriptContext.globalObject.setValue(nil, forProperty: "exports")
         }
     }
 }
@@ -265,7 +283,7 @@ public final class JavaScriptEvaluatorJSC: NSObject, JavaScriptEvaluator {
     public func evaluate(source: String,
                          input: Processable?,
                          outputHandler: (Processable?) -> Void,
-                         errorHandler: (EvaluatorError, String) -> Void) {
+                         errorHandler: (EvaluatorError) -> Void) {
         preconditionFailure("Implement me.")
     }
 }

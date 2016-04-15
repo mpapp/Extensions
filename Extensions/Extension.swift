@@ -24,7 +24,7 @@ public enum ExtensionError:ErrorType {
     case ExtensionFailedToLoad(NSBundle)
     case UnderlyingError(ErrorType)
     case ExtensionHasNoProcedures(Extension)
-    case EvaluationFailed(EvaluatorError, String)
+    case EvaluationFailed(EvaluatorError)
 }
 
 private class ExtensionState {
@@ -101,11 +101,11 @@ private class ExtensionState {
         }
     }
     
-    private func errorHandler(state:ExtensionState) -> (EvaluatorError, String) -> Void {
+    private func errorHandler(state:ExtensionState) -> (EvaluatorError) -> Void {
         precondition(state.lastError == nil, "State already has lastError set to \(state.lastError)")
         
         return {
-            state.lastError = ExtensionError.EvaluationFailed($0, $1)
+            state.lastError = ExtensionError.EvaluationFailed($0)
         }
     }
 }

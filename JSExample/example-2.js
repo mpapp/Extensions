@@ -1,4 +1,7 @@
-console.log("Procedure 2")
-console.log("Input: " + window.input)
-console.log("Output: " + window.output)
-window.output("bar")
+exports.process = function(input, outputHandler) {
+    console.log("Input to procedure 2: " + input);
+
+    setTimeout(function() {
+        outputHandler(input + "bar");
+    });
+};

@@ -25,7 +25,7 @@ public final class REvaluator: NSObject, Evaluator {
         preconditionFailure("Implement in subclass")
     }
     
-    public func evaluate(source: String, input:Processable?, outputHandler:(Processable?)->Void, errorHandler: (EvaluatorError, String) -> Void) {
+    public func evaluate(source: String, input:Processable?, outputHandler:(Processable?)->Void, errorHandler: (EvaluatorError) -> Void) {
         preconditionFailure()
     }
     

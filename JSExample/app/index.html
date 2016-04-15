@@ -11,17 +11,6 @@
 <body>
     
     <script>
-        window.evaluatorCompletionHandlers = {};
-        window.evaluatorErrorHandlers = {};
-    
-        window.setEvaluatorCompletionHandler = function(identifier, completionHandler) {
-            window.evaluatorCompletionHandlers[identifier] = completionHandler;
-        };
-        
-        window.setEvaluatorErrorHandler = function(identifier, errorHandler) {
-            window.evaluatorErrorHandlers[identifier] = errorHandler;
-        };
-    
         if (window.evaluatorLoaded) {
             window.evaluatorLoaded();            
         }

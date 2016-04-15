@@ -8,9 +8,13 @@
 
 import Foundation
 
-public enum EvaluatorError: Int {
+public enum EvaluatorError: ErrorType {
     case MissingReturnValue
     case UnexpectedReturnValueType
+    case MissingExports(Extension?, Evaluator)
+    case MissingProcessFunction(Extension?, Evaluator)
+    case EvaluationFailed(Extension?, Evaluator, AnyObject?)
+    case UnexpectedNilInput(Extension?, Evaluator)
 }
 
 // needs to conform to NSObjectProtocol such that when this type is used as a property type, one can use NSClassFromString 
@@ -28,7 +32,7 @@ public protocol Evaluator {
     func evaluate(source:String,
                   input:Processable?,
                   outputHandler:(Processable?) -> Void,
-                  errorHandler:(EvaluatorError, String) -> Void)
+                  errorHandler:(EvaluatorError) -> Void)
 }
 
 public protocol ExtensionContained {
