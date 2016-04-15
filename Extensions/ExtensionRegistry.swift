@@ -12,7 +12,7 @@ public enum ExtensionRegistryErrorCode: ErrorType {
     case NoSuchExension(String)
 }
 
-public class ExtensionRegistry {
+public final class ExtensionRegistry {
     
     public static let sharedInstance:ExtensionRegistry = ExtensionRegistry()
     private(set) public var extensions:[String:Extension] = [:]

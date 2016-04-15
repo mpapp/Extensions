@@ -40,7 +40,7 @@ private class ExtensionState {
     }
 }
 
-@objc public class Extension: NSObject, ExtensionLike {
+@objc public final class Extension: NSObject, ExtensionLike {
     public let identifier:String
     public let rootURL:NSURL
     internal let procedures:[Procedure]
