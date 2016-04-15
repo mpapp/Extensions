@@ -15,14 +15,49 @@ public enum ExtensionRegistryErrorCode: ErrorType {
 public final class ExtensionRegistry {
     
     public static let sharedInstance:ExtensionRegistry = ExtensionRegistry()
+    private init() { } // don't even try to instantiate one…
+    
     private(set) public var extensions:[String:Extension] = [:]
     
     public var extensionSet:Set<Extension> {
         return Set(self.extensions.values)
     }
     
-    private init() {
+    // You are required to call loadExtensions before attempting to access extensions with extensionWithIdentifier.
+    public func loadExtensions(rootURL:NSURL? = nil, replaceExisting:Bool = true, loadFailureHandler:((URL:NSURL, error:ExtensionError)->Void)? = nil) throws {
+        
+        let root:NSURL
+        if let rootURL = rootURL {
+            root = rootURL
+        }
+        else {
+            root = NSBundle.mainBundle().bundleURL
+        }
+        
+        let extensions = try self.dynamicType.loadExtensionBundles(root, loadFailureHandler:loadFailureHandler)
+        
+        var extensionsDict = [String:Extension]()
+        for ext in extensions {
+            guard let existingExtension = self.extensions[ext.identifier] where replaceExisting else {
+                extensionsDict[ext.identifier] = ext
+                continue
+            }
+            extensionsDict[ext.identifier] = existingExtension
+        }
+        
+        self.extensions = extensionsDict
     }
+    
+    // extension is a reserved word, so can't use it as a method name…
+    public func extensionWithIdentifier(identifier:String) throws -> Extension {
+        guard let ext = self.extensions[identifier] else {
+            throw EvaluatorRegistryErrorCode.NoSuchEvaluator("No extension with identifier \(identifier)")
+        }
+        
+        return ext
+    }
+    
+
     
     private class func loadExtensionBundles(rootURL:NSURL, loadFailureHandler:((URL:NSURL, error:ExtensionError)->Void)? = nil) throws -> [Extension] {
         
@@ -60,39 +95,5 @@ public final class ExtensionRegistry {
         }
         
         return exts
-    }
-    
-    // You are required to call loadExtensions before attempting to access extensions with extensionWithIdentifier.
-    public func loadExtensions(rootURL:NSURL? = nil, replaceExisting:Bool = true, loadFailureHandler:((URL:NSURL, error:ExtensionError)->Void)? = nil) throws {
-        
-        let root:NSURL
-        if let rootURL = rootURL {
-            root = rootURL
-        }
-        else {
-            root = NSBundle.mainBundle().bundleURL
-        }
-        
-        let extensions = try self.dynamicType.loadExtensionBundles(root, loadFailureHandler:loadFailureHandler)
-        
-        var extensionsDict = [String:Extension]()
-        for ext in extensions {
-            guard let existingExtension = self.extensions[ext.identifier] where replaceExisting else {
-                extensionsDict[ext.identifier] = ext
-                continue
-            }
-            extensionsDict[ext.identifier] = existingExtension
-        }
-
-        self.extensions = extensionsDict
-    }
-    
-    // extension is a reserved word, so can't use it as a method name…
-    public func extensionWithIdentifier(identifier:String) throws -> Extension {
-        guard let ext = self.extensions[identifier] else {
-            throw EvaluatorRegistryErrorCode.NoSuchEvaluator("No extension with identifier \(identifier)")
-        }
-        
-        return ext
     }
 }

@@ -80,7 +80,7 @@ typealias OutputHandlerBlock = @convention(block) (AnyObject?) -> Void
 typealias InputHandlerBlock = @convention(block) (AnyObject?, OutputHandlerBlock) -> Void
 //typealias ErrorHandlerBlock = @convention(block) (Int, String) -> Void
 
-@objc final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator {
+final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator {
     private(set) internal var webView:WebView
     private(set) internal var isPresented: Bool
     

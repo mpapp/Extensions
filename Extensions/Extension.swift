@@ -40,7 +40,7 @@ private class ExtensionState {
     }
 }
 
-@objc public final class Extension: NSObject, ExtensionLike {
+public final class Extension: ExtensionLike {
     public let identifier:String
     public let rootURL:NSURL
     internal let procedures:[Procedure]
@@ -67,9 +67,7 @@ private class ExtensionState {
         self.identifier = identifier
         self.rootURL = rootURL
         self.procedures = procedures
-        super.init()
     }
-    
     
     private func sourceContents(procedure:Procedure) throws -> String {
         let URL = self.rootURL.URLByAppendingPathComponent("Contents/Resources").URLByAppendingPathComponent(procedure.source)
