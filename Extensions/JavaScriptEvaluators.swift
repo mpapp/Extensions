@@ -208,9 +208,9 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
         }
         
         dispatch_async(dispatch_get_main_queue()) { 
-            self.webView.windowScriptObject.setValue(self.dynamicType.encode(input), forKey: "input")
-            self.webView.windowScriptObject.setValue(unsafeBitCast(outputBlock, AnyObject.self), forKey:"output")
-            self.webView.windowScriptObject.setValue(unsafeBitCast(errorBlock, AnyObject.self), forKey:"error")
+            self.webView.mainFrame.javaScriptContext.setObject(self.dynamicType.encode(input), forKeyedSubscript: "input")
+            self.webView.mainFrame.javaScriptContext.setObject(unsafeBitCast(outputBlock, AnyObject.self), forKeyedSubscript:"output")
+            self.webView.mainFrame.javaScriptContext.setObject(unsafeBitCast(errorBlock, AnyObject.self), forKeyedSubscript:"error")
             
             self.webView.windowScriptObject.evaluateWebScript(source)
             
