@@ -89,7 +89,10 @@ private class ExtensionState {
                 
                 do {
                     let evaluator = try EvaluatorRegistry.sharedInstance.createEvaluator(identifier:procedure.evaluatorID, containingExtension: self)
-                    evaluator.evaluate(procedure.source, input:input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        evaluator.evaluate(procedure.source, input:input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
+                    }
                 }
                 catch {
                     state.lastError = error

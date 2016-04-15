@@ -167,8 +167,9 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
             }
         }
         
+        self.webView.mainFrame.javaScriptContext.globalObject.setValue(
+            unsafeBitCast(evaluatorLoadedBlock, AnyObject.self), forProperty: "evaluatorLoaded")
         self.webView.mainFrame.loadRequest(NSURLRequest(URL: evaluatorHTMLURL))
-        self.webView.mainFrame.javaScriptContext.globalObject.setValue(unsafeBitCast(evaluatorLoadedBlock, AnyObject.self), forProperty: "evaluatorLoaded")
     }
     
     private func evaluatorLoaded() {
@@ -207,10 +208,11 @@ enum JavaScriptEvaluatorWebKitError:ErrorType {
             return errorHandler(EvaluatorError(rawValue: $0)!, $1)
         }
         
-        dispatch_async(dispatch_get_main_queue()) { 
-            self.webView.mainFrame.javaScriptContext.setObject(self.dynamicType.encode(input), forKeyedSubscript: "input")
-            self.webView.mainFrame.javaScriptContext.setObject(unsafeBitCast(outputBlock, AnyObject.self), forKeyedSubscript:"output")
-            self.webView.mainFrame.javaScriptContext.setObject(unsafeBitCast(errorBlock, AnyObject.self), forKeyedSubscript:"error")
+        dispatch_async(dispatch_get_main_queue()) {
+            self.webView.mainFrame.javaScriptContext.globalObject.setValue(self.dynamicType.encode(input), forProperty: "input")
+            self.webView.mainFrame.javaScriptContext.globalObject.setValue(
+                unsafeBitCast(outputBlock, AnyObject.self), forProperty: "output")
+            self.webView.mainFrame.javaScriptContext.globalObject.setValue(unsafeBitCast(errorBlock, AnyObject.self), forProperty:"error")
             
             self.webView.windowScriptObject.evaluateWebScript(source)
             
