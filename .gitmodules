@@ -6,3 +6,7 @@
 	url = ssh://git@github.com/mpapp/MPTimer.git
 [submodule "Carthage/Checkouts/Regex"]
 	url = ssh://git@github.com/sharplet/Regex.git
+	path = Carthage/Checkouts/Regex
+[submodule "Carthage/Checkouts/RegexKitLite"]
+	path = Carthage/Checkouts/RegexKitLite
+	url = ssh://git@github.com/mpapp/RegexKitLite.git

@@ -26,15 +26,34 @@ public protocol ElementProcessor {
 }
 
 public protocol FragmentProcessor {
-    var capturingPattern:String { get }
-    var tokenizingPattern:String { get }
-    func process(node node:NSXMLNode) throws -> [NSXMLNode]
-    func process(fragment fragment:String) throws -> [NSXMLNode]
+    var tokenizingPatterns:[Regex] { get }
+    var capturingPatterns:[Regex] { get }
+    func process(textNode node:NSXMLNode) throws -> [NSXMLNode]
+    func process(textFragment fragment:String) throws -> [NSXMLNode]
 }
 
 extension FragmentProcessor {
-    func process(node node:NSXMLNode) throws -> [NSXMLNode] {
-        return [node]
+    func process(textNode node:NSXMLNode) throws -> [NSXMLNode] {
+        
+        guard let stringValue = node.stringValue else {
+            return [node]
+        }
+        
+        //switch "hello" {
+        ///     case Regex("l+"):
+        ///       let count = Regex.lastMatch!.matchedString.characters.count
+        ///       print("matched \(count) characters")
+        ///     default:
+        ///       break
+        ///     }
+        
+        stringValue.components
+        
+        self.tokenizingPatterns.map { exp in
+            exp.match(<#T##string: String##String#>)
+        }
+        
+        self.process(fragment: <#T##String#>)
     }
 }
 
