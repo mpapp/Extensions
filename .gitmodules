@@ -4,3 +4,5 @@
 [submodule "Carthage/Checkouts/MPTimer"]
 	path = Carthage/Checkouts/MPTimer
 	url = ssh://git@github.com/mpapp/MPTimer.git
+[submodule "Carthage/Checkouts/Regex"]
+	url = ssh://git@github.com/sharplet/Regex.git

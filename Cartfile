@@ -1,2 +1,3 @@
-github "bignerdranch/Freddy" "2.0.2"
-github "mpapp/MPTimer" "master"
+github "bignerdranch/Freddy" "a9a0ca9d372d93e4c9a1051aa3c2c58715e68455"
+github "mpapp/MPTimer" "0.0.1"
+github "sharplet/Regex" ~> 0.3
