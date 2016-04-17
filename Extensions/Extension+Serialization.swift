@@ -28,7 +28,7 @@ class ExtensionDescription: JSONDecodable, ExtensionLike {
 }
 
 extension Procedure: JSONEncodable {
-    func toJSON() -> JSON {
+    public func toJSON() -> JSON {
         return .Dictionary(["source":.String(self.source),
                             "evaluator":.String(self.evaluatorID)])
     }

@@ -99,16 +99,20 @@ internal enum ProcedureError:ErrorType {
     case UnexpectedOption(String)
 }
 
-internal class Procedure {
+public class Procedure:Hashable {
     //internal weak let evaluator:Evaluator?
-    internal let source:String
+    let source:String
     
-    internal let inputTypes:ProcessableOption
-    internal let outputTypes:ProcessableOption
+    let inputTypes:ProcessableOption
+    let outputTypes:ProcessableOption
     
-    internal let evaluatorID:String
+    let evaluatorID:String
     
-    required init(evaluatorID:String, source:String, inputTypes:ProcessableOption, outputTypes:ProcessableOption) {
+    public var hashValue: Int {
+        return source.hashValue ^ evaluatorID.hashValue
+    }
+    
+    public required init(evaluatorID:String, source:String, inputTypes:ProcessableOption, outputTypes:ProcessableOption) {
         self.evaluatorID = evaluatorID
         self.source = source
         self.inputTypes = inputTypes
@@ -118,7 +122,7 @@ internal class Procedure {
     private static let defaultInputTypes:[String] = ["int", "double", "string"]
     private static let defaultOutputTypes:[String] = Procedure.defaultInputTypes
     
-    init(json: JSON) throws {
+    public init(json: JSON) throws {
         self.evaluatorID = try json.string("evaluator")
         
         self.source = try json.string("source")
@@ -135,4 +139,8 @@ internal class Procedure {
         self.inputTypes = try ProcessableOption(strings:inputTypeStrings)
         self.outputTypes = try ProcessableOption(strings:outputTypeStrings)
     }
+}
+
+public func ==(lhs: Procedure, rhs: Procedure) -> Bool {
+    return lhs.source == rhs.source && lhs.inputTypes == rhs.inputTypes && lhs.evaluatorID == rhs.evaluatorID
 }

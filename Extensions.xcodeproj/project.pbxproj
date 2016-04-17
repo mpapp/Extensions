@@ -20,6 +20,9 @@
 		5F1996CB1CB7036100B1C5DB /* EvaluatorDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996C91CB7036100B1C5DB /* EvaluatorDebugViewController.swift */; };
 		5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */; };
 		5F1996D21CB7DFDA00B1C5DB /* Extension+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996D11CB7DFDA00B1C5DB /* Extension+Serialization.swift */; };
+		5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; };
+		5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */; };
+		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
 		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
@@ -82,6 +85,7 @@
 			files = (
 				5F7EE4AE1CBAD43E00F4B7EA /* Freddy.framework in Copy Frameworks */,
 				5F7EE4AF1CBAD44100F4B7EA /* Extensions.framework in Copy Frameworks */,
+				5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,6 +110,8 @@
 		5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvaluatorDebugViewController.xib; sourceTree = "<group>"; };
 		5F1996CD1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JavaScriptEvaluatorWebKit.js; sourceTree = "<group>"; };
 		5F1996D11CB7DFDA00B1C5DB /* Extension+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Serialization.swift"; sourceTree = "<group>"; };
+		5F571C7A1CC32774003471D5 /* MPTimer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPTimer.framework; path = Carthage/Build/Mac/MPTimer.framework; sourceTree = "<group>"; };
+		5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPTimer.framework.dSYM; path = Carthage/Build/Mac/MPTimer.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/Mac/Freddy.framework; sourceTree = "<group>"; };
 		5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Freddy.framework.dSYM; path = Carthage/Build/Mac/Freddy.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionRegistry.swift; sourceTree = "<group>"; };
@@ -134,6 +140,7 @@
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
 				5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */,
 				5F1996AC1CB5B31D00B1C5DB /* WebKit.framework in Frameworks */,
+				5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +213,8 @@
 		5F1996D71CB7E1EC00B1C5DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F571C7A1CC32774003471D5 /* MPTimer.framework */,
+				5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */,
 				5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */,
 				5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */,
 				5F1996AD1CB5B32100B1C5DB /* JavaScriptCore.framework */,
@@ -394,6 +403,7 @@
 				5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */,
 				5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */,
 				5FC2B2C91CBCA87E001F77FB /* EvaluatorDebugWindowController.xib in Resources */,
+				5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

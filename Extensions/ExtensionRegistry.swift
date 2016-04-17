@@ -57,8 +57,6 @@ public final class ExtensionRegistry {
         return ext
     }
     
-
-    
     private class func loadExtensionBundles(rootURL:NSURL, loadFailureHandler:((URL:NSURL, error:ExtensionError)->Void)? = nil) throws -> [Extension] {
         
         var exts:[Extension] = []

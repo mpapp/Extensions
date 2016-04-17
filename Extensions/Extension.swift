@@ -8,11 +8,14 @@
 
 import Foundation
 import Freddy
+import MPTimer
 
-protocol ExtensionLike {
+public protocol ExtensionLike {
     var identifier:String { get }
     var procedures:[Procedure] { get }
 }
+
+public typealias ExtensionErrorHandler = (error:ErrorType)->Void
 
 public enum ExtensionError:ErrorType {
     case MissingEvaluatorKey
@@ -25,6 +28,7 @@ public enum ExtensionError:ErrorType {
     case UnderlyingError(ErrorType)
     case ExtensionHasNoProcedures(Extension)
     case EvaluationFailed(ErrorType)
+    case EvaluationTimedOut(Extension)
 }
 
 private class ExtensionState {
@@ -32,21 +36,47 @@ private class ExtensionState {
     private var processable:Processable?
     private var lastError:ErrorType?
     private let procedureHandler:(input:Processable?, output:Processable?) -> Void
+    private weak var containingExtension:Extension?
+    private var evaluationTimer:Timer<ExtensionState>? = nil
+    private var timedOut = false
     
-    private init(procedures:[Procedure], processable:Processable?, procedureHandler:(input:Processable?, output:Processable?) -> Void) {
+    private init(procedures:[Procedure],
+                 processable:Processable?,
+                 containingExtension:Extension,
+                 procedureHandler:(input:Processable?, output:Processable?) -> Void) {
         self.procedures = procedures
         self.processable = processable
         self.procedureHandler = procedureHandler
+        self.containingExtension = containingExtension
     }
 }
 
-public final class Extension: ExtensionLike {
+public final class Extension: ExtensionLike, Hashable, Equatable {
     public let identifier:String
     public let rootURL:NSURL
-    internal let procedures:[Procedure]
+    public let procedures:[Procedure]
     
-    public func evaluate(input:Processable?, procedureHandler:(input:Processable?, output:Processable?) -> Void, errorHandler:(error:ErrorType)->Void) throws {
-        let state = ExtensionState(procedures:self.procedures, processable: input, procedureHandler: procedureHandler)
+    public var hashValue: Int {
+        return self.identifier.hashValue ^ rootURL.hashValue ^ procedures.reduce(0) { $0 ^ $1.hashValue }
+    }
+    
+    private static let timeoutInterval:NSTimeInterval = 10.0
+    
+    public func evaluate(input:Processable?,
+                         procedureHandler:(input:Processable?,
+                         output:Processable?) -> Void,
+                         errorHandler:ExtensionErrorHandler) throws {
+        let state = ExtensionState(procedures:self.procedures, processable: input, containingExtension: self, procedureHandler: procedureHandler)
+        
+        if state.evaluationTimer == nil {
+            state.evaluationTimer = Timer(object:state)
+        }
+        state.evaluationTimer?.after(delay: self.evaluationTimeout) { (state:ExtensionState) in
+            let e = ExtensionError.EvaluationTimedOut(self)
+            state.lastError = e
+            state.timedOut = true
+            errorHandler(error: e)
+        }
         
         if self.procedures.count == 0 {
             throw ExtensionError.ExtensionHasNoProcedures(self)
@@ -58,6 +88,10 @@ public final class Extension: ExtensionLike {
         
         let contents = try self.sourceContents(procedure)
         evaluator.evaluate(contents, input:input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
+    }
+    
+    private var evaluationTimeout:NSTimeInterval {
+        return 10.0
     }
     
     // MARK: -
@@ -86,7 +120,7 @@ public final class Extension: ExtensionLike {
             // replace input with output
             state.processable = output
             
-            if state.procedures.count > 0 {
+            if state.procedures.count > 0 && !state.timedOut {
                 let procedure = state.procedures.removeFirst()
                 
                 do {
@@ -110,4 +144,8 @@ public final class Extension: ExtensionLike {
             state.lastError = ExtensionError.EvaluationFailed($0)
         }
     }
+}
+
+public func ==(lhs:Extension, rhs:Extension) -> Bool {
+    return lhs.identifier == rhs.identifier
 }
