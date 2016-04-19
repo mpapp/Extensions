@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Regex
+import RegexKitLite
 
 public enum HTMLProcessableErrorType : ErrorType {
     case ReferenceIDAttributeMissing(NSXMLElement)
@@ -26,10 +26,9 @@ public protocol ElementProcessor {
 }
 
 public protocol FragmentProcessor {
-    var tokenizingPatterns:[Regex] { get }
-    var capturingPatterns:[Regex] { get }
+    var tokenizingPatterns:[String] { get }
     func process(textNode node:NSXMLNode) throws -> [NSXMLNode]
-    func process(textFragment fragment:String) throws -> [NSXMLNode]
+    func process(textFragment fragment:String) throws -> String
 }
 
 extension FragmentProcessor {
@@ -39,21 +38,31 @@ extension FragmentProcessor {
             return [node]
         }
         
-        //switch "hello" {
-        ///     case Regex("l+"):
-        ///       let count = Regex.lastMatch!.matchedString.characters.count
-        ///       print("matched \(count) characters")
-        ///     default:
-        ///       break
-        ///     }
-        
-        stringValue.components
-        
-        self.tokenizingPatterns.map { exp in
-            exp.match(<#T##string: String##String#>)
+        var tokenizedString:[String] = [stringValue]
+        for p in tokenizingPatterns {
+            let cs = (stringValue as NSString).componentsSeparatedByRegex(p) as! [String]
+            if cs.count > 1 {
+                tokenizedString = cs
+                break
+            }
         }
         
-        self.process(fragment: <#T##String#>)
+        let fragments:[String] = try tokenizedString.map {
+            try self.process(textFragment: $0)
+        }
+        
+        if fragments.count == 1 && fragments.first == tokenizedString.first {
+            return [node]
+        }
+        
+        let fragmentNodes = fragments.map { (str:String) -> NSXMLNode in
+            let newNode = NSXMLNode(kind: .TextKind)
+            newNode.setStringValue(str, resolvingEntities: false)
+            
+            return newNode
+        }
+        
+        return fragmentNodes
     }
 }
 
