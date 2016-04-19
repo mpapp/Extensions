@@ -24,8 +24,6 @@
 		5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */; };
 		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F571C911CC41942003471D5 /* HTMLProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F571C901CC41942003471D5 /* HTMLProcessor.swift */; };
-		5F571C951CC44C86003471D5 /* Regex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C931CC44C85003471D5 /* Regex.framework */; };
-		5F571C961CC44C86003471D5 /* Regex.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C941CC44C85003471D5 /* Regex.framework.dSYM */; };
 		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
 		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
@@ -143,7 +141,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F571C951CC44C86003471D5 /* Regex.framework in Frameworks */,
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
 				5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */,
 				5F1996AC1CB5B31D00B1C5DB /* WebKit.framework in Frameworks */,
@@ -418,7 +415,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F571C961CC44C86003471D5 /* Regex.framework.dSYM in Resources */,
 				5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */,
 				5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */,
 				5FC2B2C91CBCA87E001F77FB /* EvaluatorDebugWindowController.xib in Resources */,
