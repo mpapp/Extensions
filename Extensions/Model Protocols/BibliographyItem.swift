@@ -9,7 +9,11 @@
 import Foundation
 import Freddy
 
-@objc public protocol BibliographyItem {
+@objc public protocol BibliographyItemObject: class, BibliographyItem {
+    
+}
+
+@objc public protocol BibliographyItem: DictionaryRepresentable {
     // Abstract of the item (e.g. the abstract of a journal article).
     var abstract:String? { get }
 
@@ -246,5 +250,4 @@ import Freddy
     // The value of 'entrytype' string when importing BibTeX. */
     // @property (readwrite, nullable) NSString *entryType;
 
-    var dictionaryRepresentation:[String:AnyObject] { get }
 }

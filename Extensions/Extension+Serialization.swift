@@ -57,6 +57,8 @@ extension Extension {
     }
     
     public class func fromPropertyListRepresentation(propertyList plist: [String:AnyObject], rootURL:NSURL) throws -> Extension {
+        // We know to be dealing with the subset of plist encodable data that is also JSON encodable (a stricter requirement).
+        // Therefore we funnel also the plist based initialization route via the JSON based initialization.
         let data = try NSJSONSerialization.dataWithJSONObject(plist, options: [])
         guard let str = String(data: data, encoding: NSUTF8StringEncoding) else {
             throw ExtensionError.NotPropertyList(plist)

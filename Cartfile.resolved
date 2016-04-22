@@ -1,3 +1,4 @@
+github "Alamofire/Alamofire" "4edf17756fdde9f6d834f1715f234ef1b5022c23"
 github "bignerdranch/Freddy" "a9a0ca9d372d93e4c9a1051aa3c2c58715e68455"
 github "mpapp/MPTimer" "0.0.2"
 github "mpapp/RegexKitLite" "92be66c0b2310ad481f0373c6a28e14b18540ff9"

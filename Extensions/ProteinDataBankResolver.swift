@@ -7,12 +7,22 @@
 //
 
 import Foundation
+import RegexKitLite
+
 
 public struct ProteinDataBankIdentifier:Resolvable {
-    private let identifierString:String
+    public let identifier:String
     
-    public func identifier() -> String {
-        return self.identifierString
+    public init(identifier: String) throws {
+        guard identifier.isUpper() else {
+            throw ResolvingError.NotResolvable("\(identifier) contains lowercase characters and therefore cannot be a PDB ID.")
+        }
+        
+        guard (identifier as NSString).isMatchedByRegex("[\\S,\\d]{4,4}") else {
+            throw ResolvingError.NotResolvable("\(identifier) does not look like a PDB ID.")
+        }
+        
+        self.identifier = identifier
     }
 }
 
@@ -27,8 +37,17 @@ public struct ProteinDataBankResolver:Resolver {
         self._baseURL = baseURL
     }
     
-    public func resolve(resolvable: Resolvable) -> ResolvableResult {
-        return ResolvableResult.BibliographyItem(self.bibliographyItems(proteinDataID: resolvable.identifier()))
+    public let resolvableType:Resolvable.Type = {
+        return ProteinDataBankIdentifier.self
+    }()
+    
+    public func resolve(identifier: String) -> ResolvableResult {
+        let items = self.bibliographyItems(proteinDataID: identifier)
+        guard items.count > 0 else {
+            return ResolvableResult.None
+        }
+        
+        return ResolvableResult.BibliographyItems(items)
     }
     
     private func PubMedIDs(proteinDataBankID PDBID:String) -> [String] {

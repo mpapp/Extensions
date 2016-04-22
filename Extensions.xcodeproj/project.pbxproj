@@ -31,10 +31,18 @@
 		5F34E2CA1CC7EFF000A5DAF1 /* PubMedResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E2C91CC7EFF000A5DAF1 /* PubMedResolver.swift */; };
 		5F34E2CF1CC7F0D900A5DAF1 /* BibliographyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */; };
 		5F34E2D21CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */; };
+		5F44B8001CCA6D700047A4F0 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */; };
+		5F44B8071CCA7C940047A4F0 /* Mathematical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8061CCA7C940047A4F0 /* Mathematical.swift */; };
+		5F44B8091CCA7CB50047A4F0 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8081CCA7CB50047A4F0 /* Identifiable.swift */; };
+		5F44B80E1CCA7DC20047A4F0 /* ElementTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */; };
+		5F44B8101CCA87700047A4F0 /* DictionaryRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */; };
+		5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8111CCA912F0047A4F0 /* DocumentProcessor.swift */; };
+		5F44B8141CCA91370047A4F0 /* ElementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8131CCA91370047A4F0 /* ElementProcessor.swift */; };
+		5F44B8161CCA913E0047A4F0 /* FragmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8151CCA913E0047A4F0 /* FragmentProcessor.swift */; };
 		5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; };
 		5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */; };
 		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5F571C911CC41942003471D5 /* HTMLProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F571C901CC41942003471D5 /* HTMLProcessor.swift */; };
+		5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F571C901CC41942003471D5 /* DocumentProcessorError.swift */; };
 		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
 		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
@@ -133,9 +141,17 @@
 		5F34E2C91CC7EFF000A5DAF1 /* PubMedResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMedResolver.swift; sourceTree = "<group>"; };
 		5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographyItem.swift; path = "Model Protocols/BibliographyItem.swift"; sourceTree = "<group>"; };
 		5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBibliographyItem.swift; sourceTree = "<group>"; };
+		5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		5F44B8061CCA7C940047A4F0 /* Mathematical.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mathematical.swift; sourceTree = "<group>"; };
+		5F44B8081CCA7CB50047A4F0 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
+		5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementTypes.swift; sourceTree = "<group>"; };
+		5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryRepresentable.swift; sourceTree = "<group>"; };
+		5F44B8111CCA912F0047A4F0 /* DocumentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessor.swift; sourceTree = "<group>"; };
+		5F44B8131CCA91370047A4F0 /* ElementProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementProcessor.swift; sourceTree = "<group>"; };
+		5F44B8151CCA913E0047A4F0 /* FragmentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentProcessor.swift; sourceTree = "<group>"; };
 		5F571C7A1CC32774003471D5 /* MPTimer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPTimer.framework; path = Carthage/Build/Mac/MPTimer.framework; sourceTree = "<group>"; };
 		5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPTimer.framework.dSYM; path = Carthage/Build/Mac/MPTimer.framework.dSYM; sourceTree = "<group>"; };
-		5F571C901CC41942003471D5 /* HTMLProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLProcessor.swift; sourceTree = "<group>"; };
+		5F571C901CC41942003471D5 /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessorError.swift; sourceTree = "<group>"; };
 		5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/Mac/Freddy.framework; sourceTree = "<group>"; };
 		5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Freddy.framework.dSYM; path = Carthage/Build/Mac/Freddy.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionRegistry.swift; sourceTree = "<group>"; };
@@ -225,6 +241,7 @@
 				5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */,
 				5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */,
 				5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */,
+				5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -269,16 +286,31 @@
 			isa = PBXGroup;
 			children = (
 				5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */,
+				5F44B8081CCA7CB50047A4F0 /* Identifiable.swift */,
+				5F44B8061CCA7C940047A4F0 /* Mathematical.swift */,
 				5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */,
+				5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */,
+				5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */,
 			);
 			name = "Model Protocols";
+			sourceTree = "<group>";
+		};
+		5F44B8171CCA91D30047A4F0 /* Processor Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				5F34E2C61CC7EBFC00A5DAF1 /* ResolvableProcessor.swift */,
+			);
+			name = "Processor Implementations";
 			sourceTree = "<group>";
 		};
 		5F571C921CC41975003471D5 /* HTML Processor */ = {
 			isa = PBXGroup;
 			children = (
-				5F571C901CC41942003471D5 /* HTMLProcessor.swift */,
-				5F34E2C61CC7EBFC00A5DAF1 /* ResolvableProcessor.swift */,
+				5F44B8171CCA91D30047A4F0 /* Processor Implementations */,
+				5F44B8111CCA912F0047A4F0 /* DocumentProcessor.swift */,
+				5F571C901CC41942003471D5 /* DocumentProcessorError.swift */,
+				5F44B8131CCA91370047A4F0 /* ElementProcessor.swift */,
+				5F44B8151CCA913E0047A4F0 /* FragmentProcessor.swift */,
 			);
 			name = "HTML Processor";
 			sourceTree = "<group>";
@@ -505,18 +537,26 @@
 				5F1996D21CB7DFDA00B1C5DB /* Extension+Serialization.swift in Sources */,
 				5F1996CB1CB7036100B1C5DB /* EvaluatorDebugViewController.swift in Sources */,
 				5F1996A41CB5AF6D00B1C5DB /* Evaluator.swift in Sources */,
+				5F44B8071CCA7C940047A4F0 /* Mathematical.swift in Sources */,
 				5F2BBA0D1CC81F2200EA1D66 /* Resolvable.swift in Sources */,
 				5F34E2D21CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift in Sources */,
 				5F1996AA1CB5B1DC00B1C5DB /* JavaScriptEvaluators.swift in Sources */,
+				5F44B8161CCA913E0047A4F0 /* FragmentProcessor.swift in Sources */,
 				5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */,
 				5FC2B2CE1CBCAA75001F77FB /* NSView+Extensions.swift in Sources */,
 				5FC2B2C51CBC9B02001F77FB /* NSNumber+Extensions.swift in Sources */,
 				5F1996A61CB5AFEC00B1C5DB /* EvaluatorRegistry.swift in Sources */,
+				5F44B8141CCA91370047A4F0 /* ElementProcessor.swift in Sources */,
+				5F44B8091CCA7CB50047A4F0 /* Identifiable.swift in Sources */,
 				5F34E2CF1CC7F0D900A5DAF1 /* BibliographyItem.swift in Sources */,
+				5F44B80E1CCA7DC20047A4F0 /* ElementTypes.swift in Sources */,
 				5FC2B2C81CBCA87E001F77FB /* EvaluatorDebugWindowController.swift in Sources */,
-				5F571C911CC41942003471D5 /* HTMLProcessor.swift in Sources */,
+				5F44B8001CCA6D700047A4F0 /* String+Extensions.swift in Sources */,
+				5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */,
 				5F2BBA0B1CC81D6B00EA1D66 /* Resolver.swift in Sources */,
+				5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */,
 				5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */,
+				5F44B8101CCA87700047A4F0 /* DictionaryRepresentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

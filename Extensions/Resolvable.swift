@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ResolvablingError {
+enum ResolvingError:ErrorType {
     case NotResolvable(String)
 }
 
