@@ -59,7 +59,15 @@ class ExtensionsTests: XCTestCase {
 
     }
     
-    func testProcessingHTML() {
+    func testProcessingResolvingPDBIdentifier() {
+        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver()) { (textNode, fragment, resolvedResult) in
+            print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
+        }
+        let docP = ResolvingDocumentProcessor(resolver: ProteinDataBankResolver(), elementProcessors: [pdb])
         
+        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
+        let doc = try! NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions)
+    
+        try! docP.processedDocument(inputDocument: doc)
     }
 }

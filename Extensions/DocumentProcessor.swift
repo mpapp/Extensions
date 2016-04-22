@@ -8,7 +8,7 @@
 
 import Foundation
 
-let MPDefaultXMLDocumentParsingOptions:Int =
+public let MPDefaultXMLDocumentParsingOptions:Int =
     NSXMLNodeLoadExternalEntitiesNever |
     NSXMLNodePreserveNamespaceOrder |
     NSXMLNodePreserveAttributeOrder |
@@ -20,7 +20,7 @@ let MPDefaultXMLDocumentParsingOptions:Int =
     NSXMLNodePreserveEmptyElements |
     NSXMLNodeUseDoubleQuotes
 
-let MPDefaultXMLDocumentOutputOptions:Int =
+public let MPDefaultXMLDocumentOutputOptions:Int =
     NSXMLNodePreserveNamespaceOrder |
     NSXMLNodePreserveAttributeOrder |
     NSXMLNodePreserveEntities |
@@ -30,6 +30,11 @@ let MPDefaultXMLDocumentOutputOptions:Int =
     NSXMLNodePromoteSignificantWhitespace |
     NSXMLNodePreserveEmptyElements |
     NSXMLNodeUseDoubleQuotes
+
+@objc public class DocumentProcessorConstants: NSObject {
+    static func defaultXMLDocumentParsingOptions() -> Int { return MPDefaultXMLDocumentParsingOptions }
+    static func defaultXMLDocumentOutputOptions() -> Int { return MPDefaultXMLDocumentOutputOptions }
+}
 
 public protocol DocumentProcessor {
     
@@ -57,6 +62,6 @@ public extension DocumentProcessor {
         guard let docData = docString.dataUsingEncoding(NSUTF8StringEncoding) else {
             throw DocumentProcessorError.FailedToRepresentStringAsData(docString)
         }
-        return try processedDocument(inputDocument: try NSXMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))).XMLString
+        return try processedDocument(inputDocument: try NSXMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))).XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
     }
 }

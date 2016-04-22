@@ -8,7 +8,9 @@
 
 import Foundation
 import RegexKitLite
-
+import Alamofire
+import Freddy
+import SWXMLHash
 
 public struct ProteinDataBankIdentifier:Resolvable {
     public let identifier:String
@@ -33,7 +35,7 @@ public struct ProteinDataBankResolver:Resolver {
         return self._baseURL
     }
     
-    public init(baseURL:NSURL = NSURL(string:"http://…")!) {
+    public init(baseURL:NSURL = NSURL(string:"http://www.rcsb.org/pdb/rest/describePDB")!) {
         self._baseURL = baseURL
     }
     
@@ -41,8 +43,8 @@ public struct ProteinDataBankResolver:Resolver {
         return ProteinDataBankIdentifier.self
     }()
     
-    public func resolve(identifier: String) -> ResolvedResult {
-        let items = self.bibliographyItems(proteinDataID: identifier)
+    public func resolve(identifier: String) throws -> ResolvedResult {
+        let items = try self.bibliographyItems(proteinDataID: identifier)
         guard items.count > 0 else {
             return ResolvedResult.None
         }
@@ -54,7 +56,25 @@ public struct ProteinDataBankResolver:Resolver {
         return []
     }
     
-    private func bibliographyItems(proteinDataID PDBID:String) -> [BibliographyItem] {
+    private func bibliographyItems(proteinDataID PDBID:String) throws -> [BibliographyItem] {
+        let baseURL = self.baseURL()
+        guard let components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: false) else {
+            throw ResolvingError.InvalidResolverURL(baseURL)
+        }
+        components.query = "structuredId=\(PDBID)"
+        guard let queryURL = components.URL else {
+            throw ResolvingError.InvalidResolverURLComponents(components)
+        }
+        
+        var response: NSURLResponse?
+        let data = try NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: queryURL), returningResponse: &response)
+        guard let httpResponse = response as? NSHTTPURLResponse else {
+            throw ResolvingError.UnexpectedResponse(response)
+        }
+        guard httpResponse.statusCode.marksSuccess else {
+            throw ResolvingError.UnexpectedStatusCode(httpResponse.statusCode)
+        }
+        
         return []
     }
 }

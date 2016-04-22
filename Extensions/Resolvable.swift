@@ -10,6 +10,10 @@ import Foundation
 
 enum ResolvingError:ErrorType {
     case NotResolvable(String)
+    case InvalidResolverURL(NSURL)
+    case InvalidResolverURLComponents(NSURLComponents)
+    case UnexpectedResponse(NSURLResponse?)
+    case UnexpectedStatusCode(Int)
 }
 
 public protocol Resolvable {
