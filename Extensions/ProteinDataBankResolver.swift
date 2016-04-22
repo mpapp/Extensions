@@ -41,13 +41,13 @@ public struct ProteinDataBankResolver:Resolver {
         return ProteinDataBankIdentifier.self
     }()
     
-    public func resolve(identifier: String) -> ResolvableResult {
+    public func resolve(identifier: String) -> ResolvedResult {
         let items = self.bibliographyItems(proteinDataID: identifier)
         guard items.count > 0 else {
-            return ResolvableResult.None
+            return ResolvedResult.None
         }
         
-        return ResolvableResult.BibliographyItems(items)
+        return ResolvedResult.BibliographyItems(items)
     }
     
     private func PubMedIDs(proteinDataBankID PDBID:String) -> [String] {

@@ -51,12 +51,12 @@ public class PubMedResolver: Resolver {
         return nil
     }
     
-    public func resolve(identifier: String) -> ResolvableResult {
+    public func resolve(identifier: String) -> ResolvedResult {
         guard let bibItem = self.bibliographyItem(identifier) else {
-            return ResolvableResult.None
+            return ResolvedResult.None
         }
         
-        return ResolvableResult.BibliographyItems([bibItem])
+        return ResolvedResult.BibliographyItems([bibItem])
     }
     
 }

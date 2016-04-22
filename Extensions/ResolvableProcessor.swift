@@ -8,6 +8,8 @@
 
 import Foundation
 
+// The resolvable fragment processor is a special kind of processor which never modifies the DOM.
+
 public class ResolvableFragmentProcessor: FragmentProcessor {
     
     private let resolver:Resolver
@@ -16,12 +18,16 @@ public class ResolvableFragmentProcessor: FragmentProcessor {
         return ["\\s+"]
     }
     
+    public var producesNodesForReplacedResults: Bool {
+        return false
+    }
+    
     init(resolver:Resolver) {
         self.resolver = resolver
     }
     
     public func process(textFragment fragment: String) throws -> String {
-        let result:ResolvableResult = try self.process(textFragment: fragment)
+        let result:ResolvedResult = try self.process(textFragment: fragment)
         
         let data = try NSJSONSerialization.dataWithJSONObject(result.dictionaryRepresentation(), options: [])
         guard let str = String(data: data, encoding: NSUTF8StringEncoding) else {
@@ -31,12 +37,12 @@ public class ResolvableFragmentProcessor: FragmentProcessor {
         return str
     }
     
-    public func process(textFragment fragment: String) throws -> ResolvableResult {
+    public func process(textFragment fragment: String) throws -> ResolvedResult {
         return try resolver.resolve(fragment)
     }
 }
 
-typealias ResolvableResultHandler = (fragment:String, resolution:ResolvableResult) -> Void
+typealias ResolvedResultHandler = (textNode:NSXMLNode, fragment:String, resolvedResult:ResolvedResult) -> Void
 
 // The resolvable element processor is a special kind of processor which never modifies the DOM.
 // Instead it calls the `resolvableResultHandler` passed to it, for every case a resolvable identifier was found.
@@ -44,7 +50,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
     
     let resolver:Resolver
     let fragmentProcessors:[ResolvableFragmentProcessor]
-    let resolvableResultHandler: ResolvableResultHandler
+    let resolvableResultHandler: ResolvedResultHandler
     
     public var XPathPattern:String = {
         return "//p|//caption"
@@ -63,8 +69,8 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 }
                 
                 do {
-                    let resolvable:ResolvableResult = try fp.process(textFragment: stringValue)
-                    self.resolvableResultHandler(fragment: stringValue, resolution: resolvable)
+                    let resolvable:ResolvedResult = try fp.process(textFragment: stringValue)
+                    self.resolvableResultHandler(textNode:c, fragment: stringValue, resolvedResult: resolvable)
                 }
                 catch ResolvingError.NotResolvable(_) {
                     // specifically, don't log these errors.

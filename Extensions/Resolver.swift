@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ResolvableResult {
+public enum ResolvedResult {
     case None
     case BibliographyItems([BibliographyItem])
     case InlineMathFragments([InlineMathFragment])
@@ -44,5 +44,5 @@ public protocol Resolver {
     var resolvableType:Resolvable.Type { get }
     
     func baseURL() -> NSURL
-    func resolve(identifier:String) throws -> ResolvableResult
+    func resolve(identifier:String) throws -> ResolvedResult
 }
