@@ -31,7 +31,7 @@ public protocol FragmentProcessor {
     func process(textFragment fragment:String) throws -> String
 }
 
-extension FragmentProcessor {
+public extension FragmentProcessor {
     func process(textNode node:NSXMLNode) throws -> [NSXMLNode] {
         
         guard let stringValue = node.stringValue else {
