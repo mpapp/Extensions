@@ -10,7 +10,7 @@ import Foundation
 
 // The resolvable fragment processor is a special kind of processor which never modifies the DOM.
 
-public class ResolvableFragmentProcessor: FragmentProcessor {
+public struct ResolvableFragmentProcessor: FragmentProcessor {
     
     private let resolver:Resolver
     
@@ -49,8 +49,14 @@ typealias ResolvedResultHandler = (textNode:NSXMLNode, fragment:String, resolved
 public struct ResolvableElementProcessor: ElementProcessor {
     
     let resolver:Resolver
-    let fragmentProcessors:[ResolvableFragmentProcessor]
-    let resolvableResultHandler: ResolvedResultHandler
+    let fragmentProcessor:ResolvableFragmentProcessor
+    let resolvedResultHandler: ResolvedResultHandler
+    
+    init(resolver:Resolver, resolvedResultHandler:ResolvedResultHandler) {
+        self.resolver = resolver
+        self.fragmentProcessor = ResolvableFragmentProcessor(resolver: self.resolver)
+        self.resolvedResultHandler = resolvedResultHandler
+    }
     
     public var XPathPattern:String = {
         return "//p|//caption"
@@ -63,22 +69,20 @@ public struct ResolvableElementProcessor: ElementProcessor {
         }
         
         for c in children {
-            for fp in self.fragmentProcessors {
-                guard let stringValue = c.stringValue else {
-                    continue
-                }
-                
-                do {
-                    let resolvable:ResolvedResult = try fp.process(textFragment: stringValue)
-                    self.resolvableResultHandler(textNode:c, fragment: stringValue, resolvedResult: resolvable)
-                }
-                catch ResolvingError.NotResolvable(_) {
-                    // specifically, don't log these errors.
-                    // print("\(fp) failed to resolve: \(str)")
-                }
-                catch {
-                    print("\(fp) failed to resolve: \(error)")
-                }
+            guard let stringValue = c.stringValue else {
+                continue
+            }
+            
+            do {
+                let resolvable:ResolvedResult = try self.fragmentProcessor.process(textFragment: stringValue)
+                self.resolvedResultHandler(textNode:c, fragment: stringValue, resolvedResult: resolvable)
+            }
+            catch ResolvingError.NotResolvable(_) {
+                // specifically, don't log these errors.
+                // print("\(fp) failed to resolve: \(str)")
+            }
+            catch {
+                print("\(self.fragmentProcessor) failed to resolve: \(error)")
             }
         }
         
