@@ -25,6 +25,8 @@ import Freddy
         self.droppingParticle = try json.string("dropping-particle", alongPath: [.MissingKeyBecomesNil])
         self.nonDroppingParticle = try json.string("non-dropping-particle", alongPath: [.MissingKeyBecomesNil])
         self.literal = try json.string("literal", alongPath: [.MissingKeyBecomesNil])
+        
+        super.init()
     }
     
     public func dictionaryRepresentation() -> [String : AnyObject] {

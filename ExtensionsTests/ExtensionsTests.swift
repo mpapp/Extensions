@@ -115,5 +115,37 @@ class ExtensionsTests: XCTestCase {
         default:
             XCTFail("Failed to parse bibliography items.")
         }
+        
+        /*
+        let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
+                                                      tokenizingPatterns: [],
+                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern]) { (textNode, fragment, resolvedResult) in
+            switch resolvedResult {
+            case .BibliographyItems(let items):
+                XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
+                XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
+            default:
+                XCTFail("Failed to resolve a bibliography item for \(fragment)")
+            }
+            print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
+        }
+        let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
+        
+        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
+        
+        var doc:NSXMLDocument? = nil
+        do {
+            doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML)
+        }
+        catch {
+            XCTFail("Failed to initialize test document from URL \(URL).")
+        }
+        
+        do {
+            try docP.processedDocument(inputDocument: doc!)
+        }
+        catch {
+            XCTFail("Failed to process document from URL \(URL).")
+        }*/
     }
 }

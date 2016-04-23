@@ -20,7 +20,8 @@ public struct DigitalObjectIdentifier:Resolvable {
         self.identifier = identifier
     }
     
-    public static let capturingPattern = "\\b(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![\"&\\'<>])[[:graph:]])+)\\b"
+    // from http://stackoverflow.com/questions/27910/finding-a-doi-in-a-document-or-page
+    public static let capturingPattern:String = "\\b(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![\"&\\'<>])[[:graph:]])+)\\b"
 }
 
 public struct DigitalObjectIdentifierResolver:Resolver {
@@ -68,6 +69,8 @@ public struct DigitalObjectIdentifierResolver:Resolver {
         }
         
         let json = try JSON(data: response.data)
-        return [try json.decode(type:SimpleBibliographyItem.self)]
+        
+        let item = try SimpleBibliographyItem(json: json)
+        return [item]
     }
 }

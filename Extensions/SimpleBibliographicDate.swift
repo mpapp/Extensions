@@ -58,6 +58,7 @@ import Freddy
         }
         
         self.seasonLiteral = try json.string("season", alongPath: [.MissingKeyBecomesNil])
+        super.init()
     }
     
     public class func isValidDatePartsArray(dateParts:[AnyObject]) throws -> Void {

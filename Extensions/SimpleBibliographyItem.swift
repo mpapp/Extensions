@@ -157,12 +157,27 @@ import Freddy
     }
     
     public required init(json: JSON) throws {
-        do { self.author = try json.arrayOf("author", type:SimpleBibliographicName.self) } catch {}
-        do { self.accessed = try json.decode("accessed", type:SimpleBibliographicDate.self) } catch {}
-        do { self.eventDate = try json.decode("event-date", type:SimpleBibliographicDate.self) } catch {}
-        do { self.submitted = try json.decode("submitted", type:SimpleBibliographicDate.self) } catch {}
-        do { self.issued = try json.decode("issued", type:SimpleBibliographicDate.self) } catch {}
-        do { self.originalDate = try json.decode("original-date", type:SimpleBibliographicDate.self) } catch {}
+        do { self.author = try json.arrayOf("author", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicName.self) } catch {
+            print(error)
+        }
+        
+        do { self.accessed = try json.decode("accessed", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
+            print(error)
+        }
+        
+        do { self.eventDate = try json.decode("event-date", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
+            print(error)
+        }
+        
+        do { self.submitted = try json.decode("submitted", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
+            print(error)
+        }
+        do { self.issued = try json.decode("issued", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
+            print(error)
+        }
+        do { self.originalDate = try json.decode("original-date", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
+            print(error)
+        }
         
         self.abstract = try json.string("abstract", alongPath: [.MissingKeyBecomesNil])
 
@@ -206,7 +221,8 @@ import Freddy
         self.illustrator = try json.string("illustrator", alongPath: [.MissingKeyBecomesNil])
         self.interviewer = try json.string("interviewer", alongPath: [.MissingKeyBecomesNil])
         self.ISBN = try json.string("ISBN", alongPath: [.MissingKeyBecomesNil])
-        self.ISSN = try json.string("ISSN", alongPath: [.MissingKeyBecomesNil])
+        
+        //self.ISSN = try json.string("ISSN", alongPath: [.MissingKeyBecomesNil])
 
         do {
             if let issue = Int(try json.string(issue)) {
@@ -256,6 +272,12 @@ import Freddy
         self.volume = try json.string("volume", alongPath: [.MissingKeyBecomesNil])
         self.yearSuffix = try json.string("year-suffix", alongPath: [.MissingKeyBecomesNil])
         self.institution = try json.string("institution", alongPath: [.MissingKeyBecomesNil])
+        
+        super.init()
+    }
+    
+    deinit {
+        
     }
     
     public override required init() {
