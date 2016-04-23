@@ -8,6 +8,7 @@
 
 import XCTest
 import Extensions
+import OHHTTPStubs
 
 class ExtensionsTests: XCTestCase {
     
@@ -42,8 +43,8 @@ class ExtensionsTests: XCTestCase {
         let exp = expectationWithDescription("Evaluation ended successfully.")
         
         do {
-            try ext.evaluate(Processable.StringData("foo"), procedureHandler: {
-                print("Input \($0) -> Output:\($1)")
+            try ext.evaluate(Processable.StringData("foo"), procedureHandler: { _,_ in
+                //print("Input \($0) -> Output:\($1)")
                 exp.fulfill()
             }, errorHandler: {
                 XCTFail("Evaluation error: \($0)")
@@ -60,7 +61,13 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testProcessingResolvingPDBIdentifier() {
-        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver()) { (textNode, fragment, resolvedResult) in
+        
+        stub(isHost("www.rcsb.org")) { (_) -> OHHTTPStubsResponse in
+            let stubPath = OHPathForFile("1HIV.rcsb-xml", self.dynamicType)!
+            return fixture(stubPath, headers: [:])
+        }
+        
+        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern]) { (textNode, fragment, resolvedResult) in
             print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
         }
         let docP = ResolvingDocumentProcessor(resolver: ProteinDataBankResolver(), elementProcessors: [pdb])

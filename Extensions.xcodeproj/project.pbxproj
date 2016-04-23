@@ -47,6 +47,12 @@
 		5F44B8221CCAE7180047A4F0 /* SWXMLHash.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B8181CCACCE20047A4F0 /* SWXMLHash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F44B8231CCAE7260047A4F0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F1996AB1CB5B31D00B1C5DB /* WebKit.framework */; };
 		5F44B8251CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8241CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift */; };
+		5F44B8281CCAF86B0047A4F0 /* RateLimit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */; };
+		5F44B82A1CCAF87B0047A4F0 /* RateLimit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */; };
+		5F44B82B1CCAF87E0047A4F0 /* RateLimit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F44B82D1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml in Resources */ = {isa = PBXBuildFile; fileRef = 5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */; };
+		5F44B8311CCBA79A0047A4F0 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */; };
+		5F44B8331CCBA7A20047A4F0 /* OHHTTPStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; };
 		5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */; };
 		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -111,6 +117,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5F44B8331CCBA7A20047A4F0 /* OHHTTPStubs.framework in Copy Frameworks */,
+				5F44B82B1CCAF87E0047A4F0 /* RateLimit.framework in Copy Frameworks */,
 				5F34E2C51CC7E8F200A5DAF1 /* RegexKitLite.framework in Copy Frameworks */,
 				5F7EE4AE1CBAD43E00F4B7EA /* Freddy.framework in Copy Frameworks */,
 				5F7EE4AF1CBAD44100F4B7EA /* Extensions.framework in Copy Frameworks */,
@@ -163,6 +171,11 @@
 		5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		5F44B8201CCAD56E0047A4F0 /* NSURLRequest+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLRequest+Extensions.swift"; sourceTree = "<group>"; };
 		5F44B8241CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitalObjectIdentifierResolver.swift; sourceTree = "<group>"; };
+		5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RateLimit.framework; path = ../../Build/Mac/RateLimit.framework; sourceTree = "<group>"; };
+		5F44B8271CCAF86B0047A4F0 /* RateLimit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RateLimit.framework.dSYM; path = ../../Build/Mac/RateLimit.framework.dSYM; sourceTree = "<group>"; };
+		5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "1HIV.rcsb-xml"; sourceTree = "<group>"; };
+		5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Build/Mac/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		5F44B8301CCBA79A0047A4F0 /* OHHTTPStubs.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OHHTTPStubs.framework.dSYM; path = ../../Build/Mac/OHHTTPStubs.framework.dSYM; sourceTree = "<group>"; };
 		5F571C7A1CC32774003471D5 /* MPTimer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPTimer.framework; path = Carthage/Build/Mac/MPTimer.framework; sourceTree = "<group>"; };
 		5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPTimer.framework.dSYM; path = Carthage/Build/Mac/MPTimer.framework.dSYM; sourceTree = "<group>"; };
 		5F571C901CC41942003471D5 /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessorError.swift; sourceTree = "<group>"; };
@@ -191,6 +204,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F44B8281CCAF86B0047A4F0 /* RateLimit.framework in Frameworks */,
 				5F44B81A1CCACCE20047A4F0 /* SWXMLHash.framework in Frameworks */,
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
 				5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */,
@@ -204,6 +218,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F44B8311CCBA79A0047A4F0 /* OHHTTPStubs.framework in Frameworks */,
+				5F44B82A1CCAF87B0047A4F0 /* RateLimit.framework in Frameworks */,
 				5F1996BA1CB5B58400B1C5DB /* Extensions.framework in Frameworks */,
 				5F34E2C31CC7E88D00A5DAF1 /* RegexKitLite.framework in Frameworks */,
 				5F44B81D1CCACD000047A4F0 /* SWXMLHash.framework in Frameworks */,
@@ -245,6 +261,7 @@
 		5F19968D1CB5AE8F00B1C5DB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */,
 				5F34E2D01CC7FD7E00A5DAF1 /* Model Protocols */,
 				5F34E2C81CC7EDE000A5DAF1 /* Resolvers */,
 				5F571C921CC41975003471D5 /* HTML Processor */,
@@ -255,13 +272,6 @@
 				5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */,
 				5F7EE4851CB8374F00F4B7EA /* Procedure.swift */,
 				5F7EE4871CB845B800F4B7EA /* Evaluators */,
-				5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */,
-				5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */,
-				5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */,
-				5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */,
-				5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */,
-				5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */,
-				5F44B8201CCAD56E0047A4F0 /* NSURLRequest+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -272,6 +282,7 @@
 				5F34E2BF1CC7E84B00A5DAF1 /* biolit.html */,
 				5F1996B71CB5B58400B1C5DB /* ExtensionsTests.swift */,
 				5F1996B91CB5B58400B1C5DB /* Info.plist */,
+				5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */,
 			);
 			path = ExtensionsTests;
 			sourceTree = "<group>";
@@ -279,6 +290,10 @@
 		5F1996D71CB7E1EC00B1C5DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */,
+				5F44B8301CCBA79A0047A4F0 /* OHHTTPStubs.framework.dSYM */,
+				5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */,
+				5F44B8271CCAF86B0047A4F0 /* RateLimit.framework.dSYM */,
 				5F44B8181CCACCE20047A4F0 /* SWXMLHash.framework */,
 				5F44B8191CCACCE20047A4F0 /* SWXMLHash.framework.dSYM */,
 				5F34E2C11CC7E88D00A5DAF1 /* RegexKitLite.framework */,
@@ -324,6 +339,20 @@
 				5F34E2C61CC7EBFC00A5DAF1 /* ResolvingProcessor.swift */,
 			);
 			name = "Processor Implementations";
+			sourceTree = "<group>";
+		};
+		5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */,
+				5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */,
+				5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */,
+				5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */,
+				5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */,
+				5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */,
+				5F44B8201CCAD56E0047A4F0 /* NSURLRequest+Extensions.swift */,
+			);
+			name = "Cocoa Extensions";
 			sourceTree = "<group>";
 		};
 		5F571C921CC41975003471D5 /* HTML Processor */ = {
@@ -526,6 +555,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F44B82D1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml in Resources */,
 				5F34E2C01CC7E84B00A5DAF1 /* biolit.html in Resources */,
 				5F34E2C41CC7E88D00A5DAF1 /* RegexKitLite.framework.dSYM in Resources */,
 			);

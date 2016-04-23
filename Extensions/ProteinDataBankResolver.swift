@@ -20,12 +20,19 @@ public struct ProteinDataBankIdentifier:Resolvable {
             throw ResolvingError.NotResolvable("\(identifier) contains lowercase characters and therefore cannot be a PDB ID.")
         }
         
-        guard (identifier as NSString).isMatchedByRegex("[\\S,\\d]{4,4}") else {
+        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.identifierValidationPattern) else {
             throw ResolvingError.NotResolvable("\(identifier) does not look like a PDB ID.")
         }
         
         self.identifier = identifier
     }
+    
+    // Some examples of matching strings:
+    // PDB 1HIV
+    // DB ID 1HIV
+    public static let capturingPattern:String = "PDB\\s{0,1}I{0,1}D{0,1}\\s{0,1}([1-9][A-Za-z0-9]{3})"
+    
+    private static let identifierValidationPattern:String = "[1-9][A-Za-z0-9]{3}"
 }
 
 public struct ProteinDataBankResolver:Resolver {
@@ -61,7 +68,7 @@ public struct ProteinDataBankResolver:Resolver {
         guard let components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: false) else {
             throw ResolvingError.InvalidResolverURL(baseURL)
         }
-        components.query = "structuredId=\(PDBID)"
+        components.query = "structureId=\(PDBID.identifier)"
         guard let queryURL = components.URL else {
             throw ResolvingError.InvalidResolverURLComponents(components)
         }
@@ -75,6 +82,8 @@ public struct ProteinDataBankResolver:Resolver {
         let doc = SWXMLHash.parse(response.data)
         
         let record = doc["PDBdescription"]["PDB"]
+        
+        print(record)
         guard let recordElem = record.element else {
             throw ResolvingError.UnexpectedResponseObject(record)
         }

@@ -1,0 +1,4 @@
+<?xml version='1.0' standalone='no' ?>
+<PDBdescription>
+<PDB structureId="1HIV" title="CRYSTAL STRUCTURE OF A COMPLEX OF HIV-1 PROTEASE WITH A DIHYDROETHYLENE-CONTAINING INHIBITOR: COMPARISONS WITH MOLECULAR MODELING" pubmedId="1304383" pubmedCentralId="PMC2142164" expMethod="X-RAY DIFFRACTION" resolution="2.00" keywords="HYDROLASE/HYDROLASE INHIBITOR" nr_entities="1" nr_residues="198" nr_atoms="1665" deposition_date="1992-02-12" release_date="1993-10-31" last_modification_date="2011-07-13" structure_authors="Thanki, N., Wlodawer, A." citation_authors="Thanki, N., Rao, J.K., Foundling, S.I., Howe, W.J., Moon, J.B., Hui, J.O., Tomasselli, A.G., Heinrikson, R.L., Thaisrivongs, S., Wlodawer, A." status="CURRENT" />
+</PDBdescription>

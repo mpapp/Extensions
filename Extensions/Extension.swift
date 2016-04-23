@@ -51,6 +51,8 @@ private class ExtensionState {
     }
 }
 
+public typealias ProcedureHandler = (input:Processable?, output:Processable?) -> Void
+
 public final class Extension: ExtensionLike, Hashable, Equatable {
     public let identifier:String
     public let rootURL:NSURL
@@ -63,8 +65,7 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
     private static let timeoutInterval:NSTimeInterval = 10.0
     
     public func evaluate(input:Processable?,
-                         procedureHandler:(input:Processable?,
-                         output:Processable?) -> Void,
+                         procedureHandler:ProcedureHandler,
                          errorHandler:ExtensionErrorHandler) throws {
         let state = ExtensionState(procedures:self.procedures, processable: input, containingExtension: self, procedureHandler: procedureHandler)
         

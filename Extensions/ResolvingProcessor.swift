@@ -14,16 +14,17 @@ public struct ResolvableFragmentProcessor: FragmentProcessor {
     
     private let resolver:Resolver
     
-    public var tokenizingPatterns: [String] {
-        return ["\\s+"]
-    }
+    public let tokenizingPatterns: [String]
+    public let capturingPatterns: [String]
     
     public var producesNodesForReplacedResults: Bool {
         return false
     }
     
-    init(resolver:Resolver) {
+    init(resolver:Resolver, tokenizingPatterns:[String], capturingPatterns:[String]) {
         self.resolver = resolver
+        self.tokenizingPatterns = tokenizingPatterns
+        self.capturingPatterns = capturingPatterns
     }
     
     public func process(textFragment fragment: String) throws -> String {
@@ -52,9 +53,9 @@ public struct ResolvableElementProcessor: ElementProcessor {
     let fragmentProcessor:ResolvableFragmentProcessor
     let resolvedResultHandler: ResolvedResultHandler
     
-    public init(resolver:Resolver, resolvedResultHandler:ResolvedResultHandler) {
+    public init(resolver:Resolver, tokenizingPatterns:[String], capturingPatterns:[String], resolvedResultHandler:ResolvedResultHandler) {
         self.resolver = resolver
-        self.fragmentProcessor = ResolvableFragmentProcessor(resolver: self.resolver)
+        self.fragmentProcessor = ResolvableFragmentProcessor(resolver: self.resolver, tokenizingPatterns: tokenizingPatterns, capturingPatterns: capturingPatterns)
         self.resolvedResultHandler = resolvedResultHandler
     }
     
@@ -73,16 +74,25 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 continue
             }
             
-            do {
-                let resolvable:ResolvedResult = try self.fragmentProcessor.process(textFragment: stringValue)
-                self.resolvedResultHandler(textNode:c, fragment: stringValue, resolvedResult: resolvable)
-            }
-            catch ResolvingError.NotResolvable(_) {
-                // specifically, don't log these errors.
-                // print("\(fp) failed to resolve: \(str)")
-            }
-            catch {
-                print("\(self.fragmentProcessor) failed to resolve: \(error)")
+            let splitStrings = stringValue.componentsSeparated(tokenizingPatterns: self.fragmentProcessor.tokenizingPatterns)
+            
+            for splitStr in splitStrings {
+                
+                let captures = splitStr.componentsCaptured(capturingPatterns: self.fragmentProcessor.capturingPatterns)
+                
+                for capture in captures {
+                    do {
+                        let resolvable:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
+                        self.resolvedResultHandler(textNode:c, fragment: splitStr, resolvedResult: resolvable)
+                    }
+                    catch ResolvingError.NotResolvable(_) {
+                        // specifically, don't log these errors.
+                        // print("\(fp) failed to resolve: \(str)")
+                    }
+                    catch {
+                        print("\(self.fragmentProcessor) failed to resolve: \(error)")
+                    }
+                }
             }
         }
         
