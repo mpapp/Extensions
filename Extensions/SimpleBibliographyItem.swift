@@ -9,7 +9,7 @@
 import Foundation
 import Freddy
 
-@objc public class SimpleBibliographyItem: NSObject, BibliographyItem, JSONEncodable {
+@objc public class SimpleBibliographyItem: NSObject, BibliographyItem, JSONDecodable, JSONEncodable {
 
     public var abstract:String? = nil
     
@@ -139,9 +139,122 @@ import Freddy
     
     public var institution:String? = nil
     
-    //public func toJSON() -> JSON {
-    //
-    //}
+    public func toJSON() -> JSON {
+        let data = try! NSJSONSerialization.dataWithJSONObject(self.dictionaryRepresentation(), options: [])
+        return try! JSON(data:data)
+    }
+    
+    public required init(json: JSON) throws {
+        do { self.abstract = try json.string("abstract") } catch {}
+        do { self.annote = try json.string("annote") } catch {}
+        do { self.archive = try json.string("archive") } catch {}
+        do { self.archiveLocation = try json.string("archive-location") } catch {}
+        do { self.archivePlace = try json.string("archive-place") } catch {}
+        do { self.authority = try json.string("authority") } catch {}
+        do { self.callNumber = try json.string("call-number") } catch {}
+        
+        do {
+            if let chapterNumber = Int(try json.string("chapter-number")) {
+                self.chapterNumber = chapterNumber
+            }
+        } catch {}
+        
+        do { self.citationLabel = try json.string("citation-label") } catch {}
+        do { self.collectionEditor = try json.string("collection-editor") } catch {}
+        do { self.collectionNumber = try json.string("collection-number") } catch {}
+        do { self.collectionTitle = try json.string("collection-title") } catch {}
+        do { self.composer = try json.string("composer") } catch {}
+        
+        do { self.containerAuthor = try json.string("container-author") } catch {}
+        do { self.containerTitle = try json.string("container-title") } catch {}
+        do { self.containerTitleShort = try json.string("container-title-short") } catch {}
+        do { self.dimensions = try json.string("dimensions") } catch {}
+        do { self.director = try json.string("director") } catch {}
+        do { self.DOI = try json.string("DOI") } catch {}
+        
+        do {
+            if let edition = Int(try json.string("edition")) {
+                self.edition = edition
+            }
+        } catch {}
+            
+        do { self.editor = try json.string("editor") } catch {}
+        do { self.editorialDirector = try json.string("editorial-director") } catch {}
+        do { self.event = try json.string("event") } catch {}
+        do { self.eventPlace = try json.string("event-place") } catch {}
+        do { self.genre = try json.string("genre") } catch {}
+        do { self.illustrator = try json.string("illustrator") } catch {}
+        do { self.interviewer = try json.string("interviewer") } catch {}
+        do { self.ISBN = try json.string("ISBN") } catch {}
+        do { self.ISSN = try json.string("ISSN") } catch {}
+        
+        do {
+            if let issue = Int(try json.string(issue)) {
+                self.issue = issue
+            }
+        } catch {}
+            
+        do { self.jurisdiction = try json.string("jurisdiction")
+        do { self.keyword = try json.string("keyword")
+        do { self.language = try json.string("language")
+        do { self.locator = try json.string("locator")
+        do { self.medium = try json.string("medium")
+        do { self.note = try json.string("note")
+        
+        do {
+            if let number = Int(try json.string("number")) {
+                self.number = number
+            }
+        } catch {}
+        
+        do {
+            if let numberOfPages = Int(try json.string("number-of-pages")) {
+                self.numberOfPages = numberOfPages
+            }
+        } catch {}
+        
+        do {
+            if let numberOfVolumes = Int(try json.string("number-of-volumes")) {
+                self.numberOfVolumes = numberOfVolumes
+            }
+        } catch {}
+        
+        do { self.originalPublisher = try json.string("original-publisher") } catch {}
+        do { self.originalPublisherPlace = try json.string("original-publisher-place") } catch {}
+        do { self.originalTitle = try json.string("original-title") } catch {}
+        do { self.page = try json.string("page") } catch {}
+        do { self.pageFirst = try json.string("page-first") } catch {}
+        do { self.PMCID = try json.string("PMCID") } catch {}
+        do { self.PMID = try json.string("PMID") } catch {}
+        do { self.publisher = try json.string("publisher") } catch {}
+        do { self.publisherPlace = try json.string("publisher-place") } catch {}
+        do { self.recipient = try json.string("recipient") } catch {}
+        do { self.references = try json.string("references") } catch {} } catch {}
+        do { self.reviewedAuthor = try json.string("reviewed-author") } catch {}
+        do { self.reviewedTitle = try json.string("reviewed-title") } catch {}
+        do { self.scale = try json.string("scale") } catch {}
+        do { self.section = try json.string("section") } catch {}
+        do { self.source = try json.string("source") } catch {}
+        do { self.status = try json.string("status") } catch {}
+        do { self.title = try json.string("title") } catch {}
+        do { self.titleShort = try json.string("title-short") } catch {}
+        do { self.translator = try json.string("translator") } catch {}
+        
+        do {
+            if let url = NSURL(string:try json.string("URL")) {
+                self.URL = url
+            }
+        } catch {}
+            
+        do { self.version = try json.string("version") } catch {}
+        do { self.volume = try json.string("volume") } catch {}
+        do { self.yearSuffix = try json.string("year-suffix") } catch {}
+        do { self.institution = try json.string("institution") } catch {}
+    }
+    
+    public override required init() {
+        super.init()
+    }
     
     public func dictionaryRepresentation() -> [String : AnyObject] {
         var dict = [String:AnyObject]()
@@ -206,7 +319,7 @@ import Freddy
         if let title = title { dict["title"] = title }
         if let titleShort = titleShort { dict["title-short"] = titleShort }
         if let translator = translator { dict["translator"] = translator }
-        if let URL = URL { dict["URL"] = URL }
+        if let URL = URL { dict["URL"] = URL.absoluteString }
         if let version = version { dict["version"] = version }
         if let volume = volume { dict["volume"] = volume }
         if let yearSuffix = yearSuffix { dict["year-suffix"] = yearSuffix }

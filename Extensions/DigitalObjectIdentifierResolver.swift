@@ -12,12 +12,14 @@ public struct DigitalObjectIdentifier:Resolvable {
     public let identifier:String
     
     public init(identifier: String) throws {
-        guard (identifier as NSString).isMatchedByRegex("\\b(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![\"&\\'<>])[[:graph:]])+)\\b") else {
+        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.capturingPattern) else {
             throw ResolvingError.NotResolvable("\(identifier) does not look like a PDB ID.")
         }
         
         self.identifier = identifier
     }
+    
+    public static let capturingPattern = "\\b(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![\"&\\'<>])[[:graph:]])+)\\b"
 }
 
 public struct DigitalObjectIdentifierResolver:Resolver {
@@ -55,7 +57,12 @@ public struct DigitalObjectIdentifierResolver:Resolver {
             throw ResolvingError.InvalidResolverURLComponents(components)
         }
         
-        let response = try NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: queryURL))
+        let req = NSMutableURLRequest(URL: queryURL)
+        req.setValue("application/citeproc+json", forHTTPHeaderField: "Accept")
+        
+        let response = try NSURLConnection.sendSynchronousRequest(req)
+        
+        
         
         guard response.statusCode.marksSuccess else {
             throw ResolvingError.UnexpectedStatusCode(response.statusCode)
