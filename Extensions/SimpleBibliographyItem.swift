@@ -212,6 +212,6 @@ import Freddy
         if let yearSuffix = yearSuffix { dict["year-suffix"] = yearSuffix }
         if let institution = institution { dict["institution"] = institution }
         
-        return [:]
+        return dict
     }
 }
