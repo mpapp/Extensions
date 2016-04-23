@@ -92,7 +92,7 @@ public struct ProteinDataBankResolver:Resolver {
             throw ResolvingError.MissingIdentifier(recordElem)
         }
         
-        let result = PubMedResolver().resolve(PMID)
+        let result = try PubMedResolver().resolve(PMID)
         
         switch result {
         case .BibliographyItems(let items):

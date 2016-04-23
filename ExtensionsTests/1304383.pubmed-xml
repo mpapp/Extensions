@@ -1,0 +1,317 @@
+<?xml version="1.0"?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2016//EN" "http://www.ncbi.nlm.nih.gov/corehtml/query/DTD/pubmed_160101.dtd">
+<PubmedArticleSet>
+	<PubmedArticle>
+		<MedlineCitation Owner="NLM" Status="MEDLINE">
+			<PMID Version="1">1304383</PMID>
+			<DateCreated>
+				<Year>1993</Year>
+				<Month>07</Month>
+				<Day>08</Day>
+			</DateCreated>
+			<DateCompleted>
+				<Year>1993</Year>
+				<Month>07</Month>
+				<Day>08</Day>
+			</DateCompleted>
+			<DateRevised>
+				<Year>2010</Year>
+				<Month>09</Month>
+				<Day>07</Day>
+			</DateRevised>
+			<Article PubModel="Print">
+				<Journal>
+					<ISSN IssnType="Print">0961-8368</ISSN>
+					<JournalIssue CitedMedium="Print">
+						<Volume>1</Volume>
+						<Issue>8</Issue>
+						<PubDate>
+							<Year>1992</Year>
+							<Month>Aug</Month>
+						</PubDate>
+					</JournalIssue>
+					<Title>Protein science : a publication of the Protein Society</Title>
+					<ISOAbbreviation>Protein Sci.</ISOAbbreviation>
+				</Journal>
+				<ArticleTitle>Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.</ArticleTitle>
+				<Pagination>
+					<MedlinePgn>1061-72</MedlinePgn>
+				</Pagination>
+				<Abstract>
+					<AbstractText>The structure of a crystal complex of recombinant human immunodeficiency virus type 1 (HIV-1) protease with a peptide-mimetic inhibitor containing a dihydroxyethylene isostere insert replacing the scissile bond has been determined. The inhibitor is Noa-His-Hch psi [CH(OH)CH(OH)]Vam-Ile-Amp (U-75875), and its Ki for inhibition of the HIV-1 protease is &lt; 1.0 nM (Noa = 1-naphthoxyacetyl, Hch = a hydroxy-modified form of cyclohexylalanine, Vam = a hydroxy-modified form of valine, Amp = 2-pyridylmethylamine). The structure of the complex has been refined to a crystallographic R factor of 0.169 at 2.0 A resolution by using restrained least-squares procedures. Root mean square deviations from ideality are 0.02 A and 2.4 degrees, for bond lengths and angles, respectively. The bound inhibitor diastereomer has the R configurations at both of the hydroxyl chiral carbon atoms. One of the diol hydroxyl groups is positioned such that it forms hydrogen bonds with both the active site aspartates, whereas the other interacts with only one of them. Comparison of this X-ray structure with a model-built structure of the inhibitor, published earlier, reveals similar positioning of the backbone atoms and of the side-chain atoms in the P2-P2' region, where the interaction with the protein is strongest. However, the X-ray structure and the model differ considerably in the location of the P3 and P3' end groups, and also in the positioning of the second of the two central hydroxyl groups. Reconstruction of the central portion of the model revealed the source of the hydroxyl discrepancy, which, when corrected, provided a P1-P1' geometry very close to that seen in the X-ray structure.</AbstractText>
+				</Abstract>
+				<AuthorList CompleteYN="Y">
+					<Author ValidYN="Y">
+						<LastName>Thanki</LastName>
+						<ForeName>N</ForeName>
+						<Initials>N</Initials>
+						<AffiliationInfo>
+							<Affiliation>Macromolecular Structure Laboratory, NCI-Frederick Cancer Research and Development Center, ABL-Basic Research Program, Maryland 21702.</Affiliation>
+						</AffiliationInfo>
+					</Author>
+					<Author ValidYN="Y">
+						<LastName>Rao</LastName>
+						<ForeName>J K</ForeName>
+						<Initials>JK</Initials>
+					</Author>
+					<Author ValidYN="Y">
+						<LastName>Foundling</LastName>
+						<ForeName>S I</ForeName>
+						<Initials>SI</Initials>
+					</Author>
+					<Author ValidYN="Y">
+						<LastName>Howe</LastName>
+						<ForeName>W J</ForeName>
+						<Initials>WJ</Initials>
+					</Author>
+					<Author ValidYN="Y">
+						<LastName>Moon</LastName>
+						<ForeName>J B</ForeName>
+						<Initials>JB</Initials>
+					</Author>
+					<Author ValidYN="Y">
+						<LastName>Hui</LastName>
+						<ForeName>J O</ForeName>
+						<Initials>JO</Initials>
+					</Author>
+					<Author ValidYN="Y">
+						<LastName>Tomasselli</LastName>
+						<ForeName>A G</ForeName>
+						<Initials>AG</Initials>
+					</Author>
+					<Author ValidYN="Y">
+						<LastName>Heinrikson</LastName>
+						<ForeName>R L</ForeName>
+						<Initials>RL</Initials>
+					</Author>
+					<Author ValidYN="Y">
+						<LastName>Thaisrivongs</LastName>
+						<ForeName>S</ForeName>
+						<Initials>S</Initials>
+					</Author>
+					<Author ValidYN="Y">
+						<LastName>Wlodawer</LastName>
+						<ForeName>A</ForeName>
+						<Initials>A</Initials>
+					</Author>
+				</AuthorList>
+				<Language>eng</Language>
+				<GrantList CompleteYN="Y">
+					<Grant>
+						<GrantID>N01-CO-74101</GrantID>
+						<Acronym>CO</Acronym>
+						<Agency>NCI NIH HHS</Agency>
+						<Country>United States</Country>
+					</Grant>
+				</GrantList>
+				<PublicationTypeList>
+					<PublicationType UI="D003160">Comparative Study</PublicationType>
+					<PublicationType UI="D016428">Journal Article</PublicationType>
+					<PublicationType UI="D013487">Research Support, U.S. Gov't, P.H.S.</PublicationType>
+				</PublicationTypeList>
+			</Article>
+			<MedlineJournalInfo>
+				<Country>UNITED STATES</Country>
+				<MedlineTA>Protein Sci</MedlineTA>
+				<NlmUniqueID>9211750</NlmUniqueID>
+				<ISSNLinking>0961-8368</ISSNLinking>
+			</MedlineJournalInfo>
+			<ChemicalList>
+				<Chemical>
+					<RegistryNumber>0</RegistryNumber>
+					<NameOfSubstance UI="D000998">Antiviral Agents</NameOfSubstance>
+				</Chemical>
+				<Chemical>
+					<RegistryNumber>0</RegistryNumber>
+					<NameOfSubstance UI="D017320">HIV Protease Inhibitors</NameOfSubstance>
+				</Chemical>
+				<Chemical>
+					<RegistryNumber>0</RegistryNumber>
+					<NameOfSubstance UI="D009842">Oligopeptides</NameOfSubstance>
+				</Chemical>
+				<Chemical>
+					<RegistryNumber>0</RegistryNumber>
+					<NameOfSubstance UI="D011994">Recombinant Proteins</NameOfSubstance>
+				</Chemical>
+				<Chemical>
+					<RegistryNumber>112190-24-6</RegistryNumber>
+					<NameOfSubstance UI="C065978">U 75875</NameOfSubstance>
+				</Chemical>
+				<Chemical>
+					<RegistryNumber>EC 3.4.23.-</RegistryNumber>
+					<NameOfSubstance UI="D016333">HIV Protease</NameOfSubstance>
+				</Chemical>
+			</ChemicalList>
+			<CitationSubset>IM</CitationSubset>
+			<CitationSubset>X</CitationSubset>
+			<CommentsCorrectionsList>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Proc Natl Acad Sci U S A. 1975 Jan;72(1):398-9</RefSource>
+					<PMID Version="1">16592216</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Methods Enzymol. 1985;115:252-70</RefSource>
+					<PMID Version="1">3841182</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Proteins. 1991;11(4):314-28</RefSource>
+					<PMID Version="1">1758885</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>J Med Chem. 1991 Aug;34(8):2344-56</RefSource>
+					<PMID Version="1">1875334</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>J Med Chem. 1991 Nov;34(11):3340-2</RefSource>
+					<PMID Version="1">1956054</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Biochemistry. 1991 Feb 12;30(6):1600-9</RefSource>
+					<PMID Version="1">1993177</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Science. 1990 Aug 3;249(4968):527-33</RefSource>
+					<PMID Version="1">2200122</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>FEBS Lett. 1990 Aug 20;269(1):269-72</RefSource>
+					<PMID Version="1">2201571</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>J Biol Chem. 1990 Aug 25;265(24):14209-19</RefSource>
+					<PMID Version="1">2201682</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Acta Crystallogr A. 1990 Jul 1;46 ( Pt 7):585-93</RefSource>
+					<PMID Version="1">2206482</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Proteins. 1990;8(1):62-81</RefSource>
+					<PMID Version="1">2217165</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Proc Natl Acad Sci U S A. 1990 Oct;87(19):7472-6</RefSource>
+					<PMID Version="1">2217178</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Proc Natl Acad Sci U S A. 1990 Nov;87(22):8805-9</RefSource>
+					<PMID Version="1">2247451</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Science. 1989 Aug 11;245(4918):616-21</RefSource>
+					<PMID Version="1">2548279</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Nature. 1989 Feb 16;337(6208):615-20</RefSource>
+					<PMID Version="1">2645523</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>EMBO J. 1989 Aug;8(8):2179-88</RefSource>
+					<PMID Version="1">2676515</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Nature. 1989 Nov 16;342(6247):299-302</RefSource>
+					<PMID Version="1">2682266</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Science. 1989 Dec 1;246(4934):1149-52</RefSource>
+					<PMID Version="1">2686029</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Methods Enzymol. 1985;115:157-71</RefSource>
+					<PMID Version="1">3841179</PMID>
+				</CommentsCorrections>
+				<CommentsCorrections RefType="Cites">
+					<RefSource>Science. 1987 Jan 23;235(4787):458-60</RefSource>
+					<PMID Version="1">17810339</PMID>
+				</CommentsCorrections>
+			</CommentsCorrectionsList>
+			<MeshHeadingList>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D000595">Amino Acid Sequence</DescriptorName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D000998">Antiviral Agents</DescriptorName>
+					<QualifierName MajorTopicYN="Y" UI="Q000737">chemistry</QualifierName>
+					<QualifierName MajorTopicYN="N" UI="Q000494">pharmacology</QualifierName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D001665">Binding Sites</DescriptorName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D016333">HIV Protease</DescriptorName>
+					<QualifierName MajorTopicYN="Y" UI="Q000737">chemistry</QualifierName>
+					<QualifierName MajorTopicYN="N" UI="Q000378">metabolism</QualifierName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D017320">HIV Protease Inhibitors</DescriptorName>
+					<QualifierName MajorTopicYN="Y" UI="Q000737">chemistry</QualifierName>
+					<QualifierName MajorTopicYN="N" UI="Q000494">pharmacology</QualifierName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D015497">HIV-1</DescriptorName>
+					<QualifierName MajorTopicYN="N" UI="Q000201">enzymology</QualifierName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D007700">Kinetics</DescriptorName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D008958">Models, Molecular</DescriptorName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D008969">Molecular Sequence Data</DescriptorName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D015394">Molecular Structure</DescriptorName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D009842">Oligopeptides</DescriptorName>
+					<QualifierName MajorTopicYN="N" UI="Q000737">chemistry</QualifierName>
+					<QualifierName MajorTopicYN="Y" UI="Q000494">pharmacology</QualifierName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="Y" UI="D011487">Protein Conformation</DescriptorName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D011994">Recombinant Proteins</DescriptorName>
+					<QualifierName MajorTopicYN="N" UI="Q000037">antagonists &amp; inhibitors</QualifierName>
+					<QualifierName MajorTopicYN="N" UI="Q000737">chemistry</QualifierName>
+				</MeshHeading>
+				<MeshHeading>
+					<DescriptorName MajorTopicYN="N" UI="D014961">X-Ray Diffraction</DescriptorName>
+				</MeshHeading>
+			</MeshHeadingList>
+			<OtherID Source="NLM">PMC2142164</OtherID>
+		</MedlineCitation>
+		<PubmedData>
+			<History>
+				<PubMedPubDate PubStatus="pubmed">
+					<Year>1992</Year>
+					<Month>8</Month>
+					<Day>1</Day>
+				</PubMedPubDate>
+				<PubMedPubDate PubStatus="medline">
+					<Year>1992</Year>
+					<Month>8</Month>
+					<Day>1</Day>
+					<Hour>0</Hour>
+					<Minute>1</Minute>
+				</PubMedPubDate>
+				<PubMedPubDate PubStatus="entrez">
+					<Year>1992</Year>
+					<Month>8</Month>
+					<Day>1</Day>
+					<Hour>0</Hour>
+					<Minute>0</Minute>
+				</PubMedPubDate>
+			</History>
+			<PublicationStatus>ppublish</PublicationStatus>
+			<ArticleIdList>
+				<ArticleId IdType="pubmed">1304383</ArticleId>
+				<ArticleId IdType="pmc">PMC2142164</ArticleId>
+				<ArticleId IdType="doi">10.1002/pro.5560010811</ArticleId>
+			</ArticleIdList>
+		</PubmedData>
+	</PubmedArticle>
+
+</PubmedArticleSet>

@@ -233,10 +233,10 @@ import Freddy
     // MARK -
 
     // An identifier for the source format (reverse domain notated UTI string for the format).
-    var sourceUTI:String? { get }
+    //var sourceUTI:String? { get }
 
     // An identifier for the originating source (e.g. bundle identifier for application, if available).
-    var sourceIdentifier:String? { get }
+    //var sourceIdentifier:String? { get }
 
     // An identifier for the object at its source (to allow recognising a record for re-importing if it has changed).
     //var originalIdentifier:String? { get }

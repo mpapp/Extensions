@@ -62,8 +62,13 @@ class ExtensionsTests: XCTestCase {
     
     func testProcessingResolvingPDBIdentifier() {
         
-        stub(isHost("www.rcsb.org")) { (_) -> OHHTTPStubsResponse in
+        stub(isHost("www.rcsb.org")) { (_) in
             let stubPath = OHPathForFile("1HIV.rcsb-xml", self.dynamicType)!
+            return fixture(stubPath, headers: [:])
+        }
+        
+        stub(isHost("eutils.ncbi.nlm.nih.gov")) { (_) in
+            let stubPath = OHPathForFile("1304383.pubmed-xml", self.dynamicType)!
             return fixture(stubPath, headers: [:])
         }
         

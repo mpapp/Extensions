@@ -18,6 +18,7 @@ enum ResolvingError:ErrorType {
     case UnexpectedResponseObject(Any)
     case MissingIdentifier(Any)
     case UnexpectedResolvedResponse(ResolvedResult)
+    case MissingQuery(NSURLComponents)
 }
 
 public protocol Resolvable {

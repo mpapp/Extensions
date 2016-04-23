@@ -8,133 +8,137 @@
 
 import Foundation
 
-@objc public class SimpleBibliographyItem: NSObject {
+@objc public class SimpleBibliographyItem: NSObject, BibliographyItem {
 
-    let abstract:String? = nil
+    public var abstract:String? = nil
     
-    let annote:String? = nil
+    public var annote:String? = nil
     
-    let archive:String? = nil
+    public var archive:String? = nil
     
-    let archiveLocation:String? = nil
+    public var archiveLocation:String? = nil
     
-    let archivePlace:String? = nil
+    public var archivePlace:String? = nil
     
-    let authority:String? = nil
+    public var authority:String? = nil
     
-    let callNumber:String? = nil
+    public var callNumber:String? = nil
     
-    let chapterNumber:Int = 0
+    public var chapterNumber:Int = 0
     
-    let citationLabel:String? = nil
+    public var citationLabel:String? = nil
     
-    let collectionEditor:String? = nil
+    public var collectionEditor:String? = nil
     
-    let collectionNumber:String? = nil
+    public var collectionNumber:String? = nil
     
-    let collectionTitle:String? = nil
+    public var collectionTitle:String? = nil
     
-    let composer:String? = nil
+    public var composer:String? = nil
     
-    let containerAuthor:String? = nil
+    public var containerAuthor:String? = nil
     
-    let containerTitle:String? = nil
+    public var containerTitle:String? = nil
     
-    let containerTitleShort:String? = nil
+    public var containerTitleShort:String? = nil
     
-    let dimensions:String? = nil
+    public var dimensions:String? = nil
     
-    let director:String? = nil
+    public var director:String? = nil
     
-    let DOI:String? = nil
+    public var DOI:String? = nil
     
-    let edition:Int = 0
+    public var edition:Int = 0
     
-    let editor:String? = nil
+    public var editor:String? = nil
     
-    let editorialDirector:String? = nil
+    public var editorialDirector:String? = nil
     
-    let event:String? = nil
+    public var event:String? = nil
     
-    let eventPlace:String? = nil
+    public var eventPlace:String? = nil
     
-    let genre:String? = nil
+    public var genre:String? = nil
     
-    let illustrator:String? = nil
+    public var illustrator:String? = nil
     
-    let interviewer:String? = nil
+    public var interviewer:String? = nil
     
-    let ISBN:String? = nil
+    public var ISBN:String? = nil
     
-    let ISSN:String? = nil
+    public var ISSN:String? = nil
     
-    let issue:Int = 0
+    public var issue:Int = 0
     
-    let jurisdiction:String? = nil
+    public var jurisdiction:String? = nil
     
-    let keyword:String? = nil
+    public var keyword:String? = nil
     
-    let language:String? = nil
+    public var language:String? = nil
     
-    let locator:String? = nil
+    public var locator:String? = nil
     
-    let medium:String? = nil
+    public var medium:String? = nil
     
-    let note:String? = nil
+    public var note:String? = nil
     
-    let number:Int = 0
+    public var number:Int = 0
     
-    let numberOfPages:Int = 0
+    public var numberOfPages:Int = 0
     
-    let numberOfVolumes:Int = 0
+    public var numberOfVolumes:Int = 0
     
-    let originalPublisher:String? = nil
+    public var originalPublisher:String? = nil
     
-    let originalPublisherPlace:String? = nil
+    public var originalPublisherPlace:String? = nil
     
-    let originalTitle:String? = nil
+    public var originalTitle:String? = nil
     
-    let page:String? = nil
+    public var page:String? = nil
     
-    let pageFirst:String? = nil
+    public var pageFirst:String? = nil
     
-    let PMCID:String? = nil
+    public var PMCID:String? = nil
     
-    let PMID:String? = nil
+    public var PMID:String? = nil
     
-    let publisher:String? = nil
+    public var publisher:String? = nil
     
-    let publisherPlace:String? = nil
+    public var publisherPlace:String? = nil
     
-    let recipient:String? = nil
+    public var recipient:String? = nil
     
-    let references:String? = nil
+    public var references:String? = nil
     
-    let reviewedAuthor:String? = nil
+    public var reviewedAuthor:String? = nil
     
-    let reviewedTitle:String? = nil
+    public var reviewedTitle:String? = nil
      
-    let scale:String? = nil
+    public var scale:String? = nil
     
-    let section:String? = nil
+    public var section:String? = nil
     
-    let source:String? = nil
+    public var source:String? = nil
     
-    let status:String? = nil
+    public var status:String? = nil
     
-    let title:String? = nil
+    public var title:String? = nil
     
-    let titleShort:String? = nil
+    public var titleShort:String? = nil
     
-    let translator:String? = nil
+    public var translator:String? = nil
     
-    let URL:NSURL? = nil
+    public var URL:NSURL? = nil
     
-    let version:String? = nil
+    public var version:String? = nil
     
-    let volume:String? = nil
+    public var volume:String? = nil
     
-    let yearSuffix:String? = nil
+    public var yearSuffix:String? = nil
     
-    let institution:String? = nil
+    public var institution:String? = nil
+    
+    public func dictionaryRepresentation() -> [String : AnyObject] {
+        return [:]
+    }
 }
