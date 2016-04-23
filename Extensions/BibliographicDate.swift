@@ -8,6 +8,12 @@
 
 import Foundation
 
+@objc public enum BibliographicDateValidationError:UInt, ErrorType {
+    case InvalidComponentCount = 1
+    case InvalidComponentType = 2
+    case MissingRequiredComponent = 3
+};
+
 @objc public enum BibliographicDatePart:UInt {
     case Year = 0
     case Month = 1
@@ -26,14 +32,17 @@ import Foundation
 
     var circa:Bool { get }
     
-    var beginDateParts:[AnyObject] { get }
+    var dateParts:[AnyObject]? { get }
+    
+    var beginDateParts:[AnyObject]? { get }
 
-    var endDateParts:[AnyObject] { get }
+    var endDateParts:[AnyObject]? { get }
 
-    var raw:String { get }
+    var raw:String? { get }
 
     var season:BibliographicDateSeason { get }
 
-    var seasonLiteral:String { get }
+    var seasonLiteral:String? { get }
     
+    var literal:String? { get }
 }

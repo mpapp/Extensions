@@ -58,6 +58,7 @@
 		5F44B83A1CCBCCA10047A4F0 /* BibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */; };
 		5F44B83C1CCBCD480047A4F0 /* SimpleBibliographicName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */; };
 		5F44B83E1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B83D1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift */; };
+		5F44B8441CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */; };
 		5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; };
 		5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */; };
 		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -186,6 +187,7 @@
 		5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BibliographicDate.swift; sourceTree = "<group>"; };
 		5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBibliographicName.swift; sourceTree = "<group>"; };
 		5F44B83D1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBibliographicDate.swift; sourceTree = "<group>"; };
+		5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "10.1038-nrd842.citeproc-json"; sourceTree = "<group>"; };
 		5F571C7A1CC32774003471D5 /* MPTimer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPTimer.framework; path = Carthage/Build/Mac/MPTimer.framework; sourceTree = "<group>"; };
 		5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPTimer.framework.dSYM; path = Carthage/Build/Mac/MPTimer.framework.dSYM; sourceTree = "<group>"; };
 		5F571C901CC41942003471D5 /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessorError.swift; sourceTree = "<group>"; };
@@ -290,11 +292,12 @@
 		5F1996B61CB5B58400B1C5DB /* ExtensionsTests */ = {
 			isa = PBXGroup;
 			children = (
+				5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */,
 				5F34E2BF1CC7E84B00A5DAF1 /* biolit.html */,
-				5F1996B71CB5B58400B1C5DB /* ExtensionsTests.swift */,
 				5F1996B91CB5B58400B1C5DB /* Info.plist */,
-				5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */,
 				5F44B8341CCBAABB0047A4F0 /* 1304383.pubmed-xml */,
+				5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */,
+				5F1996B71CB5B58400B1C5DB /* ExtensionsTests.swift */,
 			);
 			path = ExtensionsTests;
 			sourceTree = "<group>";
@@ -335,13 +338,13 @@
 		5F34E2D01CC7FD7E00A5DAF1 /* Model Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */,
+				5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */,
 				5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */,
+				5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */,
+				5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */,
 				5F44B8081CCA7CB50047A4F0 /* Identifiable.swift */,
 				5F44B8061CCA7C940047A4F0 /* Mathematical.swift */,
-				5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */,
-				5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */,
-				5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */,
-				5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */,
 			);
 			name = "Model Protocols";
 			sourceTree = "<group>";
@@ -578,6 +581,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F44B8441CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json in Resources */,
 				5F44B82D1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml in Resources */,
 				5F44B8351CCBAABB0047A4F0 /* 1304383.pubmed-xml in Resources */,
 				5F34E2C01CC7E84B00A5DAF1 /* biolit.html in Resources */,

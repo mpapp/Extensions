@@ -61,7 +61,6 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testProcessingResolvingPDBIdentifier() {
-        
         stub(isHost("www.rcsb.org")) { (_) in
             let stubPath = OHPathForFile("1HIV.rcsb-xml", self.dynamicType)!
             return fixture(stubPath, headers: [:])
@@ -73,6 +72,13 @@ class ExtensionsTests: XCTestCase {
         }
         
         let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern]) { (textNode, fragment, resolvedResult) in
+            switch resolvedResult {
+            case .BibliographyItems(let items):
+                XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
+                XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
+            default:
+                XCTFail("Failed to resolve a bibliography item for \(fragment)")
+            }
             print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
         }
         let docP = ResolvingDocumentProcessor(resolver: ProteinDataBankResolver(), elementProcessors: [pdb])
@@ -93,6 +99,21 @@ class ExtensionsTests: XCTestCase {
         catch {
             XCTFail("Failed to process document from URL \(URL).")
         }
+    }
     
+    func testResolvingDOI() {
+        stub(isHost("dx.doi.org")) { (_) in
+            let stubPath = OHPathForFile("10.1038-nrd842.citeproc-json", self.dynamicType)!
+            return fixture(stubPath, headers: [:])
+        }
+        
+        let DOIResolver = DigitalObjectIdentifierResolver()
+        
+        switch try! DOIResolver.resolve("10.1038/nrd84") {
+        case .BibliographyItems(let items):
+            XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
+        default:
+            XCTFail("Failed to parse bibliography items")
+        }
     }
 }

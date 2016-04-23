@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Freddy
 
 public struct DigitalObjectIdentifier:Resolvable {
     public let identifier:String
@@ -51,7 +52,7 @@ public struct DigitalObjectIdentifierResolver:Resolver {
         guard let components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: false) else {
             throw ResolvingError.InvalidResolverURL(baseURL)
         }
-        components.path = components.path?.stringByAppendingString(DOI.identifier)
+        components.path = components.path?.stringByAppendingString("/").stringByAppendingString(DOI.identifier)
         
         guard let queryURL = components.URL else {
             throw ResolvingError.InvalidResolverURLComponents(components)
@@ -62,12 +63,11 @@ public struct DigitalObjectIdentifierResolver:Resolver {
         
         let response = try NSURLConnection.sendSynchronousRequest(req)
         
-        
-        
         guard response.statusCode.marksSuccess else {
             throw ResolvingError.UnexpectedStatusCode(response.statusCode)
         }
         
-        return []
+        let json = try JSON(data: response.data)
+        return [try json.decode(type:SimpleBibliographyItem.self)]
     }
 }

@@ -18,7 +18,7 @@ import Freddy
     var abstract:String? { get }
 
     ///** Date the item has been accessed */
-    //@property (nullable) MPBibliographicDate *accessed;
+    var accessed:BibliographicDate?
 
     // Reader's notes about the item content.
     var annote:String? { get }
@@ -90,7 +90,7 @@ import Freddy
     var event:String? { get }
 
     // Date the related event took place.
-    //@property (nullable) MPBibliographicDate *eventDate;
+    var eventDate:BibliographicDate? { get }
 
     // Geographic location of the related event (e.g. "Amsterdam, the Netherlands") - backed by key 'event-place'.
     var eventPlace:String? { get }
@@ -114,7 +114,7 @@ import Freddy
     var issue:Int { get }
 
     // Date the item was issued/published.
-    //@property (nullable) MPBibliographicDate *issued;
+    var issued:BibliographicDate? { get }
 
     // Geographic scope of relevance (e.g. "US" for a US patent).
     var jurisdiction:String? { get }
@@ -144,7 +144,7 @@ import Freddy
     var numberOfVolumes:Int { get }
 
     // Date of the original version - backed by 'original-date' */
-    //@property (nullable) MPBibliographicDate *originalDate;
+    var originalDate:BibliographicDate? { get }
 
     // Original publisher, for items that have been republished by a different publisher - backed by 'original-publisher'.
     var originalPublisher:String? { get }
@@ -198,7 +198,7 @@ import Freddy
     var status:String? { get }
 
     // Date the item (e.g. a manuscript) has been submitted for publication.
-    //@property (nullable) MPBibliographicDate *submitted;
+    var submitted:BibliographicDate? { get }
 
     // title	[standard] primary title of the item.
     var title:String? { get }

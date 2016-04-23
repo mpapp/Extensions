@@ -1,0 +1,28 @@
+{
+"indexed": { "date-parts": [[2015, 12, 26]], "date-time": "2015-12-26T00:58:35Z", "timestamp": 1451091515816 },
+"reference-count": 0,
+"publisher": "Nature Publishing Group",
+"issue": "7",
+"published-print": { "date-parts": [[2002, 7]] },
+"DOI": "10.1038/nrd842",
+"type": "journal-article",
+"created": { "date-parts": [[2002, 7, 28]], "date-time": "2002-07-28T21:36:31Z", "timestamp": 1027892191000 },
+"page": "491-492",
+"source": "CrossRef",
+"title": "From the analyst's couch: Selective anticancer drugs",
+"prefix": "http://id.crossref.org/prefix/10.1038",
+"volume": "1",
+"author": [
+{ "affiliation": [ ], "family": "Atkins", "given": "Joshua H." },
+{ "affiliation": [ ], "family": "Gershell", "given": "Leland J." }
+],
+"member": "http://id.crossref.org/member/339",
+"container-title": "Nature Reviews Drug Discovery",
+"deposited": { "date-parts": [[2011, 4, 28]], "date-time": "2011-04-28T14:22:25Z", "timestamp": 1304000545000 },
+"score": 1,
+"subtitle": [ ],
+"issued": { "date-parts": [[2002, 7]] },
+"alternative-id": ["nrd842"],
+"URL": "http://dx.doi.org/10.1038/nrd842",
+"ISSN": ["1474-1784"]
+}
