@@ -44,7 +44,7 @@ public struct ProteinDataBankResolver:Resolver {
     }()
     
     public func resolve(identifier: String) throws -> ResolvedResult {
-        let items = try self.bibliographyItems(proteinDataID: identifier)
+        let items = try self.bibliographyItems(proteinDataID: ProteinDataBankIdentifier(identifier:identifier))
         guard items.count > 0 else {
             return ResolvedResult.None
         }
@@ -56,7 +56,7 @@ public struct ProteinDataBankResolver:Resolver {
         return []
     }
     
-    private func bibliographyItems(proteinDataID PDBID:String) throws -> [BibliographyItem] {
+    private func bibliographyItems(proteinDataID PDBID:ProteinDataBankIdentifier) throws -> [BibliographyItem] {
         let baseURL = self.baseURL()
         guard let components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: false) else {
             throw ResolvingError.InvalidResolverURL(baseURL)
@@ -66,15 +66,34 @@ public struct ProteinDataBankResolver:Resolver {
             throw ResolvingError.InvalidResolverURLComponents(components)
         }
         
-        var response: NSURLResponse?
-        let data = try NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: queryURL), returningResponse: &response)
-        guard let httpResponse = response as? NSHTTPURLResponse else {
-            throw ResolvingError.UnexpectedResponse(response)
-        }
-        guard httpResponse.statusCode.marksSuccess else {
-            throw ResolvingError.UnexpectedStatusCode(httpResponse.statusCode)
+        let response = try NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: queryURL))
+        
+        guard response.statusCode.marksSuccess else {
+            throw ResolvingError.UnexpectedStatusCode(response.statusCode)
         }
         
-        return []
+        let doc = SWXMLHash.parse(response.data)
+        
+        let record = doc["PDBdescription"]["PDB"]
+        guard let recordElem = record.element else {
+            throw ResolvingError.UnexpectedResponseObject(record)
+        }
+        
+        guard let PMID = recordElem.attributes["pubmedId"] else {
+            throw ResolvingError.MissingIdentifier(recordElem)
+        }
+        
+        let result = PubMedResolver().resolve(PMID)
+        
+        switch result {
+        case .BibliographyItems(let items):
+            return items
+            
+        case .None:
+            return []
+            
+        default:
+            throw ResolvingError.UnexpectedResolvedResponse(result)
+        }
     }
 }

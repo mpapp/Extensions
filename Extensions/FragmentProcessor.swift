@@ -27,15 +27,7 @@ public extension FragmentProcessor {
             return [node]
         }
         
-        var tokenizedStrings:[String] = [stringValue]
-        
-        for p in tokenizingPatterns {
-            let cs = (stringValue as NSString).componentsSeparatedByRegex(p) as! [String]
-            if cs.count > 1 {
-                tokenizedStrings = cs
-                break
-            }
-        }
+        let tokenizedStrings:[String] = stringValue.componentsSeparated(tokenizingPatterns:self.tokenizingPatterns)
         
         let fragments:[String] = try tokenizedStrings.map {
             let result = try self.process(textFragment: $0)

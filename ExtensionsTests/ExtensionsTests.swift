@@ -66,8 +66,21 @@ class ExtensionsTests: XCTestCase {
         let docP = ResolvingDocumentProcessor(resolver: ProteinDataBankResolver(), elementProcessors: [pdb])
         
         let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        let doc = try! NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions)
+        
+        var doc:NSXMLDocument? = nil
+        do {
+            doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML)
+        }
+        catch {
+            XCTFail("Failed to initialize test document from URL \(URL).")
+        }
+        
+        do {
+            try docP.processedDocument(inputDocument: doc!)
+        }
+        catch {
+            XCTFail("Failed to process document from URL \(URL).")
+        }
     
-        try! docP.processedDocument(inputDocument: doc)
     }
 }

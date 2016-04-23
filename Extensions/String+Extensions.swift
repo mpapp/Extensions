@@ -25,4 +25,17 @@ extension String {
         
         return true
     }
+    
+    func componentsSeparated(tokenizingPatterns patterns:[String]) -> [String] {
+        var tokenizedStrings = [self]
+        for p in patterns {
+            let cs = (self as NSString).componentsSeparatedByRegex(p) as! [String]
+            if cs.count > 1 {
+                tokenizedStrings = cs
+                break
+            }
+        }
+        
+        return tokenizedStrings
+    }
 }

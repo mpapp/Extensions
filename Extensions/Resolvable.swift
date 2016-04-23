@@ -14,6 +14,10 @@ enum ResolvingError:ErrorType {
     case InvalidResolverURLComponents(NSURLComponents)
     case UnexpectedResponse(NSURLResponse?)
     case UnexpectedStatusCode(Int)
+    case UnexpectedResponseData(NSData)
+    case UnexpectedResponseObject(Any)
+    case MissingIdentifier(Any)
+    case UnexpectedResolvedResponse(ResolvedResult)
 }
 
 public protocol Resolvable {
