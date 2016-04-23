@@ -177,7 +177,7 @@ import Freddy
                 self.edition = edition
             }
         } catch {}
-            
+        
         do { self.editor = try json.string("editor") } catch {}
         do { self.editorialDirector = try json.string("editorial-director") } catch {}
         do { self.event = try json.string("event") } catch {}
@@ -187,37 +187,23 @@ import Freddy
         do { self.interviewer = try json.string("interviewer") } catch {}
         do { self.ISBN = try json.string("ISBN") } catch {}
         do { self.ISSN = try json.string("ISSN") } catch {}
-        
+
         do {
             if let issue = Int(try json.string(issue)) {
                 self.issue = issue
             }
         } catch {}
             
-        do { self.jurisdiction = try json.string("jurisdiction")
-        do { self.keyword = try json.string("keyword")
-        do { self.language = try json.string("language")
-        do { self.locator = try json.string("locator")
-        do { self.medium = try json.string("medium")
-        do { self.note = try json.string("note")
+        do { self.jurisdiction = try json.string("jurisdiction") } catch {}
+        do { self.keyword = try json.string("keyword") } catch {}
+        do { self.language = try json.string("language") } catch {}
+        do { self.locator = try json.string("locator") } catch {}
+        do { self.medium = try json.string("medium") } catch {}
+        do { self.note = try json.string("note") } catch {}
         
-        do {
-            if let number = Int(try json.string("number")) {
-                self.number = number
-            }
-        } catch {}
-        
-        do {
-            if let numberOfPages = Int(try json.string("number-of-pages")) {
-                self.numberOfPages = numberOfPages
-            }
-        } catch {}
-        
-        do {
-            if let numberOfVolumes = Int(try json.string("number-of-volumes")) {
-                self.numberOfVolumes = numberOfVolumes
-            }
-        } catch {}
+        do { if let number = Int(try json.string("number")) { self.number = number } } catch {}
+        do { if let numberOfPages = Int(try json.string("number-of-pages")) { self.numberOfPages = numberOfPages } } catch {}
+        do { if let numberOfVolumes = Int(try json.string("number-of-volumes")) { self.numberOfVolumes = numberOfVolumes } } catch {}
         
         do { self.originalPublisher = try json.string("original-publisher") } catch {}
         do { self.originalPublisherPlace = try json.string("original-publisher-place") } catch {}
@@ -229,7 +215,7 @@ import Freddy
         do { self.publisher = try json.string("publisher") } catch {}
         do { self.publisherPlace = try json.string("publisher-place") } catch {}
         do { self.recipient = try json.string("recipient") } catch {}
-        do { self.references = try json.string("references") } catch {} } catch {}
+        do { self.references = try json.string("references") } catch {}
         do { self.reviewedAuthor = try json.string("reviewed-author") } catch {}
         do { self.reviewedTitle = try json.string("reviewed-title") } catch {}
         do { self.scale = try json.string("scale") } catch {}
