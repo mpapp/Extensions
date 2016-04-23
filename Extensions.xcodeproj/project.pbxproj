@@ -57,6 +57,7 @@
 		5F44B8381CCBCC850047A4F0 /* BibliographicName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */; };
 		5F44B83A1CCBCCA10047A4F0 /* BibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */; };
 		5F44B83C1CCBCD480047A4F0 /* SimpleBibliographicName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */; };
+		5F44B83E1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B83D1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift */; };
 		5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; };
 		5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */; };
 		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -184,6 +185,7 @@
 		5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BibliographicName.swift; sourceTree = "<group>"; };
 		5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BibliographicDate.swift; sourceTree = "<group>"; };
 		5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBibliographicName.swift; sourceTree = "<group>"; };
+		5F44B83D1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBibliographicDate.swift; sourceTree = "<group>"; };
 		5F571C7A1CC32774003471D5 /* MPTimer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPTimer.framework; path = Carthage/Build/Mac/MPTimer.framework; sourceTree = "<group>"; };
 		5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPTimer.framework.dSYM; path = Carthage/Build/Mac/MPTimer.framework.dSYM; sourceTree = "<group>"; };
 		5F571C901CC41942003471D5 /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessorError.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 			children = (
 				5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */,
 				5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */,
+				5F44B83D1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift */,
 			);
 			name = "Model Implementations";
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 			files = (
 				5F7EE4B11CBAD9D200F4B7EA /* NSFileManager+Extensions.swift in Sources */,
 				5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */,
+				5F44B83E1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift in Sources */,
 				5F34E2C71CC7EBFC00A5DAF1 /* ResolvingProcessor.swift in Sources */,
 				5F2BBA091CC8045600EA1D66 /* ProteinDataBankResolver.swift in Sources */,
 				5F1996B01CB5B36100B1C5DB /* REvaluator.swift in Sources */,
