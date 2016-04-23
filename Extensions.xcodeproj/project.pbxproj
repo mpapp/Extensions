@@ -54,6 +54,9 @@
 		5F44B8311CCBA79A0047A4F0 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */; };
 		5F44B8331CCBA7A20047A4F0 /* OHHTTPStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F44B8351CCBAABB0047A4F0 /* 1304383.pubmed-xml in Resources */ = {isa = PBXBuildFile; fileRef = 5F44B8341CCBAABB0047A4F0 /* 1304383.pubmed-xml */; };
+		5F44B8381CCBCC850047A4F0 /* BibliographicName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */; };
+		5F44B83A1CCBCCA10047A4F0 /* BibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */; };
+		5F44B83C1CCBCD480047A4F0 /* SimpleBibliographicName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */; };
 		5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; };
 		5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */; };
 		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -178,6 +181,9 @@
 		5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Build/Mac/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		5F44B8301CCBA79A0047A4F0 /* OHHTTPStubs.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OHHTTPStubs.framework.dSYM; path = ../../Build/Mac/OHHTTPStubs.framework.dSYM; sourceTree = "<group>"; };
 		5F44B8341CCBAABB0047A4F0 /* 1304383.pubmed-xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "1304383.pubmed-xml"; sourceTree = "<group>"; };
+		5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BibliographicName.swift; sourceTree = "<group>"; };
+		5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BibliographicDate.swift; sourceTree = "<group>"; };
+		5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBibliographicName.swift; sourceTree = "<group>"; };
 		5F571C7A1CC32774003471D5 /* MPTimer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPTimer.framework; path = Carthage/Build/Mac/MPTimer.framework; sourceTree = "<group>"; };
 		5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPTimer.framework.dSYM; path = Carthage/Build/Mac/MPTimer.framework.dSYM; sourceTree = "<group>"; };
 		5F571C901CC41942003471D5 /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessorError.swift; sourceTree = "<group>"; };
@@ -263,17 +269,18 @@
 		5F19968D1CB5AE8F00B1C5DB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */,
-				5F34E2D01CC7FD7E00A5DAF1 /* Model Protocols */,
-				5F34E2C81CC7EDE000A5DAF1 /* Resolvers */,
-				5F571C921CC41975003471D5 /* HTML Processor */,
 				5F19968E1CB5AE8F00B1C5DB /* Extensions.h */,
 				5F1996901CB5AE8F00B1C5DB /* Info.plist */,
 				5F1996A11CB5AF2100B1C5DB /* Extension.swift */,
 				5F1996D11CB7DFDA00B1C5DB /* Extension+Serialization.swift */,
 				5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */,
 				5F7EE4851CB8374F00F4B7EA /* Procedure.swift */,
+				5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */,
 				5F7EE4871CB845B800F4B7EA /* Evaluators */,
+				5F571C921CC41975003471D5 /* HTML Processor */,
+				5F44B8361CCBCB370047A4F0 /* Model Implementations */,
+				5F34E2D01CC7FD7E00A5DAF1 /* Model Protocols */,
+				5F34E2C81CC7EDE000A5DAF1 /* Resolvers */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -329,9 +336,10 @@
 				5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */,
 				5F44B8081CCA7CB50047A4F0 /* Identifiable.swift */,
 				5F44B8061CCA7C940047A4F0 /* Mathematical.swift */,
-				5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */,
 				5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */,
 				5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */,
+				5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */,
+				5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */,
 			);
 			name = "Model Protocols";
 			sourceTree = "<group>";
@@ -356,6 +364,15 @@
 				5F44B8201CCAD56E0047A4F0 /* NSURLRequest+Extensions.swift */,
 			);
 			name = "Cocoa Extensions";
+			sourceTree = "<group>";
+		};
+		5F44B8361CCBCB370047A4F0 /* Model Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */,
+				5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */,
+			);
+			name = "Model Implementations";
 			sourceTree = "<group>";
 		};
 		5F571C921CC41975003471D5 /* HTML Processor */ = {
@@ -602,6 +619,7 @@
 				5F44B8161CCA913E0047A4F0 /* FragmentProcessor.swift in Sources */,
 				5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */,
 				5F44B8211CCAD56E0047A4F0 /* NSURLRequest+Extensions.swift in Sources */,
+				5F44B8381CCBCC850047A4F0 /* BibliographicName.swift in Sources */,
 				5FC2B2CE1CBCAA75001F77FB /* NSView+Extensions.swift in Sources */,
 				5FC2B2C51CBC9B02001F77FB /* NSNumber+Extensions.swift in Sources */,
 				5F1996A61CB5AFEC00B1C5DB /* EvaluatorRegistry.swift in Sources */,
@@ -614,8 +632,10 @@
 				5F44B8001CCA6D700047A4F0 /* String+Extensions.swift in Sources */,
 				5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */,
 				5F2BBA0B1CC81D6B00EA1D66 /* Resolver.swift in Sources */,
+				5F44B83A1CCBCCA10047A4F0 /* BibliographicDate.swift in Sources */,
 				5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */,
 				5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */,
+				5F44B83C1CCBCD480047A4F0 /* SimpleBibliographicName.swift in Sources */,
 				5F44B8101CCA87700047A4F0 /* DictionaryRepresentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
