@@ -11,6 +11,18 @@ import Freddy
 
 @objc public class SimpleBibliographyItem: NSObject, BibliographyItem, JSONDecodable, JSONEncodable {
 
+    public var author: [BibliographicName]? = nil
+    
+    public var accessed: BibliographicDate? = nil
+    
+    public var eventDate: BibliographicDate? = nil
+    
+    public var submitted: BibliographicDate? = nil
+    
+    public var issued: BibliographicDate? = nil
+
+    public var originalDate: BibliographicDate? = nil
+    
     public var abstract:String? = nil
     
     public var annote:String? = nil
@@ -145,6 +157,13 @@ import Freddy
     }
     
     public required init(json: JSON) throws {
+        do { self.author = try json.arrayOf("author", type:SimpleBibliographicName.self) } catch {}
+        do { self.accessed = try json.decode("accessed", type:SimpleBibliographicDate.self) } catch {}
+        do { self.eventDate = try json.decode("event-date", type:SimpleBibliographicDate.self) } catch {}
+        do { self.submitted = try json.decode("submitted", type:SimpleBibliographicDate.self) } catch {}
+        do { self.issued = try json.decode("issued", type:SimpleBibliographicDate.self) } catch {}
+        do { self.originalDate = try json.decode("original-date", type:SimpleBibliographicDate.self) } catch {}
+        
         self.abstract = try json.string("abstract", alongPath: [.MissingKeyBecomesNil])
 
         self.annote = try json.string("annote", alongPath: [.MissingKeyBecomesNil])

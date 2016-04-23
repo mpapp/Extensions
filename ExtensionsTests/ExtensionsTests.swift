@@ -113,7 +113,7 @@ class ExtensionsTests: XCTestCase {
         case .BibliographyItems(let items):
             XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
         default:
-            XCTFail("Failed to parse bibliography items")
+            XCTFail("Failed to parse bibliography items.")
         }
     }
 }

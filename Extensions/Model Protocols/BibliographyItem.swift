@@ -18,7 +18,7 @@ import Freddy
     var abstract:String? { get }
 
     ///** Date the item has been accessed */
-    var accessed:BibliographicDate?
+    var accessed:BibliographicDate? { get }
 
     // Reader's notes about the item content.
     var annote:String? { get }
@@ -33,7 +33,7 @@ import Freddy
     var archivePlace:String? { get }
 
     // Author names.
-    //@property (copy, nullable) NSArray<MPBibliographicName *> *embeddedAuthors;
+    var author:[BibliographicName]? { get }
 
     // Issuing or judicial authority (e.g. "USPTO" for a patent, "Fairfax Circuit Court" for a legal case).
     var authority:String? { get }
