@@ -23,6 +23,7 @@ enum ResolvingError:ErrorType {
 
 public protocol Resolvable {
     var identifier:String { get }
+    
     init(identifier:String) throws
     
     var capturingPattern:String { get }

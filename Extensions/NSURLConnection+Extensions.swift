@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import DORateLimitKit
 import MPRateLimiter
 
 typealias HTTPStatusCode = Int
