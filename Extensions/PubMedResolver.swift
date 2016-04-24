@@ -9,7 +9,6 @@
 import Foundation
 import RegexKitLite
 import SWXMLHash
-import RateLimit
 
 public struct PubMedIdentifier: Resolvable {
     public let identifier: String

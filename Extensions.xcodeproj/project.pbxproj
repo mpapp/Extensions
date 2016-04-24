@@ -47,9 +47,6 @@
 		5F44B8221CCAE7180047A4F0 /* SWXMLHash.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B8181CCACCE20047A4F0 /* SWXMLHash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F44B8231CCAE7260047A4F0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F1996AB1CB5B31D00B1C5DB /* WebKit.framework */; };
 		5F44B8251CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8241CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift */; };
-		5F44B8281CCAF86B0047A4F0 /* RateLimit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */; };
-		5F44B82A1CCAF87B0047A4F0 /* RateLimit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */; };
-		5F44B82B1CCAF87E0047A4F0 /* RateLimit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F44B82D1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml in Resources */ = {isa = PBXBuildFile; fileRef = 5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */; };
 		5F44B8311CCBA79A0047A4F0 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */; };
 		5F44B8331CCBA7A20047A4F0 /* OHHTTPStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -124,7 +121,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5F44B8331CCBA7A20047A4F0 /* OHHTTPStubs.framework in Copy Frameworks */,
-				5F44B82B1CCAF87E0047A4F0 /* RateLimit.framework in Copy Frameworks */,
 				5F34E2C51CC7E8F200A5DAF1 /* RegexKitLite.framework in Copy Frameworks */,
 				5F7EE4AE1CBAD43E00F4B7EA /* Freddy.framework in Copy Frameworks */,
 				5F7EE4AF1CBAD44100F4B7EA /* Extensions.framework in Copy Frameworks */,
@@ -177,8 +173,6 @@
 		5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		5F44B8201CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLConnection+Extensions.swift"; sourceTree = "<group>"; };
 		5F44B8241CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitalObjectIdentifierResolver.swift; sourceTree = "<group>"; };
-		5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RateLimit.framework; path = ../../Build/Mac/RateLimit.framework; sourceTree = "<group>"; };
-		5F44B8271CCAF86B0047A4F0 /* RateLimit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RateLimit.framework.dSYM; path = ../../Build/Mac/RateLimit.framework.dSYM; sourceTree = "<group>"; };
 		5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "1HIV.rcsb-xml"; sourceTree = "<group>"; };
 		5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Build/Mac/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		5F44B8301CCBA79A0047A4F0 /* OHHTTPStubs.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OHHTTPStubs.framework.dSYM; path = ../../Build/Mac/OHHTTPStubs.framework.dSYM; sourceTree = "<group>"; };
@@ -216,7 +210,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F44B8281CCAF86B0047A4F0 /* RateLimit.framework in Frameworks */,
 				5F44B81A1CCACCE20047A4F0 /* SWXMLHash.framework in Frameworks */,
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
 				5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */,
@@ -231,7 +224,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F44B8311CCBA79A0047A4F0 /* OHHTTPStubs.framework in Frameworks */,
-				5F44B82A1CCAF87B0047A4F0 /* RateLimit.framework in Frameworks */,
 				5F1996BA1CB5B58400B1C5DB /* Extensions.framework in Frameworks */,
 				5F34E2C31CC7E88D00A5DAF1 /* RegexKitLite.framework in Frameworks */,
 				5F44B81D1CCACD000047A4F0 /* SWXMLHash.framework in Frameworks */,
@@ -307,8 +299,6 @@
 			children = (
 				5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */,
 				5F44B8301CCBA79A0047A4F0 /* OHHTTPStubs.framework.dSYM */,
-				5F44B8261CCAF86B0047A4F0 /* RateLimit.framework */,
-				5F44B8271CCAF86B0047A4F0 /* RateLimit.framework.dSYM */,
 				5F44B8181CCACCE20047A4F0 /* SWXMLHash.framework */,
 				5F44B8191CCACCE20047A4F0 /* SWXMLHash.framework.dSYM */,
 				5F34E2C11CC7E88D00A5DAF1 /* RegexKitLite.framework */,

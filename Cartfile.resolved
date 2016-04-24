@@ -1,7 +1,7 @@
 github "Alamofire/Alamofire" "4edf17756fdde9f6d834f1715f234ef1b5022c23"
 github "bignerdranch/Freddy" "a9a0ca9d372d93e4c9a1051aa3c2c58715e68455"
+github "mz2/MPRateLimiter" "8f4da1ca8816519e9e524d9f7e38b6823a323897"
 github "mpapp/MPTimer" "0.0.2"
 github "AliSoftware/OHHTTPStubs" "b0bc0edeb772b8513b90e93cd519a304e0f70870"
-github "soffes/RateLimit" "8f5e98ee0a6f3eb51da52726ef188d741fa9375c"
 github "mpapp/RegexKitLite" "92be66c0b2310ad481f0373c6a28e14b18540ff9"
 github "drmohundro/SWXMLHash" "89cd6c7c08d7506d0ea36a6665714d291814d2a0"

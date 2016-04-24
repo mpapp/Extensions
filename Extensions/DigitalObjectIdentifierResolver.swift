@@ -8,7 +8,6 @@
 
 import Foundation
 import Freddy
-import RateLimit
 
 public struct DigitalObjectIdentifier:Resolvable {
     public let identifier:String

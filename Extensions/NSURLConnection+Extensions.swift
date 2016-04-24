@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import RateLimit
+import DORateLimitKit
 
 typealias HTTPStatusCode = Int
 
@@ -59,7 +59,10 @@ extension NSURLConnection {
     static func sendRateLimitedSynchronousRequest(request:NSURLRequest, rateLimitLabel:String, rateLimit:NSTimeInterval) throws -> (data:NSData, statusCode:HTTPStatusCode) {
         var response:ResponseTuple?
         var err:ErrorType?
-        RateLimit.execute(name: rateLimitLabel, limit: rateLimit) {
+        
+        var executed = false
+        RateLimit.debounce(rateLimitLabel, threshold: rateLimit) {
+            executed = true
             do {
                 response = try self.sendSynchronousRequest(request)
             }
@@ -73,7 +76,7 @@ extension NSURLConnection {
         }
         
         guard let resp = response else {
-            preconditionFailure("Response tuple is unexpectedly nil")
+            preconditionFailure("Response tuple is unexpectedly nil (executed: \(executed)")
         }
         
         return resp
