@@ -110,8 +110,8 @@ public struct ResolvingDocumentProcessor: DocumentProcessor {
         self.elementProcessors = elementProcessors.map { $0 }
     }
     
-    public func processedDocument(inputDocument doc:NSXMLDocument) throws -> NSXMLDocument {
-        let outputDoc:NSXMLDocument = doc.copy() as! NSXMLDocument
+    public func processedDocument(inputDocument doc:NSXMLDocument, inPlace:Bool = false) throws -> NSXMLDocument {
+        let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
         
         for p in elementProcessors {
             try p.process(document: outputDoc)
@@ -120,10 +120,12 @@ public struct ResolvingDocumentProcessor: DocumentProcessor {
         return outputDoc
     }
     
-    public func processedDocumentString(inputDocumentString docString:NSString) throws -> NSString {
+    public func processedDocumentString(inputDocumentString docString:NSString, inPlace:Bool = false) throws -> NSString {
         guard let docData = docString.dataUsingEncoding(NSUTF8StringEncoding) else {
             throw DocumentProcessorError.FailedToRepresentStringAsData(docString)
         }
-        return try processedDocument(inputDocument: try NSXMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))).XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
+        
+        let doc = try NSXMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))
+        return try processedDocument(inputDocument: doc, inPlace:inPlace).XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
     }
 }

@@ -130,15 +130,10 @@ class ExtensionsTests: XCTestCase {
         }
         let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
         
-        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        
         var doc:NSXMLDocument? = nil
-        do {
-            doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML)
-        }
-        catch {
-            XCTFail("Failed to initialize test document from URL \(URL).")
-        }
+        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
+        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
+        catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         do {
             try docP.processedDocument(inputDocument: doc!)
@@ -149,6 +144,31 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testResolvingMarkdown() {
+        let resolvers = [MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self),
+                         MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self),
+                         MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self),
+                         MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self)]
         
+        let elemProcessors = resolvers.map {
+            ResolvableElementProcessor(
+                resolver: $0,
+                tokenizingPatterns: [],
+                capturingPatterns: [$0.resolvableType.capturingPattern()]) { (textNode, fragment, resolvedResult) in
+                    
+            }
+        }
+        
+        let docProcessors = resolvers.enumerate().map { i, resolver in
+            return ResolvingDocumentProcessor(resolver: resolvers[i], elementProcessors: [elemProcessors[i]])
+        }
+
+        var doc:NSXMLDocument? = nil
+        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
+        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
+        catch { XCTFail("Failed to initialize test document from URL \(URL).") }
+        
+        for docP in docProcessors {
+            try! docP.processedDocument(inputDocument: doc!, inPlace: true)
+        }
     }
 }

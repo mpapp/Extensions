@@ -337,13 +337,13 @@
 		5F34E2C81CC7EDE000A5DAF1 /* Resolvers */ = {
 			isa = PBXGroup;
 			children = (
-				5F57FB4A1CCD491800EBF750 /* LaTeXMathResolver.swift */,
 				5F44B8241CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift */,
+				5F57FB4A1CCD491800EBF750 /* LaTeXMathResolver.swift */,
+				5F57FB481CCCE39500EBF750 /* MarkdownResolvers.swift */,
 				5F2BBA081CC8045600EA1D66 /* ProteinDataBankResolver.swift */,
 				5F34E2C91CC7EFF000A5DAF1 /* PubMedResolver.swift */,
 				5F2BBA0C1CC81F2200EA1D66 /* Resolvable.swift */,
 				5F2BBA0A1CC81D6B00EA1D66 /* Resolver.swift */,
-				5F57FB481CCCE39500EBF750 /* MarkdownResolvers.swift */,
 			);
 			name = Resolvers;
 			sourceTree = "<group>";

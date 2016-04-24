@@ -79,6 +79,11 @@ public struct MarkdownSyntaxComponentResolver:Resolver {
     
     public let resolvableType:Resolvable.Type
     
+    public init(markdownComponentType:MarkdownSyntaxComponent.Type) {
+        self.resolvableType = markdownComponentType
+        precondition(self.resolvableType == self.markdownComponentType, "Unexpected Markdown component type: \(self.markdownComponentType)")
+    }
+    
     public var markdownComponentType:MarkdownSyntaxComponent.Type {
         guard let markdownType = self.resolvableType as? MarkdownSyntaxComponent.Type else {
             preconditionFailure("Unexpected resolvable type \(self.resolvableType) is not subclass of MarkdownSyntaxComponent")
@@ -86,11 +91,7 @@ public struct MarkdownSyntaxComponentResolver:Resolver {
         
         return markdownType
     }
-    
-    init(resolvableType:MarkdownSyntaxComponent.Type) {
-        self.resolvableType = resolvableType
-    }
-    
+
     public func resolve(identifier: String) throws -> ResolvedResult {
         let identifier:MarkdownSyntaxComponent = try self.markdownComponentType.init(identifier: identifier)
         return ResolvedResult.InlineElements([SimpleInlineElement(contents: identifier.HTMLSnippetRepresentation, tagName: identifier.dynamicType.tagName)])
