@@ -147,4 +147,8 @@ class ExtensionsTests: XCTestCase {
             XCTFail("Failed to process document from URL \(URL).")
         }
     }
+    
+    func testResolvingMarkdown() {
+        
+    }
 }

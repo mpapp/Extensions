@@ -34,7 +34,7 @@ public struct ProteinDataBankIdentifier:Resolvable {
     private static func identifierValidationPattern() -> String { return "[1-9][A-Za-z0-9]{3}" }
 }
 
-public struct ProteinDataBankResolver:Resolver {
+public struct ProteinDataBankResolver: URLBasedResolver {
     
     private let _baseURL:NSURL
     public func baseURL() -> NSURL {

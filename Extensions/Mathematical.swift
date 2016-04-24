@@ -8,12 +8,12 @@
 
 import Foundation
 
-@objc public protocol Mathematical {
+public protocol Mathematical {
     var TeXRepresentation:String { get }
 }
 
-@objc public protocol InlineMathFragment:Mathematical, InlineElement {
+public protocol InlineMathFragment:Mathematical, InlineElement {
 }
 
-@objc public protocol Equation:Mathematical, BlockElement {
+public protocol Equation:Mathematical, BlockElement {
 }

@@ -14,6 +14,7 @@ public enum ResolvedResult {
     case InlineMathFragments([InlineMathFragment])
     case Equations([Equation])
     case BlockElements([BlockElement])
+    case InlineElements([InlineElement])
     
     func dictionaryRepresentation() -> [String:AnyObject] {
         switch self {
@@ -46,11 +47,14 @@ public let ResolverRateLimitMilliseconds = 100
 public protocol Resolver {
     var resolvableType:Resolvable.Type { get }
     
-    func baseURL() -> NSURL
     func resolve(identifier:String) throws -> ResolvedResult
     
     var rateLimitLabel:String { get }
     var rateLimit:NSTimeInterval { get }
+}
+
+public protocol URLBasedResolver:Resolver {
+    func baseURL() -> NSURL
 }
 
 public extension Resolver {

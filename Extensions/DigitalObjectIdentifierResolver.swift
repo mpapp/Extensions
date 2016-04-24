@@ -24,7 +24,7 @@ public struct DigitalObjectIdentifier:Resolvable {
     public static func capturingPattern() -> String { return "\\b(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![\"&\\'<>])[[:graph:]])+)\\b" }
 }
 
-public struct DigitalObjectIdentifierResolver:Resolver {
+public struct DigitalObjectIdentifierResolver: URLBasedResolver {
     
     private let _baseURL:NSURL
     public func baseURL() -> NSURL {

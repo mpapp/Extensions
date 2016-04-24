@@ -33,6 +33,10 @@ enum SimpleEquationError:ErrorType {
         self.contents = contents
     }
     
+    public class var tagName: String {
+        return "div"
+    }
+    
     public func toJSON() -> JSON {
         return [
             "TeXRepresentation":.String(self.TeXRepresentation)

@@ -34,7 +34,7 @@ public struct PubMedIdentifier: Resolvable {
     public static func capturingPattern() -> String { return "^(\\d{1,20})$" }
 }
 
-public class PubMedResolver: Resolver {
+public class PubMedResolver: URLBasedResolver {
     
     public let resolvableType: Resolvable.Type = {
         return PubMedIdentifier.self

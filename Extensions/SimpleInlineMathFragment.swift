@@ -16,6 +16,10 @@ import Freddy
         self.TeXRepresentation = TeXRepresentation
     }
     
+    public var contents: String {
+        return self.TeXRepresentation
+    }
+    
     public required init(json:JSON) throws {
         guard let TeXRepresentation = try json.string("TeXRepresentation", alongPath:[.MissingKeyBecomesNil]) else {
             throw SimpleEquationError.MissingContents(json)
@@ -28,5 +32,9 @@ import Freddy
         return [
             "TeXRepresentation":.String(self.TeXRepresentation)
         ]
+    }
+    
+    public class var tagName: String {
+        return "span"
     }
 }
