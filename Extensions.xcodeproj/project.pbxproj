@@ -63,6 +63,7 @@
 		5F57FB441CCCDC2000EBF750 /* MPRateLimiter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; };
 		5F57FB461CCCDC2A00EBF750 /* MPRateLimiter.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F57FB471CCCDC2D00EBF750 /* MPRateLimiter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; };
+		5F57FB491CCCE39500EBF750 /* MarkdownResolvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB481CCCE39500EBF750 /* MarkdownResolvers.swift */; };
 		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
 		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
@@ -191,6 +192,7 @@
 		5F571C901CC41942003471D5 /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessorError.swift; sourceTree = "<group>"; };
 		5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPRateLimiter.framework; path = ../../Build/Mac/MPRateLimiter.framework; sourceTree = "<group>"; };
 		5F57FB431CCCDC2000EBF750 /* MPRateLimiter.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPRateLimiter.framework.dSYM; path = ../../Build/Mac/MPRateLimiter.framework.dSYM; sourceTree = "<group>"; };
+		5F57FB481CCCE39500EBF750 /* MarkdownResolvers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkdownResolvers.swift; sourceTree = "<group>"; };
 		5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/Mac/Freddy.framework; sourceTree = "<group>"; };
 		5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Freddy.framework.dSYM; path = Carthage/Build/Mac/Freddy.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionRegistry.swift; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 				5F34E2C91CC7EFF000A5DAF1 /* PubMedResolver.swift */,
 				5F2BBA0C1CC81F2200EA1D66 /* Resolvable.swift */,
 				5F2BBA0A1CC81D6B00EA1D66 /* Resolver.swift */,
+				5F57FB481CCCE39500EBF750 /* MarkdownResolvers.swift */,
 			);
 			name = Resolvers;
 			sourceTree = "<group>";
@@ -623,6 +626,7 @@
 				5F2BBA0D1CC81F2200EA1D66 /* Resolvable.swift in Sources */,
 				5F34E2D21CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift in Sources */,
 				5F1996AA1CB5B1DC00B1C5DB /* JavaScriptEvaluators.swift in Sources */,
+				5F57FB491CCCE39500EBF750 /* MarkdownResolvers.swift in Sources */,
 				5F44B8251CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift in Sources */,
 				5F44B8161CCA913E0047A4F0 /* FragmentProcessor.swift in Sources */,
 				5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */,

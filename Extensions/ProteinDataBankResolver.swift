@@ -31,6 +31,9 @@ public struct ProteinDataBankIdentifier:Resolvable {
     // PDB 1HIV
     // DB ID 1HIV
     public static let capturingPattern:String = "PDB\\s{0,1}I{0,1}D{0,1}\\s{0,1}([1-9][A-Za-z0-9]{3})"
+    public var capturingPattern: String {
+        return capturingPattern
+    }
     
     private static let identifierValidationPattern:String = "[1-9][A-Za-z0-9]{3}"
 }

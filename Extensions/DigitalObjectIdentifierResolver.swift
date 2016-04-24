@@ -22,6 +22,9 @@ public struct DigitalObjectIdentifier:Resolvable {
     
     // from http://stackoverflow.com/questions/27910/finding-a-doi-in-a-document-or-page
     public static let capturingPattern:String = "\\b(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![\"&\\'<>])[[:graph:]])+)\\b"
+    public var capturingPattern: String {
+        return self.dynamicType.capturingPattern
+    }
 }
 
 public struct DigitalObjectIdentifierResolver:Resolver {

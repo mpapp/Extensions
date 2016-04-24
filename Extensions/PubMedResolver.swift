@@ -24,11 +24,16 @@ public struct PubMedIdentifier: Resolvable {
             evaluatedID = lowercaseID
         }
         
-        guard (evaluatedID as NSString).isMatchedByRegex("^\\d{1,20}$") else {
+        guard (evaluatedID as NSString).isMatchedByRegex(self.dynamicType.capturingPattern) else {
             throw ResolvingError.NotResolvable(evaluatedID)
         }
         
         self.identifier = evaluatedID
+    }
+    
+    public static let capturingPattern = "^(\\d{1,20})$"
+    public var capturingPattern: String {
+        return self.dynamicType.capturingPattern
     }
 }
 
