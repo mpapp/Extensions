@@ -116,14 +116,13 @@ class ExtensionsTests: XCTestCase {
             XCTFail("Failed to parse bibliography items.")
         }
         
-        /*
         let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
                                                       tokenizingPatterns: [],
                                                       capturingPatterns:[DigitalObjectIdentifier.capturingPattern]) { (textNode, fragment, resolvedResult) in
             switch resolvedResult {
             case .BibliographyItems(let items):
                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
+                XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
             default:
                 XCTFail("Failed to resolve a bibliography item for \(fragment)")
             }
@@ -146,6 +145,6 @@ class ExtensionsTests: XCTestCase {
         }
         catch {
             XCTFail("Failed to process document from URL \(URL).")
-        }*/
+        }
     }
 }

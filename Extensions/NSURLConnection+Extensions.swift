@@ -8,6 +8,7 @@
 
 import Foundation
 import DORateLimitKit
+import MPRateLimiter
 
 typealias HTTPStatusCode = Int
 
@@ -56,12 +57,15 @@ extension NSURLConnection {
         return (data, code)
     }
     
+    private static let rateLimiter:RateLimiter = RateLimiter()
+    
     static func sendRateLimitedSynchronousRequest(request:NSURLRequest, rateLimitLabel:String, rateLimit:NSTimeInterval) throws -> (data:NSData, statusCode:HTTPStatusCode) {
         var response:ResponseTuple?
         var err:ErrorType?
         
         var executed = false
-        RateLimit.debounce(rateLimitLabel, threshold: rateLimit) {
+        
+        rateLimiter.execute(key: rateLimitLabel, rateLimit: rateLimit) { 
             executed = true
             do {
                 response = try self.sendSynchronousRequest(request)

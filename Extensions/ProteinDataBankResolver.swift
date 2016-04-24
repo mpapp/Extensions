@@ -51,6 +51,10 @@ public struct ProteinDataBankResolver:Resolver {
     }()
     
     public func resolve(identifier: String) throws -> ResolvedResult {
+        // you can also get info for PDB IDs given the following kind of DOIs, except the metadata is not same quality as PubMed.
+        //let result = try DigitalObjectIdentifierResolver().resolve("10.2210/pdb\(PDBID)/pdb")
+        //return result
+        
         let items = try self.bibliographyItems(proteinDataID: ProteinDataBankIdentifier(identifier:identifier))
         guard items.count > 0 else {
             return ResolvedResult.None
@@ -59,8 +63,21 @@ public struct ProteinDataBankResolver:Resolver {
         return ResolvedResult.BibliographyItems(items)
     }
     
-    private func PubMedIDs(proteinDataBankID PDBID:String) -> [String] {
-        return []
+    private func resolvedResult(document doc:XMLIndexer) throws -> ResolvedResult {
+        let record = doc["PDBdescription"]["PDB"]
+        
+        print(record)
+        guard let recordElem = record.element else {
+            throw ResolvingError.UnexpectedResponseObject(record)
+        }
+        
+        guard let PMID = recordElem.attributes["pubmedId"] else {
+            throw ResolvingError.MissingIdentifier(recordElem)
+        }
+        
+        let result = try PubMedResolver().resolve(PMID)
+        
+        return result
     }
     
     private func bibliographyItems(proteinDataID PDBID:ProteinDataBankIdentifier) throws -> [BibliographyItem] {
@@ -82,19 +99,7 @@ public struct ProteinDataBankResolver:Resolver {
         }
         
         let doc = SWXMLHash.parse(response.data)
-        
-        let record = doc["PDBdescription"]["PDB"]
-        
-        print(record)
-        guard let recordElem = record.element else {
-            throw ResolvingError.UnexpectedResponseObject(record)
-        }
-        
-        guard let PMID = recordElem.attributes["pubmedId"] else {
-            throw ResolvingError.MissingIdentifier(recordElem)
-        }
-        
-        let result = try PubMedResolver().resolve(PMID)
+        let result = try self.resolvedResult(document: doc)
         
         switch result {
         case .BibliographyItems(let items):

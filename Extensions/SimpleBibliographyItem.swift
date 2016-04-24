@@ -157,36 +157,21 @@ import Freddy
     }
     
     public required init(json: JSON) throws {
-        do { self.author = try json.arrayOf("author", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicName.self) } catch {
-            print(error)
-        }
+        do { self.author = try json.arrayOf("author", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicName.self) } catch { }
+        do { self.accessed = try json.decode("accessed", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
+        do { self.eventDate = try json.decode("event-date", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
+        do { self.submitted = try json.decode("submitted", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
+        do { self.issued = try json.decode("issued", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
+        do { self.originalDate = try json.decode("original-date", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
         
-        do { self.accessed = try json.decode("accessed", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
-            print(error)
-        }
-        
-        do { self.eventDate = try json.decode("event-date", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
-            print(error)
-        }
-        
-        do { self.submitted = try json.decode("submitted", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
-            print(error)
-        }
-        do { self.issued = try json.decode("issued", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
-            print(error)
-        }
-        do { self.originalDate = try json.decode("original-date", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch {
-            print(error)
-        }
-        
-        self.abstract = try json.string("abstract", alongPath: [.MissingKeyBecomesNil])
+        do { self.abstract = try json.string("abstract", alongPath: [.MissingKeyBecomesNil]) } catch {}
 
-        self.annote = try json.string("annote", alongPath: [.MissingKeyBecomesNil])
-        self.archive = try json.string("archive", alongPath: [.MissingKeyBecomesNil])
-        self.archiveLocation = try json.string("archive-location", alongPath: [.MissingKeyBecomesNil])
-        self.archivePlace = try json.string("archive-place", alongPath: [.MissingKeyBecomesNil])
-        self.authority = try json.string("authority", alongPath: [.MissingKeyBecomesNil])
-        self.callNumber = try json.string("call-number", alongPath: [.MissingKeyBecomesNil])
+        do { self.annote = try json.string("annote", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.archive = try json.string("archive", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.archiveLocation = try json.string("archive-location", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.archivePlace = try json.string("archive-place", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.authority = try json.string("authority", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.callNumber = try json.string("call-number", alongPath: [.MissingKeyBecomesNil]) } catch {}
         
         do {
             if let chapterNumber = Int(try json.string("chapter-number")) {
@@ -194,18 +179,18 @@ import Freddy
             }
         } catch {}
         
-        self.citationLabel = try json.string("citation-label", alongPath: [.MissingKeyBecomesNil])
-        self.collectionEditor = try json.string("collection-editor", alongPath: [.MissingKeyBecomesNil])
-        self.collectionNumber = try json.string("collection-number", alongPath: [.MissingKeyBecomesNil])
-        self.collectionTitle = try json.string("collection-title", alongPath: [.MissingKeyBecomesNil])
-        self.composer = try json.string("composer", alongPath: [.MissingKeyBecomesNil])
+        do { self.citationLabel = try json.string("citation-label", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.collectionEditor = try json.string("collection-editor", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.collectionNumber = try json.string("collection-number", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.collectionTitle = try json.string("collection-title", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.composer = try json.string("composer", alongPath: [.MissingKeyBecomesNil]) } catch {}
         
-        self.containerAuthor = try json.string("container-author", alongPath: [.MissingKeyBecomesNil])
-        self.containerTitle = try json.string("container-title", alongPath: [.MissingKeyBecomesNil])
-        self.containerTitleShort = try json.string("container-title-short", alongPath: [.MissingKeyBecomesNil])
-        self.dimensions = try json.string("dimensions", alongPath: [.MissingKeyBecomesNil])
-        self.director = try json.string("director", alongPath: [.MissingKeyBecomesNil])
-        self.DOI = try json.string("DOI", alongPath: [.MissingKeyBecomesNil])
+        do { self.containerAuthor = try json.string("container-author", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.containerTitle = try json.string("container-title", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.containerTitleShort = try json.string("container-title-short", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.dimensions = try json.string("dimensions", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.director = try json.string("director", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.DOI = try json.string("DOI", alongPath: [.MissingKeyBecomesNil]) } catch {}
         
         do {
             if let edition = Int(try json.string("edition")) {
@@ -213,14 +198,14 @@ import Freddy
             }
         } catch {}
         
-        self.editor = try json.string("editor", alongPath: [.MissingKeyBecomesNil])
-        self.editorialDirector = try json.string("editorial-director", alongPath: [.MissingKeyBecomesNil])
-        self.event = try json.string("event", alongPath: [.MissingKeyBecomesNil])
-        self.eventPlace = try json.string("event-place", alongPath: [.MissingKeyBecomesNil])
-        self.genre = try json.string("genre", alongPath: [.MissingKeyBecomesNil])
-        self.illustrator = try json.string("illustrator", alongPath: [.MissingKeyBecomesNil])
-        self.interviewer = try json.string("interviewer", alongPath: [.MissingKeyBecomesNil])
-        self.ISBN = try json.string("ISBN", alongPath: [.MissingKeyBecomesNil])
+        do { self.editor = try json.string("editor", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.editorialDirector = try json.string("editorial-director", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.event = try json.string("event", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.eventPlace = try json.string("event-place", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.genre = try json.string("genre", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.illustrator = try json.string("illustrator", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.interviewer = try json.string("interviewer", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.ISBN = try json.string("ISBN", alongPath: [.MissingKeyBecomesNil]) } catch {}
         
         do {
             self.ISSN = try json.string("ISSN", alongPath: [.MissingKeyBecomesNil])
@@ -236,37 +221,37 @@ import Freddy
             }
         } catch {}
             
-        self.jurisdiction = try json.string("jurisdiction", alongPath: [.MissingKeyBecomesNil])
-        self.keyword = try json.string("keyword", alongPath: [.MissingKeyBecomesNil])
-        self.language = try json.string("language", alongPath: [.MissingKeyBecomesNil])
-        self.locator = try json.string("locator", alongPath: [.MissingKeyBecomesNil])
-        self.medium = try json.string("medium", alongPath: [.MissingKeyBecomesNil])
-        self.note = try json.string("note", alongPath: [.MissingKeyBecomesNil])
+        do { self.jurisdiction = try json.string("jurisdiction", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.keyword = try json.string("keyword", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.language = try json.string("language", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.locator = try json.string("locator", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.medium = try json.string("medium", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.note = try json.string("note", alongPath: [.MissingKeyBecomesNil]) } catch {}
         
         do { if let number = Int(try json.string("number")) { self.number = number } } catch {}
         do { if let numberOfPages = Int(try json.string("number-of-pages")) { self.numberOfPages = numberOfPages } } catch {}
         do { if let numberOfVolumes = Int(try json.string("number-of-volumes")) { self.numberOfVolumes = numberOfVolumes } } catch {}
         
-        self.originalPublisher = try json.string("original-publisher", alongPath: [.MissingKeyBecomesNil])
-        self.originalPublisherPlace = try json.string("original-publisher-place", alongPath: [.MissingKeyBecomesNil])
-        self.originalTitle = try json.string("original-title", alongPath: [.MissingKeyBecomesNil])
-        self.page = try json.string("page", alongPath: [.MissingKeyBecomesNil])
-        self.pageFirst = try json.string("page-first", alongPath: [.MissingKeyBecomesNil])
-        self.PMCID = try json.string("PMCID", alongPath: [.MissingKeyBecomesNil])
-        self.PMID = try json.string("PMID", alongPath: [.MissingKeyBecomesNil])
-        self.publisher = try json.string("publisher", alongPath: [.MissingKeyBecomesNil])
-        self.publisherPlace = try json.string("publisher-place", alongPath: [.MissingKeyBecomesNil])
-        self.recipient = try json.string("recipient", alongPath: [.MissingKeyBecomesNil])
-        self.references = try json.string("references", alongPath: [.MissingKeyBecomesNil])
-        self.reviewedAuthor = try json.string("reviewed-author", alongPath: [.MissingKeyBecomesNil])
-        self.reviewedTitle = try json.string("reviewed-title", alongPath: [.MissingKeyBecomesNil])
-        self.scale = try json.string("scale", alongPath: [.MissingKeyBecomesNil])
-        self.section = try json.string("section", alongPath: [.MissingKeyBecomesNil])
-        self.source = try json.string("source", alongPath: [.MissingKeyBecomesNil])
-        self.status = try json.string("status", alongPath: [.MissingKeyBecomesNil])
-        self.title = try json.string("title", alongPath: [.MissingKeyBecomesNil])
-        self.titleShort = try json.string("title-short", alongPath: [.MissingKeyBecomesNil])
-        self.translator = try json.string("translator", alongPath: [.MissingKeyBecomesNil])
+        do { self.originalPublisher = try json.string("original-publisher", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.originalPublisherPlace = try json.string("original-publisher-place", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.originalTitle = try json.string("original-title", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.page = try json.string("page", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.pageFirst = try json.string("page-first", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.PMCID = try json.string("PMCID", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.PMID = try json.string("PMID", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.publisher = try json.string("publisher", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.publisherPlace = try json.string("publisher-place", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.recipient = try json.string("recipient", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.references = try json.string("references", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.reviewedAuthor = try json.string("reviewed-author", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.reviewedTitle = try json.string("reviewed-title", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.scale = try json.string("scale", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.section = try json.string("section", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.source = try json.string("source", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.status = try json.string("status", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.title = try json.string("title", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.titleShort = try json.string("title-short", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.translator = try json.string("translator", alongPath: [.MissingKeyBecomesNil]) } catch {}
         
         do {
             if let url = NSURL(string:try json.string("URL")) {
@@ -274,10 +259,10 @@ import Freddy
             }
         } catch {}
             
-        self.version = try json.string("version", alongPath: [.MissingKeyBecomesNil])
-        self.volume = try json.string("volume", alongPath: [.MissingKeyBecomesNil])
-        self.yearSuffix = try json.string("year-suffix", alongPath: [.MissingKeyBecomesNil])
-        self.institution = try json.string("institution", alongPath: [.MissingKeyBecomesNil])
+        do { self.version = try json.string("version", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.volume = try json.string("volume", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.yearSuffix = try json.string("year-suffix", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.institution = try json.string("institution", alongPath: [.MissingKeyBecomesNil]) } catch {}
         
         super.init()
     }

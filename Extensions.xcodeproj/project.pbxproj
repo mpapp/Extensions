@@ -60,6 +60,9 @@
 		5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */; };
 		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F571C901CC41942003471D5 /* DocumentProcessorError.swift */; };
+		5F57FB441CCCDC2000EBF750 /* MPRateLimiter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; };
+		5F57FB461CCCDC2A00EBF750 /* MPRateLimiter.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5F57FB471CCCDC2D00EBF750 /* MPRateLimiter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; };
 		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
 		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
@@ -120,6 +123,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5F57FB461CCCDC2A00EBF750 /* MPRateLimiter.framework in Copy Frameworks */,
 				5F44B8331CCBA7A20047A4F0 /* OHHTTPStubs.framework in Copy Frameworks */,
 				5F34E2C51CC7E8F200A5DAF1 /* RegexKitLite.framework in Copy Frameworks */,
 				5F7EE4AE1CBAD43E00F4B7EA /* Freddy.framework in Copy Frameworks */,
@@ -185,6 +189,8 @@
 		5F571C7A1CC32774003471D5 /* MPTimer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPTimer.framework; path = Carthage/Build/Mac/MPTimer.framework; sourceTree = "<group>"; };
 		5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPTimer.framework.dSYM; path = Carthage/Build/Mac/MPTimer.framework.dSYM; sourceTree = "<group>"; };
 		5F571C901CC41942003471D5 /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessorError.swift; sourceTree = "<group>"; };
+		5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPRateLimiter.framework; path = ../../Build/Mac/MPRateLimiter.framework; sourceTree = "<group>"; };
+		5F57FB431CCCDC2000EBF750 /* MPRateLimiter.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPRateLimiter.framework.dSYM; path = ../../Build/Mac/MPRateLimiter.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/Mac/Freddy.framework; sourceTree = "<group>"; };
 		5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Freddy.framework.dSYM; path = Carthage/Build/Mac/Freddy.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionRegistry.swift; sourceTree = "<group>"; };
@@ -210,6 +216,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F57FB471CCCDC2D00EBF750 /* MPRateLimiter.framework in Frameworks */,
 				5F44B81A1CCACCE20047A4F0 /* SWXMLHash.framework in Frameworks */,
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
 				5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */,
@@ -223,6 +230,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F57FB441CCCDC2000EBF750 /* MPRateLimiter.framework in Frameworks */,
 				5F44B8311CCBA79A0047A4F0 /* OHHTTPStubs.framework in Frameworks */,
 				5F1996BA1CB5B58400B1C5DB /* Extensions.framework in Frameworks */,
 				5F34E2C31CC7E88D00A5DAF1 /* RegexKitLite.framework in Frameworks */,
@@ -297,6 +305,8 @@
 		5F1996D71CB7E1EC00B1C5DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */,
+				5F57FB431CCCDC2000EBF750 /* MPRateLimiter.framework.dSYM */,
 				5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */,
 				5F44B8301CCBA79A0047A4F0 /* OHHTTPStubs.framework.dSYM */,
 				5F44B8181CCACCE20047A4F0 /* SWXMLHash.framework */,

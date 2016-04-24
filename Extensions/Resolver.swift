@@ -60,7 +60,7 @@ public extension Resolver {
     }
     
     public var rateLimit:NSTimeInterval {
-        return 100.0
+        return 1.0
     }
     
 }
