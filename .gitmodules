@@ -13,9 +13,6 @@
 [submodule "Carthage/Checkouts/SWXMLHash"]
 	path = Carthage/Checkouts/SWXMLHash
 	url = ssh://git@github.com/drmohundro/SWXMLHash.git
-[submodule "Carthage/Checkouts/RateLimit"]
-	path = Carthage/Checkouts/RateLimit
-	url = ssh://git@github.com/soffes/RateLimit.git
 [submodule "Carthage/Checkouts/OHHTTPStubs"]
 	path = Carthage/Checkouts/OHHTTPStubs
 	url = ssh://git@github.com/AliSoftware/OHHTTPStubs.git
