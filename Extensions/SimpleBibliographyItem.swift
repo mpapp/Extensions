@@ -222,7 +222,16 @@ import Freddy
         self.interviewer = try json.string("interviewer", alongPath: [.MissingKeyBecomesNil])
         self.ISBN = try json.string("ISBN", alongPath: [.MissingKeyBecomesNil])
         
-        //self.ISSN = try json.string("ISSN", alongPath: [.MissingKeyBecomesNil])
+        do {
+            self.ISSN = try json.string("ISSN", alongPath: [.MissingKeyBecomesNil])
+        }
+        catch {
+            do {
+                self.ISSN = try json.array("ISSN", alongPath: [.MissingKeyBecomesNil])?.first?.decode(type:String.self)
+            }
+            catch {
+            }
+        }
 
         do {
             if let issue = Int(try json.string(issue)) {
