@@ -7,32 +7,23 @@
 //
 
 import Foundation
-
+import SWXMLHash
 
 public struct InlineLaTeXFragment:Resolvable {
     public let identifier:String
     
     public init(identifier: String) throws {
-        guard identifier.isUpper() else {
-            throw ResolvingError.NotResolvable("\(identifier) contains lowercase characters and therefore cannot be a PDB ID.")
-        }
-        
-        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.identifierValidationPattern) else {
+        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
             throw ResolvingError.NotResolvable("\(identifier) does not look like a PDB ID.")
         }
         
         self.identifier = identifier
     }
     
-    public static let capturingPattern:String = "\\b$()$\\b"
-    public var capturingPattern: String {
-        return self.dynamicType.capturingPattern
-    }
-    
-    private static let identifierValidationPattern:String = "[1-9][A-Za-z0-9]{3}"
+    public static func capturingPattern() -> String { return "\\b(\\$.+\\$)\\b" }
 }
 
-public struct ProteinDataBankResolver:Resolver {
+public struct LaTeXMathResolver:Resolver {
     
     private let _baseURL:NSURL
     public func baseURL() -> NSURL {

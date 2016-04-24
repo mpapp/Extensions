@@ -1,4 +1,3 @@
-github "Alamofire/Alamofire" "3c40b1a9dd96cc206ef91addfc718b8cea945718"
 github "bignerdranch/Freddy" "a9a0ca9d372d93e4c9a1051aa3c2c58715e68455"
 github "mz2/MPRateLimiter" "61c3c507eb99687f3ba6fb02c1ed256d76205a2b"
 github "mpapp/MPTimer" "0.0.2"

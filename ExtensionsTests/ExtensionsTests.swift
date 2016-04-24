@@ -71,7 +71,7 @@ class ExtensionsTests: XCTestCase {
             return fixture(stubPath, headers: [:])
         }
         
-        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern]) { (textNode, fragment, resolvedResult) in
+        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()]) { (textNode, fragment, resolvedResult) in
             switch resolvedResult {
             case .BibliographyItems(let items):
                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
@@ -118,7 +118,7 @@ class ExtensionsTests: XCTestCase {
         
         let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
                                                       tokenizingPatterns: [],
-                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern]) { (textNode, fragment, resolvedResult) in
+                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()]) { (textNode, fragment, resolvedResult) in
             switch resolvedResult {
             case .BibliographyItems(let items):
                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")

@@ -7,9 +7,6 @@
 [submodule "Carthage/Checkouts/RegexKitLite"]
 	path = Carthage/Checkouts/RegexKitLite
 	url = ssh://git@github.com/mpapp/RegexKitLite.git
-[submodule "Carthage/Checkouts/Alamofire"]
-	path = Carthage/Checkouts/Alamofire
-	url = ssh://git@github.com/Alamofire/Alamofire.git
 [submodule "Carthage/Checkouts/SWXMLHash"]
 	path = Carthage/Checkouts/SWXMLHash
 	url = ssh://git@github.com/drmohundro/SWXMLHash.git

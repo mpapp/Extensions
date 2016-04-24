@@ -20,7 +20,7 @@ public struct ProteinDataBankIdentifier:Resolvable {
             throw ResolvingError.NotResolvable("\(identifier) contains lowercase characters and therefore cannot be a PDB ID.")
         }
         
-        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.identifierValidationPattern) else {
+        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.identifierValidationPattern()) else {
             throw ResolvingError.NotResolvable("\(identifier) does not look like a PDB ID.")
         }
         
@@ -30,12 +30,8 @@ public struct ProteinDataBankIdentifier:Resolvable {
     // Some examples of matching strings:
     // PDB 1HIV
     // DB ID 1HIV
-    public static let capturingPattern:String = "PDB\\s{0,1}I{0,1}D{0,1}\\s{0,1}([1-9][A-Za-z0-9]{3})"
-    public var capturingPattern: String {
-        return self.dynamicType.capturingPattern
-    }
-    
-    private static let identifierValidationPattern:String = "[1-9][A-Za-z0-9]{3}"
+    public static func capturingPattern() -> String { return "PDB\\s{0,1}I{0,1}D{0,1}\\s{0,1}([1-9][A-Za-z0-9]{3})" }
+    private static func identifierValidationPattern() -> String { return "[1-9][A-Za-z0-9]{3}" }
 }
 
 public struct ProteinDataBankResolver:Resolver {

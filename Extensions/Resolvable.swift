@@ -26,5 +26,5 @@ public protocol Resolvable {
     
     init(identifier:String) throws
     
-    var capturingPattern:String { get }
+    static func capturingPattern() -> String
 }

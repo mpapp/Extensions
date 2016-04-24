@@ -13,7 +13,7 @@ public struct DigitalObjectIdentifier:Resolvable {
     public let identifier:String
     
     public init(identifier: String) throws {
-        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.capturingPattern) else {
+        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
             throw ResolvingError.NotResolvable("\(identifier) does not look like a PDB ID.")
         }
         
@@ -21,10 +21,7 @@ public struct DigitalObjectIdentifier:Resolvable {
     }
     
     // from http://stackoverflow.com/questions/27910/finding-a-doi-in-a-document-or-page
-    public static let capturingPattern:String = "\\b(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![\"&\\'<>])[[:graph:]])+)\\b"
-    public var capturingPattern: String {
-        return self.dynamicType.capturingPattern
-    }
+    public static func capturingPattern() -> String { return "\\b(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![\"&\\'<>])[[:graph:]])+)\\b" }
 }
 
 public struct DigitalObjectIdentifierResolver:Resolver {
