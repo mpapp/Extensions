@@ -226,11 +226,8 @@ import Freddy
             self.ISSN = try json.string("ISSN", alongPath: [.MissingKeyBecomesNil])
         }
         catch {
-            do {
-                self.ISSN = try json.array("ISSN", alongPath: [.MissingKeyBecomesNil])?.first?.decode(type:String.self)
-            }
-            catch {
-            }
+            do { self.ISSN = try json.array("ISSN", alongPath: [.MissingKeyBecomesNil])?.first?.decode(type:String.self) }
+            catch { }
         }
 
         do {

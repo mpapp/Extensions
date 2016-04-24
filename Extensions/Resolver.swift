@@ -38,11 +38,29 @@ public enum ResolvedResult {
             return ["type":label,"value":dict]
         }
     }
+    
 }
+
+public let ResolverRateLimitMilliseconds = 100
 
 public protocol Resolver {
     var resolvableType:Resolvable.Type { get }
     
     func baseURL() -> NSURL
     func resolve(identifier:String) throws -> ResolvedResult
+    
+    var rateLimitLabel:String { get }
+    var rateLimit:NSTimeInterval { get }
+}
+
+public extension Resolver {
+    
+    public var rateLimitLabel:String {
+        return String(self.dynamicType)
+    }
+    
+    public var rateLimit:NSTimeInterval {
+        return 100.0
+    }
+    
 }

@@ -73,7 +73,9 @@ public struct ProteinDataBankResolver:Resolver {
             throw ResolvingError.InvalidResolverURLComponents(components)
         }
         
-        let response = try NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: queryURL))
+        let response = try NSURLConnection.sendRateLimitedSynchronousRequest(NSURLRequest(URL: queryURL),
+                                                                             rateLimitLabel: self.rateLimitLabel,
+                                                                             rateLimit: self.rateLimit)
         
         guard response.statusCode.marksSuccess else {
             throw ResolvingError.UnexpectedStatusCode(response.statusCode)

@@ -8,6 +8,7 @@
 
 import Foundation
 import Freddy
+import RateLimit
 
 public struct DigitalObjectIdentifier:Resolvable {
     public let identifier:String
@@ -62,7 +63,7 @@ public struct DigitalObjectIdentifierResolver:Resolver {
         let req = NSMutableURLRequest(URL: queryURL)
         req.setValue("application/citeproc+json", forHTTPHeaderField: "Accept")
         
-        let response = try NSURLConnection.sendSynchronousRequest(req)
+        let response = try NSURLConnection.sendRateLimitedSynchronousRequest(req, rateLimitLabel: self.rateLimitLabel, rateLimit: self.rateLimit)
         
         guard response.statusCode.marksSuccess else {
             throw ResolvingError.UnexpectedStatusCode(response.statusCode)

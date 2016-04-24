@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RateLimit
 
 typealias HTTPStatusCode = Int
 
@@ -15,8 +16,10 @@ enum SynchronousRequestError: ErrorType {
     case NoStatus(NSURLRequest)
 }
 
+typealias ResponseTuple = (data:NSData, statusCode:HTTPStatusCode)
+
 extension NSURLConnection {
-    static func sendSynchronousRequest(request:NSURLRequest) throws -> (data:NSData, statusCode:HTTPStatusCode) {
+    static func sendSynchronousRequest(request:NSURLRequest) throws -> ResponseTuple {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         
         var responseData:NSData? = nil
@@ -51,5 +54,28 @@ extension NSURLConnection {
         }
         
         return (data, code)
+    }
+    
+    static func sendRateLimitedSynchronousRequest(request:NSURLRequest, rateLimitLabel:String, rateLimit:NSTimeInterval) throws -> (data:NSData, statusCode:HTTPStatusCode) {
+        var response:ResponseTuple?
+        var err:ErrorType?
+        RateLimit.execute(name: rateLimitLabel, limit: rateLimit) {
+            do {
+                response = try self.sendSynchronousRequest(request)
+            }
+            catch {
+                err = error
+            }
+        }
+        
+        if let err = err {
+            throw err
+        }
+        
+        guard let resp = response else {
+            preconditionFailure("Response tuple is unexpectedly nil")
+        }
+        
+        return resp
     }
 }

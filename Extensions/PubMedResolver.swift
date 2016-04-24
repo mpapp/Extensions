@@ -9,6 +9,7 @@
 import Foundation
 import RegexKitLite
 import SWXMLHash
+import RateLimit
 
 public struct PubMedIdentifier: Resolvable {
     public let identifier: String
@@ -103,11 +104,11 @@ public class PubMedResolver: Resolver {
             throw ResolvingError.InvalidResolverURLComponents(components)
         }
         
-        let response = try NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: queryURL))
+        let response = try NSURLConnection.sendRateLimitedSynchronousRequest(NSURLRequest(URL: queryURL),
+                                                                             rateLimitLabel: self.rateLimitLabel,
+                                                                             rateLimit: self.rateLimit)
         
-        guard response.statusCode.marksSuccess else {
-            throw ResolvingError.UnexpectedStatusCode(response.statusCode)
-        }
+        guard response.statusCode.marksSuccess else { throw ResolvingError.UnexpectedStatusCode(response.statusCode) }
         
         let doc = SWXMLHash.parse(response.data)
         
