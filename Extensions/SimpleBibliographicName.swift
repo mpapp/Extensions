@@ -9,7 +9,7 @@
 import Foundation
 import Freddy
 
-public class SimpleBibliographicName: BibliographicName, JSONDecodable, JSONEncodable {
+public class SimpleBibliographicName: NSObject, BibliographicName, JSONDecodable, JSONEncodable {
     
     public var family: String?
     public var given: String?

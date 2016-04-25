@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol BibliographicName: DictionaryRepresentable {
+@objc public protocol BibliographicName: class, DictionaryRepresentable {
     var family:String? { get }
     var given:String? { get }
     

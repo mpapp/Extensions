@@ -9,7 +9,7 @@
 import Foundation
 import Freddy
 
-public class SimpleBibliographyItem: BibliographyItem, JSONDecodable, JSONEncodable {
+@objc public class SimpleBibliographyItem: NSObject, BibliographyItem, JSONDecodable, JSONEncodable {
 
     public var author: [BibliographicName]? = nil
     
@@ -156,8 +156,8 @@ public class SimpleBibliographyItem: BibliographyItem, JSONDecodable, JSONEncoda
         return try! JSON(data:data)
     }
     
-    public init() {
-        
+    public override init() {
+        super.init()
     }
     
     public required init(json: JSON) throws {
