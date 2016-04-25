@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class MarkdownSyntaxComponent: NSObject, Resolvable, HTMLSnippetRepresentable {
+public class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
     public let identifier: String
     
     public required init(identifier: String) throws {
@@ -39,10 +39,9 @@ import Foundation
         return captured
     }
     
-    public var HTMLSnippetRepresentation: String {
-        return "<\(self.dynamicType.tagName)>\(self.innerHTML)</\(self.dynamicType.tagName)>"
+    public var attributeDictionary: [String : String] {
+        return [:]
     }
-
 }
 
 public final class MarkdownAsteriskStrong: MarkdownSyntaxComponent {

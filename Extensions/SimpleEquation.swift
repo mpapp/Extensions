@@ -13,7 +13,7 @@ enum SimpleEquationError:ErrorType {
     case MissingContents(JSON)
 }
 
-@objc public class SimpleEquation: NSObject, Equation, JSONDecodable, JSONEncodable {
+public class SimpleEquation: Equation, JSONDecodable, JSONEncodable {
     
     public var TeXRepresentation:String {
         return self.contents

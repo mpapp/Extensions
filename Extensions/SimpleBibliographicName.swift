@@ -9,7 +9,7 @@
 import Foundation
 import Freddy
 
-@objc public class SimpleBibliographicName: NSObject, BibliographicName, JSONDecodable, JSONEncodable {
+public class SimpleBibliographicName: BibliographicName, JSONDecodable, JSONEncodable {
     
     public var family: String?
     public var given: String?
@@ -25,8 +25,6 @@ import Freddy
         self.droppingParticle = try json.string("dropping-particle", alongPath: [.MissingKeyBecomesNil])
         self.nonDroppingParticle = try json.string("non-dropping-particle", alongPath: [.MissingKeyBecomesNil])
         self.literal = try json.string("literal", alongPath: [.MissingKeyBecomesNil])
-        
-        super.init()
     }
     
     public var dictionaryRepresentation:[String : AnyObject] {

@@ -8,6 +8,6 @@
 
 import Foundation
 
-@objc public protocol DictionaryRepresentable {
+public protocol DictionaryRepresentable {
     var dictionaryRepresentation:[String:AnyObject] { get }
 }

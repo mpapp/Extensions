@@ -31,7 +31,7 @@ public let MPDefaultXMLDocumentOutputOptions:Int =
     NSXMLNodePreserveEmptyElements |
     NSXMLNodeUseDoubleQuotes
 
-@objc public class DocumentProcessorConstants: NSObject {
+public class DocumentProcessorConstants {
     static func defaultXMLDocumentParsingOptions() -> Int { return MPDefaultXMLDocumentParsingOptions }
     static func defaultXMLDocumentOutputOptions() -> Int { return MPDefaultXMLDocumentOutputOptions }
 }

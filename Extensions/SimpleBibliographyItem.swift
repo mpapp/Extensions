@@ -9,7 +9,7 @@
 import Foundation
 import Freddy
 
-@objc public class SimpleBibliographyItem: NSObject, BibliographyItem, JSONDecodable, JSONEncodable {
+public class SimpleBibliographyItem: BibliographyItem, JSONDecodable, JSONEncodable {
 
     public var author: [BibliographicName]? = nil
     
@@ -156,6 +156,10 @@ import Freddy
         return try! JSON(data:data)
     }
     
+    public init() {
+        
+    }
+    
     public required init(json: JSON) throws {
         do { self.author = try json.arrayOf("author", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicName.self) } catch { }
         do { self.accessed = try json.decode("accessed", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
@@ -263,16 +267,10 @@ import Freddy
         do { self.volume = try json.string("volume", alongPath: [.MissingKeyBecomesNil]) } catch {}
         do { self.yearSuffix = try json.string("year-suffix", alongPath: [.MissingKeyBecomesNil]) } catch {}
         do { self.institution = try json.string("institution", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        
-        super.init()
     }
     
     deinit {
         
-    }
-    
-    public override required init() {
-        super.init()
     }
     
     public var dictionaryRepresentation:[String : AnyObject] {
@@ -385,5 +383,9 @@ import Freddy
         }
         
         return "Unknown"
+    }
+    
+    public var attributeDictionary: [String : String] {
+        return [:]
     }
 }

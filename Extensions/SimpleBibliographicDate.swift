@@ -9,7 +9,7 @@
 import Foundation
 import Freddy
 
-@objc public class SimpleBibliographicDate: NSObject, BibliographicDate, JSONDecodable, JSONEncodable {
+public class SimpleBibliographicDate: BibliographicDate, JSONDecodable, JSONEncodable {
     
     public var circa:Bool = false
     public var dateParts:[AnyObject]? = nil
@@ -58,7 +58,6 @@ import Freddy
         }
         
         self.seasonLiteral = try json.string("season", alongPath: [.MissingKeyBecomesNil])
-        super.init()
     }
     
     public class func isValidDatePartsArray(dateParts:[AnyObject]) throws -> Void {

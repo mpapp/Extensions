@@ -8,19 +8,19 @@
 
 import Foundation
 
-@objc public enum BibliographicDateValidationError:UInt, ErrorType {
+public enum BibliographicDateValidationError:UInt, ErrorType {
     case InvalidComponentCount = 1
     case InvalidComponentType = 2
     case MissingRequiredComponent = 3
 };
 
-@objc public enum BibliographicDatePart:UInt {
+public enum BibliographicDatePart:UInt {
     case Year = 0
     case Month = 1
     case Day = 2
 }
 
-@objc public enum BibliographicDateSeason:UInt {
+public enum BibliographicDateSeason:UInt {
     case Unknown = 0
     case Spring = 1
     case Summer = 2
@@ -28,7 +28,7 @@ import Foundation
     case Winter = 4
 }
 
-@objc public protocol BibliographicDate: DictionaryRepresentable {
+public protocol BibliographicDate: DictionaryRepresentable {
 
     var circa:Bool { get }
     
