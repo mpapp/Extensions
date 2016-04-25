@@ -43,7 +43,7 @@ public struct ResolvableFragmentProcessor: FragmentProcessor {
     }
 }
 
-public typealias ResolvedResultHandler = (textNode:NSXMLNode, fragment:String, resolvedResult:ResolvedResult) -> Void
+public typealias ResolvedResultHandler = (elementProcessor:ResolvableElementProcessor, textNode:NSXMLNode, fragment:String, resolvedResult:ResolvedResult) -> Void
 
 // The resolvable element processor is a special kind of processor which never modifies the DOM.
 // Instead it calls the `resolvableResultHandler` passed to it, for every case a resolvable identifier was found.
@@ -83,7 +83,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 for capture in captures {
                     do {
                         let resolvable:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
-                        self.resolvedResultHandler(textNode:c, fragment: splitStr, resolvedResult: resolvable)
+                        self.resolvedResultHandler(elementProcessor:self, textNode:c, fragment: splitStr, resolvedResult: resolvable)
                     }
                     catch ResolvingError.NotResolvable(_) {
                         // specifically, don't log these errors.
@@ -109,23 +109,33 @@ public struct ResolvingDocumentProcessor: DocumentProcessor {
         self.resolver = resolver
         self.elementProcessors = elementProcessors.map { $0 }
     }
+}
+
+public struct ResolvingCompoundDocumentProcessor: DocumentProcessor {
     
-    public func processedDocument(inputDocument doc:NSXMLDocument, inPlace:Bool = false) throws -> NSXMLDocument {
-        let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
-        
-        for p in elementProcessors {
-            try p.process(document: outputDoc)
-        }
-        
-        return outputDoc
+    public let documentProcessors:[ResolvingDocumentProcessor]
+    
+    public let resolvedResultHandler:ResolvedResultHandler
+    
+    public var elementProcessors: [ElementProcessor] {
+        return self.documentProcessors.flatMap { $0.elementProcessors }
     }
     
-    public func processedDocumentString(inputDocumentString docString:NSString, inPlace:Bool = false) throws -> NSString {
-        guard let docData = docString.dataUsingEncoding(NSUTF8StringEncoding) else {
-            throw DocumentProcessorError.FailedToRepresentStringAsData(docString)
+    public init(resolvers:[Resolver], resolvedResultHandler:ResolvedResultHandler) {
+        let elemProcessors = resolvers.map {
+            ResolvableElementProcessor(
+                resolver: $0,
+                tokenizingPatterns: [],
+                capturingPatterns: [$0.resolvableType.capturingPattern()],
+                resolvedResultHandler:resolvedResultHandler)
         }
         
-        let doc = try NSXMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))
-        return try processedDocument(inputDocument: doc, inPlace:inPlace).XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
+        let docProcessors = resolvers.enumerate().map { i, resolver in
+            return ResolvingDocumentProcessor(resolver: resolvers[i], elementProcessors: [elemProcessors[i]])
+        }
+        
+        self.resolvedResultHandler = resolvedResultHandler
+        self.documentProcessors = docProcessors
     }
+    
 }

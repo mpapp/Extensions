@@ -24,6 +24,10 @@ public class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
         preconditionFailure("Implement in subclass")
     }
     
+    public class func contentCapturingPattern() -> String {
+        preconditionFailure("Implement in subclass")
+    }
+    
     public class var tagName: String {
         preconditionFailure("Implement in subclass")
     }
@@ -42,7 +46,8 @@ public class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
 }
 
 public final class MarkdownAsteriskStrong: MarkdownSyntaxComponent {
-    public override class func capturingPattern() -> String { return "\\b\\*\\*(^\\*+)\\*\\*\\b" }
+    public override class func capturingPattern() -> String { return "(\\*\\*.+?\\*\\*)" }
+    public override class func contentCapturingPattern() -> String { return "\\*\\*(.+?)\\*\\*" }
     
     public override class var tagName: String {
         return "strong"
@@ -50,7 +55,8 @@ public final class MarkdownAsteriskStrong: MarkdownSyntaxComponent {
 }
 
 public final class MarkdownUnderscoreStrong: MarkdownSyntaxComponent {
-    public override class func capturingPattern() -> String { return "\\b\\_\\_(^\\_+)\\_\\_\\b" }
+    public override class func capturingPattern() -> String { return "(\\_\\_.+?\\_\\_)" }
+    public override class func contentCapturingPattern() -> String { return "\\_\\_(.+?)\\_\\_" }
     
     public override class var tagName: String {
         return "strong"
@@ -58,7 +64,8 @@ public final class MarkdownUnderscoreStrong: MarkdownSyntaxComponent {
 }
 
 public final class MarkdownAsteriskEmphasis: MarkdownSyntaxComponent {
-    public override class func capturingPattern() -> String { return "\\b\\*(^\\*)+\\*\\b" }
+    public override class func capturingPattern() -> String { return "(\\*.+?\\*)" }
+    public override class func contentCapturingPattern() -> String { return "\\*(.+?)\\*" }
     
     public override class var tagName: String {
         return "em"
@@ -66,7 +73,8 @@ public final class MarkdownAsteriskEmphasis: MarkdownSyntaxComponent {
 }
 
 public final class MarkdownUnderscoreEmphasis: MarkdownSyntaxComponent {
-    public override class func capturingPattern() -> String { return "\\b\\_(^\\_+)\\_\\b" }
+    public override class func capturingPattern() -> String { return "(\\_.+?\\_)" }
+    public override class func contentCapturingPattern() -> String { return "\\_(.+?)\\_" }
     
     public override class var tagName: String {
         return "em"

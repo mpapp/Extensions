@@ -71,7 +71,7 @@ class ExtensionsTests: XCTestCase {
             return fixture(stubPath, headers: [:])
         }
         
-        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()]) { (textNode, fragment, resolvedResult) in
+        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()]) { (elemProcessor, textNode, fragment, resolvedResult) in
             switch resolvedResult {
             case .BibliographyItems(let items):
                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
@@ -118,7 +118,7 @@ class ExtensionsTests: XCTestCase {
         
         let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
                                                       tokenizingPatterns: [],
-                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()]) { (textNode, fragment, resolvedResult) in
+                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()]) { (elemProcessor, textNode, fragment, resolvedResult) in
             switch resolvedResult {
             case .BibliographyItems(let items):
                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
@@ -144,22 +144,27 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testResolvingMarkdown() {
-        let resolvers = [MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self),
-                         MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self),
-                         MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self),
-                         MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self)]
+        do { try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self).resolve("**foobar**") }
+        catch (let error) { XCTFail("Error: \(error)") }
         
-        let elemProcessors = resolvers.map {
-            ResolvableElementProcessor(
-                resolver: $0,
-                tokenizingPatterns: [],
-                capturingPatterns: [$0.resolvableType.capturingPattern()]) { (textNode, fragment, resolvedResult) in
-                    
-            }
-        }
+        do { try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self).resolve("*foobar*") }
+        catch (let error) { XCTFail("Error: \(error)") }
         
-        let docProcessors = resolvers.enumerate().map { i, resolver in
-            return ResolvingDocumentProcessor(resolver: resolvers[i], elementProcessors: [elemProcessors[i]])
+        do { try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self).resolve("__foobar__") }
+        catch (let error) { XCTFail("Error: \(error)") }
+        
+        do { try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self).resolve("_foobar_") }
+        catch (let error) { XCTFail("Error: \(error)") }
+    }
+    
+    func testProcessingMarkdown() {
+        let resolvers:[Resolver] = [MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self),
+                                    MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self),
+                                    MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self),
+                                    MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self)]
+        
+        let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers) { (elementProcessor, textNode, fragment, resolvedResult) in
+            print("\(fragment), \(resolvedResult)")
         }
 
         var doc:NSXMLDocument? = nil
@@ -167,8 +172,6 @@ class ExtensionsTests: XCTestCase {
         do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
-        for docP in docProcessors {
-            try! docP.processedDocument(inputDocument: doc!, inPlace: true)
-        }
+        try! docP.processedDocument(inputDocument: doc!)
     }
 }

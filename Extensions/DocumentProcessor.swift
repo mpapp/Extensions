@@ -40,7 +40,7 @@ public protocol DocumentProcessor {
     
     var elementProcessors:[ElementProcessor] { get }
     
-    func processedDocument(inputDocument doc:NSXMLDocument) throws -> NSXMLDocument
+    func processedDocument(inputDocument doc:NSXMLDocument, inPlace:Bool) throws -> NSXMLDocument
     
     func processedDocumentString(inputDocumentString docString:NSString) throws -> NSString
 }
@@ -48,8 +48,8 @@ public protocol DocumentProcessor {
 
 public extension DocumentProcessor {
     
-    func processedDocument(inputDocument doc:NSXMLDocument) throws -> NSXMLDocument {
-        let outputDoc:NSXMLDocument = doc.copy() as! NSXMLDocument
+    func processedDocument(inputDocument doc:NSXMLDocument, inPlace:Bool = false) throws -> NSXMLDocument {
+        let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
         
         for processor in self.elementProcessors {
             try processor.process(document: outputDoc)
@@ -62,6 +62,9 @@ public extension DocumentProcessor {
         guard let docData = docString.dataUsingEncoding(NSUTF8StringEncoding) else {
             throw DocumentProcessorError.FailedToRepresentStringAsData(docString)
         }
-        return try processedDocument(inputDocument: try NSXMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))).XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
+        
+        let doc = try NSXMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))
+        return try processedDocument(inputDocument: doc, inPlace:false).XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
     }
+    
 }
