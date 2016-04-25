@@ -163,17 +163,41 @@ class ExtensionsTests: XCTestCase {
                                      MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self),
                                      MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self) ]
         
+        var encounteredIDs:Set<String> = []
+        
         let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers, replaceMatches: true) { (elementProcessor, textNode, fragment, resolvedResult) in
-            print("\(fragment), \(resolvedResult)")
-            resolvedResult
+            
             switch resolvedResult.result {
             case .InlineElements(let elems):
-                guard let _ = resolvedResult.resolvable as? MarkdownSyntaxComponent else {
+                guard let resolvable = resolvedResult.resolvable as? MarkdownSyntaxComponent else {
                     XCTFail("Resolvable is unexpectedly not a MarkdownSyntaxComponent: \(resolvedResult.resolvable).")
                     break
                 }
                 
                 XCTAssert(elems.count == 1, "Unexpected inline element count: \(elems)")
+                
+                encounteredIDs.insert(resolvable.identifier)
+                
+                switch resolvable.identifier {
+                    case "**delivers**":
+                        XCTAssert(resolvable.innerHTML == "delivers", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                        XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
+                
+                    case "__that__":
+                        XCTAssert(resolvable.innerHTML == "that", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                        XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
+                    
+                    case "*resource*":
+                        XCTAssert(resolvable.innerHTML == "resource", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                        XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
+
+                    case "_semantically_":
+                        XCTAssert(resolvable.innerHTML == "semantically", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                        XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
+
+                default:
+                    break
+                }
                 
             case .BibliographyItems(_):
                 break
@@ -181,14 +205,17 @@ class ExtensionsTests: XCTestCase {
             default:
                 XCTFail("There should be no failed resolve calls.")
             }
-            
         }
-
+        
         var doc:NSXMLDocument? = nil
         let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
         do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         try! docP.processedDocument(inputDocument: doc!)
+        
+        for identifier in ["**delivers**", "__that__", "*resource*", "_semantically_"] {
+            XCTAssert(encounteredIDs.contains(identifier), "Failed to resolve identifier \(identifier)")
+        }
     }
 }
