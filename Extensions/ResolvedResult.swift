@@ -47,7 +47,31 @@ public enum ResolvedResult {
         }
     }
     
-    public var HTMLSnippets:[HTMLSnippetRepresentable] {
-        return []
+    public var HTMLSnippetRepresentables:[HTMLSnippetRepresentable] {
+        switch self {
+        case None(_):
+            return []
+            
+        default:
+            let mirror = Mirror(reflecting: self)
+            let associatedCount = mirror.children.count
+            
+            guard associatedCount == 2 else {
+                preconditionFailure("Enum option \(self) has unexpected numbers of value.")
+            }
+            
+            guard let _ = mirror.children.dropFirst().first?.value as? Resolvable else {
+                preconditionFailure("Enum option \(self) does not have an associated value.")
+            }
+            
+            let htmlRepsAssoc = mirror.children.dropFirst().first
+            
+            guard let htmlReps = htmlRepsAssoc?.value as? [HTMLSnippetRepresentable] else {
+                print("Enum option \(self) does not have a HTML snippet representable second value: \(mirror.children)")
+                return []
+            }
+            
+            return htmlReps
+        }
     }
 }

@@ -305,12 +305,12 @@
 		5F1996B61CB5B58400B1C5DB /* ExtensionsTests */ = {
 			isa = PBXGroup;
 			children = (
-				5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */,
-				5F34E2BF1CC7E84B00A5DAF1 /* biolit.html */,
-				5F1996B91CB5B58400B1C5DB /* Info.plist */,
-				5F44B8341CCBAABB0047A4F0 /* 1304383.pubmed-xml */,
 				5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */,
+				5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */,
+				5F44B8341CCBAABB0047A4F0 /* 1304383.pubmed-xml */,
+				5F34E2BF1CC7E84B00A5DAF1 /* biolit.html */,
 				5F1996B71CB5B58400B1C5DB /* ExtensionsTests.swift */,
+				5F1996B91CB5B58400B1C5DB /* Info.plist */,
 			);
 			path = ExtensionsTests;
 			sourceTree = "<group>";
@@ -345,8 +345,8 @@
 				5F2BBA081CC8045600EA1D66 /* ProteinDataBankResolver.swift */,
 				5F34E2C91CC7EFF000A5DAF1 /* PubMedResolver.swift */,
 				5F2BBA0C1CC81F2200EA1D66 /* Resolvable.swift */,
-				5F2BBA0A1CC81D6B00EA1D66 /* Resolver.swift */,
 				5F57FB541CCDAD0300EBF750 /* ResolvedResult.swift */,
+				5F2BBA0A1CC81D6B00EA1D66 /* Resolver.swift */,
 			);
 			name = Resolvers;
 			sourceTree = "<group>";
@@ -359,8 +359,8 @@
 				5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */,
 				5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */,
 				5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */,
-				5F44B8061CCA7C940047A4F0 /* Mathematical.swift */,
 				5F57FB501CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift */,
+				5F44B8061CCA7C940047A4F0 /* Mathematical.swift */,
 			);
 			name = "Model Protocols";
 			sourceTree = "<group>";
@@ -376,13 +376,13 @@
 		5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */,
 				5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */,
+				5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */,
+				5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */,
 				5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */,
+				5F44B8201CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift */,
 				5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */,
 				5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */,
-				5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */,
-				5F44B8201CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift */,
 			);
 			name = "Cocoa Extensions";
 			sourceTree = "<group>";
@@ -390,12 +390,12 @@
 		5F44B8361CCBCB370047A4F0 /* Model Implementations */ = {
 			isa = PBXGroup;
 			children = (
-				5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */,
-				5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */,
 				5F44B83D1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift */,
+				5F44B83B1CCBCD480047A4F0 /* SimpleBibliographicName.swift */,
+				5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */,
 				5F57FB4B1CCD491800EBF750 /* SimpleEquation.swift */,
-				5F57FB4C1CCD491800EBF750 /* SimpleInlineMathFragment.swift */,
 				5F57FB521CCD5FBC00EBF750 /* SimpleHTMLElements.swift */,
+				5F57FB4C1CCD491800EBF750 /* SimpleInlineMathFragment.swift */,
 			);
 			name = "Model Implementations";
 			sourceTree = "<group>";
