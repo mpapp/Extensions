@@ -152,7 +152,7 @@ import Freddy
     public var institution:String? = nil
     
     public func toJSON() -> JSON {
-        let data = try! NSJSONSerialization.dataWithJSONObject(self.dictionaryRepresentation(), options: [])
+        let data = try! NSJSONSerialization.dataWithJSONObject(self.dictionaryRepresentation, options: [])
         return try! JSON(data:data)
     }
     
@@ -275,7 +275,7 @@ import Freddy
         super.init()
     }
     
-    public func dictionaryRepresentation() -> [String : AnyObject] {
+    public var dictionaryRepresentation:[String : AnyObject] {
         var dict = [String:AnyObject]()
         
         if let abstract = self.abstract { dict["abstract"] = abstract }
@@ -345,5 +345,45 @@ import Freddy
         if let institution = institution { dict["institution"] = institution }
         
         return dict
+    }
+    
+    public static var tagName:String {
+        return "span"
+    }
+    
+    public var innerHTML:String {
+        if let citationLabel = self.citationLabel {
+            return "\(citationLabel)"
+        }
+        else if let author = self.author?.first where author.family != nil {
+            var str = "\(author.family)"
+            
+            let authorCount = self.author?.count
+            
+            if authorCount == 2 {
+                if let secondAuthor = self.author?[1] where secondAuthor.family != nil {
+                    str += " & \(secondAuthor.family)"
+                }
+            }
+            else if authorCount > 2 {
+                str += " et al."
+            }
+            
+            if let issuedDate = self.issued {
+                if let dateParts = issuedDate.dateParts where dateParts.count > 0 {
+                    str += " (\(dateParts.first))"
+                }
+                else if let literal = issuedDate.literal {
+                    str += " (\(literal))"
+                }
+                else if let raw = issuedDate.raw {
+                    str += " (\(raw))"
+                }
+            }
+            
+            return str
+        }
+        
+        return "Unknown"
     }
 }

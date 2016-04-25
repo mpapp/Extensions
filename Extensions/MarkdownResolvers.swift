@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
+@objc public class MarkdownSyntaxComponent: NSObject, Resolvable, HTMLSnippetRepresentable {
     public let identifier: String
     
     public required init(identifier: String) throws {
@@ -33,7 +33,7 @@ public class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
     }
     
     public var innerHTML: String {
-        guard let captured = self.identifier.componentsCaptured(capturingPatterns: [self.dynamicType.capturingPattern()]).first else {
+        guard let captured = self.identifier.componentsCaptured(capturingPatterns: [self.dynamicType.contentCapturingPattern()]).first else {
             preconditionFailure("Unexpected identifier \(self.identifier)")
         }
         return captured

@@ -11,6 +11,7 @@ import Foundation
 public protocol ElementProcessor {
     var XPathPattern:String { get }
     var separator:String { get }
+    var replaceMatches:Bool { get }
     
     func process(element element:NSXMLElement, inDocument doc:NSXMLDocument) throws -> [NSXMLNode]
 }

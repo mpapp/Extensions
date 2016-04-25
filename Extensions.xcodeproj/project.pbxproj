@@ -68,6 +68,7 @@
 		5F57FB4F1CCD491800EBF750 /* SimpleInlineMathFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB4C1CCD491800EBF750 /* SimpleInlineMathFragment.swift */; };
 		5F57FB511CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB501CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift */; };
 		5F57FB531CCD5FBC00EBF750 /* SimpleHTMLElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB521CCD5FBC00EBF750 /* SimpleHTMLElements.swift */; };
+		5F57FB551CCDAD0300EBF750 /* ResolvedResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB541CCDAD0300EBF750 /* ResolvedResult.swift */; };
 		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
 		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
@@ -201,6 +202,7 @@
 		5F57FB4C1CCD491800EBF750 /* SimpleInlineMathFragment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleInlineMathFragment.swift; sourceTree = "<group>"; };
 		5F57FB501CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLSnippetRepresentable.swift; sourceTree = "<group>"; };
 		5F57FB521CCD5FBC00EBF750 /* SimpleHTMLElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleHTMLElements.swift; sourceTree = "<group>"; };
+		5F57FB541CCDAD0300EBF750 /* ResolvedResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolvedResult.swift; sourceTree = "<group>"; };
 		5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/Mac/Freddy.framework; sourceTree = "<group>"; };
 		5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Freddy.framework.dSYM; path = Carthage/Build/Mac/Freddy.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionRegistry.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 				5F34E2C91CC7EFF000A5DAF1 /* PubMedResolver.swift */,
 				5F2BBA0C1CC81F2200EA1D66 /* Resolvable.swift */,
 				5F2BBA0A1CC81D6B00EA1D66 /* Resolver.swift */,
+				5F57FB541CCDAD0300EBF750 /* ResolvedResult.swift */,
 			);
 			name = Resolvers;
 			sourceTree = "<group>";
@@ -659,6 +662,7 @@
 				5F44B8001CCA6D700047A4F0 /* String+Extensions.swift in Sources */,
 				5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */,
 				5F2BBA0B1CC81D6B00EA1D66 /* Resolver.swift in Sources */,
+				5F57FB551CCDAD0300EBF750 /* ResolvedResult.swift in Sources */,
 				5F44B83A1CCBCCA10047A4F0 /* BibliographicDate.swift in Sources */,
 				5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */,
 				5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */,

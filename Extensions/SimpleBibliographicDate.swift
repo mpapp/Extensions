@@ -92,7 +92,7 @@ import Freddy
         return [false, false]
     }
 
-    public func dictionaryRepresentation() -> [String : AnyObject] {
+    public var dictionaryRepresentation:[String : AnyObject] {
         var dict = [String:AnyObject]()
         
         if let literal = self.literal {
@@ -118,7 +118,7 @@ import Freddy
     }
     
     public func toJSON() -> JSON {
-        let data = try! NSJSONSerialization.dataWithJSONObject(self.dictionaryRepresentation(), options: [])
+        let data = try! NSJSONSerialization.dataWithJSONObject(self.dictionaryRepresentation, options: [])
         return try! JSON(data:data)
     }
 }

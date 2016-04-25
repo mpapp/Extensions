@@ -167,11 +167,13 @@ class ExtensionsTests: XCTestCase {
             print("\(fragment), \(resolvedResult)")
             
             switch resolvedResult {
-            case .InlineElements(let resolvable, _):
+            case .InlineElements(let resolvable, let elems):
                 guard let _ = resolvable as? MarkdownSyntaxComponent else {
                     XCTFail("Resolvable is unexpectedly not a MarkdownSyntaxComponent: \(resolvable).")
                     break
                 }
+                
+                XCTAssert(elems.count == 1, "Unexpected inline element count: \(elems)")
                 
             case .BibliographyItems(_, _):
                 break

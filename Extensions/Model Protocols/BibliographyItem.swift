@@ -13,7 +13,7 @@ import Freddy
     
 }
 
-@objc public protocol BibliographyItem: DictionaryRepresentable {
+@objc public protocol BibliographyItem: DictionaryRepresentable, HTMLSnippetRepresentable {
     // Abstract of the item (e.g. the abstract of a journal article).
     var abstract:String? { get }
 

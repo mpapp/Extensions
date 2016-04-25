@@ -30,7 +30,7 @@ public struct ResolvableFragmentProcessor: FragmentProcessor {
     public func process(textFragment fragment: String) throws -> String {
         let result:ResolvedResult = try self.process(textFragment: fragment)
         
-        let data = try NSJSONSerialization.dataWithJSONObject(result.dictionaryRepresentation(), options: [])
+        let data = try NSJSONSerialization.dataWithJSONObject(result.dictionaryRepresentation, options: [])
         guard let str = String(data: data, encoding: NSUTF8StringEncoding) else {
             throw DocumentProcessorError.FailedToRepresentDataInUTF8(data)
         }
@@ -50,11 +50,13 @@ public typealias ResolvedResultHandler = (elementProcessor:ResolvableElementProc
 public struct ResolvableElementProcessor: ElementProcessor {
     
     let resolver:Resolver
+    public let replaceMatches: Bool
     let fragmentProcessor:ResolvableFragmentProcessor
     let resolvedResultHandler: ResolvedResultHandler
     
-    public init(resolver:Resolver, tokenizingPatterns:[String], capturingPatterns:[String], resolvedResultHandler:ResolvedResultHandler) {
+    public init(resolver:Resolver, tokenizingPatterns:[String], capturingPatterns:[String], replaceMatches:Bool = false, resolvedResultHandler:ResolvedResultHandler) {
         self.resolver = resolver
+        self.replaceMatches = replaceMatches
         self.fragmentProcessor = ResolvableFragmentProcessor(resolver: self.resolver, tokenizingPatterns: tokenizingPatterns, capturingPatterns: capturingPatterns)
         self.resolvedResultHandler = resolvedResultHandler
     }
@@ -83,6 +85,11 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 for capture in captures {
                     do {
                         let resolvable:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
+                        
+                        //if let str = c.stringValue {
+                            //c.stringValue = str.stringByReplacingOccurrencesOfString(<#T##target: String##String#>, withString: <#T##String#>)
+                        //}
+                        
                         self.resolvedResultHandler(elementProcessor:self, textNode:c, fragment: splitStr, resolvedResult: resolvable)
                     }
                     catch ResolvingError.NotResolvable(_) {
