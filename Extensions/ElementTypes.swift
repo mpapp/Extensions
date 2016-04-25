@@ -8,13 +8,13 @@
 
 import Foundation
 
-public protocol Element: class {
+@objc public protocol Element: class {
     var contents:String { get }
     static var tagName: String { get }
 }
 
-public protocol InlineElement: class, Element {
+@objc public protocol InlineElement: class, Element {
 }
 
-public protocol BlockElement: class, Element {
+@objc public protocol BlockElement: class, Element {
 }

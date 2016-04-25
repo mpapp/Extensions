@@ -9,7 +9,7 @@
 import Foundation
 import Freddy
 
-public class SimpleInlineMathFragment: InlineMathFragment, JSONDecodable, JSONEncodable {
+public class SimpleInlineMathFragment: NSObject, InlineMathFragment, JSONDecodable, JSONEncodable {
     public let TeXRepresentation:String
     
     public init(TeXRepresentation:String) {

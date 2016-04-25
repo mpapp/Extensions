@@ -101,7 +101,8 @@ public struct MarkdownSyntaxComponentResolver:Resolver {
 
     public func resolve(identifier: String) throws -> ResolvedResult {
         let identifier:MarkdownSyntaxComponent = try self.markdownComponentType.init(identifier: identifier)
-        return ResolvedResult.InlineElements(identifier,
-                                             [SimpleInlineElement(contents: identifier.HTMLSnippetRepresentation, tagName: identifier.dynamicType.tagName)])
+        let items = [SimpleInlineElement(contents: identifier.HTMLSnippetRepresentation, tagName: identifier.dynamicType.tagName)]
+        
+        return ResolvedResult(resolvable: identifier, result:.InlineElements(items:items))
     }
 }

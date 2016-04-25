@@ -46,10 +46,10 @@ public struct LaTeXMathResolver:Resolver {
         let PDBID = try ProteinDataBankIdentifier(identifier:identifier)
         let items = try self.bibliographyItems(proteinDataID: PDBID)
         guard items.count > 0 else {
-            return ResolvedResult.None(PDBID)
+            return ResolvedResult(resolvable:PDBID, result: .None)
         }
         
-        return ResolvedResult.BibliographyItems(PDBID, items)
+        return ResolvedResult(resolvable:PDBID, result:.BibliographyItems(items:items))
     }
     
     private func resolvedResult(document doc:XMLIndexer) throws -> ResolvedResult {
@@ -90,8 +90,8 @@ public struct LaTeXMathResolver:Resolver {
         let doc = SWXMLHash.parse(response.data)
         let result = try self.resolvedResult(document: doc)
         
-        switch result {
-        case .BibliographyItems(_, let items):
+        switch result.result {
+        case .BibliographyItems(let items):
             return items
             
         case .None:

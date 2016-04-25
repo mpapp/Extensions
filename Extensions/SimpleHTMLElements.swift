@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SimpleInlineElement: InlineElement {
+public class SimpleInlineElement: NSObject, InlineElement {
     public let contents: String
     
     public init(contents:String, tagName:String) {
@@ -20,7 +20,7 @@ public class SimpleInlineElement: InlineElement {
     }
 }
 
-public class SimpleBlockElement: BlockElement {
+public class SimpleBlockElement: NSObject, BlockElement {
     public let contents: String
     public let tagName: String
     
