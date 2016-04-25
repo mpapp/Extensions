@@ -163,7 +163,7 @@ class ExtensionsTests: XCTestCase {
                                      MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self),
                                      MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self) ]
         
-        let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers) { (elementProcessor, textNode, fragment, resolvedResult) in
+        let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers, replaceMatches: true) { (elementProcessor, textNode, fragment, resolvedResult) in
             print("\(fragment), \(resolvedResult)")
             resolvedResult
             switch resolvedResult.result {

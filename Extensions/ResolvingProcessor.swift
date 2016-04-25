@@ -86,11 +86,10 @@ public struct ResolvableElementProcessor: ElementProcessor {
                     do {
                         let resolvable:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
                         
-                        if let str = c.stringValue {
-                            
+                        if let str = c.stringValue where self.replaceMatches {
                             let htmlReps = resolvable.result.HTMLSnippetRepresentables.map { $0.HTMLSnippetRepresentation }
-                            
-                            c.stringValue = str.stringByReplacingOccurrencesOfString(resolvable.resolvable.identifier, withString: htmlReps.joinWithSeparator(""))
+                            let replacedStringValue = str.stringByReplacingOccurrencesOfString(resolvable.resolvable.identifier, withString: htmlReps.joinWithSeparator(""))
+                            c.stringValue = replacedStringValue
                         }
                         
                         self.resolvedResultHandler(elementProcessor:self, textNode:c, fragment: splitStr, resolvedResult: resolvable)
@@ -131,12 +130,13 @@ public struct ResolvingCompoundDocumentProcessor: DocumentProcessor {
         return self.documentProcessors.flatMap { $0.elementProcessors }
     }
     
-    public init(resolvers:[Resolver], resolvedResultHandler:ResolvedResultHandler) {
+    public init(resolvers:[Resolver], replaceMatches:Bool = false, resolvedResultHandler:ResolvedResultHandler) {
         let elemProcessors = resolvers.map {
             ResolvableElementProcessor(
                 resolver: $0,
                 tokenizingPatterns: [],
                 capturingPatterns: [$0.resolvableType.capturingPattern()],
+                replaceMatches: replaceMatches,
                 resolvedResultHandler:resolvedResultHandler)
         }
         

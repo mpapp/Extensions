@@ -31,11 +31,15 @@ public enum Result {
         default:
             let mirror = Mirror(reflecting: self)
             
-            guard let htmlReps = mirror.children.first?.value as? [HTMLSnippetRepresentable] else {
-                return []
+            if let htmlReps = mirror.children.first?.value as? [HTMLSnippetRepresentable] {
+                return htmlReps
             }
             
-            return htmlReps
+            else if let htmlRep = mirror.children.first?.value as? AnyObject as? HTMLSnippetRepresentable {
+                return [htmlRep]
+            }
+            
+            return []
         }
     }
 }
