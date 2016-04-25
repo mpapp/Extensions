@@ -22,12 +22,33 @@ public enum Result {
     case Equations(items:[Equation])
     case BlockElements(items:[BlockElement])
     case InlineElements(items:[InlineElement])
+    
+    public var HTMLSnippetRepresentables:[HTMLSnippetRepresentable] {
+        switch self {
+        case .None:
+            return []
+            
+        default:
+            let mirror = Mirror(reflecting: self)
+            
+            guard let htmlReps = mirror.children.first?.value as? [HTMLSnippetRepresentable] else {
+                return []
+            }
+            
+            return htmlReps
+        }
+    }
 }
 
-public struct ResolvedResult {
-    
+@objc public class ResolvedResult: NSObject, DictionaryRepresentable {
     public let resolvable:Resolvable
     public let result:Result
+    
+    public init(resolvable:Resolvable, result:Result) {
+        self.resolvable = resolvable
+        self.result = result
+        super.init()
+    }
     
     public var dictionaryRepresentation:[String:AnyObject] {
         switch self.result {
@@ -59,22 +80,6 @@ public struct ResolvedResult {
             return ["type":label,
                     "resolvable":resolvable.identifier,
                     "value":dictRep.dictionaryRepresentation]
-        }
-    }
-    
-    public var HTMLSnippetRepresentables:[HTMLSnippetRepresentable] {
-        switch self.result {
-        case .None:
-            return []
-            
-        default:
-            let mirror = Mirror(reflecting: self)
-            
-            guard let htmlReps = mirror.children.first?.value as? [HTMLSnippetRepresentable] else {
-                return []
-            }
-            
-            return htmlReps
         }
     }
 }

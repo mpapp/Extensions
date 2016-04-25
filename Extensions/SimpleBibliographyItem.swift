@@ -276,6 +276,11 @@ import Freddy
     public var dictionaryRepresentation:[String : AnyObject] {
         var dict = [String:AnyObject]()
         
+        if let authors = self.author {
+            let authorDicts = authors.map { $0.dictionaryRepresentation }
+            dict["author"] = authorDicts
+        }
+        
         if let abstract = self.abstract { dict["abstract"] = abstract }
         if let annote = self.abstract { dict["annote"] = annote }
         if let archive = self.archive { dict["archive"] = archive }
