@@ -350,7 +350,7 @@ import Freddy
         return dict
     }
     
-    public static var tagName:String {
+    public var tagName:String {
         return "span"
     }
     

@@ -49,7 +49,7 @@ public struct LaTeXMathResolver:Resolver {
             return ResolvedResult(resolvable:PDBID, result: .None)
         }
         
-        return ResolvedResult(resolvable:PDBID, result:.BibliographyItems(items:items))
+        return ResolvedResult(resolvable:PDBID, result:.BibliographyItems(items))
     }
     
     private func resolvedResult(document doc:XMLIndexer) throws -> ResolvedResult {

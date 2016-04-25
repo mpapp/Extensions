@@ -33,7 +33,7 @@ public class SimpleEquation: NSObject, Equation, JSONDecodable, JSONEncodable {
         self.contents = contents
     }
     
-    public class var tagName: String {
+    public var tagName: String {
         return "div"
     }
     

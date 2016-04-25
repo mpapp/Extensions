@@ -28,7 +28,7 @@ public class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
         preconditionFailure("Implement in subclass")
     }
     
-    public class var tagName: String {
+    public var tagName: String {
         preconditionFailure("Implement in subclass")
     }
     
@@ -48,7 +48,7 @@ public final class MarkdownAsteriskStrong: MarkdownSyntaxComponent {
     public override class func capturingPattern() -> String { return "(\\*\\*.+?\\*\\*)" }
     public override class func contentCapturingPattern() -> String { return "\\*\\*(.+?)\\*\\*" }
     
-    public override class var tagName: String {
+    public override var tagName: String {
         return "strong"
     }
 }
@@ -57,7 +57,7 @@ public final class MarkdownUnderscoreStrong: MarkdownSyntaxComponent {
     public override class func capturingPattern() -> String { return "(\\_\\_.+?\\_\\_)" }
     public override class func contentCapturingPattern() -> String { return "\\_\\_(.+?)\\_\\_" }
     
-    public override class var tagName: String {
+    public override var tagName: String {
         return "strong"
     }
 }
@@ -66,7 +66,7 @@ public final class MarkdownAsteriskEmphasis: MarkdownSyntaxComponent {
     public override class func capturingPattern() -> String { return "(\\*.+?\\*)" }
     public override class func contentCapturingPattern() -> String { return "\\*(.+?)\\*" }
     
-    public override class var tagName: String {
+    public override var tagName: String {
         return "em"
     }
 }
@@ -75,7 +75,7 @@ public final class MarkdownUnderscoreEmphasis: MarkdownSyntaxComponent {
     public override class func capturingPattern() -> String { return "(\\_.+?\\_)" }
     public override class func contentCapturingPattern() -> String { return "\\_(.+?)\\_" }
     
-    public override class var tagName: String {
+    public override var tagName: String {
         return "em"
     }
 }
@@ -101,8 +101,8 @@ public struct MarkdownSyntaxComponentResolver:Resolver {
 
     public func resolve(identifier: String) throws -> ResolvedResult {
         let identifier:MarkdownSyntaxComponent = try self.markdownComponentType.init(identifier: identifier)
-        let items = [SimpleInlineElement(contents: identifier.HTMLSnippetRepresentation, tagName: identifier.dynamicType.tagName)]
+        let item = SimpleInlineElement(contents: identifier.innerHTML, tagName: identifier.tagName)
         
-        return ResolvedResult(resolvable: identifier, result:.InlineElements(items:items))
+        return ResolvedResult(resolvable: identifier, result:.InlineElements([item]))
     }
 }

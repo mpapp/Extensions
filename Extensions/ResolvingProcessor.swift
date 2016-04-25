@@ -87,8 +87,8 @@ public struct ResolvableElementProcessor: ElementProcessor {
                         let resolvable:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
                         
                         if let str = c.stringValue where self.replaceMatches {
-                            let htmlReps = resolvable.result.HTMLSnippetRepresentables.map { $0.HTMLSnippetRepresentation }
-                            let replacedStringValue = str.stringByReplacingOccurrencesOfString(resolvable.resolvable.identifier, withString: htmlReps.joinWithSeparator(""))
+                            let htmlRep = try resolvable.elementRepresentation().HTMLSnippetRepresentation
+                            let replacedStringValue = str.stringByReplacingOccurrencesOfString(resolvable.resolvable.identifier, withString: htmlRep)
                             c.stringValue = replacedStringValue
                         }
                         

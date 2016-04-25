@@ -46,7 +46,7 @@ public struct DigitalObjectIdentifierResolver: URLBasedResolver {
             return ResolvedResult(resolvable:DOI, result:.None)
         }
         
-        return ResolvedResult(resolvable:DOI, result:.BibliographyItems(items:items))
+        return ResolvedResult(resolvable:DOI, result:.BibliographyItems(items))
     }
     
     private func bibliographyItems(DOI DOI:DigitalObjectIdentifier) throws -> [BibliographyItem] {

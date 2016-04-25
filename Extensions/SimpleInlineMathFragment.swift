@@ -34,7 +34,7 @@ public class SimpleInlineMathFragment: NSObject, InlineMathFragment, JSONDecodab
         ]
     }
     
-    public class var tagName: String {
+    public var tagName: String {
         return "span"
     }
 }

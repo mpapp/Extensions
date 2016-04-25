@@ -17,41 +17,42 @@ internal typealias LabelItemsTuple = (String?, (Resolvable, HTMLSnippetRepresent
 
 public enum Result {
     case None
-    case BibliographyItems(items:[BibliographyItem])
-    case InlineMathFragments(items:[InlineMathFragment])
-    case Equations(items:[Equation])
-    case BlockElements(items:[BlockElement])
-    case InlineElements(items:[InlineElement])
+    case BibliographyItems([BibliographyItem])
+    case InlineMathFragments([InlineMathFragment])
+    case Equations([Equation])
+    case BlockElements([BlockElement])
+    case InlineElements([InlineElement])
     
     public var HTMLSnippetRepresentables:[HTMLSnippetRepresentable] {
         switch self {
         case .None:
             return []
-            
-        default:
-            let mirror = Mirror(reflecting: self)
-            
-            if let htmlReps = mirror.children.first?.value as? [HTMLSnippetRepresentable] {
-                return htmlReps
-            }
-            
-            else if let htmlRep = mirror.children.first?.value as? AnyObject as? HTMLSnippetRepresentable {
-                return [htmlRep]
-            }
-            
-            return []
+
+        case .BibliographyItems(let items):
+            return items.map { $0 }
+        
+        case .BlockElements(let items):
+            return items.map { $0 }
+        
+        case .Equations(let items):
+            return items.map { $0 }
+        
+        case .InlineElements(let items):
+            return items.map { $0 }
+        
+        case .InlineMathFragments(let items):
+            return items.map { $0 }
         }
     }
 }
 
-@objc public class ResolvedResult: NSObject, DictionaryRepresentable {
+@objc public class ResolvedResult: NSObject, DictionaryRepresentable, ElementRepresentable {
     public let resolvable:Resolvable
     public let result:Result
     
     public init(resolvable:Resolvable, result:Result) {
         self.resolvable = resolvable
         self.result = result
-        super.init()
     }
     
     public var dictionaryRepresentation:[String:AnyObject] {
@@ -85,5 +86,16 @@ public enum Result {
                     "resolvable":resolvable.identifier,
                     "value":dictRep.dictionaryRepresentation]
         }
+    }
+    
+    public func elementRepresentation() throws -> Element {
+        let htmlReps = self.result.HTMLSnippetRepresentables
+        
+        if let firstRep = htmlReps.first where htmlReps.count == 1 {
+            return try element(HTMLSnippet: firstRep.HTMLSnippetRepresentation)
+        }
+        
+        let contents = htmlReps.map { $0.HTMLSnippetRepresentation }
+        return try element(tagName: "div", contents: contents.joinWithSeparator(""))
     }
 }

@@ -33,7 +33,7 @@
 		5F34E2D21CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */; };
 		5F44B8001CCA6D700047A4F0 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */; };
 		5F44B8071CCA7C940047A4F0 /* Mathematical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8061CCA7C940047A4F0 /* Mathematical.swift */; };
-		5F44B80E1CCA7DC20047A4F0 /* ElementTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */; };
+		5F44B80E1CCA7DC20047A4F0 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B80D1CCA7DC20047A4F0 /* Elements.swift */; };
 		5F44B8101CCA87700047A4F0 /* DictionaryRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */; };
 		5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8111CCA912F0047A4F0 /* DocumentProcessor.swift */; };
 		5F44B8141CCA91370047A4F0 /* ElementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8131CCA91370047A4F0 /* ElementProcessor.swift */; };
@@ -69,6 +69,7 @@
 		5F57FB511CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB501CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift */; };
 		5F57FB531CCD5FBC00EBF750 /* SimpleHTMLElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB521CCD5FBC00EBF750 /* SimpleHTMLElements.swift */; };
 		5F57FB551CCDAD0300EBF750 /* ResolvedResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB541CCDAD0300EBF750 /* ResolvedResult.swift */; };
+		5F6813EF1CCE497100AA2C29 /* ElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6813EE1CCE497100AA2C29 /* ElementRepresentable.swift */; };
 		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
 		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
@@ -172,7 +173,7 @@
 		5F34E2D11CC7FF8B00A5DAF1 /* SimpleBibliographyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleBibliographyItem.swift; sourceTree = "<group>"; };
 		5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		5F44B8061CCA7C940047A4F0 /* Mathematical.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mathematical.swift; sourceTree = "<group>"; };
-		5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementTypes.swift; sourceTree = "<group>"; };
+		5F44B80D1CCA7DC20047A4F0 /* Elements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
 		5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryRepresentable.swift; sourceTree = "<group>"; };
 		5F44B8111CCA912F0047A4F0 /* DocumentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessor.swift; sourceTree = "<group>"; };
 		5F44B8131CCA91370047A4F0 /* ElementProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementProcessor.swift; sourceTree = "<group>"; };
@@ -203,6 +204,7 @@
 		5F57FB501CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLSnippetRepresentable.swift; sourceTree = "<group>"; };
 		5F57FB521CCD5FBC00EBF750 /* SimpleHTMLElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleHTMLElements.swift; sourceTree = "<group>"; };
 		5F57FB541CCDAD0300EBF750 /* ResolvedResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolvedResult.swift; sourceTree = "<group>"; };
+		5F6813EE1CCE497100AA2C29 /* ElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementRepresentable.swift; sourceTree = "<group>"; };
 		5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/Mac/Freddy.framework; sourceTree = "<group>"; };
 		5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Freddy.framework.dSYM; path = Carthage/Build/Mac/Freddy.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionRegistry.swift; sourceTree = "<group>"; };
@@ -264,10 +266,10 @@
 		5F1996811CB5AE8F00B1C5DB = {
 			isa = PBXGroup;
 			children = (
-				5F7EE49C1CBA9B8D00F4B7EA /* JSExample */,
-				5F1996D71CB7E1EC00B1C5DB /* Frameworks */,
 				5F19968D1CB5AE8F00B1C5DB /* Extensions */,
 				5F1996B61CB5B58400B1C5DB /* ExtensionsTests */,
+				5F1996D71CB7E1EC00B1C5DB /* Frameworks */,
+				5F7EE49C1CBA9B8D00F4B7EA /* JSExample */,
 				5F19968C1CB5AE8F00B1C5DB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -293,11 +295,11 @@
 				5F7EE4851CB8374F00F4B7EA /* Procedure.swift */,
 				5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */,
 				5F7EE4871CB845B800F4B7EA /* Evaluators */,
-				5F571C921CC41975003471D5 /* Processor Protocols */,
-				5F44B8171CCA91D30047A4F0 /* Processor Implementations */,
 				5F44B8361CCBCB370047A4F0 /* Model Implementations */,
 				5F34E2D01CC7FD7E00A5DAF1 /* Model Protocols */,
-				5F34E2C81CC7EDE000A5DAF1 /* Resolvers */,
+				5F571C921CC41975003471D5 /* Processor Protocols */,
+				5F6813F01CCE4AA600AA2C29 /* Resolver & Processor Implementations */,
+				5F34E2C81CC7EDE000A5DAF1 /* Resolver Model */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -336,19 +338,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5F34E2C81CC7EDE000A5DAF1 /* Resolvers */ = {
+		5F34E2C81CC7EDE000A5DAF1 /* Resolver Model */ = {
 			isa = PBXGroup;
 			children = (
-				5F44B8241CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift */,
-				5F57FB4A1CCD491800EBF750 /* LaTeXMathResolver.swift */,
-				5F57FB481CCCE39500EBF750 /* MarkdownResolvers.swift */,
-				5F2BBA081CC8045600EA1D66 /* ProteinDataBankResolver.swift */,
-				5F34E2C91CC7EFF000A5DAF1 /* PubMedResolver.swift */,
 				5F2BBA0C1CC81F2200EA1D66 /* Resolvable.swift */,
 				5F57FB541CCDAD0300EBF750 /* ResolvedResult.swift */,
 				5F2BBA0A1CC81D6B00EA1D66 /* Resolver.swift */,
 			);
-			name = Resolvers;
+			name = "Resolver Model";
 			sourceTree = "<group>";
 		};
 		5F34E2D01CC7FD7E00A5DAF1 /* Model Protocols */ = {
@@ -358,19 +355,12 @@
 				5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */,
 				5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */,
 				5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */,
-				5F44B80D1CCA7DC20047A4F0 /* ElementTypes.swift */,
+				5F6813EE1CCE497100AA2C29 /* ElementRepresentable.swift */,
+				5F44B80D1CCA7DC20047A4F0 /* Elements.swift */,
 				5F57FB501CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift */,
 				5F44B8061CCA7C940047A4F0 /* Mathematical.swift */,
 			);
 			name = "Model Protocols";
-			sourceTree = "<group>";
-		};
-		5F44B8171CCA91D30047A4F0 /* Processor Implementations */ = {
-			isa = PBXGroup;
-			children = (
-				5F34E2C61CC7EBFC00A5DAF1 /* ResolvingProcessor.swift */,
-			);
-			name = "Processor Implementations";
 			sourceTree = "<group>";
 		};
 		5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */ = {
@@ -409,6 +399,19 @@
 				5F44B8151CCA913E0047A4F0 /* FragmentProcessor.swift */,
 			);
 			name = "Processor Protocols";
+			sourceTree = "<group>";
+		};
+		5F6813F01CCE4AA600AA2C29 /* Resolver & Processor Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				5F44B8241CCAED7F0047A4F0 /* DigitalObjectIdentifierResolver.swift */,
+				5F57FB4A1CCD491800EBF750 /* LaTeXMathResolver.swift */,
+				5F57FB481CCCE39500EBF750 /* MarkdownResolvers.swift */,
+				5F2BBA081CC8045600EA1D66 /* ProteinDataBankResolver.swift */,
+				5F34E2C91CC7EFF000A5DAF1 /* PubMedResolver.swift */,
+				5F34E2C61CC7EBFC00A5DAF1 /* ResolvingProcessor.swift */,
+			);
+			name = "Resolver & Processor Implementations";
 			sourceTree = "<group>";
 		};
 		5F7EE4871CB845B800F4B7EA /* Evaluators */ = {
@@ -657,7 +660,7 @@
 				5F44B8141CCA91370047A4F0 /* ElementProcessor.swift in Sources */,
 				5F44B81F1CCAD09B0047A4F0 /* Int+Extensions.swift in Sources */,
 				5F34E2CF1CC7F0D900A5DAF1 /* BibliographyItem.swift in Sources */,
-				5F44B80E1CCA7DC20047A4F0 /* ElementTypes.swift in Sources */,
+				5F44B80E1CCA7DC20047A4F0 /* Elements.swift in Sources */,
 				5FC2B2C81CBCA87E001F77FB /* EvaluatorDebugWindowController.swift in Sources */,
 				5F44B8001CCA6D700047A4F0 /* String+Extensions.swift in Sources */,
 				5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */,
@@ -665,6 +668,7 @@
 				5F57FB551CCDAD0300EBF750 /* ResolvedResult.swift in Sources */,
 				5F44B83A1CCBCCA10047A4F0 /* BibliographicDate.swift in Sources */,
 				5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */,
+				5F6813EF1CCE497100AA2C29 /* ElementRepresentable.swift in Sources */,
 				5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */,
 				5F44B83C1CCBCD480047A4F0 /* SimpleBibliographicName.swift in Sources */,
 				5F44B8101CCA87700047A4F0 /* DictionaryRepresentable.swift in Sources */,

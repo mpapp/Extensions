@@ -21,10 +21,16 @@ enum ResolvingError:ErrorType {
     case MissingQuery(NSURLComponents)
 }
 
-public protocol Resolvable {
+public protocol Resolvable: CustomStringConvertible {
     var identifier:String { get }
     
     init(identifier:String) throws
     
     static func capturingPattern() -> String
+}
+
+extension Resolvable {
+    public var description:String {
+        return "<\(self.dynamicType) \(self.identifier)>"
+    }
 }

@@ -8,11 +8,18 @@
 
 import Foundation
 
+enum ElementError:ErrorType {
+    case UnexpectedTagName(String)
+    case UnexpectedSnippet(String)
+}
+
 public class SimpleInlineElement: NSObject, InlineElement {
     public let contents: String
+    public let tagName: String
     
-    public init(contents:String, tagName:String) {
+    public init(contents:String, tagName:String = "span") {
         self.contents = contents
+        self.tagName = tagName
     }
     
     public class var tagName: String {
@@ -24,12 +31,37 @@ public class SimpleBlockElement: NSObject, BlockElement {
     public let contents: String
     public let tagName: String
     
-    public init(contents:String, tagName:String) {
+    public init(contents:String, tagName:String = "div") {
         self.contents = contents
         self.tagName = tagName
     }
-    
-    public class var tagName: String {
-        return "div"
+}
+
+func element(tagName tagName:String, contents:String) throws -> Element {
+    let lowercaseTagName = tagName.lowercaseString
+
+    switch lowercaseTagName {
+    case "p", "div":
+        return SimpleBlockElement(contents: contents, tagName: tagName)
+        
+    case "span", "strong", "em", "i", "b":
+        return SimpleInlineElement(contents: contents, tagName: tagName)
+        
+    default:
+        throw ElementError.UnexpectedTagName(tagName)
     }
+}
+
+func element(HTMLSnippet snippet:String) throws -> Element {
+    let doc = try NSXMLDocument(XMLString: snippet, options: MPDefaultXMLDocumentParsingOptions)
+    
+    if let root = doc.rootElement(), let rootTagName = root.name, let children = root.children {
+        let str = children.map {
+            return $0.XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
+        }.joinWithSeparator("")
+        
+        return try element(tagName:rootTagName, contents:str)
+    }
+    
+    throw ElementError.UnexpectedSnippet(snippet)
 }

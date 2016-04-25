@@ -6,8 +6,8 @@
 //  Copyright © 2016 Manuscripts.app Limited. All rights reserved.
 //
 
-public protocol HTMLSnippetRepresentable {
-    static var tagName:String { get }
+public protocol HTMLSnippetRepresentable:CustomStringConvertible {
+    var tagName:String { get }
     var innerHTML:String { get }
     var attributeDictionary:[String:String] { get }
     
@@ -16,6 +16,7 @@ public protocol HTMLSnippetRepresentable {
 
 extension HTMLSnippetRepresentable {
     public var HTMLSnippetRepresentation: String {
-        return "<\(self.dynamicType.tagName )>\(self.innerHTML)</\(self.dynamicType.tagName)>"
+        let str = "<\(self.tagName )>\(self.innerHTML)</\(self.tagName)>"
+        return str
     }
 }
