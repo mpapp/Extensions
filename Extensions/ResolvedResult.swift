@@ -14,6 +14,21 @@ public enum ResolvedResult {
     case BlockElements(Resolvable, [BlockElement])
     case InlineElements(Resolvable, [InlineElement])
     
+    public var resolvable:Resolvable {
+        let mirror = Mirror(reflecting: self)
+        let associatedCount = mirror.children.count
+        
+        guard associatedCount == 2 else {
+            preconditionFailure("Enum option \(self) has unexpected numbers of value.")
+        }
+        
+        guard let resolvable = mirror.children.dropFirst().first?.value as? Resolvable else {
+            preconditionFailure("Enum option \(self) does not have an associated value.")
+        }
+        
+        return resolvable
+    }
+    
     public var dictionaryRepresentation:[String:AnyObject] {
         switch self {
         case None(let resolvable):
@@ -56,6 +71,7 @@ public enum ResolvedResult {
             let mirror = Mirror(reflecting: self)
             let associatedCount = mirror.children.count
             
+            // suddenly there are no two children?
             guard associatedCount == 2 else {
                 preconditionFailure("Enum option \(self) has unexpected numbers of value.")
             }
