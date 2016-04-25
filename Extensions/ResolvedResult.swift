@@ -26,8 +26,8 @@ public enum Result {
 
 public struct ResolvedResult {
     
-    let resolvable:Resolvable
-    let result:Result
+    public let resolvable:Resolvable
+    public let result:Result
     
     public var dictionaryRepresentation:[String:AnyObject] {
         switch self.result {
@@ -70,9 +70,11 @@ public struct ResolvedResult {
         default:
             let mirror = Mirror(reflecting: self)
             
-            let htmlRepsAssoc = mirror.children.dropFirst()
+            guard let htmlReps = mirror.children.first?.value as? [HTMLSnippetRepresentable] else {
+                return []
+            }
             
-            return []
+            return htmlReps
         }
     }
 }

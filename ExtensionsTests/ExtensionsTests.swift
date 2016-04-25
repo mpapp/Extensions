@@ -72,8 +72,8 @@ class ExtensionsTests: XCTestCase {
         }
         
         let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()]) { (elemProcessor, textNode, fragment, resolvedResult) in
-            switch resolvedResult {
-            case .BibliographyItems(_, let items):
+            switch resolvedResult.result {
+            case .BibliographyItems(let items):
                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                 XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
             default:
@@ -109,8 +109,8 @@ class ExtensionsTests: XCTestCase {
         
         let DOIResolver = DigitalObjectIdentifierResolver()
         
-        switch try! DOIResolver.resolve("10.1038/nrd84") {
-        case .BibliographyItems(_, let items):
+        switch try! DOIResolver.resolve("10.1038/nrd84").result {
+        case .BibliographyItems(let items):
             XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
         default:
             XCTFail("Failed to parse bibliography items.")
@@ -119,8 +119,8 @@ class ExtensionsTests: XCTestCase {
         let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
                                                       tokenizingPatterns: [],
                                                       capturingPatterns:[DigitalObjectIdentifier.capturingPattern()]) { (elemProcessor, textNode, fragment, resolvedResult) in
-            switch resolvedResult {
-            case .BibliographyItems(_, let items):
+            switch resolvedResult.result {
+            case .BibliographyItems(let items):
                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                 XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
             default:
@@ -165,17 +165,17 @@ class ExtensionsTests: XCTestCase {
         
         let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers) { (elementProcessor, textNode, fragment, resolvedResult) in
             print("\(fragment), \(resolvedResult)")
-            
-            switch resolvedResult {
-            case .InlineElements(let resolvable, let elems):
-                guard let _ = resolvable as? MarkdownSyntaxComponent else {
-                    XCTFail("Resolvable is unexpectedly not a MarkdownSyntaxComponent: \(resolvable).")
+            resolvedResult
+            switch resolvedResult.result {
+            case .InlineElements(let elems):
+                guard let _ = resolvedResult.resolvable as? MarkdownSyntaxComponent else {
+                    XCTFail("Resolvable is unexpectedly not a MarkdownSyntaxComponent: \(resolvedResult.resolvable).")
                     break
                 }
                 
                 XCTAssert(elems.count == 1, "Unexpected inline element count: \(elems)")
                 
-            case .BibliographyItems(_, _):
+            case .BibliographyItems(_):
                 break
                 
             default:
