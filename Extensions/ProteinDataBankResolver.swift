@@ -54,12 +54,13 @@ public struct ProteinDataBankResolver: URLBasedResolver {
         //let result = try DigitalObjectIdentifierResolver().resolve("10.2210/pdb\(PDBID)/pdb")
         //return result
         
-        let items = try self.bibliographyItems(proteinDataID: ProteinDataBankIdentifier(identifier:identifier))
+        let PDBID = try ProteinDataBankIdentifier(identifier:identifier)
+        let items = try self.bibliographyItems(proteinDataID: PDBID)
         guard items.count > 0 else {
-            return ResolvedResult.None
+            return ResolvedResult.None(PDBID)
         }
         
-        return ResolvedResult.BibliographyItems(items)
+        return ResolvedResult.BibliographyItems(PDBID, items)
     }
     
     private func resolvedResult(document doc:XMLIndexer) throws -> ResolvedResult {
@@ -101,7 +102,7 @@ public struct ProteinDataBankResolver: URLBasedResolver {
         let result = try self.resolvedResult(document: doc)
         
         switch result {
-        case .BibliographyItems(let items):
+        case .BibliographyItems(_, let items):
             return items
             
         case .None:

@@ -40,12 +40,13 @@ public struct DigitalObjectIdentifierResolver: URLBasedResolver {
     }()
     
     public func resolve(identifier: String) throws -> ResolvedResult {
-        let items = try self.bibliographyItems(DOI: DigitalObjectIdentifier(identifier:identifier))
+        let DOI = try DigitalObjectIdentifier(identifier:identifier)
+        let items = try self.bibliographyItems(DOI: DOI)
         guard items.count > 0 else {
-            return ResolvedResult.None
+            return ResolvedResult.None(DOI)
         }
         
-        return ResolvedResult.BibliographyItems(items)
+        return ResolvedResult.BibliographyItems(DOI, items)
     }
     
     private func bibliographyItems(DOI DOI:DigitalObjectIdentifier) throws -> [BibliographyItem] {

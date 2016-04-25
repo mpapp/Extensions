@@ -73,7 +73,7 @@ class ExtensionsTests: XCTestCase {
         
         let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()]) { (elemProcessor, textNode, fragment, resolvedResult) in
             switch resolvedResult {
-            case .BibliographyItems(let items):
+            case .BibliographyItems(_, let items):
                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                 XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
             default:
@@ -110,7 +110,7 @@ class ExtensionsTests: XCTestCase {
         let DOIResolver = DigitalObjectIdentifierResolver()
         
         switch try! DOIResolver.resolve("10.1038/nrd84") {
-        case .BibliographyItems(let items):
+        case .BibliographyItems(_, let items):
             XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
         default:
             XCTFail("Failed to parse bibliography items.")
@@ -120,7 +120,7 @@ class ExtensionsTests: XCTestCase {
                                                       tokenizingPatterns: [],
                                                       capturingPatterns:[DigitalObjectIdentifier.capturingPattern()]) { (elemProcessor, textNode, fragment, resolvedResult) in
             switch resolvedResult {
-            case .BibliographyItems(let items):
+            case .BibliographyItems(_, let items):
                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                 XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
             default:
@@ -166,7 +166,20 @@ class ExtensionsTests: XCTestCase {
         let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers) { (elementProcessor, textNode, fragment, resolvedResult) in
             print("\(fragment), \(resolvedResult)")
             
-            textNode.stringValue = textNode
+            switch resolvedResult {
+            case .InlineElements(let resolvable, _):
+                guard let _ = resolvable as? MarkdownSyntaxComponent else {
+                    XCTFail("Resolvable is unexpectedly not a MarkdownSyntaxComponent: \(resolvable).")
+                    break
+                }
+                
+            case .BibliographyItems(_, _):
+                break
+                
+            default:
+                XCTFail("There should be no failed resolve calls.")
+            }
+            
         }
 
         var doc:NSXMLDocument? = nil

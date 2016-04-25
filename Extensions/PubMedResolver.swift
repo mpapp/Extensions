@@ -117,8 +117,9 @@ public class PubMedResolver: URLBasedResolver {
     }
     
     public func resolve(identifier: String) throws -> ResolvedResult {
-        let bibItem = try self.bibliographyItem(try PubMedIdentifier(identifier: identifier))
-        return ResolvedResult.BibliographyItems([bibItem])
+        let PMID = try PubMedIdentifier(identifier: identifier)
+        let bibItem = try self.bibliographyItem(PMID)
+        return ResolvedResult.BibliographyItems(PMID, [bibItem])
     }
     
 }
