@@ -9,34 +9,43 @@
 import Foundation
 
 public enum ResolvedResult {
-    case None
-    case BibliographyItems([BibliographyItem])
-    case InlineMathFragments([InlineMathFragment])
-    case Equations([Equation])
-    case BlockElements([BlockElement])
-    case InlineElements([InlineElement])
+    case None(Resolvable)
+    case BibliographyItems(Resolvable, [BibliographyItem])
+    case InlineMathFragments(Resolvable, [InlineMathFragment])
+    case Equations(Resolvable, [Equation])
+    case BlockElements(Resolvable, [BlockElement])
+    case InlineElements(Resolvable, [InlineElement])
     
     func dictionaryRepresentation() -> [String:AnyObject] {
         switch self {
-        case None:
-            return [:]
+        case None(let resolvable):
+            return ["type":"None", "resolvable":resolvable.identifier, "value":[:]]
             
         default:
             let mirror = Mirror(reflecting: self)
+            let associatedCount = mirror.children.count
             
-            guard let associated = mirror.children.first else {
-                preconditionFailure("Enum option \(self) does not have an associated value")
+            guard associatedCount == 2 else {
+                preconditionFailure("Enum option \(self) has unexpected numbers of value.")
             }
             
-            guard let label = associated.label else {
+            guard let resolvable = mirror.children.dropFirst().first?.value as? Resolvable else {
+                preconditionFailure("Enum option \(self) does not have an associated value.")
+            }
+            
+            let dictAssoc = mirror.children.dropFirst().first
+            
+            guard let dict = dictAssoc?.value as? DictionaryRepresentable else {
+                preconditionFailure("Enum option \(self) does not have a dictionary representable second value: \(mirror.children)")
+            }
+            
+            guard let label = dictAssoc?.label else {
                 preconditionFailure("Enum option \(self) does not have a label.")
             }
             
-            guard let dict = associated.value as? DictionaryRepresentable else {
-                preconditionFailure("Associated value of \(self) is not dictionary representable.")
-            }
-            
-            return ["type":label,"value":dict]
+            return ["type":label,
+                    "resolvable":resolvable.identifier,
+                    "value":dict.dictionaryRepresentation()]
         }
     }
     

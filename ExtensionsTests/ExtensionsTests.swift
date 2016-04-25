@@ -158,13 +158,15 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testProcessingMarkdown() {
-        let resolvers:[Resolver] = [MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self),
-                                    MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self),
-                                    MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self),
-                                    MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self)]
+        let resolvers:[Resolver] = [ MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self),
+                                     MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self),
+                                     MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self),
+                                     MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self) ]
         
         let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers) { (elementProcessor, textNode, fragment, resolvedResult) in
             print("\(fragment), \(resolvedResult)")
+            
+            textNode.stringValue = textNode
         }
 
         var doc:NSXMLDocument? = nil
