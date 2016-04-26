@@ -1,5 +1,5 @@
 github "bignerdranch/Freddy" "a9a0ca9d372d93e4c9a1051aa3c2c58715e68455"
-github "mpapp/MPTimer" "0.0.2"
+github "mpapp/MPTimer" "master"
 github "mpapp/RegexKitLite" "master"
 github "drmohundro/SWXMLHash" "master"
 github "AliSoftware/OHHTTPStubs" "master"
