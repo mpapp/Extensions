@@ -10,7 +10,7 @@ import Foundation
 
 extension NSView {
     
-    public func addSubviewConstrainedToSuperViewEdges(aView:NSView,
+    public func mp_addSubviewConstrainedToSuperViewEdges(aView:NSView,
                                                       topOffset:CGFloat = 0,
                                                       rightOffset:CGFloat = 0,
                                                       bottomOffset:CGFloat = 0,
@@ -19,15 +19,15 @@ extension NSView {
         aView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(aView)
         
-        self.addEdgeConstraint(.Left, constantOffset: leftOffset, subview: aView)
-        self.addEdgeConstraint(.Right, constantOffset: rightOffset, subview: aView)
-        self.addEdgeConstraint(.Top, constantOffset: topOffset, subview: aView)
-        self.addEdgeConstraint(.Bottom, constantOffset: bottomOffset, subview: aView)
+        self.mp_addEdgeConstraint(.Left, constantOffset: leftOffset, subview: aView)
+        self.mp_addEdgeConstraint(.Right, constantOffset: rightOffset, subview: aView)
+        self.mp_addEdgeConstraint(.Top, constantOffset: topOffset, subview: aView)
+        self.mp_addEdgeConstraint(.Bottom, constantOffset: bottomOffset, subview: aView)
     }
     
-    public func addEdgeConstraint(edge:NSLayoutAttribute,
-                                  constantOffset:CGFloat = 0,
-                                  subview:NSView) -> NSLayoutConstraint {
+    public func mp_addEdgeConstraint(edge:NSLayoutAttribute,
+                                     constantOffset:CGFloat = 0,
+                                     subview:NSView) -> NSLayoutConstraint {
         let constraint:NSLayoutConstraint
                 = NSLayoutConstraint(item:subview,
                                      attribute:edge,

@@ -14,7 +14,7 @@ public class EvaluatorDebugWindowController: NSWindowController {
     
     override public func windowDidLoad() {
         super.windowDidLoad()
-        self.window?.contentView?.addSubviewConstrainedToSuperViewEdges(self.debugViewController.view)
+        self.window?.contentView?.mp_addSubviewConstrainedToSuperViewEdges(self.debugViewController.view)
     }
     
     // couldn't think of another way of making this lazily initialized?
