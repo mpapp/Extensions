@@ -10,15 +10,19 @@ import Foundation
 
 public protocol ElementProcessor {
     var XPathPattern:String { get }
-    var separator:String { get }
+    var separator:String? { get }
     var replaceMatches:Bool { get }
     
     func process(element element:NSXMLElement, inDocument doc:NSXMLDocument) throws -> [NSXMLNode]
+    
+    func process(document doc:NSXMLDocument) throws -> [NSXMLNode]
 }
+
+typealias ProcessedNodeHandler = () -> Void
 
 extension ElementProcessor {
     
-    public var separator:String { return ";" }
+    public var separator:String? { return ";" }
     
     public func process(document doc:NSXMLDocument) throws -> [NSXMLNode] {
         var processed = [NSXMLNode]()
@@ -51,9 +55,9 @@ extension ElementProcessor {
             parentNode.removeChildAtIndex(nodeIndex)
             for (i,n) in nodes.reverse().enumerate() {
                 parentNode.insertChild(n, atIndex: nodeIndex)
-                if (i < (nodes.count - 1)) {
+                if let separator = self.separator where i < (nodes.count - 1) {
                     let separatorNode = NSXMLNode(kind: .TextKind)
-                    separatorNode.setStringValue(self.separator, resolvingEntities: false)
+                    separatorNode.setStringValue(separator, resolvingEntities: false)
                     parentNode.insertChild(separatorNode, atIndex: i + 1)
                 }
             }

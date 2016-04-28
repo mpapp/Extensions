@@ -71,16 +71,7 @@ class ExtensionsTests: XCTestCase {
             return fixture(stubPath, headers: [:])
         }
         
-        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()]) { (elemProcessor, textNode, fragment, resolvedResult) in
-            switch resolvedResult.result {
-            case .BibliographyItems(let items):
-                XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
-            default:
-                XCTFail("Failed to resolve a bibliography item for \(fragment)")
-            }
-            print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
-        }
+        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()])
         let docP = ResolvingDocumentProcessor(resolver: ProteinDataBankResolver(), elementProcessors: [pdb])
         
         let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
@@ -94,7 +85,16 @@ class ExtensionsTests: XCTestCase {
         }
         
         do {
-            try docP.processedDocument(inputDocument: doc!)
+            try docP.processedDocument(inputDocument: doc!, inPlace:true) { (elemProcessor, textNode, fragment, resolvedResult) in
+                switch resolvedResult.result {
+                case .BibliographyItems(let items):
+                    XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
+                    XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
+                default:
+                    XCTFail("Failed to resolve a bibliography item for \(fragment)")
+                }
+                print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
+            }
         }
         catch {
             XCTFail("Failed to process document from URL \(URL).")
@@ -118,16 +118,7 @@ class ExtensionsTests: XCTestCase {
         
         let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
                                                       tokenizingPatterns: [],
-                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()]) { (elemProcessor, textNode, fragment, resolvedResult) in
-            switch resolvedResult.result {
-            case .BibliographyItems(let items):
-                XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
-            default:
-                XCTFail("Failed to resolve a bibliography item for \(fragment)")
-            }
-            print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
-        }
+                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()])
         let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
         
         var doc:NSXMLDocument? = nil
@@ -136,7 +127,16 @@ class ExtensionsTests: XCTestCase {
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         do {
-            try docP.processedDocument(inputDocument: doc!)
+            try docP.processedDocument(inputDocument: doc!, inPlace:true) { (elemProcessor, textNode, fragment, resolvedResult) in
+                switch resolvedResult.result {
+                case .BibliographyItems(let items):
+                    XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
+                    XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
+                default:
+                    XCTFail("Failed to resolve a bibliography item for \(fragment)")
+                }
+                print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
+            }
         }
         catch {
             XCTFail("Failed to process document from URL \(URL).")
@@ -165,7 +165,14 @@ class ExtensionsTests: XCTestCase {
         
         var encounteredIDs:Set<String> = []
         
-        let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers, replaceMatches: true) { (elementProcessor, textNode, fragment, resolvedResult) in
+        let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers, replaceMatches: true)
+        
+        var doc:NSXMLDocument? = nil
+        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
+        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
+        catch { XCTFail("Failed to initialize test document from URL \(URL).") }
+        
+        try! docP.processedDocument(inputDocument: doc!, inPlace: true) { (elementProcessor, textNode, fragment, resolvedResult) in
             
             switch resolvedResult.result {
             case .InlineElements(let elems):
@@ -179,22 +186,22 @@ class ExtensionsTests: XCTestCase {
                 encounteredIDs.insert(resolvable.identifier)
                 
                 switch resolvable.identifier {
-                    case "**delivers**":
-                        XCTAssert(resolvable.innerHTML == "delivers", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                        XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
-                
-                    case "__that__":
-                        XCTAssert(resolvable.innerHTML == "that", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                        XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
+                case "**delivers**":
+                    XCTAssert(resolvable.innerHTML == "delivers", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                    XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
                     
-                    case "*resource*":
-                        XCTAssert(resolvable.innerHTML == "resource", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                        XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
-
-                    case "_semantically_":
-                        XCTAssert(resolvable.innerHTML == "semantically", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                        XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
-
+                case "__that__":
+                    XCTAssert(resolvable.innerHTML == "that", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                    XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
+                    
+                case "*resource*":
+                    XCTAssert(resolvable.innerHTML == "resource", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                    XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
+                    
+                case "_semantically_":
+                    XCTAssert(resolvable.innerHTML == "semantically", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                    XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
+                    
                 default:
                     break
                 }
@@ -206,13 +213,6 @@ class ExtensionsTests: XCTestCase {
                 XCTFail("There should be no failed resolve calls.")
             }
         }
-        
-        var doc:NSXMLDocument? = nil
-        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
-        catch { XCTFail("Failed to initialize test document from URL \(URL).") }
-        
-        try! docP.processedDocument(inputDocument: doc!)
         
         for identifier in ["**delivers**", "__that__", "*resource*", "_semantically_"] {
             XCTAssert(encounteredIDs.contains(identifier), "Failed to resolve identifier \(identifier)")

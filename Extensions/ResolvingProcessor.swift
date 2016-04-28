@@ -52,13 +52,11 @@ public struct ResolvableElementProcessor: ElementProcessor {
     let resolver:Resolver
     public let replaceMatches: Bool
     let fragmentProcessor:ResolvableFragmentProcessor
-    let resolvedResultHandler: ResolvedResultHandler
     
-    public init(resolver:Resolver, tokenizingPatterns:[String], capturingPatterns:[String], replaceMatches:Bool = false, resolvedResultHandler:ResolvedResultHandler) {
+    public init(resolver:Resolver, tokenizingPatterns:[String], capturingPatterns:[String], replaceMatches:Bool = false) {
         self.resolver = resolver
         self.replaceMatches = replaceMatches
         self.fragmentProcessor = ResolvableFragmentProcessor(resolver: self.resolver, tokenizingPatterns: tokenizingPatterns, capturingPatterns: capturingPatterns)
-        self.resolvedResultHandler = resolvedResultHandler
     }
     
     public var XPathPattern:String = {
@@ -66,6 +64,56 @@ public struct ResolvableElementProcessor: ElementProcessor {
     }()
     
     public func process(element element:NSXMLElement, inDocument doc:NSXMLDocument) throws -> [NSXMLNode] {
+        return try self.process(element: element, inDocument: doc, resultHandler: nil)
+    }
+    
+    public func process(document doc:NSXMLDocument) throws -> [NSXMLNode] {
+        return try self.process(document: doc, resultHandler: nil)
+    }
+    
+    public func process(document doc:NSXMLDocument, resultHandler:ResolvedResultHandler?) throws -> [NSXMLNode] {
+        var processed = [NSXMLNode]()
+        
+        let nodes = try doc.nodesForXPath(self.XPathPattern)
+        
+        for node in nodes {
+            
+            guard let elem = node as? NSXMLElement else {
+                throw DocumentProcessorError.UnexpectedNodeType(node)
+            }
+            
+            let nodes = try self.process(element: elem, inDocument: doc, resultHandler: resultHandler)
+            
+            processed.appendContentsOf(nodes)
+            
+            // if element was modified in place, continue as you don't need to replace it.
+            if (nodes.count == 1) && (nodes[0] === node) {
+                continue
+            }
+            
+            guard let parentNode = node.parent as? NSXMLElement else {
+                throw DocumentProcessorError.UnexpectedParentNode(node)
+            }
+            
+            guard let nodeIndex = parentNode.children?.indexOf(node) else {
+                throw DocumentProcessorError.UnexpectedParentNode(node)
+            }
+            
+            parentNode.removeChildAtIndex(nodeIndex)
+            for (i,n) in nodes.reverse().enumerate() {
+                parentNode.insertChild(n, atIndex: nodeIndex)
+                if let separator = self.separator where i < (nodes.count - 1) {
+                    let separatorNode = NSXMLNode(kind: .TextKind)
+                    separatorNode.setStringValue(separator, resolvingEntities: false)
+                    parentNode.insertChild(separatorNode, atIndex: i + 1)
+                }
+            }
+        }
+        
+        return processed
+    }
+    
+    public func process(element element:NSXMLElement, inDocument doc:NSXMLDocument, resultHandler:ResolvedResultHandler?) throws -> [NSXMLNode] {
         
         guard let children = element.children else {
             return [element]
@@ -92,7 +140,9 @@ public struct ResolvableElementProcessor: ElementProcessor {
                             c.stringValue = replacedStringValue
                         }
                         
-                        self.resolvedResultHandler(elementProcessor:self, textNode:c, fragment: splitStr, resolvedResult: resolvable)
+                        if let resultHandler = resultHandler {
+                            resultHandler(elementProcessor:self, textNode:c, fragment: splitStr, resolvedResult: resolvable)
+                        }
                     }
                     catch ResolvingError.NotResolvable(_) {
                         // specifically, don't log these errors.
@@ -112,11 +162,24 @@ public struct ResolvableElementProcessor: ElementProcessor {
 public struct ResolvingDocumentProcessor: DocumentProcessor {
     
     public let resolver:Resolver
-    public let elementProcessors:[ElementProcessor]
+    public var elementProcessors:[ElementProcessor] {
+        return self.resolvableElementProcessors.map { $0 }
+    }
+    public let resolvableElementProcessors:[ResolvableElementProcessor]
     
     public init(resolver:Resolver, elementProcessors:[ResolvableElementProcessor]) {
         self.resolver = resolver
-        self.elementProcessors = elementProcessors.map { $0 }
+        self.resolvableElementProcessors = elementProcessors.map { $0 }
+    }
+    
+    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler?) throws -> NSXMLDocument {
+        let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
+        
+        for elemProcessor in self.resolvableElementProcessors {
+            try elemProcessor.process(document: doc, resultHandler: resultHandler)
+        }
+        
+        return outputDoc
     }
 }
 
@@ -124,28 +187,37 @@ public struct ResolvingCompoundDocumentProcessor: DocumentProcessor {
     
     public let documentProcessors:[ResolvingDocumentProcessor]
     
-    public let resolvedResultHandler:ResolvedResultHandler
+    public var resolvableElementProcessors:[ResolvableElementProcessor] {
+        return self.documentProcessors.flatMap { $0.resolvableElementProcessors }
+    }
     
     public var elementProcessors: [ElementProcessor] {
         return self.documentProcessors.flatMap { $0.elementProcessors }
     }
     
-    public init(resolvers:[Resolver], replaceMatches:Bool = false, resolvedResultHandler:ResolvedResultHandler) {
+    public init(resolvers:[Resolver], replaceMatches:Bool = false) {
         let elemProcessors = resolvers.map {
             ResolvableElementProcessor(
                 resolver: $0,
                 tokenizingPatterns: [],
                 capturingPatterns: [$0.resolvableType.capturingPattern()],
-                replaceMatches: replaceMatches,
-                resolvedResultHandler:resolvedResultHandler)
+                replaceMatches: replaceMatches)
         }
         
         let docProcessors = resolvers.enumerate().map { i, resolver in
             return ResolvingDocumentProcessor(resolver: resolvers[i], elementProcessors: [elemProcessors[i]])
         }
         
-        self.resolvedResultHandler = resolvedResultHandler
         self.documentProcessors = docProcessors
     }
     
+    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler) throws -> NSXMLDocument {
+        let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
+        
+        for docProcessor in self.documentProcessors {
+            try docProcessor.processedDocument(inputDocument: doc, inPlace: true, resultHandler: resultHandler)
+        }
+        
+        return outputDoc
+    }
 }
