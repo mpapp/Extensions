@@ -8,7 +8,6 @@
 
 import Foundation
 import RegexKitLite
-import Alamofire
 import Freddy
 import SWXMLHash
 
