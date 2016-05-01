@@ -71,7 +71,6 @@
 		5F57FB551CCDAD0300EBF750 /* ResolvedResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB541CCDAD0300EBF750 /* ResolvedResult.swift */; };
 		5F6813EF1CCE497100AA2C29 /* ElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6813EE1CCE497100AA2C29 /* ElementRepresentable.swift */; };
 		5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; };
-		5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */; };
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
 		5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4851CB8374F00F4B7EA /* Procedure.swift */; };
 		5F7EE4911CB85C5600F4B7EA /* JavaScriptEvaluatorWebKit.html in Copy JS Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE48E1CB85C2B00F4B7EA /* JavaScriptEvaluatorWebKit.html */; };
@@ -592,7 +591,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */,
-				5F7EE47F1CB7E52700F4B7EA /* Freddy.framework.dSYM in Resources */,
 				5FC2B2C91CBCA87E001F77FB /* EvaluatorDebugWindowController.xib in Resources */,
 				5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */,
 			);
