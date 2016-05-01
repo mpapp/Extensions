@@ -56,7 +56,6 @@
 		5F44B83E1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B83D1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift */; };
 		5F44B8441CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */; };
 		5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; };
-		5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */; };
 		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F571C901CC41942003471D5 /* DocumentProcessorError.swift */; };
 		5F57FB441CCCDC2000EBF750 /* MPRateLimiter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; };
@@ -592,7 +591,6 @@
 			files = (
 				5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */,
 				5FC2B2C91CBCA87E001F77FB /* EvaluatorDebugWindowController.xib in Resources */,
-				5F571C7D1CC32774003471D5 /* MPTimer.framework.dSYM in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
