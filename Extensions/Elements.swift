@@ -8,9 +8,15 @@
 
 import Foundation
 
-public protocol Element: class, HTMLSnippetRepresentable {
+public protocol Element: class, HTMLSnippetRepresentable, CustomStringConvertible {
     var contents:String { get }
     var tagName: String { get }
+}
+
+public extension Element {
+    var description:String {
+        return "<\(String(self.dynamicType)) tagName:\(tagName) contents:\(contents)>"
+    }
 }
 
 public protocol InlineElement: class, Element {

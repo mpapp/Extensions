@@ -13,7 +13,7 @@ public protocol BibliographyItemObject: class, BibliographyItem {
     
 }
 
-public protocol BibliographyItem: DictionaryRepresentable, HTMLSnippetRepresentable {
+public protocol BibliographyItem: DictionaryRepresentable, HTMLSnippetRepresentable, CustomStringConvertible {
     // Abstract of the item (e.g. the abstract of a journal article).
     var abstract:String? { get }
 
@@ -249,5 +249,4 @@ public protocol BibliographyItem: DictionaryRepresentable, HTMLSnippetRepresenta
 
     // The value of 'entrytype' string when importing BibTeX. */
     // @property (readwrite, nullable) NSString *entryType;
-
 }

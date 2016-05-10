@@ -18,3 +18,9 @@ import Foundation
     var suffix:String? { get }
     var literal:String? { get }
 }
+
+extension BibliographicName {
+    var description: String {
+            return "<BibliographicName given:\(given) family:\(family)>"
+    }
+}

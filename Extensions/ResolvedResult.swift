@@ -46,6 +46,30 @@ public enum Result {
     }
 }
 
+extension Result: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .None:
+            return "<Empty Result>"
+            
+        case .BibliographyItems(let items):
+            return items.map({$0.description }).joinWithSeparator(",")
+        
+        case .BlockElements(let items):
+            return items.map({$0.description }).joinWithSeparator(",")
+            
+        case .Equations(let items):
+            return items.map({$0.description}).joinWithSeparator(",")
+            
+        case .InlineElements(let items):
+            return items.map({$0.description}).joinWithSeparator(",")
+            
+        case .InlineMathFragments(let fragments):
+            return fragments.map({$0.description}).joinWithSeparator(",")
+        }
+    }
+}
+
 @objc public class ResolvedResult: NSObject, DictionaryRepresentable, ElementRepresentable {
     public let resolvable:Resolvable
     public let result:Result

@@ -8,8 +8,14 @@
 
 import Foundation
 
-public protocol Mathematical {
+public protocol Mathematical: CustomStringConvertible {
     var TeXRepresentation:String { get }
+}
+
+public extension Mathematical {
+    var description: String {
+        return "<\(String(self.dynamicType)) TeXRepresentation:\(self.TeXRepresentation)>"
+    }
 }
 
 public protocol InlineMathFragment:Mathematical, InlineElement {
