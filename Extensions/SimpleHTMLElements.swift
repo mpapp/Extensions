@@ -25,6 +25,10 @@ public class SimpleInlineElement: NSObject, InlineElement {
     public class var tagName: String {
         return "span"
     }
+    
+    public override var description: String {
+        return "<\(String(self.dynamicType)) tagName:\(tagName) contents:\(contents)>"
+    }
 }
 
 public class SimpleBlockElement: NSObject, BlockElement {
@@ -34,6 +38,10 @@ public class SimpleBlockElement: NSObject, BlockElement {
     public init(contents:String, tagName:String = "div") {
         self.contents = contents
         self.tagName = tagName
+    }
+    
+    public override var description: String {
+        return "<\(String(self.dynamicType)) tagName:\(tagName) contents:\(contents)>"
     }
 }
 
