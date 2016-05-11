@@ -62,7 +62,7 @@ extension NSXMLNode {
         return splitNodes
     }
     
-    public func extractElement(range:Range<UInt>, tagName:String) throws -> (before:NSXMLNode, extracted:NSXMLElement, after:NSXMLNode) {
+    public func extract(elementWithName elementName:String, range:Range<UInt>) throws -> (before:NSXMLNode, extracted:NSXMLElement, after:NSXMLNode) {
         let split = self.split(atIndices: [range.startIndex, range.endIndex])
         precondition(split.count == 3, "Unexpected split: \(split)")
         
@@ -72,13 +72,13 @@ extension NSXMLNode {
         }
         
         let str = extractedNode.XMLStringWithOptions(MPDefaultXMLDocumentParsingOptions)
-        let elem = NSXMLElement(name: tagName, stringValue: str)
+        let elem = NSXMLElement(name: elementName, stringValue: str)
         parent.replace(extractedNode, withNodes: [elem])
         
         return (split[0], elem, split[2])
     }
     
-    public func extractElements(ranges:[Range<UInt>], tagName:String) throws -> [NSXMLNode] {
+    public func extract(elementWithName elementName:String, ranges:[Range<UInt>]) throws -> [NSXMLNode] {
         if ranges.count == 0 {
             return [self]
         }
@@ -93,7 +93,7 @@ extension NSXMLNode {
             let adjustedRange = UInt(adjustedStartIndex) ..< UInt(adjustedEndIndex)
             precondition(splitRange.count == adjustedRange.count)
             
-            let splitNodes = try currentSplit.extractElement(adjustedRange, tagName: tagName)
+            let splitNodes = try currentSplit.extract(elementWithName:elementName, range:adjustedRange)
             advance += adjustedRange.count
             
             currentSplit = splitNodes.after

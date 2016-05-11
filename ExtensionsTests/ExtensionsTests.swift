@@ -196,12 +196,25 @@ class ExtensionsTests: XCTestCase {
         XCTAssertTrue(elem.children!.count == 1)
         XCTAssertTrue(elem.children!.first!.kind == .TextKind)
         
-        let splitNodes = try! elem.children!.first!.extractElement(3 ..< 6, tagName:"strong")
+        let splitNodes = try! elem.children!.first!.extract(elementWithName:"strong", range:3 ..< 6)
         
         XCTAssertTrue(splitNodes.before.stringValue == "foo")
         XCTAssertTrue(splitNodes.after.stringValue == "baz")
         XCTAssertTrue(splitNodes.extracted.name == "strong")
-        //XCTAssertTrue(splitNodes.extracted.stringValue == "bar")
+    }
+    
+    func testMultipleXMLElementExtractions() {
+        let str = "foobarbaz"
+        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
+        let elem = doc.rootElement()!
+        XCTAssertTrue(elem.name == "p")
+        XCTAssertTrue(elem.children!.first!.stringValue == str)
+        
+        let splitNodes = try! elem.children!.first!.extract(elementWithName:"strong", ranges: [3 ..< 6])
+        
+        XCTAssertTrue(splitNodes[0].stringValue == "foo")
+        XCTAssertTrue(splitNodes[1].stringValue == "<strong>bar</strong>")
+        XCTAssertTrue(splitNodes[2].stringValue == "baz")
     }
     
     func testProcessingMarkdown() {
