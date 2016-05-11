@@ -10,6 +10,18 @@ import XCTest
 import Extensions
 import OHHTTPStubs
 
+extension String {
+    func stringAroundOccurrence(ofString str:String, maxPadding:UInt, options:NSStringCompareOptions = []) -> String? {
+        guard let range = self.rangeOfString(str, options:options, range: nil, locale: nil) else {
+            return nil
+        }
+        
+        let p = Int(maxPadding)
+        let r = range.startIndex.advancedBy(-p, limit: self.startIndex) ..< range.endIndex.advancedBy(p, limit: self.endIndex)
+        return self.substringWithRange(r)
+    }
+}
+
 class ExtensionsTests: XCTestCase {
     
     private var debugWindowController:EvaluatorDebugWindowController?
@@ -157,6 +169,41 @@ class ExtensionsTests: XCTestCase {
         catch (let error) { XCTFail("Error: \(error)") }
     }
     
+    func testXMLNodeSplitting() {
+        let textNode = NSXMLNode(kind: .TextKind)
+        textNode.stringValue = "foo bar baz"
+        
+        let splitAtFooNodes = textNode.split(atIndex: 3)
+        let splitAtFoo = [splitAtFooNodes.0.stringValue!, splitAtFooNodes.1.stringValue!]
+        
+        XCTAssertEqual(splitAtFoo, ["foo", " bar baz"], "Unexpected split position: \(splitAtFoo)")
+        
+        let splitNodes = textNode.split(atIndices: [3, 4, 7, 8])
+        let splitStringValues = splitNodes.map { $0.stringValue! }
+        
+        XCTAssertEqual(splitStringValues, ["foo", " ", "bar", " ", "baz"], "Unexpected splits: \(splitStringValues)")
+    }
+    
+    func testXMLElementExtraction() {
+        let str = "foobarbaz"
+        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
+        let elem = doc.rootElement()!
+        XCTAssertTrue(elem.name == "p")
+        XCTAssertTrue(elem.children!.first!.stringValue == str)
+        
+        let range = elem.stringValue!.startIndex.advancedBy(3) ..< elem.stringValue!.startIndex.advancedBy(6)
+        XCTAssertTrue(elem.stringValue?.substringWithRange(range) == "bar", "Got my arithmetic wrong.")
+        XCTAssertTrue(elem.children!.count == 1)
+        XCTAssertTrue(elem.children!.first!.kind == .TextKind)
+        
+        let splitNodes = try! elem.children!.first!.extractElement(3 ..< 6, tagName:"strong")
+        
+        XCTAssertTrue(splitNodes.before.stringValue == "foo")
+        XCTAssertTrue(splitNodes.after.stringValue == "baz")
+        XCTAssertTrue(splitNodes.extracted.name == "strong")
+        //XCTAssertTrue(splitNodes.extracted.stringValue == "bar")
+    }
+    
     func testProcessingMarkdown() {
         let resolvers:[Resolver] = [ MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self),
                                      MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self),
@@ -217,5 +264,17 @@ class ExtensionsTests: XCTestCase {
         for identifier in ["**delivers**", "__that__", "*resource*", "_semantically_"] {
             XCTAssert(encounteredIDs.contains(identifier), "Failed to resolve identifier \(identifier)")
         }
+        
+        let paddedBy2 = "foobar123foobar".stringAroundOccurrence(ofString: "123", maxPadding: 2)
+        let paddedBy12 = "foobar123foobar".stringAroundOccurrence(ofString: "123", maxPadding: 12)
+        XCTAssert(paddedBy2 == "ar123fo", "String matching")
+        XCTAssert(paddedBy12 == "foobar123foobar", "String matching")
+        
+        
+        let xmlStr = doc?.XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
+        
+        let semanticallyPadded = xmlStr?.stringAroundOccurrence(ofString: "semantically", maxPadding: 10)
+
+        XCTAssert(xmlStr!.containsString("<em>"), "XML string contains no instances of <em>")
     }
 }

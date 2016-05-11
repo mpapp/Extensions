@@ -137,6 +137,11 @@ public struct ResolvableElementProcessor: ElementProcessor {
                         if let str = c.stringValue where self.replaceMatches {
                             let htmlRep = try resolvable.elementRepresentation().HTMLSnippetRepresentation
                             let replacedStringValue = str.stringByReplacingOccurrencesOfString(resolvable.resolvable.identifier, withString: htmlRep)
+                            
+                            
+                            //replacedStringValue.enumerateSubstringsInRange(<#T##range: Range<Index>##Range<Index>#>, options: <#T##NSStringEnumerationOptions#>, <#T##body: (substring: String?, substringRange: Range<Index>, enclosingRange: Range<Index>, inout Bool) -> ()##(substring: String?, substringRange: Range<Index>, enclosingRange: Range<Index>, inout Bool) -> ()#>)
+                            //let doc = NSXMLElement(XMLString: "</p>\(replacedStringValue)<p>")
+                            
                             c.stringValue = replacedStringValue
                         }
                         

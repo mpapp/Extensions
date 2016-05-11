@@ -80,6 +80,7 @@
 		5F7EE4AF1CBAD44100F4B7EA /* Extensions.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F7EE4B11CBAD9D200F4B7EA /* NSFileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */; };
 		5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */; };
+		5FA223531CE33F2F00C38E72 /* NSXMLNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA223521CE33F2F00C38E72 /* NSXMLNode+Extensions.swift */; };
 		5FC2B2C51CBC9B02001F77FB /* NSNumber+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */; };
 		5FC2B2C81CBCA87E001F77FB /* EvaluatorDebugWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC2B2C61CBCA87E001F77FB /* EvaluatorDebugWindowController.swift */; };
 		5FC2B2C91CBCA87E001F77FB /* EvaluatorDebugWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2C71CBCA87E001F77FB /* EvaluatorDebugWindowController.xib */; };
@@ -214,6 +215,7 @@
 		5F7EE4A81CBAC4A800F4B7EA /* example-2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "example-2.js"; sourceTree = "<group>"; };
 		5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFileManager+Extensions.swift"; sourceTree = "<group>"; };
 		5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
+		5FA223521CE33F2F00C38E72 /* NSXMLNode+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSXMLNode+Extensions.swift"; sourceTree = "<group>"; };
 		5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNumber+Extensions.swift"; sourceTree = "<group>"; };
 		5FC2B2C61CBCA87E001F77FB /* EvaluatorDebugWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatorDebugWindowController.swift; sourceTree = "<group>"; };
 		5FC2B2C71CBCA87E001F77FB /* EvaluatorDebugWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvaluatorDebugWindowController.xib; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 				5F44B8201CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift */,
 				5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */,
 				5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */,
+				5FA223521CE33F2F00C38E72 /* NSXMLNode+Extensions.swift */,
 			);
 			name = "Cocoa Extensions";
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FA223531CE33F2F00C38E72 /* NSXMLNode+Extensions.swift in Sources */,
 				5F7EE4B11CBAD9D200F4B7EA /* NSFileManager+Extensions.swift in Sources */,
 				5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */,
 				5F44B83E1CCBD2C80047A4F0 /* SimpleBibliographicDate.swift in Sources */,
