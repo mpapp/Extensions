@@ -196,26 +196,55 @@ class ExtensionsTests: XCTestCase {
         XCTAssertTrue(elem.children!.count == 1)
         XCTAssertTrue(elem.children!.first!.kind == .TextKind)
         
-        let splitNodes = try! elem.children!.first!.extract(elementWithName:"strong", range:3 ..< 6)
+        let splitNodes = elem.children!.first!.extract(elementWithName:"strong", range:3 ..< 6)
         
         XCTAssertTrue(splitNodes.before.stringValue == "foo")
         XCTAssertTrue(splitNodes.after.stringValue == "baz")
         XCTAssertTrue(splitNodes.extracted.name == "strong")
     }
     
-    func testMultipleXMLElementExtractions() {
+    func testSimpleMultipleXMLElementExtraction() {
         let str = "foobarbaz"
         let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
         
-        let splitNodes = try! elem.children!.first!.extract(elementWithName:"strong", ranges: [3 ..< 6])
+        let splitNodes = elem.children!.first!.extract(elementsWithName:"strong", ranges: [3 ..< 6])
         
-        XCTAssertTrue(splitNodes[0].stringValue == "foo")
-        XCTAssertTrue(splitNodes[1].stringValue == "<strong>bar</strong>")
-        XCTAssertTrue(splitNodes[2].stringValue == "baz")
+        XCTAssertTrue(splitNodes[0].XMLString == "foo")
+        XCTAssertTrue(splitNodes[1].XMLString == "<strong>bar</strong>", "Unexpected string value: \(splitNodes[1].stringValue)")
+        XCTAssertTrue(splitNodes[2].XMLString == "baz")
     }
+    
+    func testComplexMultipleXMLElementExtractions() {
+        let str = "foobarbazadoo"
+        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
+        let elem = doc.rootElement()!
+        XCTAssertTrue(elem.name == "p")
+        XCTAssertTrue(elem.children!.first!.stringValue == str)
+        
+        let splitNodes = elem.children!.first!.extract(elementsWithName:"em", ranges: [2 ..< 4, 5 ..< 6, 7 ..< 9])
+        
+        let firstElemSubstr = str.substringWithRange(elem.stringValue!.startIndex.advancedBy(2) ..< elem.stringValue!.startIndex.advancedBy(4))
+        XCTAssertTrue(firstElemSubstr == "ob")
+        
+        let secondElemSubstr = str.substringWithRange(elem.stringValue!.startIndex.advancedBy(5) ..< elem.stringValue!.startIndex.advancedBy(6))
+        XCTAssertTrue(secondElemSubstr == "r")
+        
+        let thirdElemSubstr = str.substringWithRange(elem.stringValue!.startIndex.advancedBy(7) ..< elem.stringValue!.startIndex.advancedBy(9))
+        XCTAssertTrue(thirdElemSubstr == "az")
+
+        // foobarbazadoo
+        // fo|ob|a|r|b|az|adoo
+        XCTAssertTrue(splitNodes[0].XMLString == "fo")
+        XCTAssertTrue(splitNodes[1].XMLString == "<em>ob</em>", "Unexpected string value: \(splitNodes[1].stringValue)")
+        XCTAssertTrue(splitNodes[2].XMLString == "a")
+        XCTAssertTrue(splitNodes[3].XMLString == "<em>r</em>")
+        XCTAssertTrue(splitNodes[4].XMLString == "b")
+        XCTAssertTrue(splitNodes[5].XMLString == "<em>az</em>")
+    }
+    
     
     func testProcessingMarkdown() {
         let resolvers:[Resolver] = [ MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self),

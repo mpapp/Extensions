@@ -49,6 +49,10 @@ extension NSXMLNode {
             let adjustedIndex = Int(splitIndex) - advance
             precondition(adjustedIndex >= 0)
             
+            //if let charCount = self.stringValue?.characters.count where charCount == adjustedIndex {
+            //    return []
+            //}
+            
             let splitNodes = currentSplit.split(atIndex: UInt(adjustedIndex))
             
             advance += splitNodes.0.stringValue!.characters.count
@@ -56,13 +60,15 @@ extension NSXMLNode {
             
             // First element is always added to output.
             // Second element from a split is added only on last split.
-            return i < lastIndex ? [splitNodes.0] : [splitNodes.0, splitNodes.1]
+            let emitted = i < lastIndex ? [splitNodes.0] : [splitNodes.0, splitNodes.1]
+            
+            return emitted
         }
         
         return splitNodes
     }
     
-    public func extract(elementWithName elementName:String, range:Range<UInt>) throws -> (before:NSXMLNode, extracted:NSXMLElement, after:NSXMLNode) {
+    public func extract(elementWithName elementName:String, range:Range<UInt>) -> (before:NSXMLNode, extracted:NSXMLElement, after:NSXMLNode) {
         let split = self.split(atIndices: [range.startIndex, range.endIndex])
         precondition(split.count == 3, "Unexpected split: \(split)")
         
@@ -78,7 +84,18 @@ extension NSXMLNode {
         return (split[0], elem, split[2])
     }
     
-    public func extract(elementWithName elementName:String, ranges:[Range<UInt>]) throws -> [NSXMLNode] {
+    public func extract(elementsWithName elementName:String, ranges:[Range<UInt>]) -> [NSXMLNode] {
+        return self.extract(elementsWithNames:(0..<ranges.count).map { _ in elementName }, ranges:ranges)
+    }
+    
+    public func extract(elementsWithNames elementNames:[String], ranges:[Range<UInt>]) -> [NSXMLNode] {
+        for ra in ranges {
+            for rb in ranges {
+                if ra == rb { continue }
+                precondition(!ra.overlaps(rb), "Range \(ra) overlaps with range \(rb)")
+            }
+        }
+        
         if ranges.count == 0 {
             return [self]
         }
@@ -87,20 +104,27 @@ extension NSXMLNode {
         let lastIndex = ranges.count - 1
         var currentSplit = self
         
-        let splitNodes = try ranges.enumerate().flatMap { i, splitRange -> [NSXMLNode] in
+        let splitNodes = ranges.enumerate().flatMap { i, splitRange -> [NSXMLNode] in
             let adjustedStartIndex = Int(splitRange.startIndex) - advance
             let adjustedEndIndex = Int(splitRange.endIndex) - advance
             let adjustedRange = UInt(adjustedStartIndex) ..< UInt(adjustedEndIndex)
             precondition(splitRange.count == adjustedRange.count)
             
-            let splitNodes = try currentSplit.extract(elementWithName:elementName, range:adjustedRange)
-            advance += adjustedRange.count
+            let splitNodes = currentSplit.extract(elementWithName:elementNames[i], range:adjustedRange)
+            
+            let advanceBefore = advance
+            
+            advance += Int(adjustedRange.endIndex)
             
             currentSplit = splitNodes.after
             
             // First element is always added to output.
             // Second element from a split is added only on last split.
-            return i < lastIndex ? [splitNodes.before, splitNodes.extracted] : [splitNodes.before, splitNodes.extracted, splitNodes.after]
+            let emitted = i < lastIndex ? [splitNodes.before, splitNodes.extracted] : [splitNodes.before, splitNodes.extracted, splitNodes.after]
+            
+            print("advance:\(advance) before:\(advanceBefore) emitted:\(emitted) range:\(adjustedRange) remainder:\(currentSplit.stringValue)")
+            
+            return emitted
         }
         
         
