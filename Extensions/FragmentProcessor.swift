@@ -14,7 +14,7 @@ public protocol FragmentProcessor {
     
     // Overload these methods.
     
-    var tokenizingPatterns:[String] { get }
+    //var tokenizingPatterns:[String] { get }
     var capturingPatterns:[String] { get }
     var producesNodesForReplacedResults:Bool { get }
     
@@ -28,18 +28,12 @@ public extension FragmentProcessor {
             return [node]
         }
         
-        let tokenizedStrings:[String] = stringValue.componentsSeparated(tokenizingPatterns:self.tokenizingPatterns)
+        let captured = stringValue.componentsCaptured(capturingPatterns: self.capturingPatterns)
         
-        let fragments:[String] = try tokenizedStrings.flatMap { (f:String) -> [String] in
-            let captured = f.componentsCaptured(capturingPatterns: self.capturingPatterns)
-            
-            let results:[String] = try captured.map { (c:String) in
-                let result = try self.process(textFragment: c)
-                self.processedResult(node, output: result)
-                return result
-            }
-            
-            return results
+        let fragments:[String] = try captured.map { (c:String) in
+            let result = try self.process(textFragment: c)
+            self.processedResult(node, output: result)
+            return result
         }
         
         if self.producesNodesForReplacedResults {

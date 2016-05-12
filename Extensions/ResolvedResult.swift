@@ -122,4 +122,8 @@ extension Result: CustomStringConvertible {
         let contents = htmlReps.map { $0.HTMLSnippetRepresentation }
         return try element(tagName: "div", contents: contents.joinWithSeparator(""))
     }
+    
+    public override var description: String {
+        return "<ResolvedResult with Resolvable:\(resolvable), result:\(result)>"
+    }
 }

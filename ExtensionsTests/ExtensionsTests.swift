@@ -97,15 +97,17 @@ class ExtensionsTests: XCTestCase {
         }
         
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace:true) { (elemProcessor, textNode, fragment, resolvedResult) in
-                switch resolvedResult.result {
-                case .BibliographyItems(let items):
-                    XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                    XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
-                default:
-                    XCTFail("Failed to resolve a bibliography item for \(fragment)")
+            try docP.processedDocument(inputDocument: doc!, inPlace: true) { _, capturedResultRanges in
+                for resultRange in capturedResultRanges {
+                    switch resultRange.result.result {
+                    case .BibliographyItems(let items):
+                        XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
+                        XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
+                    default:
+                        XCTFail("Failed to resolve a bibliography item for \(resultRange)")
+                    }
+                    print("Result range:\(resultRange)")
                 }
-                print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
             }
         }
         catch {
@@ -139,15 +141,17 @@ class ExtensionsTests: XCTestCase {
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace:true) { (elemProcessor, textNode, fragment, resolvedResult) in
-                switch resolvedResult.result {
-                case .BibliographyItems(let items):
-                    XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                    XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
-                default:
-                    XCTFail("Failed to resolve a bibliography item for \(fragment)")
+            try docP.processedDocument(inputDocument: doc!, inPlace: true) { _, capturedResultRanges in
+                for resultRange in capturedResultRanges {
+                    switch resultRange.result.result {
+                    case .BibliographyItems(let items):
+                        XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
+                        XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
+                    default:
+                        XCTFail("Failed to resolve a bibliography item for \(resultRange)")
+                    }
+                    print("Result range: \(resultRange)")
                 }
-                print("Text node: \(textNode), fragment:\(fragment), result:\(resolvedResult)")
             }
         }
         catch {
@@ -261,45 +265,47 @@ class ExtensionsTests: XCTestCase {
         do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
-        try! docP.processedDocument(inputDocument: doc!, inPlace: true) { (elementProcessor, textNode, fragment, resolvedResult) in
+        try! docP.processedDocument(inputDocument: doc!, inPlace: true) { (elementProcessor, capturedResultRanges) in
             
-            switch resolvedResult.result {
-            case .InlineElements(let elems):
-                guard let resolvable = resolvedResult.resolvable as? MarkdownSyntaxComponent else {
-                    XCTFail("Resolvable is unexpectedly not a MarkdownSyntaxComponent: \(resolvedResult.resolvable).")
+            for range in capturedResultRanges {
+                switch range.result.result {
+                case .InlineElements(let elems):
+                    guard let resolvable = range.result.resolvable as? MarkdownSyntaxComponent else {
+                        XCTFail("Resolvable is unexpectedly not a MarkdownSyntaxComponent: \(range.result.resolvable).")
+                        break
+                    }
+                    
+                    XCTAssert(elems.count == 1, "Unexpected inline element count: \(elems)")
+                    
+                    encounteredIDs.insert(resolvable.identifier)
+                    
+                    switch resolvable.identifier {
+                    case "**delivers**":
+                        XCTAssert(resolvable.innerHTML == "delivers", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                        XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
+                        
+                    case "__that__":
+                        XCTAssert(resolvable.innerHTML == "that", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                        XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
+                        
+                    case "*resource*":
+                        XCTAssert(resolvable.innerHTML == "resource", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                        XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
+                        
+                    case "_semantically_":
+                        XCTAssert(resolvable.innerHTML == "semantically", "Unexpected innerHTML: \(resolvable.innerHTML).")
+                        XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
+                        
+                    default:
+                        break
+                    }
+                    
+                case .BibliographyItems(_):
                     break
-                }
-                
-                XCTAssert(elems.count == 1, "Unexpected inline element count: \(elems)")
-                
-                encounteredIDs.insert(resolvable.identifier)
-                
-                switch resolvable.identifier {
-                case "**delivers**":
-                    XCTAssert(resolvable.innerHTML == "delivers", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                    XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
-                    
-                case "__that__":
-                    XCTAssert(resolvable.innerHTML == "that", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                    XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
-                    
-                case "*resource*":
-                    XCTAssert(resolvable.innerHTML == "resource", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                    XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
-                    
-                case "_semantically_":
-                    XCTAssert(resolvable.innerHTML == "semantically", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                    XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
                     
                 default:
-                    break
+                    XCTFail("There should be no failed resolve calls.")
                 }
-                
-            case .BibliographyItems(_):
-                break
-                
-            default:
-                XCTFail("There should be no failed resolve calls.")
             }
         }
         
@@ -311,6 +317,8 @@ class ExtensionsTests: XCTestCase {
         let paddedBy12 = "foobar123foobar".stringAroundOccurrence(ofString: "123", maxPadding: 12)
         XCTAssert(paddedBy2 == "ar123fo", "String matching")
         XCTAssert(paddedBy12 == "foobar123foobar", "String matching")
+        
+        XCTAssert("foobarfoobar".ranges("foobar").count == 2, "String.ranges is not behaving as expected")
         
         
         let xmlStr = doc?.XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)

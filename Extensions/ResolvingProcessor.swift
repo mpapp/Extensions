@@ -14,7 +14,7 @@ public struct ResolvableFragmentProcessor: FragmentProcessor {
     
     private let resolver:Resolver
     
-    public let tokenizingPatterns: [String]
+    //public let tokenizingPatterns: [String]
     public let capturingPatterns: [String]
     
     public var producesNodesForReplacedResults: Bool {
@@ -23,7 +23,7 @@ public struct ResolvableFragmentProcessor: FragmentProcessor {
     
     init(resolver:Resolver, tokenizingPatterns:[String], capturingPatterns:[String]) {
         self.resolver = resolver
-        self.tokenizingPatterns = tokenizingPatterns
+        //self.tokenizingPatterns = tokenizingPatterns
         self.capturingPatterns = capturingPatterns
     }
     
@@ -43,7 +43,9 @@ public struct ResolvableFragmentProcessor: FragmentProcessor {
     }
 }
 
-public typealias ResolvedResultHandler = (elementProcessor:ResolvableElementProcessor, textNode:NSXMLNode, fragment:String, resolvedResult:ResolvedResult) -> Void
+public typealias CapturedResultRange = (ranges:[Range<String.CharacterView.Index>], result:ResolvedResult)
+
+public typealias ResolvedResultHandler = (elementProcessor:ResolvableElementProcessor, capturedResultRanges:[CapturedResultRange]) -> Void
 
 // The resolvable element processor is a special kind of processor which never modifies the DOM.
 // Instead it calls the `resolvableResultHandler` passed to it, for every case a resolvable identifier was found.
@@ -120,27 +122,78 @@ public struct ResolvableElementProcessor: ElementProcessor {
         }
         
         for c in children {
+            //var nodes = [c]
+            
             guard let stringValue = c.stringValue else {
                 continue
             }
             
-            let splitStrings = stringValue.componentsSeparated(tokenizingPatterns: self.fragmentProcessor.tokenizingPatterns)
+            // scan for matches: map the split strings to tuples of (Range, ResolvedResult)
+            //let splitStrings = stringValue.componentsSeparated(tokenizingPatterns: self.fragmentProcessor.tokenizingPatterns)
             
-            for splitStr in splitStrings {
+            let capturedRanges = stringValue.capturedCharacterIndexRanges(capturingPatterns: self.fragmentProcessor.capturingPatterns)
+            
+            let capturedResultRanges = try capturedRanges.map { range -> CapturedResultRange in
+                let capture = stringValue.substringWithRange(characterViewRange(range, string:stringValue))
+                let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
+                let identifierRanges = capture.ranges(result.resolvable.identifier)
                 
-                let captures = splitStr.componentsCaptured(capturingPatterns: self.fragmentProcessor.capturingPatterns)
+                let adjustedRanges = identifierRanges.map { identifierRange -> Range<String.CharacterView.Index> in
+                    let start = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.startIndex)).advancedBy(Int(range.startIndex))
+                    let end = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.endIndex)).advancedBy(Int(range.startIndex))
+                    return start ..< end
+                }
                 
+                return (ranges:adjustedRanges, result:result)
+            }
+            
+            /*
+            let capturedResultRanges = try splitStrings.flatMap { splitStr -> [CapturedResultRange] in
+                let capturedResults = try splitStr.componentsCaptured(capturingPatterns: self.fragmentProcessor.capturingPatterns).map { capture -> CapturedResultRange in
+                    let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
+                    let ranges = capture.ranges(result.resolvable.identifier)
+                    
+                    return (ranges:ranges, result:result)
+                }
+                
+                return capturedResults
+            }*/
+            
+            resultHandler?(elementProcessor: self, capturedResultRanges: capturedResultRanges)
+
+            if self.replaceMatches && capturedResultRanges.count > 0 {
+                let tagNames = try capturedResultRanges.map({ try $0.result.elementRepresentation().tagName })
+                
+                let ranges = capturedResultRanges.flatMap { resultRange in
+                    return resultRange.ranges
+                }
+                
+                let stringRanges = ranges.map { range -> Range<UInt> in
+                    let start = stringValue.characters.startIndex.distanceTo(range.startIndex)
+                    let end = stringValue.characters.startIndex.distanceTo(range.endIndex)
+                    return UInt(start) ..< UInt(end)
+                }
+                
+                print("Range contents: \(ranges.map { stringValue.substringWithRange($0) })")
+                
+                c.extract(elementsWithNames:tagNames, ranges: stringRanges)
+            }
+            
+            // replace matches
+            
+            /*
                 for capture in captures {
                     do {
                         let resolvable:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
                         
-                        if let str = c.stringValue where self.replaceMatches {
-                            let htmlRep = try resolvable.elementRepresentation().HTMLSnippetRepresentation
-                            let replacedStringValue = str.stringByReplacingOccurrencesOfString(resolvable.resolvable.identifier, withString: htmlRep)
+                        if self.replaceMatches {
+                            let htmlRep = try resolvable.elementRepresentation()
                             
-                            
-                            //replacedStringValue.enumerateSubstringsInRange(<#T##range: Range<Index>##Range<Index>#>, options: <#T##NSStringEnumerationOptions#>, <#T##body: (substring: String?, substringRange: Range<Index>, enclosingRange: Range<Index>, inout Bool) -> ()##(substring: String?, substringRange: Range<Index>, enclosingRange: Range<Index>, inout Bool) -> ()#>)
-                            //let doc = NSXMLElement(XMLString: "</p>\(replacedStringValue)<p>")
+                            if let  {
+                                for r in ranges {
+                                    c.extract(elementWithName: htmlRep.tagName, range: r)
+                                }
+                            }
                             
                             c.stringValue = replacedStringValue
                         }
@@ -157,7 +210,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
                         print("\(self.fragmentProcessor) failed to resolve: \(error)")
                     }
                 }
-            }
+            }*/
         }
         
         return [element]
