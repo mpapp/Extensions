@@ -334,9 +334,9 @@
 				5F34E2C21CC7E88D00A5DAF1 /* RegexKitLite.framework.dSYM */,
 				5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */,
 				5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */,
-				5F1996AD1CB5B32100B1C5DB /* JavaScriptCore.framework */,
 				5F571C7A1CC32774003471D5 /* MPTimer.framework */,
 				5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */,
+				5F1996AD1CB5B32100B1C5DB /* JavaScriptCore.framework */,
 				5F1996AB1CB5B31D00B1C5DB /* WebKit.framework */,
 			);
 			name = Frameworks;

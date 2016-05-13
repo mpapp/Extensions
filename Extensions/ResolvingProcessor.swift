@@ -153,11 +153,9 @@ public struct ResolvableElementProcessor: ElementProcessor {
                     return start ..< end
                 }
                 
-                
-                
                 return (ranges:adjustedRanges, result:result)
             }
-                        
+            
             resultHandler?(elementProcessor: self, capturedResultRanges: capturedResultRanges)
 
             if self.replaceMatches && capturedResultRanges.count > 0 {
@@ -174,7 +172,6 @@ public struct ResolvableElementProcessor: ElementProcessor {
                     let end = stringValue.characters.startIndex.distanceTo(range.endIndex)
                     return UInt(start) ..< UInt(end)
                 }
-                
                 
                 c.extract(elementsWithNames:tagNames, ranges: stringRanges, contents: contents)
             }
