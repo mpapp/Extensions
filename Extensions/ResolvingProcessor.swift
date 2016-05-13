@@ -129,14 +129,10 @@ public struct ResolvableElementProcessor: ElementProcessor {
             if c.kind != .TextKind {
                 continue
             }
-            //var nodes = [c]
             
             guard let stringValue = c.stringValue else {
                 continue
             }
-            
-            // scan for matches: map the split strings to tuples of (Range, ResolvedResult)
-            //let splitStrings = stringValue.componentsSeparated(tokenizingPatterns: self.fragmentProcessor.tokenizingPatterns)
             
             let capturedRanges = stringValue.capturedCharacterIndexRanges(capturingPatterns: self.fragmentProcessor.capturingPatterns)
             
