@@ -323,8 +323,7 @@ class ExtensionsTests: XCTestCase {
         
         let xmlStr = doc?.XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
         
-        let semanticallyPadded = xmlStr?.stringAroundOccurrence(ofString: "semantically", maxPadding: 10)
-
         XCTAssert(xmlStr!.containsString("<em>"), "XML string contains no instances of <em>")
+        print(xmlStr!.stringAroundOccurrence(ofString: "delivers", maxPadding: 9) == " <strong>delivers</strong>")
     }
 }

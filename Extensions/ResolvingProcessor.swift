@@ -122,6 +122,9 @@ public struct ResolvableElementProcessor: ElementProcessor {
         }
         
         for c in children {
+            if c.kind != .TextKind {
+                continue
+            }
             //var nodes = [c]
             
             guard let stringValue = c.stringValue else {
@@ -146,23 +149,13 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 
                 return (ranges:adjustedRanges, result:result)
             }
-            
-            /*
-            let capturedResultRanges = try splitStrings.flatMap { splitStr -> [CapturedResultRange] in
-                let capturedResults = try splitStr.componentsCaptured(capturingPatterns: self.fragmentProcessor.capturingPatterns).map { capture -> CapturedResultRange in
-                    let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
-                    let ranges = capture.ranges(result.resolvable.identifier)
-                    
-                    return (ranges:ranges, result:result)
-                }
-                
-                return capturedResults
-            }*/
-            
+                        
             resultHandler?(elementProcessor: self, capturedResultRanges: capturedResultRanges)
 
             if self.replaceMatches && capturedResultRanges.count > 0 {
-                let tagNames = try capturedResultRanges.map({ try $0.result.elementRepresentation().tagName })
+                let elemReps = try capturedResultRanges.map({ try $0.result.elementRepresentation() })
+                let tagNames = elemReps.map { $0.tagName }
+                let contents = elemReps.map { $0.contents }
                 
                 let ranges = capturedResultRanges.flatMap { resultRange in
                     return resultRange.ranges
@@ -174,43 +167,9 @@ public struct ResolvableElementProcessor: ElementProcessor {
                     return UInt(start) ..< UInt(end)
                 }
                 
-                print("Range contents: \(ranges.map { stringValue.substringWithRange($0) })")
                 
-                c.extract(elementsWithNames:tagNames, ranges: stringRanges)
+                c.extract(elementsWithNames:tagNames, ranges: stringRanges, contents: contents)
             }
-            
-            // replace matches
-            
-            /*
-                for capture in captures {
-                    do {
-                        let resolvable:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
-                        
-                        if self.replaceMatches {
-                            let htmlRep = try resolvable.elementRepresentation()
-                            
-                            if let  {
-                                for r in ranges {
-                                    c.extract(elementWithName: htmlRep.tagName, range: r)
-                                }
-                            }
-                            
-                            c.stringValue = replacedStringValue
-                        }
-                        
-                        if let resultHandler = resultHandler {
-                            resultHandler(elementProcessor:self, textNode:c, fragment: splitStr, resolvedResult: resolvable)
-                        }
-                    }
-                    catch ResolvingError.NotResolvable(_) {
-                        // specifically, don't log these errors.
-                        // print("\(fp) failed to resolve: \(str)")
-                    }
-                    catch {
-                        print("\(self.fragmentProcessor) failed to resolve: \(error)")
-                    }
-                }
-            }*/
         }
         
         return [element]

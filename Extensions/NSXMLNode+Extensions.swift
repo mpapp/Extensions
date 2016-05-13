@@ -68,7 +68,7 @@ extension NSXMLNode {
         return splitNodes
     }
     
-    public func extract(elementWithName elementName:String, range:Range<UInt>) -> (before:NSXMLNode, extracted:NSXMLElement, after:NSXMLNode) {
+    public func extract(elementWithName elementName:String, range:Range<UInt>, contents:String? = nil) -> (before:NSXMLNode, extracted:NSXMLElement, after:NSXMLNode) {
         let split = self.split(atIndices: [range.startIndex, range.endIndex])
         precondition(split.count == 3, "Unexpected split: \(split)")
         
@@ -78,17 +78,17 @@ extension NSXMLNode {
         }
         
         let str = extractedNode.XMLStringWithOptions(MPDefaultXMLDocumentParsingOptions)
-        let elem = NSXMLElement(name: elementName, stringValue: str)
+        let elem = NSXMLElement(name: elementName, stringValue: contents ?? str)
         parent.replace(extractedNode, withNodes: [elem])
         
         return (split[0], elem, split[2])
     }
     
-    public func extract(elementsWithName elementName:String, ranges:[Range<UInt>]) -> [NSXMLNode] {
-        return self.extract(elementsWithNames:(0..<ranges.count).map { _ in elementName }, ranges:ranges)
+    public func extract(elementsWithName elementName:String, ranges:[Range<UInt>], contents:[String]? = nil) -> [NSXMLNode] {
+        return self.extract(elementsWithNames:(0..<ranges.count).map { _ in elementName }, ranges:ranges, contents:contents)
     }
     
-    public func extract(elementsWithNames elementNames:[String], ranges:[Range<UInt>]) -> [NSXMLNode] {
+    public func extract(elementsWithNames elementNames:[String], ranges:[Range<UInt>], contents:[String]? = nil) -> [NSXMLNode] {
         for ra in ranges {
             for rb in ranges {
                 if ra == rb { continue }
@@ -110,7 +110,15 @@ extension NSXMLNode {
             let adjustedRange = UInt(adjustedStartIndex) ..< UInt(adjustedEndIndex)
             precondition(splitRange.count == adjustedRange.count)
             
-            let splitNodes = currentSplit.extract(elementWithName:elementNames[i], range:adjustedRange)
+            let elemContents:String?
+            if let contents = contents {
+                elemContents = contents[i]
+            }
+            else {
+                elemContents = nil
+            }
+            
+            let splitNodes = currentSplit.extract(elementWithName:elementNames[i], range:adjustedRange, contents:elemContents)
             
             let advanceBefore = advance
             

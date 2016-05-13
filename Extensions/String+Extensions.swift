@@ -32,7 +32,7 @@ extension String {
             var ranges = [Range<UInt>]()
             (self as NSString).enumerateStringsMatchedByRegex(pattern, usingBlock: { (captureCount, _, capturedRanges:UnsafePointer<NSRange>, _) in
                 
-                for c in (0 ..< captureCount) {
+                for c in (1 ..< captureCount) {
                     let r = capturedRanges.advancedBy(c).memory
                     let range = UInt(r.location) ..< UInt(r.location + r.length)
                     ranges.append(range)
