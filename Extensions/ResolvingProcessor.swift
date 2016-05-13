@@ -8,6 +8,10 @@
 
 import Foundation
 
+public enum ResolvingProcessorError: ErrorType {
+    case OverlappingRanges(Range<UInt>, Range<UInt>)
+}
+
 // The resolvable fragment processor is a special kind of processor which never modifies the DOM.
 
 public struct ResolvableFragmentProcessor: FragmentProcessor {
@@ -136,6 +140,12 @@ public struct ResolvableElementProcessor: ElementProcessor {
             
             let capturedRanges = stringValue.capturedCharacterIndexRanges(capturingPatterns: self.fragmentProcessor.capturingPatterns)
             
+            try capturedRanges.forEachPair { a, b in
+                if a.overlaps(b) {
+                    throw ResolvingProcessorError.OverlappingRanges(a, b)
+                }
+            }
+            
             let capturedResultRanges = try capturedRanges.map { range -> CapturedResultRange in
                 let capture = stringValue.substringWithRange(characterViewRange(range, string:stringValue))
                 let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
@@ -146,6 +156,8 @@ public struct ResolvableElementProcessor: ElementProcessor {
                     let end = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.endIndex)).advancedBy(Int(range.startIndex))
                     return start ..< end
                 }
+                
+                
                 
                 return (ranges:adjustedRanges, result:result)
             }
