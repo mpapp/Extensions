@@ -18,6 +18,15 @@ import Freddy
     public var nonDroppingParticle: String?
     public var literal: String?
     
+    public init(family:String?, given:String?, suffix:String?, droppingParticle:String?, nonDroppingParticle:String?, literal:String?) {
+        self.family = family
+        self.given = given
+        self.suffix = suffix
+        self.droppingParticle = droppingParticle
+        self.nonDroppingParticle = nonDroppingParticle
+        self.literal = literal
+    }
+    
     public required init(json: JSON) throws {
         self.family = try json.string("family", alongPath: [.MissingKeyBecomesNil])
         self.given = try json.string("given", alongPath: [.MissingKeyBecomesNil])
