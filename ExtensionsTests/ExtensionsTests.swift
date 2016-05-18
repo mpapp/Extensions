@@ -10,8 +10,8 @@ import XCTest
 import Extensions
 import OHHTTPStubs
 
-extension String {
-    func stringAroundOccurrence(ofString str:String, maxPadding:UInt, options:NSStringCompareOptions = []) -> String? {
+public extension String {
+    public func stringAroundOccurrence(ofString str:String, maxPadding:UInt, options:NSStringCompareOptions = []) -> String? {
         guard let range = self.rangeOfString(str, options:options, range: nil, locale: nil) else {
             return nil
         }
