@@ -160,7 +160,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 resultHandler?(elementProcessor: self, capturedResultRanges: capturedResultRanges)
             }
             
-            if self.replaceMatches && capturedResultRanges.count > 0 {
+            if self.replaceMatches && self.resolver.replaceMatches && capturedResultRanges.count > 0 {
                 let elemReps = try capturedResultRanges.map({ try $0.result.elementRepresentation() })
                 let tagNames = elemReps.map { $0.tagName }
                 let contents = elemReps.map { $0.contents }

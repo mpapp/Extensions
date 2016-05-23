@@ -17,6 +17,8 @@ public protocol Resolver {
     
     var rateLimitLabel:String { get }
     var rateLimit:NSTimeInterval { get }
+    
+    var replaceMatches:Bool { get }
 }
 
 public protocol URLBasedResolver:Resolver {
@@ -31,6 +33,17 @@ public extension Resolver {
     
     public var rateLimit:NSTimeInterval {
         return 1.0
+    }
+    
+    public var replaceMatches:Bool {
+        return true // override in your resolver to limit whether the resolver ever results in replacing.
+    }
+}
+
+extension URLBasedResolver {
+    
+    public var replaceMatches:Bool {
+        return false
     }
     
 }
