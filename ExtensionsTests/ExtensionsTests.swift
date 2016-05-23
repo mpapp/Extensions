@@ -72,7 +72,49 @@ class ExtensionsTests: XCTestCase {
 
     }
     
-    func testProcessingResolvingPDBIdentifier() {
+    func testResolvingPMIDIdentifier() {
+        stub(isHost("eutils.ncbi.nlm.nih.gov")) { (_) in
+            let stubPath = OHPathForFile("1304383.pubmed-xml", self.dynamicType)!
+            return fixture(stubPath, headers: [:])
+        }
+        
+        let pdb = ResolvableElementProcessor(resolver: PubMedResolver(), tokenizingPatterns: [], capturingPatterns:[PubMedIdentifier.capturingPattern()])
+        let docP = ResolvingDocumentProcessor(resolver: PubMedResolver(), elementProcessors: [pdb])
+        
+        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("PMID-reference-example", withExtension: "html")!
+        
+        var doc:NSXMLDocument? = nil
+        do {
+            doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML)
+        }
+        catch {
+            XCTFail("Failed to initialize test document from URL \(URL).")
+        }
+        
+        var count = 0
+        do {
+            try docP.processedDocument(inputDocument: doc!, inPlace: true) { _, capturedResultRanges in
+                for resultRange in capturedResultRanges {
+                    switch resultRange.result.result {
+                    case .BibliographyItems(let items):
+                        count += 1
+                        XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
+                        XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
+                    default:
+                        XCTFail("Failed to resolve a bibliography item for \(resultRange)")
+                    }
+                    print("Result range:\(resultRange)")
+                }
+            }
+        }
+        catch {
+            XCTFail("Failed to process document from URL \(URL).")
+        }
+        
+        XCTAssert(count == 1, "No parsing events fired.")
+    }
+    
+    func testResolvingPDBIdentifier() {
         stub(isHost("www.rcsb.org")) { (_) in
             let stubPath = OHPathForFile("1HIV.rcsb-xml", self.dynamicType)!
             return fixture(stubPath, headers: [:])
@@ -88,6 +130,7 @@ class ExtensionsTests: XCTestCase {
         
         let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
         
+        var count = 0
         var doc:NSXMLDocument? = nil
         do {
             doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML)

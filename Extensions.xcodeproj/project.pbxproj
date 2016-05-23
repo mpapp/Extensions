@@ -91,6 +91,7 @@
 		5FC2B2E11CBD3D33001F77FB /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2DF1CBD3D33001F77FB /* scripts */; };
 		5FC2B2E21CBD3D33001F77FB /* styles in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2E01CBD3D33001F77FB /* styles */; };
 		5FEB0D3C1CF329AC00D304B1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FEB0D3B1CF329AC00D304B1 /* Cocoa.framework */; };
+		5FEB0D3E1CF32C7900D304B1 /* PMID-reference-example.html in Resources */ = {isa = PBXBuildFile; fileRef = 5FEB0D3D1CF32C7900D304B1 /* PMID-reference-example.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -229,6 +230,7 @@
 		5FC2B2DF1CBD3D33001F77FB /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = dist/scripts; sourceTree = "<group>"; };
 		5FC2B2E01CBD3D33001F77FB /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = styles; path = dist/styles; sourceTree = "<group>"; };
 		5FEB0D3B1CF329AC00D304B1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		5FEB0D3D1CF32C7900D304B1 /* PMID-reference-example.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "PMID-reference-example.html"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,12 +316,13 @@
 		5F1996B61CB5B58400B1C5DB /* ExtensionsTests */ = {
 			isa = PBXGroup;
 			children = (
-				5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */,
 				5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */,
-				5F44B8341CCBAABB0047A4F0 /* 1304383.pubmed-xml */,
 				5F34E2BF1CC7E84B00A5DAF1 /* biolit.html */,
-				5F1996B71CB5B58400B1C5DB /* ExtensionsTests.swift */,
+				5FEB0D3D1CF32C7900D304B1 /* PMID-reference-example.html */,
 				5F1996B91CB5B58400B1C5DB /* Info.plist */,
+				5F44B8341CCBAABB0047A4F0 /* 1304383.pubmed-xml */,
+				5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */,
+				5F1996B71CB5B58400B1C5DB /* ExtensionsTests.swift */,
 			);
 			path = ExtensionsTests;
 			sourceTree = "<group>";
@@ -612,6 +615,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F44B8441CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json in Resources */,
+				5FEB0D3E1CF32C7900D304B1 /* PMID-reference-example.html in Resources */,
 				5F44B82D1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml in Resources */,
 				5F44B8351CCBAABB0047A4F0 /* 1304383.pubmed-xml in Resources */,
 				5F34E2C01CC7E84B00A5DAF1 /* biolit.html in Resources */,

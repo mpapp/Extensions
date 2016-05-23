@@ -24,14 +24,17 @@ public struct PubMedIdentifier: Resolvable {
             evaluatedID = lowercaseID
         }
         
-        guard (evaluatedID as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
+        guard (evaluatedID as NSString).isMatchedByRegex(self.dynamicType.identifierValidationPattern()) else {
             throw ResolvingError.NotResolvable(evaluatedID)
         }
         
         self.identifier = evaluatedID
     }
     
-    public static func capturingPattern() -> String { return "^(\\d{1,20})$" }
+    public static func capturingPattern() -> String {
+        return "(PMID:\\d{1,20})"
+    }
+    private static func identifierValidationPattern() -> String { return "^\\d{1,20}$" }
 }
 
 public class PubMedResolver: URLBasedResolver {
