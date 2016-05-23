@@ -156,8 +156,10 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 return (ranges:adjustedRanges, result:result)
             }
             
-            resultHandler?(elementProcessor: self, capturedResultRanges: capturedResultRanges)
-
+            if capturedResultRanges.count > 0 {
+                resultHandler?(elementProcessor: self, capturedResultRanges: capturedResultRanges)
+            }
+            
             if self.replaceMatches && capturedResultRanges.count > 0 {
                 let elemReps = try capturedResultRanges.map({ try $0.result.elementRepresentation() })
                 let tagNames = elemReps.map { $0.tagName }

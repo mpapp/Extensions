@@ -6,7 +6,7 @@
 //  Copyright © 2016 Manuscripts.app Limited. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 extension NSView {
     

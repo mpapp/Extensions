@@ -90,6 +90,7 @@
 		5FC2B2DE1CBD3C49001F77FB /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2DD1CBD3C49001F77FB /* index.html */; };
 		5FC2B2E11CBD3D33001F77FB /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2DF1CBD3D33001F77FB /* scripts */; };
 		5FC2B2E21CBD3D33001F77FB /* styles in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2E01CBD3D33001F77FB /* styles */; };
+		5FEB0D3C1CF329AC00D304B1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FEB0D3B1CF329AC00D304B1 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -227,6 +228,7 @@
 		5FC2B2DD1CBD3C49001F77FB /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = app/index.html; sourceTree = "<group>"; };
 		5FC2B2DF1CBD3D33001F77FB /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = dist/scripts; sourceTree = "<group>"; };
 		5FC2B2E01CBD3D33001F77FB /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = styles; path = dist/styles; sourceTree = "<group>"; };
+		5FEB0D3B1CF329AC00D304B1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +236,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FEB0D3C1CF329AC00D304B1 /* Cocoa.framework in Frameworks */,
 				5F57FB471CCCDC2D00EBF750 /* MPRateLimiter.framework in Frameworks */,
 				5F44B81A1CCACCE20047A4F0 /* SWXMLHash.framework in Frameworks */,
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
@@ -324,6 +327,7 @@
 		5F1996D71CB7E1EC00B1C5DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FEB0D3B1CF329AC00D304B1 /* Cocoa.framework */,
 				5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */,
 				5F57FB431CCCDC2000EBF750 /* MPRateLimiter.framework.dSYM */,
 				5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */,
