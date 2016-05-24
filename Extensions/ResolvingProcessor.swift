@@ -51,6 +51,8 @@ public typealias CapturedResultRange = (ranges:[Range<String.CharacterView.Index
 
 public typealias ResolvedResultHandler = (elementProcessor:ResolvableElementProcessor, capturedResultRanges:[CapturedResultRange]) -> Void
 
+public typealias ElementRepresentationProvider = (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode:NSXMLNode) -> Element
+
 // The resolvable element processor is a special kind of processor which never modifies the DOM.
 // Instead it calls the `resolvableResultHandler` passed to it, for every case a resolvable identifier was found.
 public struct ResolvableElementProcessor: ElementProcessor {
@@ -70,14 +72,14 @@ public struct ResolvableElementProcessor: ElementProcessor {
     }()
     
     public func process(element element:NSXMLElement, inDocument doc:NSXMLDocument) throws -> [NSXMLNode] {
-        return try self.process(element: element, inDocument: doc, resultHandler: nil)
+        return try self.process(element: element, inDocument: doc, resultHandler: nil, elementRepresentationProvider: nil)
     }
     
     public func process(document doc:NSXMLDocument) throws -> [NSXMLNode] {
-        return try self.process(document: doc, resultHandler: nil)
+        return try self.process(document: doc, resultHandler: nil, elementRepresentationProvider: nil)
     }
     
-    public func process(document doc:NSXMLDocument, resultHandler:ResolvedResultHandler?) throws -> [NSXMLNode] {
+    public func process(document doc:NSXMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider?) throws -> [NSXMLNode] {
         var processed = [NSXMLNode]()
         
         let nodes = try doc.nodesForXPath(self.XPathPattern)
@@ -88,7 +90,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 throw DocumentProcessorError.UnexpectedNodeType(node)
             }
             
-            let nodes = try self.process(element: elem, inDocument: doc, resultHandler: resultHandler)
+            let nodes = try self.process(element: elem, inDocument: doc, resultHandler: resultHandler, elementRepresentationProvider:elementRepresentationProvider)
             
             processed.appendContentsOf(nodes)
             
@@ -119,7 +121,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
         return processed
     }
     
-    public func process(element element:NSXMLElement, inDocument doc:NSXMLDocument, resultHandler:ResolvedResultHandler?) throws -> [NSXMLNode] {
+    public func process(element element:NSXMLElement, inDocument doc:NSXMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider?) throws -> [NSXMLNode] {
         
         guard let children = element.children else {
             return [element]
@@ -196,11 +198,11 @@ public struct ResolvingDocumentProcessor: DocumentProcessor {
         self.resolvableElementProcessors = elementProcessors.map { $0 }
     }
     
-    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler?) throws -> NSXMLDocument {
+    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider) throws -> NSXMLDocument {
         let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
         
         for elemProcessor in self.resolvableElementProcessors {
-            try elemProcessor.process(document: doc, resultHandler: resultHandler)
+            try elemProcessor.process(document: doc, resultHandler: resultHandler, elementRepresentationProvider: elementRepresentationProvider)
         }
         
         return outputDoc
