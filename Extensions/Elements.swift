@@ -11,11 +11,12 @@ import Foundation
 public protocol Element: class, HTMLSnippetRepresentable, CustomStringConvertible {
     var contents:String { get }
     var tagName: String { get }
+    var attributes:[String:String] { get }
 }
 
 public extension Element {
     var description:String {
-        return "<\(String(self.dynamicType)) tagName:\(tagName) contents:\(contents)>"
+        return "<\(String(self.dynamicType)) tagName:\(tagName) contents:\(contents) attributes:\(attributes)>"
     }
 }
 
@@ -31,7 +32,7 @@ extension Element {
         return self.contents
     }
     
-    public var attributeDictionary:[String:String] {
+    public var attributes:[String:String] {
         return [:]
     }
 }

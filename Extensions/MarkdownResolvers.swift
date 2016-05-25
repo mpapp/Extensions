@@ -39,7 +39,7 @@ public class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
         return captured
     }
     
-    public var attributeDictionary: [String : String] {
+    public var attributes: [String : String] {
         return [:]
     }
 }

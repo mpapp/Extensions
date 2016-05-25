@@ -9,7 +9,7 @@
 public protocol HTMLSnippetRepresentable:CustomStringConvertible {
     var tagName:String { get }
     var innerHTML:String { get }
-    var attributeDictionary:[String:String] { get }
+    var attributes:[String:String] { get }
     
     var HTMLSnippetRepresentation: String { get }
 }

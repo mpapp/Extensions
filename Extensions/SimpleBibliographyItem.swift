@@ -390,7 +390,7 @@ import Freddy
         return "Unknown"
     }
     
-    public var attributeDictionary: [String : String] {
+    public var attributes: [String : String] {
         return [:]
     }
 }
