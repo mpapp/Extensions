@@ -95,6 +95,9 @@ class ExtensionsTests: XCTestCase {
         do {
             try docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { _, capturedResultRanges in
                 for resultRange in capturedResultRanges {
+                    
+                    XCTAssert(resultRange.result.resolvable.originatingString.hasPrefix("PMID:"))
+                    
                     switch resultRange.result.result {
                     case .BibliographyItems(let items):
                         count += 1
@@ -111,7 +114,7 @@ class ExtensionsTests: XCTestCase {
             XCTFail("Failed to process document from URL \(URL).")
         }
         
-        XCTAssert(count == 1, "No parsing events fired.")
+        XCTAssert(count > 0, "No parsing events fired.")
     }
     
     func testResolvingPDBIdentifier() {
@@ -160,7 +163,7 @@ class ExtensionsTests: XCTestCase {
             })
         }
         catch {
-            XCTFail("Failed to process document from URL \(URL).")
+            XCTFail("Failed to process document from URL \(URL):\(error)")
         }
         
         XCTAssert(elementEncounters > 0)

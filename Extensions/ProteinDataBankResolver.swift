@@ -13,23 +13,25 @@ import SWXMLHash
 
 public struct ProteinDataBankIdentifier:Resolvable {
     public let identifier:String
+    public let originatingString: String
     
-    public init(identifier: String) throws {
-        guard identifier.isUpper() else {
-            throw ResolvingError.NotResolvable("\(identifier) contains lowercase characters and therefore cannot be a PDB ID.")
+    public init(originatingString: String) throws {
+        guard originatingString.isUpper() else {
+            throw ResolvingError.NotResolvable("\(originatingString) contains lowercase characters and therefore cannot be a PDB ID.")
         }
         
-        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.identifierValidationPattern()) else {
-            throw ResolvingError.NotResolvable("\(identifier) does not look like a PDB ID.")
+        guard (originatingString as NSString).isMatchedByRegex(self.dynamicType.identifierValidationPattern()) else {
+            throw ResolvingError.NotResolvable("\(originatingString) does not look like a PDB ID.")
         }
         
-        self.identifier = identifier
+        self.originatingString = originatingString
+        self.identifier = (originatingString as NSString).stringByReplacingOccurrencesOfRegex("PDB\\s{0,1}I{0,1}D{0,1}\\s{0,1}", withString: "")
     }
     
     // Some examples of matching strings:
     // PDB 1HIV
     // DB ID 1HIV
-    public static func capturingPattern() -> String { return "PDB\\s{0,1}I{0,1}D{0,1}\\s{0,1}([1-9][A-Za-z0-9]{3})" }
+    public static func capturingPattern() -> String { return "(PDB\\s{0,1}I{0,1}D{0,1}\\s{0,1}[1-9][A-Za-z0-9]{3})" }
     private static func identifierValidationPattern() -> String { return "[1-9][A-Za-z0-9]{3}" }
 }
 
@@ -53,7 +55,7 @@ public struct ProteinDataBankResolver: URLBasedResolver {
         //let result = try DigitalObjectIdentifierResolver().resolve("10.2210/pdb\(PDBID)/pdb")
         //return result
         
-        let PDBID = try ProteinDataBankIdentifier(identifier:identifier)
+        let PDBID = try ProteinDataBankIdentifier(originatingString:identifier)
         let items = try self.bibliographyItems(proteinDataID: PDBID)
         guard items.count > 0 else {
             return ResolvedResult(resolvable:PDBID, result:.None)

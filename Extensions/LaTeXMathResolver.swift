@@ -11,16 +11,19 @@ import SWXMLHash
 
 public struct InlineLaTeXFragment:Resolvable {
     public let identifier:String
+    public let originatingString: String
     
-    public init(identifier: String) throws {
-        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
-            throw ResolvingError.NotResolvable("\(identifier) does not look like a PDB ID.")
+    public init(originatingString: String) throws {
+        guard (originatingString as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
+            throw ResolvingError.NotResolvable("\(originatingString) does not look like a PDB ID.")
         }
         
-        self.identifier = identifier
+        self.originatingString = originatingString
+        self.identifier = (originatingString as NSString).captureComponentsMatchedByRegex(self.dynamicType.contentCapturingPattern())[1] as! String
     }
     
-    public static func capturingPattern() -> String { return "\\b(\\$.+\\$)\\b" }
+    public static func capturingPattern() -> String { return "(\\b\\$.+\\$\\b)" }
+    private static func contentCapturingPattern() -> String { return "\\b(\\$.+\\$)\\b" }
 }
 
 public struct LaTeXMathResolver:Resolver {
@@ -38,12 +41,12 @@ public struct LaTeXMathResolver:Resolver {
         return ProteinDataBankIdentifier.self
     }()
     
-    public func resolve(identifier: String) throws -> ResolvedResult {
+    public func resolve(string: String) throws -> ResolvedResult {
         // you can also get info for PDB IDs given the following kind of DOIs, except the metadata is not same quality as PubMed.
         //let result = try DigitalObjectIdentifierResolver().resolve("10.2210/pdb\(PDBID)/pdb")
         //return result
         
-        let PDBID = try ProteinDataBankIdentifier(identifier:identifier)
+        let PDBID = try ProteinDataBankIdentifier(originatingString:string)
         let items = try self.bibliographyItems(proteinDataID: PDBID)
         guard items.count > 0 else {
             return ResolvedResult(resolvable:PDBID, result: .None)

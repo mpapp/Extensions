@@ -23,8 +23,9 @@ enum ResolvingError:ErrorType {
 
 public protocol Resolvable: CustomStringConvertible {
     var identifier:String { get }
+    var originatingString:String { get }
     
-    init(identifier:String) throws
+    init(originatingString:String) throws
     
     static func capturingPattern() -> String
 }

@@ -13,7 +13,7 @@ public let ResolverRateLimitMilliseconds = 100
 public protocol Resolver {
     var resolvableType:Resolvable.Type { get }
     
-    func resolve(identifier:String) throws -> ResolvedResult
+    func resolve(string:String) throws -> ResolvedResult
     
     var rateLimitLabel:String { get }
     var rateLimit:NSTimeInterval { get }

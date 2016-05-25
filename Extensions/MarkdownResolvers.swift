@@ -10,14 +10,16 @@ import Foundation
 
 public class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
     public let identifier: String
+    public let originatingString: String
     
-    public required init(identifier: String) throws {
+    public required init(originatingString: String) throws {
         // pattern matches paired * *'s in between one or more characters between word boundaries.
-        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
-            throw ResolvingError.NotResolvable(identifier)
+        guard (originatingString as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
+            throw ResolvingError.NotResolvable(originatingString)
         }
         
-        self.identifier = identifier
+        self.originatingString = originatingString
+        self.identifier = self.originatingString
     }
     
     public class func capturingPattern() -> String {
@@ -99,8 +101,8 @@ public struct MarkdownSyntaxComponentResolver:Resolver {
         return markdownType
     }
 
-    public func resolve(identifier: String) throws -> ResolvedResult {
-        let identifier:MarkdownSyntaxComponent = try self.markdownComponentType.init(identifier: identifier)
+    public func resolve(string: String) throws -> ResolvedResult {
+        let identifier:MarkdownSyntaxComponent = try self.markdownComponentType.init(originatingString: string)
         let item = SimpleInlineElement(contents: identifier.innerHTML, tagName: identifier.tagName)
         
         return ResolvedResult(resolvable: identifier, result:.InlineElements([item]))

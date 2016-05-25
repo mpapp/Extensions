@@ -11,13 +11,15 @@ import Freddy
 
 public struct DigitalObjectIdentifier:Resolvable {
     public let identifier:String
+    public let originatingString: String
     
-    public init(identifier: String) throws {
-        guard (identifier as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
-            throw ResolvingError.NotResolvable("\(identifier) does not look like a PDB ID.")
+    public init(originatingString: String) throws {
+        guard (originatingString as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
+            throw ResolvingError.NotResolvable("\(originatingString) does not look like a PDB ID.")
         }
         
-        self.identifier = identifier
+        self.originatingString = originatingString
+        self.identifier = self.originatingString
     }
     
     // from http://stackoverflow.com/questions/27910/finding-a-doi-in-a-document-or-page
@@ -39,8 +41,8 @@ public struct DigitalObjectIdentifierResolver: URLBasedResolver {
         return DigitalObjectIdentifier.self
     }()
     
-    public func resolve(identifier: String) throws -> ResolvedResult {
-        let DOI = try DigitalObjectIdentifier(identifier:identifier)
+    public func resolve(string: String) throws -> ResolvedResult {
+        let DOI = try DigitalObjectIdentifier(originatingString:string)
         let items = try self.bibliographyItems(DOI: DOI)
         guard items.count > 0 else {
             return ResolvedResult(resolvable:DOI, result:.None)

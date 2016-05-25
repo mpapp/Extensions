@@ -12,29 +12,33 @@ import SWXMLHash
 
 public struct PubMedIdentifier: Resolvable {
     public let identifier: String
+    public let originatingString: String
     
-    public init(identifier: String) throws {
-        let lowercaseID = identifier.lowercaseString
+    public init(originatingString: String) throws {
+        let uppercaseString = originatingString.uppercaseString
         
         let evaluatedID:String
-        if lowercaseID.hasPrefix("pmid:") {
-            evaluatedID = lowercaseID.stringByReplacingOccurrencesOfRegex("^pmid:", withString: "")
+        if !uppercaseString.hasPrefix("pmid:") {
+            evaluatedID = "PMID:\(uppercaseString)"
         }
         else {
-            evaluatedID = lowercaseID
+            evaluatedID = uppercaseString
         }
         
-        guard (evaluatedID as NSString).isMatchedByRegex(self.dynamicType.identifierValidationPattern()) else {
+        guard (evaluatedID as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
             throw ResolvingError.NotResolvable(evaluatedID)
         }
         
-        self.identifier = evaluatedID
+        self.originatingString = originatingString
+        self.identifier = (evaluatedID as NSString).captureComponentsMatchedByRegex(self.dynamicType.contentCapturingPattern())[1] as! String
     }
     
     public static func capturingPattern() -> String {
         return "(PMID:\\d{1,20})"
     }
-    private static func identifierValidationPattern() -> String { return "^\\d{1,20}$" }
+    private static func contentCapturingPattern() -> String {
+        return "PMID:(\\d{1,20})"
+    }
 }
 
 public class PubMedResolver: URLBasedResolver {
@@ -120,7 +124,7 @@ public class PubMedResolver: URLBasedResolver {
     }
     
     public func resolve(identifier: String) throws -> ResolvedResult {
-        let PMID = try PubMedIdentifier(identifier: identifier)
+        let PMID = try PubMedIdentifier(originatingString: identifier)
         let bibItem = try self.bibliographyItem(PMID)
         return ResolvedResult(resolvable: PMID, result:.BibliographyItems([bibItem]))
     }
