@@ -79,7 +79,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
         return try self.process(document: doc, resultHandler: nil, elementRepresentationProvider: nil)
     }
     
-    public func process(document doc:NSXMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider?) throws -> [NSXMLNode] {
+    public func process(document doc:NSXMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> [NSXMLNode] {
         var processed = [NSXMLNode]()
         
         let nodes = try doc.nodesForXPath(self.XPathPattern)
@@ -121,8 +121,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
         return processed
     }
     
-    public func process(element element:NSXMLElement, inDocument doc:NSXMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider?) throws -> [NSXMLNode] {
-        
+    public func process(element element:NSXMLElement, inDocument doc:NSXMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> [NSXMLNode] {
         guard let children = element.children else {
             return [element]
         }
@@ -163,7 +162,15 @@ public struct ResolvableElementProcessor: ElementProcessor {
             }
             
             if self.replaceMatches && self.resolver.replaceMatches && capturedResultRanges.count > 0 {
-                let elemReps = try capturedResultRanges.map({ try $0.result.elementRepresentation() })
+                let elemReps:[Element]
+                if let elementRepresentationProvider = elementRepresentationProvider {
+                    elemReps = capturedResultRanges.map {
+                        elementRepresentationProvider(elementProcessor: self, capturedResultRange:$0, textNode:c)
+                    }
+                }
+                else {
+                    elemReps = try capturedResultRanges.map { try $0.result.elementRepresentation() }
+                }
                 let tagNames = elemReps.map { $0.tagName }
                 let contents = elemReps.map { $0.contents }
                 
@@ -198,7 +205,7 @@ public struct ResolvingDocumentProcessor: DocumentProcessor {
         self.resolvableElementProcessors = elementProcessors.map { $0 }
     }
     
-    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider) throws -> NSXMLDocument {
+    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> NSXMLDocument {
         let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
         
         for elemProcessor in self.resolvableElementProcessors {
@@ -237,11 +244,11 @@ public struct ResolvingCompoundDocumentProcessor: DocumentProcessor {
         self.documentProcessors = docProcessors
     }
     
-    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler) throws -> NSXMLDocument {
+    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> NSXMLDocument {
         let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
         
         for docProcessor in self.documentProcessors {
-            try docProcessor.processedDocument(inputDocument: doc, inPlace: true, resultHandler: resultHandler)
+            try docProcessor.processedDocument(inputDocument: doc, inPlace: true, resultHandler: resultHandler, elementRepresentationProvider: elementRepresentationProvider)
         }
         
         return outputDoc

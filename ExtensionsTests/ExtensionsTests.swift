@@ -93,7 +93,7 @@ class ExtensionsTests: XCTestCase {
         
         var count = 0
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace: true) { _, capturedResultRanges in
+            try docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { _, capturedResultRanges in
                 for resultRange in capturedResultRanges {
                     switch resultRange.result.result {
                     case .BibliographyItems(let items):
@@ -105,7 +105,7 @@ class ExtensionsTests: XCTestCase {
                     }
                     print("Result range:\(resultRange)")
                 }
-            }
+            })
         }
         catch {
             XCTFail("Failed to process document from URL \(URL).")
@@ -125,7 +125,7 @@ class ExtensionsTests: XCTestCase {
             return fixture(stubPath, headers: [:])
         }
         
-        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()])
+        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()], replaceMatches: true)
         let docP = ResolvingDocumentProcessor(resolver: ProteinDataBankResolver(), elementProcessors: [pdb])
         
         let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
@@ -139,8 +139,10 @@ class ExtensionsTests: XCTestCase {
             XCTFail("Failed to initialize test document from URL \(URL).")
         }
         
+        var elementEncounters = 0
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace: true) { _, capturedResultRanges in
+            try docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { _, capturedResultRanges in
+                count += 1
                 for resultRange in capturedResultRanges {
                     switch resultRange.result.result {
                     case .BibliographyItems(let items):
@@ -151,11 +153,18 @@ class ExtensionsTests: XCTestCase {
                     }
                     print("Result range:\(resultRange)")
                 }
-            }
+            }, elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
+                elementEncounters += 1
+                let elem = SimpleInlineElement(contents: textNode.stringValue!.substringWithRange(capturedResultRange.ranges[0]), tagName: "span")
+                return elem
+            })
         }
         catch {
             XCTFail("Failed to process document from URL \(URL).")
         }
+        
+        XCTAssert(elementEncounters > 0)
+        XCTAssert(count > 0)
     }
     
     func testResolvingDOI() {
@@ -173,9 +182,11 @@ class ExtensionsTests: XCTestCase {
             XCTFail("Failed to parse bibliography items.")
         }
         
+        var count = 0
         let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
                                                       tokenizingPatterns: [],
-                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()])
+                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()],
+                                                      replaceMatches: true)
         let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
         
         var doc:NSXMLDocument? = nil
@@ -183,23 +194,34 @@ class ExtensionsTests: XCTestCase {
         do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
+        var elementEncounters = 0
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace: true) { _, capturedResultRanges in
-                for resultRange in capturedResultRanges {
-                    switch resultRange.result.result {
-                    case .BibliographyItems(let items):
-                        XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                        XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
-                    default:
-                        XCTFail("Failed to resolve a bibliography item for \(resultRange)")
-                    }
-                    print("Result range: \(resultRange)")
-                }
-            }
+            try docP.processedDocument(inputDocument: doc!, inPlace: true,
+                                       resultHandler: { _, capturedResultRanges in
+                                                            count += 1
+                                                            for resultRange in capturedResultRanges {
+                                                                switch resultRange.result.result {
+                                                                case .BibliographyItems(let items):
+                                                                    XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
+                                                                    XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
+                                                                default:
+                                                                    XCTFail("Failed to resolve a bibliography item for \(resultRange)")
+                                                                }
+                                                                print("Result range: \(resultRange)")
+                                                            }
+                                                        },
+                                       elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
+                                            elementEncounters += 1
+                                            let elem = SimpleInlineElement(contents: textNode.stringValue!.substringWithRange(capturedResultRange.ranges[0]), tagName: "span")
+                                            return elem
+                                       })
         }
         catch {
             XCTFail("Failed to process document from URL \(URL).")
         }
+        
+        XCTAssert(elementEncounters > 0)
+        XCTAssert(count > 0)
     }
     
     func testResolvingMarkdown() {
@@ -292,7 +314,6 @@ class ExtensionsTests: XCTestCase {
         XCTAssertTrue(splitNodes[5].XMLString == "<em>az</em>")
     }
     
-    
     func testProcessingMarkdown() {
         let resolvers:[Resolver] = [ MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self),
                                      MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self),
@@ -308,7 +329,7 @@ class ExtensionsTests: XCTestCase {
         do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
-        try! docP.processedDocument(inputDocument: doc!, inPlace: true) { (elementProcessor, capturedResultRanges) in
+        try! docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { (elementProcessor, capturedResultRanges) in
             
             for range in capturedResultRanges {
                 switch range.result.result {
@@ -350,7 +371,7 @@ class ExtensionsTests: XCTestCase {
                     XCTFail("There should be no failed resolve calls.")
                 }
             }
-        }
+        })
         
         for identifier in ["**delivers**", "__that__", "*resource*", "_semantically_"] {
             XCTAssert(encounteredIDs.contains(identifier), "Failed to resolve identifier \(identifier)")

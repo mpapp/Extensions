@@ -40,10 +40,11 @@ public extension Resolver {
     }
 }
 
+/*
 extension URLBasedResolver {
     
     public var replaceMatches:Bool {
         return false
     }
-    
 }
+*/
