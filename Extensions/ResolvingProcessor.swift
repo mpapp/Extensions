@@ -146,7 +146,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
             let capturedResultRanges = try capturedRanges.map { range -> CapturedResultRange in
                 let capture = stringValue.substringWithRange(characterViewRange(range, string:stringValue))
                 let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
-                let identifierRanges = capture.ranges(result.resolvable.identifier)
+                let identifierRanges = capture.ranges(result.resolvable.originatingString)
                 
                 let adjustedRanges = identifierRanges.map { identifierRange -> Range<String.CharacterView.Index> in
                     let start = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.startIndex)).advancedBy(Int(range.startIndex))
