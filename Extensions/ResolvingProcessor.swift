@@ -51,7 +51,7 @@ public typealias CapturedResultRange = (ranges:[Range<String.CharacterView.Index
 
 public typealias ResolvedResultHandler = (elementProcessor:ResolvableElementProcessor, capturedResultRanges:[CapturedResultRange]) -> Void
 
-public typealias ElementRepresentationProvider = (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode:NSXMLNode) -> Element
+public typealias ElementRepresentationProvider = (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode:NSXMLNode) throws -> Element
 
 // The resolvable element processor is a special kind of processor which never modifies the DOM.
 // Instead it calls the `resolvableResultHandler` passed to it, for every case a resolvable identifier was found.
@@ -164,8 +164,8 @@ public struct ResolvableElementProcessor: ElementProcessor {
             if self.replaceMatches && self.resolver.replaceMatches && capturedResultRanges.count > 0 {
                 let elemReps:[Element]
                 if let elementRepresentationProvider = elementRepresentationProvider {
-                    elemReps = capturedResultRanges.map {
-                        elementRepresentationProvider(elementProcessor: self, capturedResultRange:$0, textNode:c)
+                    elemReps = try capturedResultRanges.map {
+                        try elementRepresentationProvider(elementProcessor: self, capturedResultRange:$0, textNode:c)
                     }
                 }
                 else {
