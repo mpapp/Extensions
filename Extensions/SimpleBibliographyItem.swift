@@ -346,6 +346,7 @@ import Freddy
         if let volume = volume { dict["volume"] = volume }
         if let yearSuffix = yearSuffix { dict["year-suffix"] = yearSuffix }
         if let institution = institution { dict["institution"] = institution }
+        if let issued = issued { dict["issued"] = issued.dictionaryRepresentation }
         
         return dict
     }

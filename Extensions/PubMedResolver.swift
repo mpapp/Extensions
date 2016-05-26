@@ -61,8 +61,19 @@ public class PubMedResolver: URLBasedResolver {
     private func bibliographyItem(doc:XMLIndexer) throws -> BibliographyItem {
         let b = SimpleBibliographyItem()
         
-        let citation = doc["PubmedArticleSet"]["PubmedArticle"]["MedlineCitation"]
+        let articleSet = doc["PubmedArticleSet"]
+        switch articleSet {
+        case .XMLError(let error): throw error
+        default: break
+        }
         
+        let pubmedArticle = articleSet["PubmedArticle"]
+        switch articleSet {
+        case .XMLError(let error): throw error
+        default: break
+        }
+        
+        let citation = pubmedArticle["MedlineCitation"]
         switch citation {
             case .XMLError(let error): throw error
             default: break
@@ -98,8 +109,10 @@ public class PubMedResolver: URLBasedResolver {
                         b.issue = issueNo
                     }
                     
-                    if journalIssue["PubDate"]["Year"].boolValue, let year = journalIssue["PubDate"]["Year"].element?.text {
-                        let date = SimpleBibliographicDate(dateParts: [year])
+                    if journalIssue["PubDate"]["Year"].boolValue,
+                        let year = journalIssue["PubDate"]["Year"].element?.text,
+                        let yearNumber = Int(year) {
+                        let date = SimpleBibliographicDate(dateParts: [NSNumber(integer:yearNumber)])
                         b.issued = date
                     }
                 }
