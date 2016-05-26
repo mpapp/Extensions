@@ -173,6 +173,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 }
                 let tagNames = elemReps.map { $0.tagName }
                 let contents = elemReps.map { $0.contents }
+                let attribs = elemReps.map { $0.attributes }
                 
                 let ranges = capturedResultRanges.flatMap { resultRange in
                     return resultRange.ranges
@@ -184,7 +185,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
                     return UInt(start) ..< UInt(end)
                 }
                 
-                c.extract(elementsWithNames:tagNames, ranges: stringRanges, contents: contents)
+                c.extract(elementsWithNames:tagNames, ranges: stringRanges, contents: contents, attributes:attribs)
             }
         }
         

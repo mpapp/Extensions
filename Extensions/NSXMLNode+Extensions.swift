@@ -68,7 +68,7 @@ extension NSXMLNode {
         return splitNodes
     }
     
-    public func extract(elementWithName elementName:String, range:Range<UInt>, contents:String? = nil) -> (before:NSXMLNode, extracted:NSXMLElement, after:NSXMLNode) {
+    public func extract(elementWithName elementName:String, range:Range<UInt>, contents:String? = nil, attributes:[String:String]? = nil) -> (before:NSXMLNode, extracted:NSXMLElement, after:NSXMLNode) {
         let split = self.split(atIndices: [range.startIndex, range.endIndex])
         precondition(split.count == 3, "Unexpected split: \(split)")
         
@@ -81,14 +81,23 @@ extension NSXMLNode {
         let elem = NSXMLElement(name: elementName, stringValue: contents ?? str)
         parent.replace(extractedNode, withNodes: [elem])
         
+        if let attributes = attributes {
+            for (key, value) in attributes {
+                let attribNode = NSXMLNode(kind: .AttributeKind)
+                attribNode.name = key
+                attribNode.stringValue = value
+                elem.addAttribute(attribNode)
+            }            
+        }
+        
         return (split[0], elem, split[2])
     }
     
-    public func extract(elementsWithName elementName:String, ranges:[Range<UInt>], contents:[String]? = nil) -> [NSXMLNode] {
-        return self.extract(elementsWithNames:(0..<ranges.count).map { _ in elementName }, ranges:ranges, contents:contents)
+    public func extract(elementsWithName elementName:String, ranges:[Range<UInt>], contents:[String]? = nil, attributes:[[String:String]]? = nil) -> [NSXMLNode] {
+        return self.extract(elementsWithNames:(0..<ranges.count).map { _ in elementName }, ranges:ranges, contents:contents, attributes:attributes)
     }
     
-    public func extract(elementsWithNames elementNames:[String], ranges:[Range<UInt>], contents:[String]? = nil) -> [NSXMLNode] {
+    public func extract(elementsWithNames elementNames:[String], ranges:[Range<UInt>], contents:[String]? = nil, attributes:[[String:String]]? = nil) -> [NSXMLNode] {
         for ra in ranges {
             for rb in ranges {
                 if ra == rb { continue }
@@ -118,7 +127,15 @@ extension NSXMLNode {
                 elemContents = nil
             }
             
-            let splitNodes = currentSplit.extract(elementWithName:elementNames[i], range:adjustedRange, contents:elemContents)
+            let attribs:[String:String]?
+            if let attributes = attributes {
+                attribs = attributes[i]
+            }
+            else {
+                attribs = nil
+            }
+            
+            let splitNodes = currentSplit.extract(elementWithName:elementNames[i], range:adjustedRange, contents:elemContents, attributes: attribs)
             
             let advanceBefore = advance
             
