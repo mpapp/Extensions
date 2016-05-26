@@ -110,9 +110,8 @@ public class PubMedResolver: URLBasedResolver {
                     }
                     
                     if journalIssue["PubDate"]["Year"].boolValue,
-                        let year = journalIssue["PubDate"]["Year"].element?.text,
-                        let yearNumber = Int(year) {
-                        let date = SimpleBibliographicDate(dateParts: [NSNumber(integer:yearNumber)])
+                        let year = journalIssue["PubDate"]["Year"].element?.text {
+                        let date = SimpleBibliographicDate(dateParts: [[year]])
                         b.issued = date
                     }
                 }
