@@ -20,6 +20,10 @@ public class SimpleBibliographicDate: NSObject, BibliographicDate, JSONDecodable
     public var seasonLiteral:String? = nil
     public var literal:String? = nil
     
+    public init(dateParts:[AnyObject]) {
+        self.dateParts = dateParts
+    }
+    
     public required init(json: JSON) throws {
         if let circa = try json.bool("circa", alongPath: [.MissingKeyBecomesNil]) {
             self.circa = circa

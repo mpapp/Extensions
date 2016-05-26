@@ -76,6 +76,15 @@ public class PubMedResolver: URLBasedResolver {
             b.title = article["ArticleTitle"].element?.text
             b.abstract = article["Abstract"]["AbstractText"].element?.text
             
+            if article["AuthorList"].boolValue {
+                b.author = article["AuthorList"].children.map { author -> BibliographicName in
+                    SimpleBibliographicName(family: author["LastName"].element?.text,
+                                            given: author["ForeName"].element?.text,
+                                            suffix: nil,
+                                            droppingParticle: nil, nonDroppingParticle: nil, literal: nil)
+                }
+            }
+            
             let journal = article["Journal"]
             if journal.boolValue {
                 b.containerTitle = journal["Title"].element?.text
@@ -87,6 +96,11 @@ public class PubMedResolver: URLBasedResolver {
                     if let issueTxt = journalIssue["Issue"].element?.text,
                         let issueNo = Int(issueTxt) {
                         b.issue = issueNo
+                    }
+                    
+                    if journalIssue["PubDate"]["Year"].boolValue, let year = journalIssue["PubDate"]["Year"].element?.text {
+                        let date = SimpleBibliographicDate(dateParts: [year])
+                        b.issued = date
                     }
                 }
             }
