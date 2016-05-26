@@ -16,7 +16,12 @@ public protocol HTMLSnippetRepresentable:CustomStringConvertible {
 
 extension HTMLSnippetRepresentable {
     public var HTMLSnippetRepresentation: String {
-        let str = "<\(self.tagName )>\(self.innerHTML)</\(self.tagName)>"
+        
+        let attribsString = attributes.reduce("") { (initial:String, kp: (key:String, value:String)) -> String in
+            return initial + "\(kp.key)=\"\(kp.value)\" "
+        }
+        let trimmedAttribsString = attribsString.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " "))
+        let str = "<\(self.tagName ) \(trimmedAttribsString)>\(self.innerHTML)</\(self.tagName)>"
         return str
     }
 }

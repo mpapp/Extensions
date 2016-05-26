@@ -393,4 +393,10 @@ class ExtensionsTests: XCTestCase {
         XCTAssert(xmlStr!.containsString("<em>"), "XML string contains no instances of <em>")
         print(xmlStr!.stringAroundOccurrence(ofString: "delivers", maxPadding: 9) == " <strong>delivers</strong>")
     }
+    
+    func testElementHTMLSnippetRepresentation() {
+        let snippetRep = SimpleInlineElement(contents: "foo", tagName: "span", attributes: ["id":"bar"]).HTMLSnippetRepresentation
+        XCTAssert(snippetRep == "<span id=\"bar\">foo</span>")
+        
+    }
 }
