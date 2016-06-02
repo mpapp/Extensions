@@ -20,6 +20,7 @@
 		5F1996CB1CB7036100B1C5DB /* EvaluatorDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996C91CB7036100B1C5DB /* EvaluatorDebugViewController.swift */; };
 		5F1996CC1CB7036100B1C5DB /* EvaluatorDebugViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */; };
 		5F1996D21CB7DFDA00B1C5DB /* Extension+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996D11CB7DFDA00B1C5DB /* Extension+Serialization.swift */; };
+		5F1BA9B41D00722100D1A99C /* NSString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BA9B31D00722100D1A99C /* NSString+Extensions.swift */; };
 		5F2BBA091CC8045600EA1D66 /* ProteinDataBankResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2BBA081CC8045600EA1D66 /* ProteinDataBankResolver.swift */; };
 		5F2BBA0B1CC81D6B00EA1D66 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2BBA0A1CC81D6B00EA1D66 /* Resolver.swift */; };
 		5F2BBA0D1CC81F2200EA1D66 /* Resolvable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2BBA0C1CC81F2200EA1D66 /* Resolvable.swift */; };
@@ -164,6 +165,7 @@
 		5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvaluatorDebugViewController.xib; sourceTree = "<group>"; };
 		5F1996CD1CB7084100B1C5DB /* JavaScriptEvaluatorWebKit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JavaScriptEvaluatorWebKit.js; sourceTree = "<group>"; };
 		5F1996D11CB7DFDA00B1C5DB /* Extension+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Serialization.swift"; sourceTree = "<group>"; };
+		5F1BA9B31D00722100D1A99C /* NSString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+Extensions.swift"; sourceTree = "<group>"; };
 		5F2BBA081CC8045600EA1D66 /* ProteinDataBankResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProteinDataBankResolver.swift; sourceTree = "<group>"; };
 		5F2BBA0A1CC81D6B00EA1D66 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		5F2BBA0C1CC81F2200EA1D66 /* Resolvable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolvable.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				5FA223521CE33F2F00C38E72 /* NSXMLNode+Extensions.swift */,
 				5FA223541CE37ADA00C38E72 /* Range+Extensions.swift */,
 				5F6140E71CE5D411008B288C /* SequenceType+Extensions.swift */,
+				5F1BA9B31D00722100D1A99C /* NSString+Extensions.swift */,
 			);
 			name = "Cocoa Extensions";
 			sourceTree = "<group>";
@@ -681,6 +684,7 @@
 				5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */,
 				5F6140E81CE5D411008B288C /* SequenceType+Extensions.swift in Sources */,
 				5F2BBA0B1CC81D6B00EA1D66 /* Resolver.swift in Sources */,
+				5F1BA9B41D00722100D1A99C /* NSString+Extensions.swift in Sources */,
 				5F57FB551CCDAD0300EBF750 /* ResolvedResult.swift in Sources */,
 				5F44B83A1CCBCCA10047A4F0 /* BibliographicDate.swift in Sources */,
 				5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */,
