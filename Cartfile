@@ -1,6 +1,6 @@
 github "mz2/Freddy" "765c190d2bef06f6a6ade2176fe487581a5072fd"
 github "mpapp/MPTimer" "master"
 github "mpapp/RegexKitLite" "master"
-github "drmohundro/SWXMLHash" "master"
-github "AliSoftware/OHHTTPStubs" "master"
+github "mpapp/SWXMLHash" "master"
+github "mpapp/OHHTTPStubs" "master"
 github "mz2/MPRateLimiter" "master"
