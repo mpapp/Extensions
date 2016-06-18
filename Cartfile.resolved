@@ -1,6 +1,6 @@
 github "mz2/Freddy" "765c190d2bef06f6a6ade2176fe487581a5072fd"
 github "mz2/MPRateLimiter" "82ab865071765a13b48a03c7665c38353d42a419"
 github "mpapp/MPTimer" "62d09966fcda5a5ec890c3f37a5bf78fb7a936e8"
-github "AliSoftware/OHHTTPStubs" "b0bc0edeb772b8513b90e93cd519a304e0f70870"
+github "AliSoftware/OHHTTPStubs" "3f92c6f4bd2699d47678dba42c02adc89d1d2be8"
 github "mpapp/RegexKitLite" "92be66c0b2310ad481f0373c6a28e14b18540ff9"
-github "drmohundro/SWXMLHash" "89cd6c7c08d7506d0ea36a6665714d291814d2a0"
+github "drmohundro/SWXMLHash" "8c9d152fcd04039b76f3b365a6d48585f454733b"
