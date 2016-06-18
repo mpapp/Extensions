@@ -17,7 +17,7 @@ extension NSFileManager {
         
         let subs = try NSFileManager.defaultManager().subpathsOfDirectoryAtPath(rootPath)
         for sub in subs {
-            fileHandler(URL: rootURL.URLByAppendingPathComponent(sub))
+            fileHandler(URL: rootURL.URLByAppendingPathComponent(sub)!)
         }
     }
     

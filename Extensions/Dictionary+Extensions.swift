@@ -12,7 +12,7 @@ extension Dictionary where Key:Hashable, Value:AnyObject {
     
     private static func JSONEncodableValue(value:AnyObject) -> AnyObject {
         if let v = value as? NSURL {
-            return v.absoluteString
+            return v.absoluteString!
         }
         else if let v = value as? [AnyObject] {
             return v.map { JSONEncodableValue($0) }

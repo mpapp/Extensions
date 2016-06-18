@@ -105,8 +105,8 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
     }
     
     private func sourceContents(procedure:Procedure) throws -> String {
-        let URL = self.rootURL.URLByAppendingPathComponent("Contents/Resources").URLByAppendingPathComponent(procedure.source)
-        return try NSString(contentsOfURL: URL, encoding: NSUTF8StringEncoding) as String
+        let URL = self.rootURL.URLByAppendingPathComponent("Contents/Resources")!.URLByAppendingPathComponent(procedure.source)
+        return try NSString(contentsOfURL: URL!, encoding: NSUTF8StringEncoding) as String
     }
     
     private func outputHandler(state:ExtensionState) -> (output: Processable?) -> Void {
