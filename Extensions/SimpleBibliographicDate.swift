@@ -24,21 +24,38 @@ public class SimpleBibliographicDate: NSObject, BibliographicDate, JSONDecodable
         self.dateParts = dateParts
     }
     
+    public enum Error: ErrorType {
+        case UnexpectedDatePartsArray([JSON])
+    }
+    
     public required init(json: JSON) throws {
         if let circa = try json.bool("circa", alongPath: [.MissingKeyBecomesNil]) {
             self.circa = circa
         }
         
-        do { self.dateParts = try json.arrayOf("date-parts", type:String.self) }
-        catch {
-            do { self.dateParts = try json.arrayOf("date-parts", type:Int.self) }
-            catch {
-                do { self.beginDateParts = try json.array("date-parts")[0].arrayOf(type:String.self) }
-                catch { do { self.beginDateParts = try json.array("date-parts")[0].arrayOf(type:Int.self) } catch {} }
-                
-                if try json.array("date-parts").count == 2 {
-                    do { self.endDateParts = try json.array("date-parts")[1].arrayOf(type:String.self) }
-                    catch { do { self.endDateParts = try json.array("date-parts")[1].arrayOf(type:Int.self) } catch {} }
+        do {
+            if let datePartsArray = try json.array("date-parts", alongPath: [.MissingKeyBecomesNil]), firstItem = datePartsArray.first {
+                // let's see if it's an array of ints
+                do {
+                    _ = try firstItem.int()
+                    self.dateParts = try datePartsArray.map { try $0.int() }
+                }
+                catch {
+                    // was not an array of ints – let's now see if first item is an array of arrays of ints
+                    
+                    let firstArray = try firstItem.array() // if it weren't an array of arrays of ints, it actually really is unexpected input, hence no catch here.
+                    let lastItem:JSON? = datePartsArray.last
+                    
+                    if datePartsArray.count == 1 {
+                        self.dateParts = [try firstArray.map { try $0.int() }]
+                    }
+                    else if let lastArray = try lastItem?.array() where datePartsArray.count == 2 {
+                        self.beginDateParts = [try firstArray.map { try $0.int() }]
+                        self.endDateParts = [try lastArray.map { try $0.int() }]
+                    }
+                    else {
+                        throw Error.UnexpectedDatePartsArray(datePartsArray)
+                    }
                 }
             }
         }

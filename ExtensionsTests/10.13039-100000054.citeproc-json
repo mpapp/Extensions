@@ -1,0 +1,45 @@
+{
+"indexed": { "date-parts": [[2016, 6, 16]], "date-time": "2016-06-16T13:41:49Z", "timestamp": 1466084509421 },
+"reference-count": 54,
+"publisher": "Springer Nature",
+"issue": "1",
+"funder": [
+{
+"award": [ ],
+"doi-asserted-by": "publisher",
+"name": "National Cancer Institute",
+"DOI": "10.13039/100000054"
+}
+],
+"published-print": { "date-parts": [[2016, 12]] },
+"DOI": "10.1186/s12889-016-3151-5",
+"type": "journal-article",
+"created": { "date-parts": [[2016, 6, 16]], "date-time": "2016-06-16T11:09:03Z", "timestamp": 1466075343000 },
+"update-policy": "http://dx.doi.org/10.1007/springer_crossmark_policy",
+"source": "CrossRef",
+"title": "Understanding how perceptions of tobacco constituents and the FDA relate to effective and credible tobacco risk messaging: A national phone survey of U.S. adults, 2014–2015",
+"prefix": "http://id.crossref.org/prefix/10.1186",
+"volume": "16",
+"author": [
+{ "affiliation": [ ], "family": "Boynton", "given": "Marcella H." },
+{ "affiliation": [ ], "family": "Agans", "given": "Robert P." },
+{ "affiliation": [ ], "family": "Bowling", "given": "J. Michael" },
+{ "affiliation": [ ], "family": "Brewer", "given": "Noel T." },
+{ "affiliation": [ ], "family": "Sutfin", "given": "Erin L." },
+{ "affiliation": [ ], "family": "Goldstein", "given": "Adam O." },
+{ "affiliation": [ ], "family": "Noar", "given": "Seth M." },
+{ "affiliation": [ ], "family": "Ribisl", "given": "Kurt M." }
+],
+"member": "http://id.crossref.org/member/297",
+"published-online": { "date-parts": [[2016, 6, 23]] },
+"container-title": "BMC Public Health",
+"deposited": { "date-parts": [[2016, 6, 16]], "date-time": "2016-06-16T11:09:06Z", "timestamp": 1466075346000 },
+"score": 1,
+"subtitle": [ ],
+"issued": { "date-parts": [[2016, 6, 23]] },
+"alternative-id": ["3151"],
+"URL": "http://dx.doi.org/10.1186/s12889-016-3151-5",
+"ISSN": ["1471-2458"],
+"subject": ["Public Health, Environmental and Occupational Health"],
+"article-number": "516"
+}
