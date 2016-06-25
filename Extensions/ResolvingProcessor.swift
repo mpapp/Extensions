@@ -143,18 +143,28 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 }
             }
             
-            let capturedResultRanges = try capturedRanges.map { range -> CapturedResultRange in
+            let capturedResultRanges:[CapturedResultRange] = try capturedRanges.flatMap { range in
                 let capture = stringValue.substringWithRange(characterViewRange(range, string:stringValue))
-                let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
-                let identifierRanges = capture.ranges(result.resolvable.originatingString)
                 
-                let adjustedRanges = identifierRanges.map { identifierRange -> Range<String.CharacterView.Index> in
-                    let start = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.startIndex)).advancedBy(Int(range.startIndex))
-                    let end = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.endIndex)).advancedBy(Int(range.startIndex))
-                    return start ..< end
+                do {
+                    let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
+                    let identifierRanges = capture.ranges(result.resolvable.originatingString)
+                    
+                    let adjustedRanges = identifierRanges.map { identifierRange -> Range<String.CharacterView.Index> in
+                        let start = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.startIndex)).advancedBy(Int(range.startIndex))
+                        let end = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.endIndex)).advancedBy(Int(range.startIndex))
+                        return start ..< end
+                    }
+                    
+                    return (ranges:adjustedRanges, result:result)
                 }
-                
-                return (ranges:adjustedRanges, result:result)
+                catch ResolvingError.NotResolvable(let string) {
+                    print("\(self) failed to resolve \(string)")
+                    return nil
+                }
+                catch {
+                    throw error
+                }
             }
             
             if capturedResultRanges.count > 0 {

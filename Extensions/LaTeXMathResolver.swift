@@ -37,6 +37,8 @@ public struct LaTeXMathResolver:Resolver {
         self._baseURL = baseURL
     }
     
+    public static let identifier = "org.latex-project.math"
+    
     public let resolvableType:Resolvable.Type = {
         return ProteinDataBankIdentifier.self
     }()

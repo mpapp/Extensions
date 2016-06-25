@@ -58,6 +58,8 @@ public class PubMedResolver: URLBasedResolver {
         self._baseURL = baseURL
     }
     
+    public static var identifier:String = "gov.nih.nlm.ncbi.eutils"
+    
     private func bibliographyItem(doc:XMLIndexer) throws -> BibliographyItem {
         let b = SimpleBibliographyItem()
         
@@ -65,6 +67,10 @@ public class PubMedResolver: URLBasedResolver {
         switch articleSet {
         case .XMLError(let error): throw error
         default: break
+        }
+        
+        if articleSet.children.count == 0 {
+            throw ResolvingError.NotResolvable(articleSet.description)
         }
         
         let pubmedArticle = articleSet["PubmedArticle"]
@@ -85,7 +91,10 @@ public class PubMedResolver: URLBasedResolver {
         
         if article.boolValue {
             b.title = article["ArticleTitle"].element?.text
-            b.abstract = article["Abstract"]["AbstractText"].element?.text
+            
+            if article["Abstract"].children.count > 0 {
+                b.abstract = article["Abstract"]["AbstractText"].element?.text                
+            }
             
             if article["AuthorList"].boolValue {
                 b.author = article["AuthorList"].children.map { author -> BibliographicName in

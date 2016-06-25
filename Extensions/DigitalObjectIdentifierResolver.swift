@@ -37,6 +37,8 @@ public struct DigitalObjectIdentifierResolver: URLBasedResolver {
         self._baseURL = baseURL
     }
     
+    public static let identifier: String = "org.doi.dx"
+    
     public let resolvableType:Resolvable.Type = {
         return DigitalObjectIdentifier.self
     }()
@@ -70,6 +72,9 @@ public struct DigitalObjectIdentifierResolver: URLBasedResolver {
         guard response.statusCode.marksSuccess else {
             throw ResolvingError.UnexpectedStatusCode(response.statusCode)
         }
+        
+        let responseString = String(data:response.data, encoding:NSUTF8StringEncoding)
+        print("Response:\n\n\(responseString)")
         
         let json = try JSON(data: response.data)
         

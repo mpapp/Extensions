@@ -46,6 +46,8 @@ public struct ProteinDataBankResolver: URLBasedResolver {
         self._baseURL = baseURL
     }
     
+    public static var identifier = "org.rcsb.pdb"
+    
     public let resolvableType:Resolvable.Type = {
         return ProteinDataBankIdentifier.self
     }()

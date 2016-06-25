@@ -88,6 +88,8 @@ public struct MarkdownSyntaxComponentResolver:Resolver {
     
     public let resolvableType:Resolvable.Type
     
+    public static let identifier:String = "org.markdown.component"
+    
     public init(markdownComponentType:MarkdownSyntaxComponent.Type) {
         self.resolvableType = markdownComponentType
         precondition(self.resolvableType == self.markdownComponentType, "Unexpected Markdown component type: \(self.markdownComponentType)")

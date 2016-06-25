@@ -19,6 +19,8 @@ public protocol Resolver {
     var rateLimit:NSTimeInterval { get }
     
     var replaceMatches:Bool { get }
+    
+    static var identifier:String { get }
 }
 
 public protocol URLBasedResolver:Resolver {

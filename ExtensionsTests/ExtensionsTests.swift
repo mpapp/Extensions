@@ -170,7 +170,7 @@ class ExtensionsTests: XCTestCase {
         XCTAssert(count > 0)
     }
     
-    func testResolvingDOI() {
+    func testResolvingDOI1() {
         stub(isHost("dx.doi.org")) { (_) in
             let stubPath = OHPathForFile("10.1038-nrd842.citeproc-json", self.dynamicType)!
             return fixture(stubPath, headers: [:])
@@ -218,6 +218,71 @@ class ExtensionsTests: XCTestCase {
                                             let elem = SimpleInlineElement(contents: textNode.stringValue!.substringWithRange(capturedResultRange.ranges[0]), tagName: "span")
                                             return elem
                                        })
+        }
+        catch {
+            XCTFail("Failed to process document from URL \(URL).")
+        }
+        
+        XCTAssert(elementEncounters > 0)
+        XCTAssert(count > 0)
+    }
+    
+    func testResolvingDOI2() {
+        stub(isHost("dx.doi.org")) { (_) in
+            let stubPath = OHPathForFile("10.1002-0470841559.ch1.citeproc-json", self.dynamicType)!
+            return fixture(stubPath, headers: [:])
+        }
+        
+        let DOIResolver = DigitalObjectIdentifierResolver()
+        
+        switch try! DOIResolver.resolve("10.1002/0470841559.ch1").result {
+        case .BibliographyItems(let items):
+            XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
+        default:
+            XCTFail("Failed to parse bibliography items.")
+        }
+        
+        var count = 0
+        let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
+                                                      tokenizingPatterns: [],
+                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()],
+                                                      replaceMatches: true)
+        let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
+        
+        var doc:NSXMLDocument? = nil
+        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
+        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
+        catch { XCTFail("Failed to initialize test document from URL \(URL).") }
+        
+        var elementEncounters = 0
+        do {
+            try docP.processedDocument(inputDocument: doc!, inPlace: true,
+                                       resultHandler: { _, capturedResultRanges in
+                                        count += 1
+                                        for resultRange in capturedResultRanges {
+                                            switch resultRange.result.result {
+                                            case .BibliographyItems(let items):
+                                                XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
+                                                
+                                                if let item = items.first {
+                                                    XCTAssert(item.title == "Network Concepts", "Unexpected title: '\(item.title)'")
+                                                    
+                                                    XCTAssertEqual(item.DOI!, "10.1002/0470841559.ch1", "Unexpected DOI: '\(item.DOI)'")
+                                                    XCTAssertEqual(item.URL!, NSURL(string:"http://dx.doi.org/10.1002/0470841559.ch1"), "Unexpected URL: '\(item.URL!)'")
+                                                    XCTAssertEqual(item.containerTitle, "Internetworking LANs and WANs", "Unexpected container title: \(item.containerTitle)")
+                                                    XCTAssert(item.publisher! == "Wiley-Blackwell", "Unexpected publisher: '\(item.publisher)'")
+                                                }
+                                            default:
+                                                XCTFail("Failed to resolve a bibliography item for \(resultRange)")
+                                            }
+                                            print("Result range: \(resultRange)")
+                                        }
+                },
+                                       elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
+                                        elementEncounters += 1
+                                        let elem = SimpleInlineElement(contents: textNode.stringValue!.substringWithRange(capturedResultRange.ranges[0]), tagName: "span")
+                                        return elem
+            })
         }
         catch {
             XCTFail("Failed to process document from URL \(URL).")
