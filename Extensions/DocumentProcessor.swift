@@ -8,32 +8,32 @@
 
 import Foundation
 
-public let MPDefaultXMLDocumentParsingOptions:Int =
-    NSXMLNodeLoadExternalEntitiesNever |
-    NSXMLNodePreserveNamespaceOrder |
-    NSXMLNodePreserveAttributeOrder |
-    NSXMLNodePreserveEntities |
-    NSXMLNodePreservePrefixes |
-    NSXMLNodePreserveCDATA |
-    NSXMLNodePreserveWhitespace |
-    NSXMLNodePromoteSignificantWhitespace |
-    NSXMLNodePreserveEmptyElements |
-    NSXMLNodeUseDoubleQuotes
+public let MPDefaultXMLDocumentParsingOptions:UInt =
+    NSXMLNodeOptions.NodeLoadExternalEntitiesNever
+        .union(.NodePreserveNamespaceOrder)
+        .union(.NodePreserveAttributeOrder)
+        .union(.NodePreserveEntities)
+        .union(.NodePreservePrefixes)
+        .union(.NodePreserveCDATA)
+        .union(.NodePreserveWhitespace)
+        .union(.NodePromoteSignificantWhitespace)
+        .union(.NodePreserveEmptyElements)
+        .union(.NodeUseDoubleQuotes).rawValue
 
-public let MPDefaultXMLDocumentOutputOptions:Int =
-    NSXMLNodePreserveNamespaceOrder |
-    NSXMLNodePreserveAttributeOrder |
-    NSXMLNodePreserveEntities |
-    NSXMLNodePreservePrefixes |
-    NSXMLNodePreserveCDATA |
-    NSXMLNodePreserveWhitespace |
-    NSXMLNodePromoteSignificantWhitespace |
-    NSXMLNodePreserveEmptyElements |
-    NSXMLNodeUseDoubleQuotes
+public let MPDefaultXMLDocumentOutputOptions:UInt =
+    NSXMLNodeOptions.NodePreserveNamespaceOrder
+        .union(.NodePreserveAttributeOrder)
+        .union(.NodePreserveEntities)
+        .union(.NodePreservePrefixes)
+        .union(.NodePreserveCDATA)
+        .union(.NodePreserveWhitespace)
+        .union(.NodePromoteSignificantWhitespace)
+        .union(.NodePreserveEmptyElements)
+        .union(.NodeUseDoubleQuotes).rawValue
 
 public class DocumentProcessorConstants {
-    static func defaultXMLDocumentParsingOptions() -> Int { return MPDefaultXMLDocumentParsingOptions }
-    static func defaultXMLDocumentOutputOptions() -> Int { return MPDefaultXMLDocumentOutputOptions }
+    static func defaultXMLDocumentParsingOptions() -> UInt { return MPDefaultXMLDocumentParsingOptions }
+    static func defaultXMLDocumentOutputOptions() -> UInt { return MPDefaultXMLDocumentOutputOptions }
 }
 
 public protocol DocumentProcessor {
@@ -64,7 +64,7 @@ public extension DocumentProcessor {
         }
         
         let doc = try NSXMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))
-        return try processedDocument(inputDocument: doc, inPlace:false).XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
+        return try processedDocument(inputDocument: doc, inPlace:false).XMLStringWithOptions(Int(MPDefaultXMLDocumentOutputOptions))
     }
     
 }

@@ -77,7 +77,7 @@ extension NSXMLNode {
             preconditionFailure("Parent of \(extractedNode) is expected to be an element: \(extractedNode.parent)")
         }
         
-        let str = extractedNode.XMLStringWithOptions(MPDefaultXMLDocumentParsingOptions)
+        let str = extractedNode.XMLStringWithOptions(Int(MPDefaultXMLDocumentParsingOptions))
         let elem = NSXMLElement(name: elementName, stringValue: contents ?? str)
         parent.replace(extractedNode, withNodes: [elem])
         

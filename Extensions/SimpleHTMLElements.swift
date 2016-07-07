@@ -65,7 +65,7 @@ func element(tagName tagName:String, contents:String, attributes:[String:String]
 }
 
 func element(HTMLSnippet snippet:String) throws -> Element {
-    let doc = try NSXMLDocument(XMLString: snippet, options: MPDefaultXMLDocumentParsingOptions)
+    let doc = try NSXMLDocument(XMLString: snippet, options: Int(MPDefaultXMLDocumentParsingOptions))
     
     if let root = doc.rootElement(), let rootTagName = root.name, let children = root.children {
         
@@ -77,7 +77,7 @@ func element(HTMLSnippet snippet:String) throws -> Element {
         }
         
         let str = children.map {
-            return $0.XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
+            return $0.XMLStringWithOptions(Int(MPDefaultXMLDocumentOutputOptions))
         }.joinWithSeparator("")
         
         return try element(tagName:rootTagName, contents:str, attributes: attribs)
