@@ -589,6 +589,9 @@
 					};
 					5F7EE49A1CBA9B8D00F4B7EA = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = SJK358RN87;
+						DevelopmentTeamName = "Manuscripts.app Limited";
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -906,6 +909,7 @@
 		5F7EE49F1CBA9B8D00F4B7EA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = JSExample/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -919,6 +923,7 @@
 		5F7EE4A01CBA9B8D00F4B7EA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = JSExample/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
