@@ -9,27 +9,27 @@
 import Foundation
 
 public let MPDefaultXMLDocumentParsingOptions:Int =
-    NSXMLNodeLoadExternalEntitiesNever |
-    NSXMLNodePreserveNamespaceOrder |
-    NSXMLNodePreserveAttributeOrder |
-    NSXMLNodePreserveEntities |
-    NSXMLNodePreservePrefixes |
-    NSXMLNodePreserveCDATA |
-    NSXMLNodePreserveWhitespace |
-    NSXMLNodePromoteSignificantWhitespace |
-    NSXMLNodePreserveEmptyElements |
-    NSXMLNodeUseDoubleQuotes
+                Int(NSXMLNodeOptions.NodeLoadExternalEntitiesNever
+                    .union(NSXMLNodeOptions.NodePreserveNamespaceOrder)
+                    .union(NSXMLNodeOptions.NodePreserveAttributeOrder)
+                    .union(NSXMLNodeOptions.NodePreserveEntities)
+                    .union(NSXMLNodeOptions.NodePreservePrefixes)
+                    .union(NSXMLNodeOptions.NodePreserveCDATA)
+                    .union(NSXMLNodeOptions.NodePreserveWhitespace)
+                    .union(NSXMLNodeOptions.NodePromoteSignificantWhitespace)
+                    .union(NSXMLNodeOptions.NodePreserveEmptyElements)
+                    .union(NSXMLNodeOptions.NodeUseDoubleQuotes).rawValue)
 
 public let MPDefaultXMLDocumentOutputOptions:Int =
-    NSXMLNodePreserveNamespaceOrder |
-    NSXMLNodePreserveAttributeOrder |
-    NSXMLNodePreserveEntities |
-    NSXMLNodePreservePrefixes |
-    NSXMLNodePreserveCDATA |
-    NSXMLNodePreserveWhitespace |
-    NSXMLNodePromoteSignificantWhitespace |
-    NSXMLNodePreserveEmptyElements |
-    NSXMLNodeUseDoubleQuotes
+                Int(NSXMLNodeOptions.NodePreserveNamespaceOrder
+                    .union(NSXMLNodeOptions.NodePreserveAttributeOrder)
+                    .union(NSXMLNodeOptions.NodePreserveEntities)
+                    .union(NSXMLNodeOptions.NodePreservePrefixes)
+                    .union(NSXMLNodeOptions.NodePreserveCDATA)
+                    .union(NSXMLNodeOptions.NodePreserveWhitespace)
+                    .union(NSXMLNodeOptions.NodePromoteSignificantWhitespace)
+                    .union(NSXMLNodeOptions.NodePreserveEmptyElements)
+                    .union(NSXMLNodeOptions.NodeUseDoubleQuotes).rawValue)
 
 public class DocumentProcessorConstants {
     static func defaultXMLDocumentParsingOptions() -> Int { return MPDefaultXMLDocumentParsingOptions }
