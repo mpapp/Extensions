@@ -8,7 +8,7 @@
 
 import Foundation
 
-public let MPDefaultXMLDocumentParsingOptions:Int =
+public let MPDefaultXMLDocumentParsingOptions:UInt =
                 NSXMLNodeOptions.NodeLoadExternalEntitiesNever
                     .union(NSXMLNodeOptions.NodePreserveNamespaceOrder)
                     .union(NSXMLNodeOptions.NodePreserveAttributeOrder)
@@ -20,7 +20,7 @@ public let MPDefaultXMLDocumentParsingOptions:Int =
                     .union(NSXMLNodeOptions.NodePreserveEmptyElements)
                     .union(NSXMLNodeOptions.NodeUseDoubleQuotes).rawValue
 
-public let MPDefaultXMLDocumentOutputOptions:Int =
+public let MPDefaultXMLDocumentOutputOptions:UInt =
                 NSXMLNodeOptions.NodePreserveNamespaceOrder
                     .union(NSXMLNodeOptions.NodePreserveAttributeOrder)
                     .union(NSXMLNodeOptions.NodePreserveEntities)
