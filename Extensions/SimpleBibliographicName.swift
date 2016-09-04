@@ -18,7 +18,12 @@ import Freddy
     public var nonDroppingParticle: String?
     public var literal: String?
     
+    public override convenience init() {
+        self.init(family:nil, given:nil, suffix:nil, droppingParticle: nil, nonDroppingParticle: nil, literal:nil)
+    }
+    
     public init(family:String?, given:String?, suffix:String?, droppingParticle:String?, nonDroppingParticle:String?, literal:String?) {
+        super.init()
         self.family = family
         self.given = given
         self.suffix = suffix
