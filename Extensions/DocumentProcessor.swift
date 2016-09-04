@@ -8,28 +8,28 @@
 
 import Foundation
 
-public let MPDefaultXMLDocumentParsingOptions:UInt =
-    NSXMLNodeOptions.NodeLoadExternalEntitiesNever
-        .union(.NodePreserveNamespaceOrder)
-        .union(.NodePreserveAttributeOrder)
-        .union(.NodePreserveEntities)
-        .union(.NodePreservePrefixes)
-        .union(.NodePreserveCDATA)
-        .union(.NodePreserveWhitespace)
-        .union(.NodePromoteSignificantWhitespace)
-        .union(.NodePreserveEmptyElements)
-        .union(.NodeUseDoubleQuotes).rawValue
+public let MPDefaultXMLDocumentParsingOptions:Int =
+                NSXMLNodeOptions.NodeLoadExternalEntitiesNever
+                    .union(NSXMLNodeOptions.NodePreserveNamespaceOrder)
+                    .union(NSXMLNodeOptions.NodePreserveAttributeOrder)
+                    .union(NSXMLNodeOptions.NodePreserveEntities)
+                    .union(NSXMLNodeOptions.NodePreservePrefixes)
+                    .union(NSXMLNodeOptions.NodePreserveCDATA)
+                    .union(NSXMLNodeOptions.NodePreserveWhitespace)
+                    .union(NSXMLNodeOptions.NodePromoteSignificantWhitespace)
+                    .union(NSXMLNodeOptions.NodePreserveEmptyElements)
+                    .union(NSXMLNodeOptions.NodeUseDoubleQuotes).rawValue
 
-public let MPDefaultXMLDocumentOutputOptions:UInt =
-    NSXMLNodeOptions.NodePreserveNamespaceOrder
-        .union(.NodePreserveAttributeOrder)
-        .union(.NodePreserveEntities)
-        .union(.NodePreservePrefixes)
-        .union(.NodePreserveCDATA)
-        .union(.NodePreserveWhitespace)
-        .union(.NodePromoteSignificantWhitespace)
-        .union(.NodePreserveEmptyElements)
-        .union(.NodeUseDoubleQuotes).rawValue
+public let MPDefaultXMLDocumentOutputOptions:Int =
+                NSXMLNodeOptions.NodePreserveNamespaceOrder
+                    .union(NSXMLNodeOptions.NodePreserveAttributeOrder)
+                    .union(NSXMLNodeOptions.NodePreserveEntities)
+                    .union(NSXMLNodeOptions.NodePreservePrefixes)
+                    .union(NSXMLNodeOptions.NodePreserveCDATA)
+                    .union(NSXMLNodeOptions.NodePreserveWhitespace)
+                    .union(NSXMLNodeOptions.NodePromoteSignificantWhitespace)
+                    .union(NSXMLNodeOptions.NodePreserveEmptyElements)
+                    .union(NSXMLNodeOptions.NodeUseDoubleQuotes).rawValue
 
 public class DocumentProcessorConstants {
     static func defaultXMLDocumentParsingOptions() -> UInt { return MPDefaultXMLDocumentParsingOptions }
