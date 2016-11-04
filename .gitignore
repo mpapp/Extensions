@@ -2,3 +2,4 @@
 *.xcuserdatad
 Carthage/Build
 node_modules
+build
