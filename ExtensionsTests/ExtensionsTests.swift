@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Foundation
 import Extensions
 import OHHTTPStubs
 
@@ -85,7 +86,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:NSXMLDocument? = nil
         do {
-            doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML)
+            doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue))
         }
         catch {
             XCTFail("Failed to initialize test document from URL \(URL).")
@@ -136,7 +137,7 @@ class ExtensionsTests: XCTestCase {
         var count = 0
         var doc:NSXMLDocument? = nil
         do {
-            doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML)
+            doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue))
         }
         catch {
             XCTFail("Failed to initialize test document from URL \(URL).")
@@ -194,7 +195,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:NSXMLDocument? = nil
         let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
+        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
@@ -251,7 +252,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:NSXMLDocument? = nil
         let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
+        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
@@ -316,7 +317,8 @@ class ExtensionsTests: XCTestCase {
         
         var doc:NSXMLDocument? = nil
         let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
+        
+        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
@@ -388,7 +390,7 @@ class ExtensionsTests: XCTestCase {
     
     func testXMLElementExtraction() {
         let str = "foobarbaz"
-        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
+        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
@@ -407,7 +409,7 @@ class ExtensionsTests: XCTestCase {
     
     func testSimpleMultipleXMLElementExtraction() {
         let str = "foobarbaz"
-        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
+        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
@@ -421,7 +423,7 @@ class ExtensionsTests: XCTestCase {
     
     func testComplexMultipleXMLElementExtractions() {
         let str = "foobarbazadoo"
-        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
+        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
@@ -459,7 +461,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:NSXMLDocument? = nil
         let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions | NSXMLDocumentTidyHTML) }
+        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         try! docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { (elementProcessor, capturedResultRanges) in
@@ -518,7 +520,7 @@ class ExtensionsTests: XCTestCase {
         XCTAssert("foobarfoobar".ranges("foobar").count == 2, "String.ranges is not behaving as expected")
         
         
-        let xmlStr = doc?.XMLStringWithOptions(MPDefaultXMLDocumentOutputOptions)
+        let xmlStr = doc?.XMLStringWithOptions(Int(MPDefaultXMLDocumentOutputOptions))
         
         XCTAssert(xmlStr!.containsString("<em>"), "XML string contains no instances of <em>")
         print(xmlStr!.stringAroundOccurrence(ofString: "delivers", maxPadding: 9) == " <strong>delivers</strong>")
