@@ -8,13 +8,13 @@
 
 import Foundation
 
-internal enum EvaluatorError: ErrorType {
-    case MissingReturnValue
-    case UnexpectedReturnValueType
-    case MissingExports(Extension?, Evaluator)
-    case MissingProcessFunction(Extension?, Evaluator)
-    case EvaluationFailed(Extension?, Evaluator, AnyObject?)
-    case UnexpectedNilInput(Extension?, Evaluator)
+internal enum EvaluatorError: Error {
+    case missingReturnValue
+    case unexpectedReturnValueType
+    case missingExports(Extension?, Evaluator)
+    case missingProcessFunction(Extension?, Evaluator)
+    case evaluationFailed(Extension?, Evaluator, Any?)
+    case unexpectedNilInput(Extension?, Evaluator)
 }
 
 // needs to conform to NSObjectProtocol such that when this type is used as a property type, one can use NSClassFromString 
@@ -24,15 +24,15 @@ internal protocol Evaluator {
     var identifier:String { get }
     var fileExtensions:Set<String> { get }
     
-    static func encode(processable:Processable?) -> AnyObject?
-    static func decode(processable:AnyObject?) -> Processable?
+    static func encode(_ processable:Processable?) -> Any?
+    static func decode(_ processable:Any?) -> Processable?
     
     init(evaluator:Evaluator, containingExtension:Extension) throws
     
-    func evaluate(source:String,
+    func evaluate(_ source:String,
                   input:Processable?,
-                  outputHandler:(Processable?) -> Void,
-                  errorHandler:(EvaluatorError) -> Void)
+                  outputHandler:@escaping (Processable?) -> Void,
+                  errorHandler:@escaping (EvaluatorError) -> Void)
 }
 
 public protocol ExtensionContained {

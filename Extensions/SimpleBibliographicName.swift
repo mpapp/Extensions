@@ -9,14 +9,14 @@
 import Foundation
 import Freddy
 
-@objc public class SimpleBibliographicName: NSObject, BibliographicName, JSONDecodable, JSONEncodable {
+@objc open class SimpleBibliographicName: NSObject, BibliographicName, JSONDecodable, JSONEncodable {
     
-    public var family: String?
-    public var given: String?
-    public var suffix: String?
-    public var droppingParticle: String?
-    public var nonDroppingParticle: String?
-    public var literal: String?
+    open var family: String?
+    open var given: String?
+    open var suffix: String?
+    open var droppingParticle: String?
+    open var nonDroppingParticle: String?
+    open var literal: String?
     
     public override convenience init() {
         self.init(family:nil, given:nil, suffix:nil, droppingParticle: nil, nonDroppingParticle: nil, literal:nil)
@@ -33,16 +33,16 @@ import Freddy
     }
     
     public required init(json: JSON) throws {
-        self.family = try json.string("family", alongPath: [.MissingKeyBecomesNil])
-        self.given = try json.string("given", alongPath: [.MissingKeyBecomesNil])
-        self.suffix = try json.string("suffix", alongPath: [.MissingKeyBecomesNil])
-        self.droppingParticle = try json.string("dropping-particle", alongPath: [.MissingKeyBecomesNil])
-        self.nonDroppingParticle = try json.string("non-dropping-particle", alongPath: [.MissingKeyBecomesNil])
-        self.literal = try json.string("literal", alongPath: [.MissingKeyBecomesNil])
+        self.family = try json.getString(at: "family", alongPath: [.missingKeyBecomesNil])
+        self.given = try json.getString(at: "given", alongPath: [.missingKeyBecomesNil])
+        self.suffix = try json.getString(at: "suffix", alongPath: [.missingKeyBecomesNil])
+        self.droppingParticle = try json.getString(at: "dropping-particle", alongPath: [.missingKeyBecomesNil])
+        self.nonDroppingParticle = try json.getString(at: "non-dropping-particle", alongPath: [.missingKeyBecomesNil])
+        self.literal = try json.getString(at: "literal", alongPath: [.missingKeyBecomesNil])
     }
     
-    public var dictionaryRepresentation:[String : AnyObject] {
-        var dict = [String:AnyObject]()
+    open var dictionaryRepresentation:[String : Any] {
+        var dict = [String:Any]()
         
         if let family = self.family { dict["family"] = family }
         if let given = self.given { dict["given"] = given }
@@ -54,8 +54,8 @@ import Freddy
         return dict
     }
     
-    public func toJSON() -> JSON {
-        let data = try! NSJSONSerialization.dataWithJSONObject(self.dictionaryRepresentation, options: [])
+    open func toJSON() -> JSON {
+        let data = try! JSONSerialization.data(withJSONObject: self.dictionaryRepresentation, options: [])
         return try! JSON(data:data)
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 
 extension NSNumber {
     var isBoolean:Bool {
-        return CFNumberGetType(self as CFNumber) == CFNumberType.CharType
+        return CFNumberGetType(self as CFNumber) == CFNumberType.charType
     }
     
     var isFloatingPoint:Bool {
@@ -25,9 +25,9 @@ extension NSNumber {
 extension CFNumberType {
     var isIntegral:Bool {
         let raw = self.rawValue
-        return (raw >= CFNumberType.SInt8Type.rawValue && raw <= CFNumberType.SInt64Type.rawValue)
-                || raw == CFNumberType.NSIntegerType.rawValue
-                || raw == CFNumberType.LongType.rawValue
-                || raw == CFNumberType.LongLongType.rawValue
+        return (raw >= CFNumberType.sInt8Type.rawValue && raw <= CFNumberType.sInt64Type.rawValue)
+                || raw == CFNumberType.nsIntegerType.rawValue
+                || raw == CFNumberType.longType.rawValue
+                || raw == CFNumberType.longLongType.rawValue
     }
 }

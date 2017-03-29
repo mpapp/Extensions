@@ -25,15 +25,16 @@ internal final class REvaluator: NSObject, Evaluator {
         preconditionFailure("Implement in subclass")
     }
     
-    func evaluate(source: String, input:Processable?, outputHandler:(Processable?)->Void, errorHandler: (EvaluatorError) -> Void) {
+    
+    func evaluate(_ source: String, input:Processable?, outputHandler:@escaping (Processable?)->Void, errorHandler: @escaping (EvaluatorError) -> Void) {
         preconditionFailure()
     }
     
-    static func encode(processable: Processable?) -> AnyObject? {
+    static func encode(_ processable: Processable?) -> Any? {
         preconditionFailure("Implement")
     }
     
-    static func decode(processable: AnyObject?) -> Processable? {
+    static func decode(_ processable: Any?) -> Processable? {
         preconditionFailure("Implement")
     }
 }

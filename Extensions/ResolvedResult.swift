@@ -16,31 +16,31 @@ public typealias ResolvableInlineElementsTuple = (resolvable:Resolvable, items:[
 internal typealias LabelItemsTuple = (String?, (Resolvable, HTMLSnippetRepresentable))
 
 public enum Result {
-    case None
-    case BibliographyItems([BibliographyItem])
-    case InlineMathFragments([InlineMathFragment])
-    case Equations([Equation])
-    case BlockElements([BlockElement])
-    case InlineElements([InlineElement])
+    case none
+    case bibliographyItems([BibliographyItem])
+    case inlineMathFragments([InlineMathFragment])
+    case equations([Equation])
+    case blockElements([BlockElement])
+    case inlineElements([InlineElement])
     
     public var HTMLSnippetRepresentables:[HTMLSnippetRepresentable] {
         switch self {
-        case .None:
+        case .none:
             return []
 
-        case .BibliographyItems(let items):
+        case .bibliographyItems(let items):
             return items.map { $0 }
         
-        case .BlockElements(let items):
+        case .blockElements(let items):
             return items.map { $0 }
         
-        case .Equations(let items):
+        case .equations(let items):
             return items.map { $0 }
         
-        case .InlineElements(let items):
+        case .inlineElements(let items):
             return items.map { $0 }
         
-        case .InlineMathFragments(let items):
+        case .inlineMathFragments(let items):
             return items.map { $0 }
         }
     }
@@ -49,40 +49,40 @@ public enum Result {
 extension Result: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .None:
+        case .none:
             return "<Empty Result>"
             
-        case .BibliographyItems(let items):
-            return items.map({$0.description }).joinWithSeparator(",")
+        case .bibliographyItems(let items):
+            return items.map({$0.description }).joined(separator: ",")
         
-        case .BlockElements(let items):
-            return items.map({$0.description }).joinWithSeparator(",")
+        case .blockElements(let items):
+            return items.map({$0.description }).joined(separator: ",")
             
-        case .Equations(let items):
-            return items.map({$0.description}).joinWithSeparator(",")
+        case .equations(let items):
+            return items.map({$0.description}).joined(separator: ",")
             
-        case .InlineElements(let items):
-            return items.map({$0.description}).joinWithSeparator(",")
+        case .inlineElements(let items):
+            return items.map({$0.description}).joined(separator: ",")
             
-        case .InlineMathFragments(let fragments):
-            return fragments.map({$0.description}).joinWithSeparator(",")
+        case .inlineMathFragments(let fragments):
+            return fragments.map({$0.description}).joined(separator: ",")
         }
     }
 }
 
-@objc public class ResolvedResult: NSObject, DictionaryRepresentable, ElementRepresentable {
-    public let resolvable:Resolvable
-    public let result:Result
+@objc open class ResolvedResult: NSObject, DictionaryRepresentable, ElementRepresentable {
+    open let resolvable:Resolvable
+    open let result:Result
     
     public init(resolvable:Resolvable, result:Result) {
         self.resolvable = resolvable
         self.result = result
     }
     
-    public var dictionaryRepresentation:[String:AnyObject] {
+    open var dictionaryRepresentation:[String:Any] {
         switch self.result {
-        case .None:
-            return ["type":"None", "resolvable":resolvable.identifier, "value":[:]]
+        case .none:
+            return ["type":"None" as AnyObject, "resolvable":resolvable.identifier as AnyObject, "value":[:]]
             
         default:
             let mirror = Mirror(reflecting: self)
@@ -106,24 +106,24 @@ extension Result: CustomStringConvertible {
                 preconditionFailure("Enum option \(self) does not have a label.")
             }
             
-            return ["type":label,
-                    "resolvable":resolvable.identifier,
-                    "value":dictRep.dictionaryRepresentation]
+            return ["type":label as AnyObject,
+                    "resolvable":resolvable.identifier as AnyObject,
+                    "value":dictRep.dictionaryRepresentation as AnyObject]
         }
     }
     
-    public func elementRepresentation() throws -> Element {
+    open func elementRepresentation() throws -> Element {
         let htmlReps = self.result.HTMLSnippetRepresentables
         
-        if let firstRep = htmlReps.first where htmlReps.count == 1 {
+        if let firstRep = htmlReps.first, htmlReps.count == 1 {
             return try element(HTMLSnippet: firstRep.HTMLSnippetRepresentation)
         }
         
         let contents = htmlReps.map { $0.HTMLSnippetRepresentation }
-        return try element(tagName: "div", contents: contents.joinWithSeparator(""))
+        return try element(tagName: "div", contents: contents.joined(separator: ""))
     }
     
-    public override var description: String {
+    open override var description: String {
         return "<ResolvedResult with Resolvable:\(resolvable), result:\(result)>"
     }
 }

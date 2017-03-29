@@ -8,14 +8,16 @@
 
 import Foundation
 
-extension CollectionType {
+extension Collection where Indices.Iterator.Element == Index {
     
-    public typealias ElementPair = (Generator.Element, Generator.Element)
+    public typealias ElementPair = (Iterator.Element, Iterator.Element)
     
-    public func forEachPair(@noescape body: (ElementPair) throws -> Void) rethrows -> Void {
+    public func forEachPair( body: (ElementPair) throws -> Void) rethrows -> Void {
         for i in self.indices {
-            for j in i.successor() ..< self.endIndex {
-                try body((self[i], b: self[j]))
+            for j in self.suffix(from: self.index(after: i)) {
+                let a = self[i]
+                let b = j as! Iterator.Element
+                try body((a, b: b))
             }
         }
     }

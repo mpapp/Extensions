@@ -9,5 +9,5 @@
 import Foundation
 
 @objc public protocol DictionaryRepresentable {
-    var dictionaryRepresentation:[String:AnyObject] { get }
+    var dictionaryRepresentation:[String:Any] { get }
 }

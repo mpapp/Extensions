@@ -11,7 +11,7 @@ import Freddy
 
 
 
-public struct ProcessableOption : OptionSetType {
+public struct ProcessableOption : OptionSet {
     public let rawValue : Int
     
     public init(rawValue:Int) {
@@ -19,7 +19,7 @@ public struct ProcessableOption : OptionSetType {
     }
     
     public init(string:String) throws {
-        switch string.lowercaseString {
+        switch string.lowercased() {
         case "int":
             self.rawValue = ProcessableOption.IntOption.rawValue
         
@@ -39,7 +39,7 @@ public struct ProcessableOption : OptionSetType {
             self.rawValue = ProcessableOption.PListEncodableArrayOption.rawValue
         
         default:
-            throw ProcedureError.UnexpectedOption(string)
+            throw ProcedureError.unexpectedOption(string)
         }
     }
     
@@ -64,42 +64,42 @@ public struct ProcessableOption : OptionSetType {
 }
 
 public enum Processable:CustomStringConvertible {
-    case StringData(String)
-    case IntData(Int)
-    case DoubleData(Double)
-    case BoolData(Bool)
-    case PListEncodableScalar(AnyObject)
-    case PListEncodableArray([AnyObject])
+    case stringData(String)
+    case intData(Int)
+    case doubleData(Double)
+    case boolData(Bool)
+    case pListEncodableScalar(Any)
+    case pListEncodableArray([Any])
     
     public var description: String {
         switch self {
-        case .StringData(let str):
+        case .stringData(let str):
             return str
             
-        case .DoubleData(let d):
+        case .doubleData(let d):
             return String(d)
             
-        case .IntData(let i):
+        case .intData(let i):
             return String(i)
             
-        case .BoolData(let b):
+        case .boolData(let b):
             return String(b)
             
-        case .PListEncodableArray(let ps):
-            return String(ps)
+        case .pListEncodableArray(let ps):
+            return String(describing: ps)
         
-        case .PListEncodableScalar(let p):
-            return String(p)
+        case .pListEncodableScalar(let p):
+            return String(describing: p)
         }
     }
 }
 
-internal enum ProcedureError:ErrorType {
-    case EvaluationFailed(EvaluatorError)
-    case UnexpectedOption(String)
+internal enum ProcedureError:Error {
+    case evaluationFailed(EvaluatorError)
+    case unexpectedOption(String)
 }
 
-public class Procedure:Hashable {
+open class Procedure:Hashable {
     //internal weak let evaluator:Evaluator?
     let source:String
     
@@ -108,7 +108,7 @@ public class Procedure:Hashable {
     
     let evaluatorID:String
     
-    public var hashValue: Int {
+    open var hashValue: Int {
         return source.hashValue ^ evaluatorID.hashValue
     }
     
@@ -119,22 +119,22 @@ public class Procedure:Hashable {
         self.outputTypes = outputTypes
     }
     
-    private static let defaultInputTypes:[String] = ["int", "double", "string"]
-    private static let defaultOutputTypes:[String] = Procedure.defaultInputTypes
+    fileprivate static let defaultInputTypes:[String] = ["int", "double", "string"]
+    fileprivate static let defaultOutputTypes:[String] = Procedure.defaultInputTypes
     
     public init(json: JSON) throws {
-        self.evaluatorID = try json.string("evaluator")
+        self.evaluatorID = try json.getString(at: "evaluator")
         
-        self.source = try json.string("source")
+        self.source = try json.getString(at: "source")
         
-        let defaultInputTypes = self.dynamicType.defaultInputTypes.map { JSON($0) }
-        let defaultOutputTypes = self.dynamicType.defaultOutputTypes.map { JSON($0) }
+        let defaultInputTypes = type(of: self).defaultInputTypes.map { JSON($0) }
+        let defaultOutputTypes = type(of: self).defaultOutputTypes.map { JSON($0) }
         
-        let inputTypeCount = try json.array("inputTypes", or: defaultInputTypes).count
-        let inputTypeStrings:[String] = try (0..<inputTypeCount).map { return try json.string("inputTypes", $0) }
+        let inputTypeCount = try json.getArray(at: "inputTypes", or: defaultInputTypes).count
+        let inputTypeStrings:[String] = try (0..<inputTypeCount).map { return try json.getString(at: "inputTypes", $0) }
         
-        let outputTypeCount = try json.array("outputTypes", or: defaultOutputTypes).count
-        let outputTypeStrings:[String] = try (0..<outputTypeCount).map { return try json.string("outputTypes", $0) }
+        let outputTypeCount = try json.getArray(at: "outputTypes", or: defaultOutputTypes).count
+        let outputTypeStrings:[String] = try (0..<outputTypeCount).map { return try json.getString(at: "outputTypes", $0) }
         
         self.inputTypes = try ProcessableOption(strings:inputTypeStrings)
         self.outputTypes = try ProcessableOption(strings:outputTypeStrings)

@@ -13,10 +13,10 @@ public let ResolverRateLimitMilliseconds = 100
 public protocol Resolver {
     var resolvableType:Resolvable.Type { get }
     
-    func resolve(string:String) throws -> ResolvedResult
+    func resolve(_ string:String) throws -> ResolvedResult
     
     var rateLimitLabel:String { get }
-    var rateLimit:NSTimeInterval { get }
+    var rateLimit:TimeInterval { get }
     
     var replaceMatches:Bool { get }
     
@@ -24,16 +24,16 @@ public protocol Resolver {
 }
 
 public protocol URLBasedResolver:Resolver {
-    func baseURL() -> NSURL
+    func baseURL() -> URL
 }
 
 public extension Resolver {
     
     public var rateLimitLabel:String {
-        return String(self.dynamicType)
+        return String(describing: type(of: self))
     }
     
-    public var rateLimit:NSTimeInterval {
+    public var rateLimit:TimeInterval {
         return 1.0
     }
     

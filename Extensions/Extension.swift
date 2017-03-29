@@ -15,35 +15,36 @@ public protocol ExtensionLike {
     var procedures:[Procedure] { get }
 }
 
-public typealias ExtensionErrorHandler = (error:ErrorType)->Void
+public typealias ExtensionErrorHandler = (_ error:Error)->Void
 
-public enum ExtensionError:ErrorType {
-    case MissingEvaluatorKey
-    case InvalidEvaluatorClass(String)
-    case InvalidEvaluatorType(AnyClass?)
-    case NotPropertyList([String:AnyObject])
-    case MissingInfoDictionary(NSBundle)
-    case InvalidExtensionAtURL(NSURL)
-    case ExtensionFailedToLoad(NSBundle)
-    case UnderlyingError(ErrorType)
-    case ExtensionHasNoProcedures(Extension)
-    case EvaluationFailed(ErrorType)
-    case EvaluationTimedOut(Extension)
+public enum ExtensionError:Error {
+    case missingEvaluatorKey
+    case invalidEvaluatorClass(String)
+    case invalidEvaluatorType(AnyClass?)
+    case notPropertyList([String:Any])
+    case missingInfoDictionary(Bundle)
+    case invalidExtensionAtURL(URL)
+    case extensionFailedToLoad(Bundle)
+    case underlyingError(Error)
+    case extensionHasNoProcedures(Extension)
+    case evaluationFailed(Error)
+    case evaluationTimedOut(Extension)
 }
 
 private class ExtensionState {
-    private var procedures:[Procedure]
-    private var processable:Processable?
-    private var lastError:ErrorType?
-    private let procedureHandler:(input:Processable?, output:Processable?) -> Void
-    private weak var containingExtension:Extension?
-    private var evaluationTimer:Timer<ExtensionState>? = nil
-    private var timedOut = false
+    fileprivate var procedures:[Procedure]
+    fileprivate var processable:Processable?
+    fileprivate var lastError:Error?
+    fileprivate let procedureHandler:(_ input:Processable?, _ output:Processable?) -> Void
+    fileprivate weak var containingExtension:Extension?
     
-    private init(procedures:[Procedure],
+    fileprivate var evaluationTimer: MPTimer.Timer<ExtensionState>? = nil
+    fileprivate var timedOut = false
+    
+    fileprivate init(procedures:[Procedure],
                  processable:Processable?,
                  containingExtension:Extension,
-                 procedureHandler:(input:Processable?, output:Processable?) -> Void) {
+                 procedureHandler:@escaping (_ input:Processable?, _ output:Processable?) -> Void) {
         self.procedures = procedures
         self.processable = processable
         self.procedureHandler = procedureHandler
@@ -51,36 +52,43 @@ private class ExtensionState {
     }
 }
 
-public typealias ProcedureHandler = (input:Processable?, output:Processable?) -> Void
+public typealias ProcedureHandler = (_ input:Processable?, _ output:Processable?) -> Void
 
 public final class Extension: ExtensionLike, Hashable, Equatable {
     public let identifier:String
-    public let rootURL:NSURL
+    public let rootURL:URL
     public let procedures:[Procedure]
     
     public var hashValue: Int {
         return self.identifier.hashValue ^ rootURL.hashValue ^ procedures.reduce(0) { $0 ^ $1.hashValue }
     }
     
-    private static let timeoutInterval:NSTimeInterval = 10.0
+    fileprivate static let timeoutInterval:TimeInterval = 10.0
     
-    public func evaluate(input:Processable?,
-                         procedureHandler:ProcedureHandler,
-                         errorHandler:ExtensionErrorHandler) throws {
+    public func evaluate(_ input:Processable?,
+                         procedureHandler:@escaping ProcedureHandler,
+                         errorHandler:@escaping ExtensionErrorHandler) throws {
         let state = ExtensionState(procedures:self.procedures, processable: input, containingExtension: self, procedureHandler: procedureHandler)
         
-        if state.evaluationTimer == nil {
-            state.evaluationTimer = Timer(object:state)
+        let timer: MPTimer.Timer<ExtensionState>
+            
+        if let t = state.evaluationTimer {
+            timer = t
         }
-        state.evaluationTimer?.after(delay: self.evaluationTimeout) { (state:ExtensionState) in
-            let e = ExtensionError.EvaluationTimedOut(self)
+        else {
+            timer = MPTimer.Timer<ExtensionState>(object: state)
+            state.evaluationTimer = timer
+        }
+        
+        timer.after(delay: self.evaluationTimeout) { (state: ExtensionState) in
+            let e = ExtensionError.evaluationTimedOut(self)
             state.lastError = e
             state.timedOut = true
-            errorHandler(error: e)
+            errorHandler(e)
         }
         
         if self.procedures.count == 0 {
-            throw ExtensionError.ExtensionHasNoProcedures(self)
+            throw ExtensionError.extensionHasNoProcedures(self)
         }
         
         let procedure = state.procedures.removeFirst()
@@ -91,32 +99,32 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
         evaluator.evaluate(contents, input:input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
     }
     
-    private var evaluationTimeout:NSTimeInterval {
+    fileprivate var evaluationTimeout:TimeInterval {
         return 10.0
     }
     
     // MARK: -
     // MARK: Internals & private parts
     
-    internal init(identifier:String, rootURL:NSURL, procedures:[Procedure]) {
+    internal init(identifier:String, rootURL:URL, procedures:[Procedure]) {
         self.identifier = identifier
         self.rootURL = rootURL
         self.procedures = procedures
     }
     
-    private func sourceContents(procedure:Procedure) throws -> String {
-        let URL = self.rootURL.URLByAppendingPathComponent("Contents/Resources")!.URLByAppendingPathComponent(procedure.source)
-        return try NSString(contentsOfURL: URL!, encoding: NSUTF8StringEncoding) as String
+    fileprivate func sourceContents(_ procedure:Procedure) throws -> String {
+        let URL = self.rootURL.appendingPathComponent("Contents/Resources").appendingPathComponent(procedure.source)
+        return try NSString(contentsOf: URL, encoding: String.Encoding.utf8.rawValue) as String
     }
     
-    private func outputHandler(state:ExtensionState) -> (output: Processable?) -> Void {
+    fileprivate func outputHandler(_ state:ExtensionState) -> (_ output: Processable?) -> Void {
         precondition(state.lastError == nil, "State already has lastError set to \(state.lastError)")
 
         return {
             let input = state.processable
             let output = $0
             
-            state.procedureHandler(input: input, output: output)
+            state.procedureHandler(input, output)
             
             // replace input with output
             state.processable = output
@@ -127,7 +135,7 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
                 do {
                     let evaluator = try EvaluatorRegistry.sharedInstance.createEvaluator(identifier:procedure.evaluatorID, containingExtension: self)
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         evaluator.evaluate(procedure.source, input:input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
                     }
                 }
@@ -138,11 +146,11 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
         }
     }
     
-    private func errorHandler(state:ExtensionState) -> (EvaluatorError) -> Void {
+    fileprivate func errorHandler(_ state:ExtensionState) -> (EvaluatorError) -> Void {
         precondition(state.lastError == nil, "State already has lastError set to \(state.lastError)")
         
         return {
-            state.lastError = ExtensionError.EvaluationFailed($0)
+            state.lastError = ExtensionError.evaluationFailed($0)
         }
     }
 }

@@ -11,7 +11,10 @@ import Foundation
 public extension NSString {
     public func mp_capturedRanges(capturingPatterns patterns:[String]) -> NSArray {
         let items = (self as String).capturedRanges(capturingPatterns: patterns).map { range -> NSRange in
-            return NSMakeRange((self as String).startIndex.distanceTo(range.startIndex), range.startIndex.distanceTo(range.endIndex))
+            let characterView = (self as String).characters
+            
+            return NSRange(location: characterView.distance(from: characterView.startIndex, to: range.lowerBound),
+                           length: characterView.distance(from: range.lowerBound, to: range.upperBound))
         }
         
         return items as NSArray

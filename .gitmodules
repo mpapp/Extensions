@@ -1,6 +1,6 @@
 [submodule "Carthage/Checkouts/Freddy"]
 	path = Carthage/Checkouts/Freddy
-	url = ssh://git@github.com/mz2/Freddy.git
+	url = ssh://git@github.com/bignerdranch/Freddy.git
 [submodule "Carthage/Checkouts/MPTimer"]
 	path = Carthage/Checkouts/MPTimer
 	url = ssh://git@github.com/mpapp/MPTimer.git
@@ -9,10 +9,10 @@
 	url = ssh://git@github.com/mpapp/RegexKitLite.git
 [submodule "Carthage/Checkouts/SWXMLHash"]
 	path = Carthage/Checkouts/SWXMLHash
-	url = ssh://git@github.com/mpapp/SWXMLHash.git
+	url = ssh://git@github.com/drmohundro/SWXMLHash.git
 [submodule "Carthage/Checkouts/OHHTTPStubs"]
 	path = Carthage/Checkouts/OHHTTPStubs
-	url = ssh://git@github.com/mpapp/OHHTTPStubs.git
+	url = ssh://git@github.com/AliSoftware/OHHTTPStubs.git
 [submodule "Carthage/Checkouts/MPRateLimiter"]
 	path = Carthage/Checkouts/MPRateLimiter
 	url = ssh://git@github.com/mz2/MPRateLimiter.git

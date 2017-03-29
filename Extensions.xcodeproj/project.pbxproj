@@ -24,6 +24,8 @@
 		5F2BBA091CC8045600EA1D66 /* ProteinDataBankResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2BBA081CC8045600EA1D66 /* ProteinDataBankResolver.swift */; };
 		5F2BBA0B1CC81D6B00EA1D66 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2BBA0A1CC81D6B00EA1D66 /* Resolver.swift */; };
 		5F2BBA0D1CC81F2200EA1D66 /* Resolvable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2BBA0C1CC81F2200EA1D66 /* Resolvable.swift */; };
+		5F2F08F61E8B2E4500F39C93 /* EvaluatorDebugViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F1996CA1CB7036100B1C5DB /* EvaluatorDebugViewController.xib */; };
+		5F2F08F71E8B2E4500F39C93 /* EvaluatorDebugWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2C71CBCA87E001F77FB /* EvaluatorDebugWindowController.xib */; };
 		5F34E2C01CC7E84B00A5DAF1 /* biolit.html in Resources */ = {isa = PBXBuildFile; fileRef = 5F34E2BF1CC7E84B00A5DAF1 /* biolit.html */; };
 		5F34E2C31CC7E88D00A5DAF1 /* RegexKitLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F34E2C11CC7E88D00A5DAF1 /* RegexKitLite.framework */; };
 		5F34E2C41CC7E88D00A5DAF1 /* RegexKitLite.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F34E2C21CC7E88D00A5DAF1 /* RegexKitLite.framework.dSYM */; };
@@ -576,16 +578,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Manuscripts.app Limited";
 				TargetAttributes = {
 					5F19968A1CB5AE8F00B1C5DB = {
 						CreatedOnToolsVersion = 7.3;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 					};
 					5F1996B41CB5B58400B1C5DB = {
 						CreatedOnToolsVersion = 7.3;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 					};
 					5F7EE49A1CBA9B8D00F4B7EA = {
 						CreatedOnToolsVersion = 7.3;
@@ -628,6 +630,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F2F08F61E8B2E4500F39C93 /* EvaluatorDebugViewController.xib in Resources */,
+				5F2F08F71E8B2E4500F39C93 /* EvaluatorDebugWindowController.xib in Resources */,
 				5F44B8441CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json in Resources */,
 				5FEB0D3E1CF32C7900D304B1 /* PMID-reference-example.html in Resources */,
 				5F4D73421D1E982E00A12225 /* 10.1002-0470841559.ch1.citeproc-json in Resources */,
@@ -749,8 +753,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -778,6 +784,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -797,8 +804,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -818,6 +827,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -845,7 +856,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -870,7 +881,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.manuscriptsapp.Extensions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -886,7 +897,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.manuscriptsapp.ExtensionsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -902,7 +913,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.manuscriptsapp.ExtensionsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

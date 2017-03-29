@@ -12,7 +12,7 @@ import RegexKitLite
 extension Character {
     public func isUpper() -> Bool {
         let characterString = String(self)
-        return characterString == characterString.uppercaseString
+        return characterString == characterString.uppercased()
     }
 }
 
@@ -27,14 +27,17 @@ extension String {
         return true
     }
     
-    public func capturedCharacterIndexRanges(capturingPatterns patterns:[String]) -> [Range<UInt>] {
-        let capturedRanges = patterns.flatMap { pattern -> [Range<UInt>] in
-            var ranges = [Range<UInt>]()
-            (self as NSString).enumerateStringsMatchedByRegex(pattern, usingBlock: { (captureCount, _, capturedRanges:UnsafePointer<NSRange>, _) in
+    public func capturedCharacterIndexRanges(capturingPatterns patterns:[String]) -> [CountableClosedRange<UInt>] {
+        let capturedRanges = patterns.flatMap { pattern -> [CountableClosedRange<UInt>] in
+            var ranges = [CountableClosedRange<UInt>]()
+            (self as NSString).enumerateStringsMatched(byRegex: pattern, using: { (captureCount, _, capturedRanges:UnsafePointer<NSRange>?, _) in
+                guard let captRanges = capturedRanges else {
+                    return
+                }
                 
-                for c in (1 ..< captureCount) {
-                    let r = capturedRanges.advancedBy(c).memory
-                    let range = UInt(r.location) ..< UInt(r.location + r.length)
+                for c in 1 ..< captureCount {
+                    let r = captRanges.advanced(by: c).pointee
+                    let range = UInt(r.location) ... UInt(r.location + r.length)
                     ranges.append(range)
                 }
             })
@@ -47,14 +50,14 @@ extension String {
     
     public func capturedRanges(capturingPatterns patterns:[String]) -> [Range<String.CharacterView.Index>] {
         return self.capturedCharacterIndexRanges(capturingPatterns: patterns).map { range -> Range<String.CharacterView.Index> in
-            return self.characters.startIndex.advancedBy(Int(range.startIndex)) ..< self.characters.startIndex.advancedBy(Int(range.startIndex + range.endIndex))
+            return self.characters.index(self.characters.startIndex, offsetBy: Int(range.lowerBound)) ..< self.characters.index(self.characters.startIndex, offsetBy: Int(range.lowerBound + range.upperBound))
         }
     }
     
     public func componentsSeparated(tokenizingPatterns patterns:[String]) -> [String] {
         var tokenizedStrings = [self]
         for p in patterns {
-            let cs = (self as NSString).componentsSeparatedByRegex(p) as! [String]
+            let cs = (self as NSString).components(separatedByRegex: p) as! [String]
             if cs.count > 1 {
                 tokenizedStrings = cs
                 break
@@ -67,28 +70,28 @@ extension String {
     public func componentsCaptured(capturingPatterns patterns:[String]) -> [String] {
         var capturedStrings = [String]()
         for p in patterns {
-            guard let cs = (self as NSString).captureComponentsMatchedByRegex(p) as? [String] where cs.count > 0 else {
+            guard let cs = (self as NSString).captureComponentsMatched(byRegex: p) as? [String], cs.count > 0 else {
                 continue
             }
             
             // the first element needs excluding if matches were found (it represents the start of the match – the rest are capture groups)
             if cs.count > 1 {
-                capturedStrings.appendContentsOf(cs[1..<cs.count])
+                capturedStrings.append(contentsOf: cs[1..<cs.count])
             }
         }
         
         return capturedStrings
     }
     
-    public func ranges(string:String, options:NSStringCompareOptions = [], locale:NSLocale? = nil) -> [(Range<String.CharacterView.Index>)] {
+    public func ranges(_ string:String, options:NSString.CompareOptions = [], locale:Locale? = nil) -> [(Range<String.CharacterView.Index>)] {
         var ranges = [Range<String.Index>]()
         var range:Range<String.Index>? = nil
         
         repeat {
-            range = self.rangeOfString(string, options: options, range: range, locale: locale)
+            range = self.range(of: string, options: options, range: range, locale: locale)
             if let r = range {
                 ranges.append(r)
-                range = r.endIndex ..< self.endIndex
+                range = r.upperBound ..< self.endIndex
             }
         }
         while (range != nil)

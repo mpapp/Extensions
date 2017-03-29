@@ -1,9 +1,22 @@
-extension Range {
-    public func overlaps(range:Range<Element>) -> Bool {
-        return self.contains(range.startIndex) || self.contains(range.endIndex) || range.contains(self.startIndex) || range.contains(self.endIndex)
+/*
+extension CountableRange {
+    public func overlaps(_ range:CountableRange<Element>) -> Bool {
+        return self.contains(range.lowerBound) || self.contains(range.upperBound) || range.contains(self.lowerBound) || range.contains(self.upperBound)
     }
 }
 
-func characterViewRange(range:Range<UInt>, string:String) -> Range<String.CharacterView.Index> {
-    return string.characters.startIndex.advancedBy(Int(range.startIndex)) ..< string.characters.startIndex.advancedBy(Int(range.endIndex))
+extension CountableClosedRange {
+    public func overlaps(_ range:CountableClosedRange<Element>) -> Bool {
+        return self.contains(range.lowerBound) || self.contains(range.upperBound) || range.contains(self.lowerBound) || range.contains(self.upperBound)
+    }
+}
+ */
+
+func characterViewRange(_ range:CountableClosedRange<UInt>, string:String) -> Range<String.CharacterView.Index> {
+    
+    return string.characters.index(string.characters.startIndex,
+                                   offsetBy: Int(range.lowerBound))
+           ..<
+           string.characters.index(string.characters.startIndex,
+                                   offsetBy: Int(range.upperBound))
 }

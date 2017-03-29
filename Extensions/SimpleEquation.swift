@@ -9,37 +9,37 @@
 import Foundation
 import Freddy
 
-enum SimpleEquationError:ErrorType {
-    case MissingContents(JSON)
+enum SimpleEquationError:Error {
+    case missingContents(JSON)
 }
 
-public class SimpleEquation: NSObject, Equation, JSONDecodable, JSONEncodable {
+open class SimpleEquation: NSObject, Equation, JSONDecodable, JSONEncodable {
     
-    public var TeXRepresentation:String {
+    open var TeXRepresentation:String {
         return self.contents
     }
     
-    public let contents:String
+    open let contents:String
     
     public init(TeXRepresentation:String) {
         self.contents = TeXRepresentation
     }
     
     public required init(json:JSON) throws {
-        guard let contents = try json.string("contents", alongPath:[.MissingKeyBecomesNil]) else {
-            throw SimpleEquationError.MissingContents(json)
+        guard let contents = try json.getString(at: "contents", alongPath: [.missingKeyBecomesNil]) else {
+            throw SimpleEquationError.missingContents(json)
         }
         
         self.contents = contents
     }
     
-    public var tagName: String {
+    open var tagName: String {
         return "div"
     }
     
-    public func toJSON() -> JSON {
+    open func toJSON() -> JSON {
         return [
-            "TeXRepresentation":.String(self.TeXRepresentation)
+            "TeXRepresentation": .string(self.TeXRepresentation)
         ]
     }
 }

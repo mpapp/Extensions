@@ -12,28 +12,29 @@ import Extensions
 import OHHTTPStubs
 
 extension String {
-    func stringAroundOccurrence(ofString str:String, maxPadding:UInt, options:NSStringCompareOptions = []) -> String? {
-        guard let range = self.rangeOfString(str, options:options, range: nil, locale: nil) else {
+    func stringAroundOccurrence(ofString str:String, maxPadding:UInt, options:NSString.CompareOptions = []) -> String? {
+        guard let range = self.range(of: str, options:options, range: nil, locale: nil) else {
             return nil
         }
-        
+        let characterView = self.characters
         let p = Int(maxPadding)
-        let r = range.startIndex.advancedBy(-p, limit: self.startIndex) ..< range.endIndex.advancedBy(p, limit: self.endIndex)
-        return self.substringWithRange(r)
+        let r = characterView.index(range.lowerBound, offsetBy: -p, limitedBy: self.startIndex)!
+            ..< characterView.index(range.upperBound, offsetBy: p, limitedBy: self.endIndex)!
+        return self.substring(with: r)
     }
 }
 
 class ExtensionsTests: XCTestCase {
     
-    private var debugWindowController:EvaluatorDebugWindowController?
+    fileprivate var debugWindowController:EvaluatorDebugWindowController?
     
     override func setUp() {
         super.setUp()
 
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "WebKitDeveloperExtras")
-        EvaluatorDebugWindowController.sharedInstance()        
+        UserDefaults.standard.set(true, forKey: "WebKitDeveloperExtras")
+        //_ = EvaluatorDebugWindowController.sharedInstance()
 
-        let bundleURL = NSBundle(forClass: self.dynamicType).bundleURL
+        let bundleURL = Bundle(for: type(of: self)).bundleURL
         try! ExtensionRegistry.sharedInstance.loadExtensions(bundleURL, loadFailureHandler:{
             XCTFail("Load failure: \($0)")
         })
@@ -53,10 +54,10 @@ class ExtensionsTests: XCTestCase {
         
         XCTAssertTrue(ext.procedures.count == 2, "Unexpected procedure count: \(ext.procedures.count) != 2")
         
-        let exp = expectationWithDescription("Evaluation ended successfully.")
+        let exp = expectation(description: "Evaluation ended successfully.")
         
         do {
-            try ext.evaluate(Processable.StringData("foo"), procedureHandler: { _,_ in
+            try ext.evaluate(Processable.stringData("foo"), procedureHandler: { _,_ in
                 //print("Input \($0) -> Output:\($1)")
                 exp.fulfill()
             }, errorHandler: {
@@ -67,26 +68,26 @@ class ExtensionsTests: XCTestCase {
             XCTFail("Unexpected evaluation error: \(error)")
         }
 
-        waitForExpectationsWithTimeout(50.0) { (err:NSError?) in
+        waitForExpectations(timeout: 50.0) { (err:Error?) in
             XCTAssertNil(err, "Unexpected error \(err)")
         }
 
     }
     
     func testResolvingPMIDIdentifier() {
-        stub(isHost("eutils.ncbi.nlm.nih.gov")) { (_) in
-            let stubPath = OHPathForFile("1304383.pubmed-xml", self.dynamicType)!
-            return fixture(stubPath, headers: [:])
+        stub(condition: isHost("eutils.ncbi.nlm.nih.gov")) { (_) in
+            let stubPath = OHPathForFile("1304383.pubmed-xml", type(of: self))!
+            return fixture(filePath: stubPath, headers: [:])
         }
         
         let pdb = ResolvableElementProcessor(resolver: PubMedResolver(), tokenizingPatterns: [], capturingPatterns:[PubMedIdentifier.capturingPattern()])
         let docP = ResolvingDocumentProcessor(resolver: PubMedResolver(), elementProcessors: [pdb])
         
-        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("PMID-reference-example", withExtension: "html")!
+        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "PMID-reference-example", withExtension: "html")!
         
-        var doc:NSXMLDocument? = nil
+        var doc:XMLDocument? = nil
         do {
-            doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue))
+            doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue))
         }
         catch {
             XCTFail("Failed to initialize test document from URL \(URL).")
@@ -94,13 +95,13 @@ class ExtensionsTests: XCTestCase {
         
         var count = 0
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { _, capturedResultRanges in
+            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { _, capturedResultRanges in
                 for resultRange in capturedResultRanges {
                     
                     XCTAssert(resultRange.result.resolvable.originatingString.hasPrefix("PMID:"))
                     
                     switch resultRange.result.result {
-                    case .BibliographyItems(let items):
+                    case .bibliographyItems(let items):
                         count += 1
                         XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                         XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
@@ -119,25 +120,25 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testResolvingPDBIdentifier() {
-        stub(isHost("www.rcsb.org")) { (_) in
-            let stubPath = OHPathForFile("1HIV.rcsb-xml", self.dynamicType)!
-            return fixture(stubPath, headers: [:])
+        stub(condition: isHost("www.rcsb.org")) { (_) in
+            let stubPath = OHPathForFile("1HIV.rcsb-xml", type(of: self))!
+            return fixture(filePath: stubPath, headers: [:])
         }
         
-        stub(isHost("eutils.ncbi.nlm.nih.gov")) { (_) in
-            let stubPath = OHPathForFile("1304383.pubmed-xml", self.dynamicType)!
-            return fixture(stubPath, headers: [:])
+        stub(condition: isHost("eutils.ncbi.nlm.nih.gov")) { (_) in
+            let stubPath = OHPathForFile("1304383.pubmed-xml", type(of: self))!
+            return fixture(filePath: stubPath, headers: [:])
         }
         
         let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()], replaceMatches: true)
         let docP = ResolvingDocumentProcessor(resolver: ProteinDataBankResolver(), elementProcessors: [pdb])
         
-        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
+        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
         
         var count = 0
-        var doc:NSXMLDocument? = nil
+        var doc:XMLDocument? = nil
         do {
-            doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue))
+            doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue))
         }
         catch {
             XCTFail("Failed to initialize test document from URL \(URL).")
@@ -145,11 +146,11 @@ class ExtensionsTests: XCTestCase {
         
         var elementEncounters = 0
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { _, capturedResultRanges in
+            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { _, capturedResultRanges in
                 count += 1
                 for resultRange in capturedResultRanges {
                     switch resultRange.result.result {
-                    case .BibliographyItems(let items):
+                    case .bibliographyItems(let items):
                         XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                         XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
                     default:
@@ -159,7 +160,7 @@ class ExtensionsTests: XCTestCase {
                 }
             }, elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
                 elementEncounters += 1
-                let elem = SimpleInlineElement(contents: textNode.stringValue!.substringWithRange(capturedResultRange.ranges[0]), tagName: "span")
+                let elem = SimpleInlineElement(contents: textNode.stringValue!.substring(with: capturedResultRange.ranges[0]), tagName: "span")
                 return elem
             })
         }
@@ -172,15 +173,15 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testResolvingDOI1() {
-        stub(isHost("dx.doi.org")) { (_) in
-            let stubPath = OHPathForFile("10.1038-nrd842.citeproc-json", self.dynamicType)!
-            return fixture(stubPath, headers: [:])
+        stub(condition: isHost("dx.doi.org")) { (_) in
+            let stubPath = OHPathForFile("10.1038-nrd842.citeproc-json", type(of: self))!
+            return fixture(filePath: stubPath, headers: [:])
         }
         
         let DOIResolver = DigitalObjectIdentifierResolver()
         
         switch try! DOIResolver.resolve("10.1038/nrd84").result {
-        case .BibliographyItems(let items):
+        case .bibliographyItems(let items):
             XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
         default:
             XCTFail("Failed to parse bibliography items.")
@@ -193,19 +194,19 @@ class ExtensionsTests: XCTestCase {
                                                       replaceMatches: true)
         let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
         
-        var doc:NSXMLDocument? = nil
-        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue)) }
+        var doc:XMLDocument? = nil
+        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
+        do { doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace: true,
+            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true,
                                        resultHandler: { _, capturedResultRanges in
                                                             count += 1
                                                             for resultRange in capturedResultRanges {
                                                                 switch resultRange.result.result {
-                                                                case .BibliographyItems(let items):
+                                                                case .bibliographyItems(let items):
                                                                     XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                                                                     XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
                                                                 default:
@@ -216,7 +217,7 @@ class ExtensionsTests: XCTestCase {
                                                         },
                                        elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
                                             elementEncounters += 1
-                                            let elem = SimpleInlineElement(contents: textNode.stringValue!.substringWithRange(capturedResultRange.ranges[0]), tagName: "span")
+                                            let elem = SimpleInlineElement(contents: textNode.stringValue!.substring(with: capturedResultRange.ranges[0]), tagName: "span")
                                             return elem
                                        })
         }
@@ -229,15 +230,15 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testResolvingDOI2() {
-        stub(isHost("dx.doi.org")) { (_) in
-            let stubPath = OHPathForFile("10.1002-0470841559.ch1.citeproc-json", self.dynamicType)!
-            return fixture(stubPath, headers: [:])
+        stub(condition: isHost("dx.doi.org")) { (_) in
+            let stubPath = OHPathForFile("10.1002-0470841559.ch1.citeproc-json", type(of: self))!
+            return fixture(filePath: stubPath, headers: [:])
         }
         
         let DOIResolver = DigitalObjectIdentifierResolver()
         
         switch try! DOIResolver.resolve("10.1002/0470841559.ch1").result {
-        case .BibliographyItems(let items):
+        case .bibliographyItems(let items):
             XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
         default:
             XCTFail("Failed to parse bibliography items.")
@@ -250,26 +251,26 @@ class ExtensionsTests: XCTestCase {
                                                       replaceMatches: true)
         let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
         
-        var doc:NSXMLDocument? = nil
-        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue)) }
+        var doc:XMLDocument? = nil
+        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
+        do { doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace: true,
+            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true,
                                        resultHandler: { _, capturedResultRanges in
                                         count += 1
                                         for resultRange in capturedResultRanges {
                                             switch resultRange.result.result {
-                                            case .BibliographyItems(let items):
+                                            case .bibliographyItems(let items):
                                                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                                                 
                                                 if let item = items.first {
                                                     XCTAssert(item.title == "Network Concepts", "Unexpected title: '\(item.title)'")
                                                     
                                                     XCTAssertEqual(item.DOI!, "10.1002/0470841559.ch1", "Unexpected DOI: '\(item.DOI)'")
-                                                    XCTAssertEqual(item.URL!, NSURL(string:"http://dx.doi.org/10.1002/0470841559.ch1"), "Unexpected URL: '\(item.URL!)'")
+                                                    XCTAssertEqual(item.URL!, Foundation.URL(string:"http://dx.doi.org/10.1002/0470841559.ch1"), "Unexpected URL: '\(item.URL!)'")
                                                     XCTAssertEqual(item.containerTitle, "Internetworking LANs and WANs", "Unexpected container title: \(item.containerTitle)")
                                                     XCTAssert(item.publisher! == "Wiley-Blackwell", "Unexpected publisher: '\(item.publisher)'")
                                                 }
@@ -281,7 +282,7 @@ class ExtensionsTests: XCTestCase {
                 },
                                        elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
                                         elementEncounters += 1
-                                        let elem = SimpleInlineElement(contents: textNode.stringValue!.substringWithRange(capturedResultRange.ranges[0]), tagName: "span")
+                                        let elem = SimpleInlineElement(contents: textNode.stringValue!.substring(with: capturedResultRange.ranges[0]), tagName: "span")
                                         return elem
             })
         }
@@ -294,15 +295,15 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testResolvingDOI3() {
-        stub(isHost("dx.doi.org")) { (_) in
-            let stubPath = OHPathForFile("10.13039-100000054.citeproc-json", self.dynamicType)!
-            return fixture(stubPath, headers: [:])
+        stub(condition: isHost("dx.doi.org")) { (_) in
+            let stubPath = OHPathForFile("10.13039-100000054.citeproc-json", type(of: self))!
+            return fixture(filePath: stubPath, headers: [:])
         }
         
         let DOIResolver = DigitalObjectIdentifierResolver()
         
         switch try! DOIResolver.resolve("10.13039/100000054").result {
-        case .BibliographyItems(let items):
+        case .bibliographyItems(let items):
             XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
         default:
             XCTFail("Failed to parse bibliography items.")
@@ -315,28 +316,28 @@ class ExtensionsTests: XCTestCase {
                                                       replaceMatches: true)
         let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
         
-        var doc:NSXMLDocument? = nil
-        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
+        var doc:XMLDocument? = nil
+        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
         
-        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue)) }
+        do { doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
         do {
-            try docP.processedDocument(inputDocument: doc!, inPlace: true,
+            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true,
                                        resultHandler: { _, capturedResultRanges in
                                         count += 1
                                         for resultRange in capturedResultRanges {
                                             switch resultRange.result.result {
-                                            case .BibliographyItems(let items):
+                                            case .bibliographyItems(let items):
                                                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                                                 
                                                 if let item = items.first {
                                                     XCTAssert(item.title == "Understanding how perceptions of tobacco constituents and the FDA relate to effective and credible tobacco risk messaging: A national phone survey of U.S. adults, 2014–2015", "Unexpected title: '\(item.title)'")
                                                     
                                                     XCTAssertEqual(item.DOI!, "10.1186/s12889-016-3151-5", "Unexpected DOI: '\(item.DOI)'")
-                                                    XCTAssertEqual(item.URL!, NSURL(string:"http://dx.doi.org/10.1186/s12889-016-3151-5"), "Unexpected URL: '\(item.URL!)'")
-                                                    XCTAssertEqual(item.issued!.dateParts! as NSArray, [[2016, 6, 23]] as [NSArray], "Unexpected date parts: \(item.issued!)")
+                                                    XCTAssertEqual(item.URL!, Foundation.URL(string:"http://dx.doi.org/10.1186/s12889-016-3151-5"), "Unexpected URL: '\(item.URL!)'")
+                                                    XCTAssertEqual((item.issued!.dateParts! as NSArray) as! [NSArray], [[2016, 6, 23]] as [NSArray], "Unexpected date parts: \(item.issued!)")
                                                     XCTAssert(item.publisher! == "Springer Nature", "Unexpected publisher: '\(item.publisher)'")
                                                 }
                                             default:
@@ -347,7 +348,7 @@ class ExtensionsTests: XCTestCase {
                 },
                                        elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
                                         elementEncounters += 1
-                                        let elem = SimpleInlineElement(contents: textNode.stringValue!.substringWithRange(capturedResultRange.ranges[0]), tagName: "span")
+                                        let elem = SimpleInlineElement(contents: textNode.stringValue!.substring(with: capturedResultRange.ranges[0]), tagName: "span")
                                         return elem
             })
         }
@@ -360,21 +361,21 @@ class ExtensionsTests: XCTestCase {
     }
     
     func testResolvingMarkdown() {
-        do { try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self).resolve("**foobar**") }
+        do { _ = try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self).resolve("**foobar**") }
         catch (let error) { XCTFail("Error: \(error)") }
         
-        do { try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self).resolve("*foobar*") }
+        do { _ = try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self).resolve("*foobar*") }
         catch (let error) { XCTFail("Error: \(error)") }
         
-        do { try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self).resolve("__foobar__") }
+        do { _ = try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self).resolve("__foobar__") }
         catch (let error) { XCTFail("Error: \(error)") }
         
-        do { try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self).resolve("_foobar_") }
+        do { _ = try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self).resolve("_foobar_") }
         catch (let error) { XCTFail("Error: \(error)") }
     }
     
     func testXMLNodeSplitting() {
-        let textNode = NSXMLNode(kind: .TextKind)
+        let textNode = XMLNode(kind: .text)
         textNode.stringValue = "foo bar baz"
         
         let splitAtFooNodes = textNode.split(atIndex: 3)
@@ -390,15 +391,15 @@ class ExtensionsTests: XCTestCase {
     
     func testXMLElementExtraction() {
         let str = "foobarbaz"
-        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
+        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
         
-        let range = elem.stringValue!.startIndex.advancedBy(3) ..< elem.stringValue!.startIndex.advancedBy(6)
-        XCTAssertTrue(elem.stringValue?.substringWithRange(range) == "bar", "Got my arithmetic wrong.")
+        let range = elem.stringValue!.characters.index(elem.stringValue!.startIndex, offsetBy: 3) ..< elem.stringValue!.characters.index(elem.stringValue!.startIndex, offsetBy: 6)
+        XCTAssertTrue(elem.stringValue?.substring(with: range) == "bar", "Got my arithmetic wrong.")
         XCTAssertTrue(elem.children!.count == 1)
-        XCTAssertTrue(elem.children!.first!.kind == .TextKind)
+        XCTAssertTrue(elem.children!.first!.kind == .text)
         
         let splitNodes = elem.children!.first!.extract(elementWithName:"strong", range:3 ..< 6)
         
@@ -409,44 +410,44 @@ class ExtensionsTests: XCTestCase {
     
     func testSimpleMultipleXMLElementExtraction() {
         let str = "foobarbaz"
-        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
+        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
         
         let splitNodes = elem.children!.first!.extract(elementsWithName:"strong", ranges: [3 ..< 6])
         
-        XCTAssertTrue(splitNodes[0].XMLString == "foo")
-        XCTAssertTrue(splitNodes[1].XMLString == "<strong>bar</strong>", "Unexpected string value: \(splitNodes[1].stringValue)")
-        XCTAssertTrue(splitNodes[2].XMLString == "baz")
+        XCTAssertTrue(splitNodes[0].xmlString == "foo")
+        XCTAssertTrue(splitNodes[1].xmlString == "<strong>bar</strong>", "Unexpected string value: \(splitNodes[1].stringValue)")
+        XCTAssertTrue(splitNodes[2].xmlString == "baz")
     }
     
     func testComplexMultipleXMLElementExtractions() {
         let str = "foobarbazadoo"
-        let doc = try! NSXMLDocument(XMLString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
+        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
         
         let splitNodes = elem.children!.first!.extract(elementsWithName:"em", ranges: [2 ..< 4, 5 ..< 6, 7 ..< 9])
         
-        let firstElemSubstr = str.substringWithRange(elem.stringValue!.startIndex.advancedBy(2) ..< elem.stringValue!.startIndex.advancedBy(4))
+        let firstElemSubstr = str.substring(with: elem.stringValue!.characters.index(elem.stringValue!.startIndex, offsetBy: 2) ..< elem.stringValue!.characters.index(elem.stringValue!.startIndex, offsetBy: 4))
         XCTAssertTrue(firstElemSubstr == "ob")
         
-        let secondElemSubstr = str.substringWithRange(elem.stringValue!.startIndex.advancedBy(5) ..< elem.stringValue!.startIndex.advancedBy(6))
+        let secondElemSubstr = str.substring(with: elem.stringValue!.characters.index(elem.stringValue!.startIndex, offsetBy: 5) ..< elem.stringValue!.characters.index(elem.stringValue!.startIndex, offsetBy: 6))
         XCTAssertTrue(secondElemSubstr == "r")
         
-        let thirdElemSubstr = str.substringWithRange(elem.stringValue!.startIndex.advancedBy(7) ..< elem.stringValue!.startIndex.advancedBy(9))
+        let thirdElemSubstr = str.substring(with: elem.stringValue!.characters.index(elem.stringValue!.startIndex, offsetBy: 7) ..< elem.stringValue!.characters.index(elem.stringValue!.startIndex, offsetBy: 9))
         XCTAssertTrue(thirdElemSubstr == "az")
 
         // foobarbazadoo
         // fo|ob|a|r|b|az|adoo
-        XCTAssertTrue(splitNodes[0].XMLString == "fo")
-        XCTAssertTrue(splitNodes[1].XMLString == "<em>ob</em>", "Unexpected string value: \(splitNodes[1].stringValue)")
-        XCTAssertTrue(splitNodes[2].XMLString == "a")
-        XCTAssertTrue(splitNodes[3].XMLString == "<em>r</em>")
-        XCTAssertTrue(splitNodes[4].XMLString == "b")
-        XCTAssertTrue(splitNodes[5].XMLString == "<em>az</em>")
+        XCTAssertTrue(splitNodes[0].xmlString == "fo")
+        XCTAssertTrue(splitNodes[1].xmlString == "<em>ob</em>", "Unexpected string value: \(splitNodes[1].stringValue)")
+        XCTAssertTrue(splitNodes[2].xmlString == "a")
+        XCTAssertTrue(splitNodes[3].xmlString == "<em>r</em>")
+        XCTAssertTrue(splitNodes[4].xmlString == "b")
+        XCTAssertTrue(splitNodes[5].xmlString == "<em>az</em>")
     }
     
     func testProcessingMarkdown() {
@@ -459,16 +460,16 @@ class ExtensionsTests: XCTestCase {
         
         let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers, replaceMatches: true)
         
-        var doc:NSXMLDocument? = nil
-        let URL:NSURL = NSBundle(forClass: self.dynamicType).URLForResource("biolit", withExtension: "html")!
-        do { doc = try NSXMLDocument(contentsOfURL: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(NSXMLNodeOptions.DocumentTidyHTML.rawValue)) }
+        var doc:XMLDocument? = nil
+        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
+        do { doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
-        try! docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { (elementProcessor, capturedResultRanges) in
+        _ = try! docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { (elementProcessor, capturedResultRanges) in
             
             for range in capturedResultRanges {
                 switch range.result.result {
-                case .InlineElements(let elems):
+                case .inlineElements(let elems):
                     guard let resolvable = range.result.resolvable as? MarkdownSyntaxComponent else {
                         XCTFail("Resolvable is unexpectedly not a MarkdownSyntaxComponent: \(range.result.resolvable).")
                         break
@@ -499,7 +500,7 @@ class ExtensionsTests: XCTestCase {
                         break
                     }
                     
-                case .BibliographyItems(_):
+                case .bibliographyItems(_):
                     break
                     
                 default:
@@ -520,9 +521,9 @@ class ExtensionsTests: XCTestCase {
         XCTAssert("foobarfoobar".ranges("foobar").count == 2, "String.ranges is not behaving as expected")
         
         
-        let xmlStr = doc?.XMLStringWithOptions(Int(MPDefaultXMLDocumentOutputOptions))
+        let xmlStr = doc?.xmlString(withOptions: Int(MPDefaultXMLDocumentOutputOptions))
         
-        XCTAssert(xmlStr!.containsString("<em>"), "XML string contains no instances of <em>")
+        XCTAssert(xmlStr!.contains("<em>"), "XML string contains no instances of <em>")
         print(xmlStr!.stringAroundOccurrence(ofString: "delivers", maxPadding: 9) == " <strong>delivers</strong>")
     }
     

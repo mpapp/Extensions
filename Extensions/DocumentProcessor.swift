@@ -9,29 +9,29 @@
 import Foundation
 
 public let MPDefaultXMLDocumentParsingOptions:UInt =
-                NSXMLNodeOptions.NodeLoadExternalEntitiesNever
-                    .union(NSXMLNodeOptions.NodePreserveNamespaceOrder)
-                    .union(NSXMLNodeOptions.NodePreserveAttributeOrder)
-                    .union(NSXMLNodeOptions.NodePreserveEntities)
-                    .union(NSXMLNodeOptions.NodePreservePrefixes)
-                    .union(NSXMLNodeOptions.NodePreserveCDATA)
-                    .union(NSXMLNodeOptions.NodePreserveWhitespace)
-                    .union(NSXMLNodeOptions.NodePromoteSignificantWhitespace)
-                    .union(NSXMLNodeOptions.NodePreserveEmptyElements)
-                    .union(NSXMLNodeOptions.NodeUseDoubleQuotes).rawValue
+                XMLNode.Options.nodeLoadExternalEntitiesNever
+                    .union(XMLNode.Options.nodePreserveNamespaceOrder)
+                    .union(XMLNode.Options.nodePreserveAttributeOrder)
+                    .union(XMLNode.Options.nodePreserveEntities)
+                    .union(XMLNode.Options.nodePreservePrefixes)
+                    .union(XMLNode.Options.nodePreserveCDATA)
+                    .union(XMLNode.Options.nodePreserveWhitespace)
+                    .union(XMLNode.Options.nodePromoteSignificantWhitespace)
+                    .union(XMLNode.Options.nodePreserveEmptyElements)
+                    .union(XMLNode.Options.nodeUseDoubleQuotes).rawValue
 
 public let MPDefaultXMLDocumentOutputOptions:UInt =
-                NSXMLNodeOptions.NodePreserveNamespaceOrder
-                    .union(NSXMLNodeOptions.NodePreserveAttributeOrder)
-                    .union(NSXMLNodeOptions.NodePreserveEntities)
-                    .union(NSXMLNodeOptions.NodePreservePrefixes)
-                    .union(NSXMLNodeOptions.NodePreserveCDATA)
-                    .union(NSXMLNodeOptions.NodePreserveWhitespace)
-                    .union(NSXMLNodeOptions.NodePromoteSignificantWhitespace)
-                    .union(NSXMLNodeOptions.NodePreserveEmptyElements)
-                    .union(NSXMLNodeOptions.NodeUseDoubleQuotes).rawValue
+                XMLNode.Options.nodePreserveNamespaceOrder
+                    .union(XMLNode.Options.nodePreserveAttributeOrder)
+                    .union(XMLNode.Options.nodePreserveEntities)
+                    .union(XMLNode.Options.nodePreservePrefixes)
+                    .union(XMLNode.Options.nodePreserveCDATA)
+                    .union(XMLNode.Options.nodePreserveWhitespace)
+                    .union(XMLNode.Options.nodePromoteSignificantWhitespace)
+                    .union(XMLNode.Options.nodePreserveEmptyElements)
+                    .union(XMLNode.Options.nodeUseDoubleQuotes).rawValue
 
-public class DocumentProcessorConstants {
+open class DocumentProcessorConstants {
     static func defaultXMLDocumentParsingOptions() -> UInt { return MPDefaultXMLDocumentParsingOptions }
     static func defaultXMLDocumentOutputOptions() -> UInt { return MPDefaultXMLDocumentOutputOptions }
 }
@@ -40,31 +40,34 @@ public protocol DocumentProcessor {
     
     var elementProcessors:[ElementProcessor] { get }
     
-    func processedDocument(inputDocument doc:NSXMLDocument, inPlace:Bool) throws -> NSXMLDocument
+    func processedDocument(inputDocument doc:XMLDocument, inPlace:Bool) throws -> XMLDocument
     
-    func processedDocumentString(inputDocumentString docString:NSString) throws -> NSString
+    func processedDocumentString(inputDocumentString docString:NSString) throws -> String
 }
 
 
 public extension DocumentProcessor {
     
-    func processedDocument(inputDocument doc:NSXMLDocument, inPlace:Bool = false) throws -> NSXMLDocument {
-        let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
+    func processedDocument(inputDocument doc:XMLDocument, inPlace:Bool = false) throws -> XMLDocument {
+        let outputDoc:XMLDocument = inPlace ? doc : doc.copy() as! XMLDocument
         
         for processor in self.elementProcessors {
-            try processor.process(document: outputDoc)
+            _ = try processor.process(document: outputDoc)
         }
         
         return outputDoc
     }
     
-    public func processedDocumentString(inputDocumentString docString:NSString) throws -> NSString {
-        guard let docData = docString.dataUsingEncoding(NSUTF8StringEncoding) else {
-            throw DocumentProcessorError.FailedToRepresentStringAsData(docString)
+    public func processedDocumentString(inputDocumentString docString:NSString) throws -> String {
+        guard let docData = docString.data(using: String.Encoding.utf8.rawValue) else {
+            throw DocumentProcessorError.failedToRepresentStringAsData(docString)
         }
         
-        let doc = try NSXMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))
-        return try processedDocument(inputDocument: doc, inPlace:false).XMLStringWithOptions(Int(MPDefaultXMLDocumentOutputOptions))
+        let doc = try XMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))
+        
+        let options = Int(MPDefaultXMLDocumentOutputOptions)
+        let processedDoc = try processedDocument(inputDocument: doc, inPlace:false)
+        return processedDoc.xmlString(withOptions: options)
     }
     
 }

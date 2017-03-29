@@ -9,11 +9,11 @@
 import Cocoa
 import WebKit
 
-public class EvaluatorDebugViewController: NSViewController {
+open class EvaluatorDebugViewController: NSViewController {
 
     @IBOutlet weak var webView: WebView!
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
     }

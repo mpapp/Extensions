@@ -8,17 +8,17 @@
 
 import Foundation
 
-enum ResolvingError:ErrorType {
-    case NotResolvable(String)
-    case InvalidResolverURL(NSURL)
-    case InvalidResolverURLComponents(NSURLComponents)
-    case UnexpectedResponse(NSURLResponse?)
-    case UnexpectedStatusCode(Int)
-    case UnexpectedResponseData(NSData)
-    case UnexpectedResponseObject(Any)
-    case MissingIdentifier(Any)
-    case UnexpectedResolvedResponse(ResolvedResult)
-    case MissingQuery(NSURLComponents)
+enum ResolvingError:Error {
+    case notResolvable(String)
+    case invalidResolverURL(URL)
+    case invalidResolverURLComponents(URLComponents)
+    case unexpectedResponse(URLResponse?)
+    case unexpectedStatusCode(Int)
+    case unexpectedResponseData(Data)
+    case unexpectedResponseObject(Any)
+    case missingIdentifier(Any)
+    case unexpectedResolvedResponse(ResolvedResult)
+    case missingQuery(URLComponents)
 }
 
 public protocol Resolvable: CustomStringConvertible {
@@ -32,6 +32,6 @@ public protocol Resolvable: CustomStringConvertible {
 
 extension Resolvable {
     public var description:String {
-        return "<\(self.dynamicType) \(self.identifier)>"
+        return "<\(type(of: self)) \(self.identifier)>"
     }
 }

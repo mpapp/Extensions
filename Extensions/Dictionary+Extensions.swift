@@ -8,26 +8,26 @@
 
 import Foundation
 
-extension Dictionary where Key:Hashable, Value:AnyObject {
+extension Dictionary where Key:Hashable, Value:Any {
     
-    private static func JSONEncodableValue(value:AnyObject) -> AnyObject {
-        if let v = value as? NSURL {
-            return v.absoluteString!
+    fileprivate static func JSONEncodableValue(_ value:Any) -> Any {
+        if let v = value as? URL {
+            return v.absoluteString as AnyObject
         }
-        else if let v = value as? [AnyObject] {
+        else if let v = value as? [Any] {
             return v.map { JSONEncodableValue($0) }
         }
-        else if let v = value as? [Key:AnyObject] {
-            return v.JSONEncodable as! AnyObject
+        else if let v = value as? [Key:Any] {
+            return v.JSONEncodable
         }
         
         return value
     }
     
-    internal var JSONEncodable:[Key:AnyObject] {
-        var vs = [Key:AnyObject]()
+    internal var JSONEncodable:[Key:Any] {
+        var vs = [Key:Any]()
         for kp in self {
-            let v = self.dynamicType.JSONEncodableValue(kp.1)
+            let v = type(of: self).JSONEncodableValue(kp.1)
             vs[kp.0] = v
         }
         return vs

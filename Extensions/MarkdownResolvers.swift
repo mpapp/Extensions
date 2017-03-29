@@ -8,40 +8,40 @@
 
 import Foundation
 
-public class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
-    public let identifier: String
-    public let originatingString: String
+open class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
+    open let identifier: String
+    open let originatingString: String
     
     public required init(originatingString: String) throws {
         // pattern matches paired * *'s in between one or more characters between word boundaries.
-        guard (originatingString as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
-            throw ResolvingError.NotResolvable(originatingString)
+        guard (originatingString as NSString).isMatched(byRegex: type(of: self).capturingPattern()) else {
+            throw ResolvingError.notResolvable(originatingString)
         }
         
         self.originatingString = originatingString
         self.identifier = self.originatingString
     }
     
-    public class func capturingPattern() -> String {
+    open class func capturingPattern() -> String {
         preconditionFailure("Implement in subclass")
     }
     
-    public class func contentCapturingPattern() -> String {
+    open class func contentCapturingPattern() -> String {
         preconditionFailure("Implement in subclass")
     }
     
-    public var tagName: String {
+    open var tagName: String {
         preconditionFailure("Implement in subclass")
     }
     
-    public var innerHTML: String {
-        guard let captured = self.identifier.componentsCaptured(capturingPatterns: [self.dynamicType.contentCapturingPattern()]).first else {
+    open var innerHTML: String {
+        guard let captured = self.identifier.componentsCaptured(capturingPatterns: [type(of: self).contentCapturingPattern()]).first else {
             preconditionFailure("Unexpected identifier \(self.identifier)")
         }
         return captured
     }
     
-    public var attributes: [String : String] {
+    open var attributes: [String : String] {
         return [:]
     }
 }
@@ -103,10 +103,10 @@ public struct MarkdownSyntaxComponentResolver:Resolver {
         return markdownType
     }
 
-    public func resolve(string: String) throws -> ResolvedResult {
+    public func resolve(_ string: String) throws -> ResolvedResult {
         let identifier:MarkdownSyntaxComponent = try self.markdownComponentType.init(originatingString: string)
         let item = SimpleInlineElement(contents: identifier.innerHTML, tagName: identifier.tagName)
         
-        return ResolvedResult(resolvable: identifier, result:.InlineElements([item]))
+        return ResolvedResult(resolvable: identifier, result:.inlineElements([item]))
     }
 }

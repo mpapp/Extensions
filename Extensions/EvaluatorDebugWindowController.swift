@@ -8,23 +8,23 @@
 
 import Cocoa
 
-public class EvaluatorDebugWindowController: NSWindowController {
+open class EvaluatorDebugWindowController: NSWindowController {
 
-    @IBOutlet public var debugViewController: EvaluatorDebugViewController!
+    @IBOutlet open var debugViewController: EvaluatorDebugViewController!
     
-    override public func windowDidLoad() {
+    override open func windowDidLoad() {
         super.windowDidLoad()
         self.window?.contentView?.mp_addSubviewConstrainedToSuperViewEdges(self.debugViewController.view)
     }
     
     // couldn't think of another way of making this lazily initialized?
-    private static var _sharedInstance:EvaluatorDebugWindowController? = nil
+    fileprivate static var _sharedInstance:EvaluatorDebugWindowController? = nil
     
-    public static func sharedInstanceExists() -> Bool {
+    open static func sharedInstanceExists() -> Bool {
         return _sharedInstance != nil
     }
     
-    public static func sharedInstance() -> EvaluatorDebugWindowController {
+    open static func sharedInstance() -> EvaluatorDebugWindowController {
         if _sharedInstance == nil {
             _sharedInstance = EvaluatorDebugWindowController(windowNibName: "EvaluatorDebugWindowController")
             _sharedInstance!.showWindow(self)

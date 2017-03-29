@@ -9,32 +9,33 @@
 import Foundation
 import Freddy
 
-public class SimpleInlineMathFragment: NSObject, InlineMathFragment, JSONDecodable, JSONEncodable {
-    public let TeXRepresentation:String
+open class SimpleInlineMathFragment: NSObject, InlineMathFragment, JSONDecodable, JSONEncodable {
+    open let TeXRepresentation:String
     
     public init(TeXRepresentation:String) {
         self.TeXRepresentation = TeXRepresentation
     }
     
-    public var contents: String {
+    open var contents: String {
         return self.TeXRepresentation
     }
     
     public required init(json:JSON) throws {
-        guard let TeXRepresentation = try json.string("TeXRepresentation", alongPath:[.MissingKeyBecomesNil]) else {
-            throw SimpleEquationError.MissingContents(json)
+        guard let TeXRepresentation = try json.getString(at: "TeXRepresentation",
+                                                         alongPath:[.missingKeyBecomesNil]) else {
+            throw SimpleEquationError.missingContents(json)
         }
         
         self.TeXRepresentation = TeXRepresentation
     }
     
-    public func toJSON() -> JSON {
+    open func toJSON() -> JSON {
         return [
-            "TeXRepresentation":.String(self.TeXRepresentation)
+            "TeXRepresentation":.string(self.TeXRepresentation)
         ]
     }
     
-    public var tagName: String {
+    open var tagName: String {
         return "span"
     }
 }

@@ -210,7 +210,7 @@ public protocol BibliographyItem: DictionaryRepresentable, HTMLSnippetRepresenta
     var translator:String? { get }
 
     // URL	[standard] Uniform Resource Locator (e.g. "http://aem.asm.org/cgi/content/full/74/9/2766").
-    var URL:NSURL? { get }
+    var URL:Foundation.URL? { get }
 
     // version	[standard] version of the item (e.g. "2.0.9" for a software program).
     var version:String? { get }

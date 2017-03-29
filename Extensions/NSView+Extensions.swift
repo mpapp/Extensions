@@ -10,7 +10,7 @@ import Cocoa
 
 extension NSView {
     
-    public func mp_addSubviewConstrainedToSuperViewEdges(aView:NSView,
+    public func mp_addSubviewConstrainedToSuperViewEdges(_ aView:NSView,
                                                       topOffset:CGFloat = 0,
                                                       rightOffset:CGFloat = 0,
                                                       bottomOffset:CGFloat = 0,
@@ -19,19 +19,19 @@ extension NSView {
         aView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(aView)
         
-        self.mp_addEdgeConstraint(.Left, constantOffset: leftOffset, subview: aView)
-        self.mp_addEdgeConstraint(.Right, constantOffset: rightOffset, subview: aView)
-        self.mp_addEdgeConstraint(.Top, constantOffset: topOffset, subview: aView)
-        self.mp_addEdgeConstraint(.Bottom, constantOffset: bottomOffset, subview: aView)
+        _ = self.mp_addEdgeConstraint(.left, constantOffset: leftOffset, subview: aView)
+        _ = self.mp_addEdgeConstraint(.right, constantOffset: rightOffset, subview: aView)
+        _ = self.mp_addEdgeConstraint(.top, constantOffset: topOffset, subview: aView)
+        _ = self.mp_addEdgeConstraint(.bottom, constantOffset: bottomOffset, subview: aView)
     }
     
-    public func mp_addEdgeConstraint(edge:NSLayoutAttribute,
+    public func mp_addEdgeConstraint(_ edge:NSLayoutAttribute,
                                      constantOffset:CGFloat = 0,
                                      subview:NSView) -> NSLayoutConstraint {
         let constraint:NSLayoutConstraint
                 = NSLayoutConstraint(item:subview,
                                      attribute:edge,
-                                     relatedBy:.Equal,
+                                     relatedBy:.equal,
                                      toItem:self,
                                      attribute:edge,
                                      multiplier:1,

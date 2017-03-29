@@ -8,15 +8,15 @@
 
 import Foundation
 
-public enum EvaluatorRegistryErrorCode: ErrorType {
-    case NoSuchEvaluator(String)
+public enum EvaluatorRegistryErrorCode: Error {
+    case noSuchEvaluator(String)
 }
 
 internal class EvaluatorRegistry {
     
     static let sharedInstance:EvaluatorRegistry = EvaluatorRegistry()
 
-    private init() {
+    fileprivate init() {
     }
     
     lazy var evaluators:[String:Evaluator] = {
@@ -42,16 +42,16 @@ internal class EvaluatorRegistry {
         return evals
     }()
     
-    internal func createEvaluator(procedure procedure:Procedure, containingExtension:Extension) throws -> Evaluator {
+    internal func createEvaluator(procedure:Procedure, containingExtension:Extension) throws -> Evaluator {
         return try self.createEvaluator(identifier:procedure.evaluatorID, containingExtension: containingExtension)
     }
     
-    internal func createEvaluator(identifier identifier:String, containingExtension:Extension) throws -> Evaluator {
+    internal func createEvaluator(identifier:String, containingExtension:Extension) throws -> Evaluator {
         guard var e = self.evaluators[identifier] else {
-            throw EvaluatorRegistryErrorCode.NoSuchEvaluator("No evaluator with identifier \(identifier)")
+            throw EvaluatorRegistryErrorCode.noSuchEvaluator("No evaluator with identifier \(identifier)")
         }
         
-        e = try e.dynamicType.init(evaluator:e, containingExtension:containingExtension)
+        e = try type(of: e).init(evaluator:e, containingExtension:containingExtension)
         
         return e
     }

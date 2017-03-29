@@ -8,15 +8,15 @@
 
 import Foundation
 
-public enum ResolvingProcessorError: ErrorType {
-    case OverlappingRanges(Range<UInt>, Range<UInt>)
+public enum ResolvingProcessorError: Error {
+    case overlappingRanges(CountableClosedRange<UInt>, CountableClosedRange<UInt>)
 }
 
 // The resolvable fragment processor is a special kind of processor which never modifies the DOM.
 
 public struct ResolvableFragmentProcessor: FragmentProcessor {
     
-    private let resolver:Resolver
+    fileprivate let resolver:Resolver
     
     //public let tokenizingPatterns: [String]
     public let capturingPatterns: [String]
@@ -34,9 +34,9 @@ public struct ResolvableFragmentProcessor: FragmentProcessor {
     public func process(textFragment fragment: String) throws -> String {
         let result:ResolvedResult = try self.process(textFragment: fragment)
         
-        let data = try NSJSONSerialization.dataWithJSONObject(result.dictionaryRepresentation, options: [])
-        guard let str = String(data: data, encoding: NSUTF8StringEncoding) else {
-            throw DocumentProcessorError.FailedToRepresentDataInUTF8(data)
+        let data = try JSONSerialization.data(withJSONObject: result.dictionaryRepresentation, options: [])
+        guard let str = String(data: data, encoding: String.Encoding.utf8) else {
+            throw DocumentProcessorError.failedToRepresentDataInUTF8(data)
         }
         
         return str
@@ -49,9 +49,9 @@ public struct ResolvableFragmentProcessor: FragmentProcessor {
 
 public typealias CapturedResultRange = (ranges:[Range<String.CharacterView.Index>], result:ResolvedResult)
 
-public typealias ResolvedResultHandler = (elementProcessor:ResolvableElementProcessor, capturedResultRanges:[CapturedResultRange]) -> Void
+public typealias ResolvedResultHandler = (_ elementProcessor:ResolvableElementProcessor, _ capturedResultRanges:[CapturedResultRange]) -> Void
 
-public typealias ElementRepresentationProvider = (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode:NSXMLNode) throws -> Element
+public typealias ElementRepresentationProvider = (_ elementProcessor:ResolvableElementProcessor, _ capturedResultRange:CapturedResultRange, _ textNode:XMLNode) throws -> Element
 
 // The resolvable element processor is a special kind of processor which never modifies the DOM.
 // Instead it calls the `resolvableResultHandler` passed to it, for every case a resolvable identifier was found.
@@ -71,49 +71,49 @@ public struct ResolvableElementProcessor: ElementProcessor {
         return "//p|//caption"
     }()
     
-    public func process(element element:NSXMLElement, inDocument doc:NSXMLDocument) throws -> [NSXMLNode] {
+    public func process(element:XMLElement, inDocument doc:XMLDocument) throws -> [XMLNode] {
         return try self.process(element: element, inDocument: doc, resultHandler: nil, elementRepresentationProvider: nil)
     }
     
-    public func process(document doc:NSXMLDocument) throws -> [NSXMLNode] {
+    public func process(document doc:XMLDocument) throws -> [XMLNode] {
         return try self.process(document: doc, resultHandler: nil, elementRepresentationProvider: nil)
     }
     
-    public func process(document doc:NSXMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> [NSXMLNode] {
-        var processed = [NSXMLNode]()
+    public func process(document doc:XMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> [XMLNode] {
+        var processed = [XMLNode]()
         
-        let nodes = try doc.nodesForXPath(self.XPathPattern)
+        let nodes = try doc.nodes(forXPath: self.XPathPattern)
         
         for node in nodes {
             
-            guard let elem = node as? NSXMLElement else {
-                throw DocumentProcessorError.UnexpectedNodeType(node)
+            guard let elem = node as? XMLElement else {
+                throw DocumentProcessorError.unexpectedNodeType(node)
             }
             
             let nodes = try self.process(element: elem, inDocument: doc, resultHandler: resultHandler, elementRepresentationProvider:elementRepresentationProvider)
             
-            processed.appendContentsOf(nodes)
+            processed.append(contentsOf: nodes)
             
             // if element was modified in place, continue as you don't need to replace it.
             if (nodes.count == 1) && (nodes[0] === node) {
                 continue
             }
             
-            guard let parentNode = node.parent as? NSXMLElement else {
-                throw DocumentProcessorError.UnexpectedParentNode(node)
+            guard let parentNode = node.parent as? XMLElement else {
+                throw DocumentProcessorError.unexpectedParentNode(node)
             }
             
-            guard let nodeIndex = parentNode.children?.indexOf(node) else {
-                throw DocumentProcessorError.UnexpectedParentNode(node)
+            guard let nodeIndex = parentNode.children?.index(of: node) else {
+                throw DocumentProcessorError.unexpectedParentNode(node)
             }
             
-            parentNode.removeChildAtIndex(nodeIndex)
-            for (i,n) in nodes.reverse().enumerate() {
-                parentNode.insertChild(n, atIndex: nodeIndex)
-                if let separator = self.separator where i < (nodes.count - 1) {
-                    let separatorNode = NSXMLNode(kind: .TextKind)
+            parentNode.removeChild(at: nodeIndex)
+            for (i,n) in nodes.reversed().enumerated() {
+                parentNode.insertChild(n, at: nodeIndex)
+                if let separator = self.separator, i < (nodes.count - 1) {
+                    let separatorNode = XMLNode(kind: .text)
                     separatorNode.setStringValue(separator, resolvingEntities: false)
-                    parentNode.insertChild(separatorNode, atIndex: i + 1)
+                    parentNode.insertChild(separatorNode, at: i + 1)
                 }
             }
         }
@@ -121,13 +121,13 @@ public struct ResolvableElementProcessor: ElementProcessor {
         return processed
     }
     
-    public func process(element element:NSXMLElement, inDocument doc:NSXMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> [NSXMLNode] {
+    public func process(element:XMLElement, inDocument doc:XMLDocument, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> [XMLNode] {
         guard let children = element.children else {
             return [element]
         }
         
         for c in children {
-            if c.kind != .TextKind {
+            if c.kind != .text {
                 continue
             }
             
@@ -139,26 +139,33 @@ public struct ResolvableElementProcessor: ElementProcessor {
             
             try capturedRanges.forEachPair { a, b in
                 if a.overlaps(b) {
-                    throw ResolvingProcessorError.OverlappingRanges(a, b)
+                    throw ResolvingProcessorError.overlappingRanges(a, b)
                 }
             }
             
             let capturedResultRanges:[CapturedResultRange] = try capturedRanges.flatMap { range in
-                let capture = stringValue.substringWithRange(characterViewRange(range, string:stringValue))
+                let capture = stringValue.substring(with: characterViewRange(range, string:stringValue))
                 
                 do {
                     let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
                     let identifierRanges = capture.ranges(result.resolvable.originatingString)
                     
                     let adjustedRanges = identifierRanges.map { identifierRange -> Range<String.CharacterView.Index> in
-                        let start = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.startIndex)).advancedBy(Int(range.startIndex))
-                        let end = stringValue.characters.startIndex.advancedBy(capture.characters.startIndex.distanceTo(identifierRange.endIndex)).advancedBy(Int(range.startIndex))
+                        let characterView = stringValue.characters
+                        
+                        let captureStartToIdentifierStart = capture.characters.distance(from: capture.characters.startIndex, to: identifierRange.lowerBound)
+                        let captureStartToIdentifierEnd = capture.characters.distance(from: capture.characters.startIndex, to: identifierRange.upperBound)
+                        
+                        let start = characterView.index(characterView.index(characterView.startIndex, offsetBy: captureStartToIdentifierStart),
+                                                        offsetBy: Int(range.lowerBound))
+                        let end = characterView.index(stringValue.characters.index(stringValue.characters.startIndex, offsetBy: captureStartToIdentifierEnd),
+                                                      offsetBy: Int(range.lowerBound))
                         return start ..< end
                     }
                     
                     return (ranges:adjustedRanges, result:result)
                 }
-                catch ResolvingError.NotResolvable(let string) {
+                catch ResolvingError.notResolvable(let string) {
                     print("\(self) failed to resolve \(string)")
                     return nil
                 }
@@ -168,14 +175,14 @@ public struct ResolvableElementProcessor: ElementProcessor {
             }
             
             if capturedResultRanges.count > 0 {
-                resultHandler?(elementProcessor: self, capturedResultRanges: capturedResultRanges)
+                resultHandler?(self, capturedResultRanges)
             }
             
             if self.replaceMatches && self.resolver.replaceMatches && capturedResultRanges.count > 0 {
                 let elemReps:[Element]
                 if let elementRepresentationProvider = elementRepresentationProvider {
                     elemReps = try capturedResultRanges.map {
-                        try elementRepresentationProvider(elementProcessor: self, capturedResultRange:$0, textNode:c)
+                        try elementRepresentationProvider(self, $0, c)
                     }
                 }
                 else {
@@ -189,13 +196,13 @@ public struct ResolvableElementProcessor: ElementProcessor {
                     return resultRange.ranges
                 }
                 
-                let stringRanges = ranges.map { range -> Range<UInt> in
-                    let start = stringValue.characters.startIndex.distanceTo(range.startIndex)
-                    let end = stringValue.characters.startIndex.distanceTo(range.endIndex)
+                let stringRanges = ranges.map { range -> CountableRange<UInt> in
+                    let start = stringValue.characters.distance(from: stringValue.characters.startIndex, to: range.lowerBound)
+                    let end = stringValue.characters.distance(from: stringValue.characters.startIndex, to: range.upperBound)
                     return UInt(start) ..< UInt(end)
                 }
                 
-                c.extract(elementsWithNames:tagNames, ranges: stringRanges, contents: contents, attributes:attribs)
+                _ = c.extract(elementsWithNames:tagNames, ranges: stringRanges, contents: contents, attributes:attribs)
             }
         }
         
@@ -216,11 +223,11 @@ public struct ResolvingDocumentProcessor: DocumentProcessor {
         self.resolvableElementProcessors = elementProcessors.map { $0 }
     }
     
-    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> NSXMLDocument {
-        let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
+    public func processedDocument(inputDocument doc: XMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler?, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> XMLDocument {
+        let outputDoc:XMLDocument = inPlace ? doc : doc.copy() as! XMLDocument
         
         for elemProcessor in self.resolvableElementProcessors {
-            try elemProcessor.process(document: doc, resultHandler: resultHandler, elementRepresentationProvider: elementRepresentationProvider)
+            _ = try elemProcessor.process(document: doc, resultHandler: resultHandler, elementRepresentationProvider: elementRepresentationProvider)
         }
         
         return outputDoc
@@ -248,18 +255,18 @@ public struct ResolvingCompoundDocumentProcessor: DocumentProcessor {
                 replaceMatches: replaceMatches)
         }
         
-        let docProcessors = resolvers.enumerate().map { i, resolver in
+        let docProcessors = resolvers.enumerated().map { i, resolver in
             return ResolvingDocumentProcessor(resolver: resolvers[i], elementProcessors: [elemProcessors[i]])
         }
         
         self.documentProcessors = docProcessors
     }
     
-    public func processedDocument(inputDocument doc: NSXMLDocument, inPlace: Bool, resultHandler:ResolvedResultHandler, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> NSXMLDocument {
-        let outputDoc:NSXMLDocument = inPlace ? doc : doc.copy() as! NSXMLDocument
+    public func processedDocument(inputDocument doc: XMLDocument, inPlace: Bool, resultHandler:@escaping ResolvedResultHandler, elementRepresentationProvider:ElementRepresentationProvider? = nil) throws -> XMLDocument {
+        let outputDoc:XMLDocument = inPlace ? doc : doc.copy() as! XMLDocument
         
         for docProcessor in self.documentProcessors {
-            try docProcessor.processedDocument(inputDocument: doc, inPlace: true, resultHandler: resultHandler, elementRepresentationProvider: elementRepresentationProvider)
+            _ = try docProcessor.processedDocument(inputDocument: doc, inPlace: true, resultHandler: resultHandler, elementRepresentationProvider: elementRepresentationProvider)
         }
         
         return outputDoc

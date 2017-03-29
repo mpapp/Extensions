@@ -8,35 +8,35 @@
 
 import Foundation
 
-public enum BibliographicDateValidationError:UInt, ErrorType {
-    case InvalidComponentCount = 1
-    case InvalidComponentType = 2
-    case MissingRequiredComponent = 3
+public enum BibliographicDateValidationError:UInt, Error {
+    case invalidComponentCount = 1
+    case invalidComponentType = 2
+    case missingRequiredComponent = 3
 };
 
 public enum BibliographicDatePart:UInt {
-    case Year = 0
-    case Month = 1
-    case Day = 2
+    case year = 0
+    case month = 1
+    case day = 2
 }
 
 public enum BibliographicDateSeason:UInt {
-    case Unknown = 0
-    case Spring = 1
-    case Summer = 2
-    case Autumn = 3
-    case Winter = 4
+    case unknown = 0
+    case spring = 1
+    case summer = 2
+    case autumn = 3
+    case winter = 4
 }
 
 public protocol BibliographicDate: DictionaryRepresentable {
 
     var circa:Bool { get }
     
-    var dateParts:[AnyObject]? { get }
+    var dateParts:[Any]? { get }
     
-    var beginDateParts:[AnyObject]? { get }
+    var beginDateParts:[Any]? { get }
 
-    var endDateParts:[AnyObject]? { get }
+    var endDateParts:[Any]? { get }
 
     var raw:String? { get }
 

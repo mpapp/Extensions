@@ -11,56 +11,56 @@ import MPRateLimiter
 
 typealias HTTPStatusCode = Int
 
-enum SynchronousRequestError: ErrorType {
-    case NoData(NSURLRequest)
-    case NoStatus(NSURLRequest)
+enum SynchronousRequestError: Error {
+    case noData(URLRequest)
+    case noStatus(URLRequest)
 }
 
-typealias ResponseTuple = (data:NSData, statusCode:HTTPStatusCode)
+typealias ResponseTuple = (data:Data, statusCode:HTTPStatusCode)
 
 extension NSURLConnection {
-    static func sendSynchronousRequest(request:NSURLRequest) throws -> ResponseTuple {
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    static func sendSynchronousRequest(_ request:URLRequest) throws -> ResponseTuple {
+        let session = URLSession(configuration: URLSessionConfiguration.default)
         
-        var responseData:NSData? = nil
+        var responseData:Data? = nil
         var responseCode:HTTPStatusCode? = nil
         var responseError:NSError? = nil
         
-        let group = dispatch_group_create()
-        dispatch_group_enter(group)
+        let group = DispatchGroup()
+        group.enter()
         
-        session.dataTaskWithRequest(request, completionHandler: {(data, response, err) in
-            if let httpResponse = response as? NSHTTPURLResponse {
+        session.dataTask(with: request, completionHandler: {(data, response, err) in
+            if let httpResponse = response as? HTTPURLResponse {
                 responseCode = httpResponse.statusCode
                 responseData = data
             }
             
-            responseError = err
-            dispatch_group_leave(group)
+            responseError = err as NSError?
+            group.leave()
         }).resume()
         
-        dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
+        _ = group.wait(timeout: DispatchTime.distantFuture)
         
         if let responseError = responseError {
             throw responseError
         }
         
         guard let data = responseData else {
-            throw SynchronousRequestError.NoData(request)
+            throw SynchronousRequestError.noData(request)
         }
         
         guard let code = responseCode else {
-            throw SynchronousRequestError.NoStatus(request)
+            throw SynchronousRequestError.noStatus(request)
         }
         
         return (data, code)
     }
     
-    private static let rateLimiter:RateLimiter = RateLimiter()
+    fileprivate static let rateLimiter:RateLimiter = RateLimiter()
     
-    static func sendRateLimitedSynchronousRequest(request:NSURLRequest, rateLimitLabel:String, rateLimit:NSTimeInterval) throws -> (data:NSData, statusCode:HTTPStatusCode) {
+    static func sendRateLimitedSynchronousRequest(_ request:URLRequest, rateLimitLabel:String, rateLimit:TimeInterval) throws -> (data:Data, statusCode:HTTPStatusCode) {
         var response:ResponseTuple?
-        var err:ErrorType?
+        var err:Error?
         
         var executed = false
         

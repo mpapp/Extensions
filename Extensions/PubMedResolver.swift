@@ -15,7 +15,7 @@ public struct PubMedIdentifier: Resolvable {
     public let originatingString: String
     
     public init(originatingString: String) throws {
-        let uppercaseString = originatingString.uppercaseString
+        let uppercaseString = originatingString.uppercased()
         
         let evaluatedID:String
         if !uppercaseString.hasPrefix("pmid:") {
@@ -25,42 +25,42 @@ public struct PubMedIdentifier: Resolvable {
             evaluatedID = uppercaseString
         }
         
-        guard (evaluatedID as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
-            throw ResolvingError.NotResolvable(evaluatedID)
+        guard (evaluatedID as NSString).isMatched(byRegex: type(of: self).capturingPattern()) else {
+            throw ResolvingError.notResolvable(evaluatedID)
         }
         
         self.originatingString = originatingString
-        self.identifier = (evaluatedID as NSString).captureComponentsMatchedByRegex(self.dynamicType.contentCapturingPattern())[1] as! String
+        self.identifier = (evaluatedID as NSString).captureComponentsMatched(byRegex: type(of: self).contentCapturingPattern())[1] as! String
     }
     
     public static func capturingPattern() -> String {
         return "(PMID:\\d{1,20})"
     }
-    private static func contentCapturingPattern() -> String {
+    fileprivate static func contentCapturingPattern() -> String {
         return "PMID:(\\d{1,20})"
     }
 }
 
-public class PubMedResolver: URLBasedResolver {
+open class PubMedResolver: URLBasedResolver {
     
-    public let resolvableType: Resolvable.Type = {
+    open let resolvableType: Resolvable.Type = {
         return PubMedIdentifier.self
     }()
     
-    private let _baseURL:NSURL
+    fileprivate let _baseURL:URL
     
     
-    public func baseURL() -> NSURL {
+    open func baseURL() -> URL {
         return _baseURL
     }
     
-    public init(baseURL:NSURL = NSURL(string: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&rettype=xml")!) {
+    public init(baseURL:URL = URL(string: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&rettype=xml")!) {
         self._baseURL = baseURL
     }
     
-    public static var identifier:String = "gov.nih.nlm.ncbi.eutils"
+    open static var identifier:String = "gov.nih.nlm.ncbi.eutils"
     
-    private func bibliographyItem(doc:XMLIndexer) throws -> BibliographyItem {
+    fileprivate func bibliographyItem(_ doc:XMLIndexer) throws -> BibliographyItem {
         let b = SimpleBibliographyItem()
         
         let articleSet = doc["PubmedArticleSet"]
@@ -70,7 +70,7 @@ public class PubMedResolver: URLBasedResolver {
         }
         
         if articleSet.children.count == 0 {
-            throw ResolvingError.NotResolvable(articleSet.description)
+            throw ResolvingError.notResolvable(articleSet.description)
         }
         
         let pubmedArticle = articleSet["PubmedArticle"]
@@ -89,14 +89,14 @@ public class PubMedResolver: URLBasedResolver {
         
         let article = citation["Article"]
         
-        if article.boolValue {
+        if article.element != nil {
             b.title = article["ArticleTitle"].element?.text
             
             if article["Abstract"].children.count > 0 {
                 b.abstract = article["Abstract"]["AbstractText"].element?.text                
             }
             
-            if article["AuthorList"].boolValue {
+            if article["AuthorList"].element != nil {
                 b.author = article["AuthorList"].children.map { author -> BibliographicName in
                     SimpleBibliographicName(family: author["LastName"].element?.text,
                                             given: author["ForeName"].element?.text,
@@ -106,19 +106,20 @@ public class PubMedResolver: URLBasedResolver {
             }
             
             let journal = article["Journal"]
-            if journal.boolValue {
+            if journal.element != nil {
                 b.containerTitle = journal["Title"].element?.text
                 b.ISSN = journal["ISSN"].element?.text
                 
                 let journalIssue = journal["JournalIssue"]
-                if journalIssue.boolValue {
+                
+                if journalIssue.element != nil {
                     b.volume = journalIssue["Volume"].element?.text
                     if let issueTxt = journalIssue["Issue"].element?.text,
                         let issueNo = Int(issueTxt) {
                         b.issue = issueNo
                     }
                     
-                    if journalIssue["PubDate"]["Year"].boolValue,
+                    if journalIssue["PubDate"]["Year"].element != nil,
                         let year = journalIssue["PubDate"]["Year"].element?.text {
                         let date = SimpleBibliographicDate(dateParts: [[year]])
                         b.issued = date
@@ -130,38 +131,38 @@ public class PubMedResolver: URLBasedResolver {
         return b
     }
     
-    private func bibliographyItem(PMID:PubMedIdentifier) throws -> BibliographyItem {
+    fileprivate func bibliographyItem(_ PMID:PubMedIdentifier) throws -> BibliographyItem {
         let baseURL = self.baseURL()
-        guard let components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: false) else {
-            throw ResolvingError.InvalidResolverURL(baseURL)
+        guard var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false) else {
+            throw ResolvingError.invalidResolverURL(baseURL)
         }
         
         guard let query = components.query else {
-            throw ResolvingError.MissingQuery(components)
+            throw ResolvingError.missingQuery(components)
         }
         
         // append &id=… into the query
         components.query = query + "&id=\(PMID.identifier)"
         
-        guard let queryURL = components.URL else {
-            throw ResolvingError.InvalidResolverURLComponents(components)
+        guard let queryURL = components.url else {
+            throw ResolvingError.invalidResolverURLComponents(components)
         }
         
-        let response = try NSURLConnection.sendRateLimitedSynchronousRequest(NSURLRequest(URL: queryURL),
+        let response = try NSURLConnection.sendRateLimitedSynchronousRequest(URLRequest(url: queryURL),
                                                                              rateLimitLabel: self.rateLimitLabel,
                                                                              rateLimit: self.rateLimit)
         
-        guard response.statusCode.marksSuccess else { throw ResolvingError.UnexpectedStatusCode(response.statusCode) }
+        guard response.statusCode.marksSuccess else { throw ResolvingError.unexpectedStatusCode(response.statusCode) }
         
         let doc = SWXMLHash.parse(response.data)
         
         return try self.bibliographyItem(doc)
     }
     
-    public func resolve(identifier: String) throws -> ResolvedResult {
+    open func resolve(_ identifier: String) throws -> ResolvedResult {
         let PMID = try PubMedIdentifier(originatingString: identifier)
         let bibItem = try self.bibliographyItem(PMID)
-        return ResolvedResult(resolvable: PMID, result:.BibliographyItems([bibItem]))
+        return ResolvedResult(resolvable: PMID, result:.bibliographyItems([bibItem]))
     }
     
 }

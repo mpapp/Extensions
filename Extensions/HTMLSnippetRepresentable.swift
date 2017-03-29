@@ -20,7 +20,7 @@ extension HTMLSnippetRepresentable {
         let attribsString = attributes.reduce("") { (initial:String, kp: (key:String, value:String)) -> String in
             return initial + "\(kp.key)=\"\(kp.value)\" "
         }
-        let trimmedAttribsString = attribsString.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " "))
+        let trimmedAttribsString = attribsString.trimmingCharacters(in: CharacterSet(charactersIn: " "))
         let str = "<\(self.tagName ) \(trimmedAttribsString)>\(self.innerHTML)</\(self.tagName)>"
         return str
     }

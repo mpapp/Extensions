@@ -14,7 +14,7 @@ public protocol Mathematical: CustomStringConvertible {
 
 public extension Mathematical {
     var description: String {
-        return "<\(String(self.dynamicType)) TeXRepresentation:\(self.TeXRepresentation)>"
+        return "<\(String(describing: type(of: self))) TeXRepresentation:\(self.TeXRepresentation)>"
     }
 }
 

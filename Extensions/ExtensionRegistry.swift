@@ -8,37 +8,37 @@
 
 import Foundation
 
-public enum ExtensionRegistryErrorCode: ErrorType {
-    case NoSuchExension(String)
+public enum ExtensionRegistryErrorCode: Error {
+    case noSuchExension(String)
 }
 
 public final class ExtensionRegistry {
     
     public static let sharedInstance:ExtensionRegistry = ExtensionRegistry()
-    private init() { } // don't even try to instantiate one…
+    fileprivate init() { } // don't even try to instantiate one…
     
-    private(set) public var extensions:[String:Extension] = [:]
+    fileprivate(set) public var extensions:[String:Extension] = [:]
     
     public var extensionSet:Set<Extension> {
         return Set(self.extensions.values)
     }
     
     // You are required to call loadExtensions before attempting to access extensions with extensionWithIdentifier.
-    public func loadExtensions(rootURL:NSURL? = nil, replaceExisting:Bool = true, loadFailureHandler:((URL:NSURL, error:ExtensionError)->Void)? = nil) throws {
+    public func loadExtensions(_ rootURL:URL? = nil, replaceExisting:Bool = true, loadFailureHandler:((_ URL:URL, _ error:ExtensionError)->Void)? = nil) throws {
         
-        let root:NSURL
+        let root:URL
         if let rootURL = rootURL {
             root = rootURL
         }
         else {
-            root = NSBundle.mainBundle().bundleURL
+            root = Bundle.main.bundleURL
         }
         
-        let extensions = try self.dynamicType.loadExtensionBundles(root, loadFailureHandler:loadFailureHandler)
+        let extensions = try type(of: self).loadExtensionBundles(root, loadFailureHandler:loadFailureHandler)
         
         var extensionsDict = [String:Extension]()
         for ext in extensions {
-            guard let existingExtension = self.extensions[ext.identifier] where replaceExisting else {
+            guard let existingExtension = self.extensions[ext.identifier], replaceExisting else {
                 extensionsDict[ext.identifier] = ext
                 continue
             }
@@ -49,24 +49,24 @@ public final class ExtensionRegistry {
     }
     
     // extension is a reserved word, so can't use it as a method name…
-    public func extensionWithIdentifier(identifier:String) throws -> Extension {
+    public func extensionWithIdentifier(_ identifier:String) throws -> Extension {
         guard let ext = self.extensions[identifier] else {
-            throw EvaluatorRegistryErrorCode.NoSuchEvaluator("No extension with identifier \(identifier)")
+            throw EvaluatorRegistryErrorCode.noSuchEvaluator("No extension with identifier \(identifier)")
         }
         
         return ext
     }
     
-    private class func loadExtensionBundles(rootURL:NSURL, loadFailureHandler:((URL:NSURL, error:ExtensionError)->Void)? = nil) throws -> [Extension] {
+    fileprivate class func loadExtensionBundles(_ rootURL:URL, loadFailureHandler:((_ URL:URL, _ error:ExtensionError)->Void)? = nil) throws -> [Extension] {
         
         var exts:[Extension] = []
         
-        try NSFileManager.defaultManager().enumerate(rootDirectoryURL: rootURL) { (URL:NSURL) in
+        try FileManager.default.enumerate(rootDirectoryURL: rootURL) { (URL:Foundation.URL) in
             if URL.pathExtension == "extension" {
-                if let bundle = NSBundle(URL: URL) {
+                if let bundle = Bundle(url: URL) {
                     if !bundle.load() {
                         if let loadFailureHandler = loadFailureHandler {
-                            loadFailureHandler(URL:URL, error:ExtensionError.ExtensionFailedToLoad(bundle))
+                            loadFailureHandler(URL, ExtensionError.extensionFailedToLoad(bundle))
                         }
                     }
                     else {
@@ -76,17 +76,17 @@ public final class ExtensionRegistry {
                         }
                         catch {
                             if let error = error as? ExtensionError, let loadFailureHandler = loadFailureHandler {
-                                loadFailureHandler(URL:URL, error:error)
+                                loadFailureHandler(URL, error)
                             }
                             else if let loadFailureHandler = loadFailureHandler {
-                                loadFailureHandler(URL: URL, error: ExtensionError.UnderlyingError(error))
+                                loadFailureHandler(URL, ExtensionError.underlyingError(error))
                             }
                         }
                     }
                 }
                 else {
                     if let loadFailureHandler = loadFailureHandler {
-                        loadFailureHandler(URL:URL, error:ExtensionError.InvalidExtensionAtURL(URL))
+                        loadFailureHandler(URL, ExtensionError.invalidExtensionAtURL(URL))
                     }
                 }
             }

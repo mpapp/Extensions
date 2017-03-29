@@ -8,15 +8,15 @@
 
 import Foundation
 
-enum ElementError:ErrorType {
-    case UnexpectedTagName(String)
-    case UnexpectedSnippet(String)
+enum ElementError:Error {
+    case unexpectedTagName(String)
+    case unexpectedSnippet(String)
 }
 
-public class SimpleInlineElement: NSObject, InlineElement {
-    public let contents: String
-    public let tagName: String
-    public let attributes: [String:String]
+open class SimpleInlineElement: NSObject, InlineElement {
+    open let contents: String
+    open let tagName: String
+    open let attributes: [String:String]
     
     public init(contents:String, tagName:String = "span", attributes:[String:String] = [:]) {
         self.contents = contents
@@ -24,19 +24,19 @@ public class SimpleInlineElement: NSObject, InlineElement {
         self.attributes = attributes
     }
     
-    public class var tagName: String {
+    open class var tagName: String {
         return "span"
     }
     
-    public override var description: String {
-        return "<\(String(self.dynamicType)) tagName:\(tagName) contents:\(contents)>"
+    open override var description: String {
+        return "<\(String(describing: type(of: self))) tagName:\(tagName) contents:\(contents)>"
     }
 }
 
-public class SimpleBlockElement: NSObject, BlockElement {
-    public let contents: String
-    public let tagName: String
-    public let attributes: [String : String]
+open class SimpleBlockElement: NSObject, BlockElement {
+    open let contents: String
+    open let tagName: String
+    open let attributes: [String : String]
     
     public init(contents:String, tagName:String = "div", attributes: [String : String] = [:]) {
         self.contents = contents
@@ -44,13 +44,13 @@ public class SimpleBlockElement: NSObject, BlockElement {
         self.attributes = attributes
     }
     
-    public override var description: String {
-        return "<\(String(self.dynamicType)) tagName:\(tagName) contents:\(contents)>"
+    open override var description: String {
+        return "<\(String(describing: type(of: self))) tagName:\(tagName) contents:\(contents)>"
     }
 }
 
-func element(tagName tagName:String, contents:String, attributes:[String:String] = [:]) throws -> Element {
-    let lowercaseTagName = tagName.lowercaseString
+func element(tagName:String, contents:String, attributes:[String:String] = [:]) throws -> Element {
+    let lowercaseTagName = tagName.lowercased()
 
     switch lowercaseTagName {
     case "p", "div":
@@ -60,28 +60,28 @@ func element(tagName tagName:String, contents:String, attributes:[String:String]
         return SimpleInlineElement(contents: contents, tagName: tagName, attributes: attributes)
         
     default:
-        throw ElementError.UnexpectedTagName(tagName)
+        throw ElementError.unexpectedTagName(tagName)
     }
 }
 
 func element(HTMLSnippet snippet:String) throws -> Element {
-    let doc = try NSXMLDocument(XMLString: snippet, options: Int(MPDefaultXMLDocumentParsingOptions))
+    let doc = try XMLDocument(xmlString: snippet, options: Int(MPDefaultXMLDocumentParsingOptions))
     
     if let root = doc.rootElement(), let rootTagName = root.name, let children = root.children {
         
         var attribs = [String:String]()
         for key in root.attributeKeys {
-            if let value = root.attributeForName(key)?.stringValue {
+            if let value = root.attribute(forName: key)?.stringValue {
                 attribs[key] = value
             }
         }
         
         let str = children.map {
-            return $0.XMLStringWithOptions(Int(MPDefaultXMLDocumentOutputOptions))
-        }.joinWithSeparator("")
+            return $0.xmlString(withOptions: Int(MPDefaultXMLDocumentOutputOptions))
+        }.joined(separator: "")
         
         return try element(tagName:rootTagName, contents:str, attributes: attribs)
     }
     
-    throw ElementError.UnexpectedSnippet(snippet)
+    throw ElementError.unexpectedSnippet(snippet)
 }

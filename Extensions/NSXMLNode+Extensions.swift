@@ -8,35 +8,35 @@
 
 import Foundation
 
-extension NSXMLNode {
+extension XMLNode {
     
-    public func split(atIndex index:UInt) -> (NSXMLNode, NSXMLNode) {
-        precondition(self.kind == .TextKind, "Attempting to split an unexpected kind of node: \(self.kind) (\(self))")
+    public func split(atIndex index:UInt) -> (XMLNode, XMLNode) {
+        precondition(self.kind == .text, "Attempting to split an unexpected kind of node: \(self.kind) (\(self))")
         
         guard let stringValue = self.stringValue else {
             preconditionFailure("Node \(self) has no string value and cannot be split at \(index)")
         }
         
-        let splitIndex = stringValue.startIndex.advancedBy(Int(index))
+        let splitIndex = stringValue.characters.index(stringValue.startIndex, offsetBy: Int(index))
         
-        let firstPartStr = stringValue.substringToIndex(splitIndex)
-        let firstPartNode = NSXMLNode(kind: .TextKind)
+        let firstPartStr = stringValue.substring(to: splitIndex)
+        let firstPartNode = XMLNode(kind: .text)
         firstPartNode.stringValue = firstPartStr
         
-        let secondPartStr = stringValue.substringFromIndex(splitIndex)
-        let secondPartNode = NSXMLNode(kind: .TextKind)
+        let secondPartStr = stringValue.substring(from: splitIndex)
+        let secondPartNode = XMLNode(kind: .text)
         secondPartNode.stringValue = secondPartStr
         
-        if let parentElem = self.parent as? NSXMLElement, let nodeIndex = parentElem.children?.indexOf(self) {
-            parentElem.removeChildAtIndex(nodeIndex)
-            parentElem.insertChild(secondPartNode, atIndex: nodeIndex)
-            parentElem.insertChild(firstPartNode, atIndex: nodeIndex)
+        if let parentElem = self.parent as? XMLElement, let nodeIndex = parentElem.children?.index(of: self) {
+            parentElem.removeChild(at: nodeIndex)
+            parentElem.insertChild(secondPartNode, at: nodeIndex)
+            parentElem.insertChild(firstPartNode, at: nodeIndex)
         }
         
         return (firstPartNode, secondPartNode)
     }
    
-    public func split(atIndices indices:[UInt]) -> [NSXMLNode] {
+    public func split(atIndices indices:[UInt]) -> [XMLNode] {
         if indices.count == 0 {
             return [self]
         }
@@ -45,7 +45,7 @@ extension NSXMLNode {
         let lastIndex = indices.count - 1
         var currentSplit = self
         
-        let splitNodes = indices.enumerate().flatMap { i, splitIndex -> [NSXMLNode] in
+        let splitNodes = indices.enumerated().flatMap { i, splitIndex -> [XMLNode] in
             let adjustedIndex = Int(splitIndex) - advance
             precondition(adjustedIndex >= 0)
             
@@ -68,22 +68,25 @@ extension NSXMLNode {
         return splitNodes
     }
     
-    public func extract(elementWithName elementName:String, range:Range<UInt>, contents:String? = nil, attributes:[String:String]? = nil) -> (before:NSXMLNode, extracted:NSXMLElement, after:NSXMLNode) {
-        let split = self.split(atIndices: [range.startIndex, range.endIndex])
+    public func extract(elementWithName elementName:String,
+                        range:CountableRange<UInt>,
+                        contents:String? = nil,
+                        attributes:[String:String]? = nil) -> (before:XMLNode, extracted:XMLElement, after:XMLNode) {
+        let split = self.split(atIndices: [range.lowerBound, range.upperBound])
         precondition(split.count == 3, "Unexpected split: \(split)")
         
         let extractedNode = split[1]
-        guard let parent = extractedNode.parent as? NSXMLElement else {
+        guard let parent = extractedNode.parent as? XMLElement else {
             preconditionFailure("Parent of \(extractedNode) is expected to be an element: \(extractedNode.parent)")
         }
         
-        let str = extractedNode.XMLStringWithOptions(Int(MPDefaultXMLDocumentParsingOptions))
-        let elem = NSXMLElement(name: elementName, stringValue: contents ?? str)
-        parent.replace(extractedNode, withNodes: [elem])
+        let str = extractedNode.xmlString(withOptions: Int(MPDefaultXMLDocumentParsingOptions))
+        let elem = XMLElement(name: elementName, stringValue: contents ?? str)
+        _ = parent.replace(extractedNode, withNodes: [elem])
         
         if let attributes = attributes {
             for (key, value) in attributes {
-                let attribNode = NSXMLNode(kind: .AttributeKind)
+                let attribNode = XMLNode(kind: .attribute)
                 attribNode.name = key
                 attribNode.stringValue = value
                 elem.addAttribute(attribNode)
@@ -93,11 +96,14 @@ extension NSXMLNode {
         return (split[0], elem, split[2])
     }
     
-    public func extract(elementsWithName elementName:String, ranges:[Range<UInt>], contents:[String]? = nil, attributes:[[String:String]]? = nil) -> [NSXMLNode] {
+    public func extract(elementsWithName elementName:String, ranges:[CountableRange<UInt>], contents:[String]? = nil, attributes:[[String:String]]? = nil) -> [XMLNode] {
         return self.extract(elementsWithNames:(0..<ranges.count).map { _ in elementName }, ranges:ranges, contents:contents, attributes:attributes)
     }
     
-    public func extract(elementsWithNames elementNames:[String], ranges:[Range<UInt>], contents:[String]? = nil, attributes:[[String:String]]? = nil) -> [NSXMLNode] {
+    public func extract(elementsWithNames elementNames:[String],
+                        ranges:[CountableRange<UInt>],
+                        contents:[String]? = nil,
+                        attributes:[[String:String]]? = nil) -> [XMLNode] {
         for ra in ranges {
             for rb in ranges {
                 if ra == rb { continue }
@@ -113,10 +119,12 @@ extension NSXMLNode {
         let lastIndex = ranges.count - 1
         var currentSplit = self
         
-        let splitNodes = ranges.enumerate().flatMap { i, splitRange -> [NSXMLNode] in
-            let adjustedStartIndex = Int(splitRange.startIndex) - advance
-            let adjustedEndIndex = Int(splitRange.endIndex) - advance
+        let splitNodes = ranges.enumerated().flatMap { i, splitRange -> [XMLNode] in
+            let adjustedStartIndex = Int(splitRange.lowerBound) - advance
+            let adjustedEndIndex = Int(splitRange.upperBound) - advance
+            
             let adjustedRange = UInt(adjustedStartIndex) ..< UInt(adjustedEndIndex)
+            
             precondition(splitRange.count == adjustedRange.count)
             
             let elemContents:String?
@@ -135,11 +143,15 @@ extension NSXMLNode {
                 attribs = nil
             }
             
-            let splitNodes = currentSplit.extract(elementWithName:elementNames[i], range:adjustedRange, contents:elemContents, attributes: attribs)
+            
+            let splitNodes = currentSplit.extract(elementWithName:elementNames[i],
+                                                  range:adjustedRange,
+                                                  contents:elemContents,
+                                                  attributes: attribs)
             
             let advanceBefore = advance
             
-            advance += Int(adjustedRange.endIndex)
+            advance += Int(adjustedRange.upperBound)
             
             currentSplit = splitNodes.after
             
@@ -157,21 +169,21 @@ extension NSXMLNode {
     }
 }
 
-extension NSXMLElement {
+extension XMLElement {
     
-    public func replace(child:NSXMLNode, withNodes:[NSXMLNode]) -> Int {
-        let iOpt = self.children?.indexOf(child)
+    public func replace(_ child:XMLNode, withNodes:[XMLNode]) -> Int {
+        let iOpt = self.children?.index(of: child)
         
         guard let i = iOpt else {
             preconditionFailure("Cannot find \(child) amongst children of \(self)")
         }
         
-        self.removeChildAtIndex(i)
+        self.removeChild(at: i)
         
         for j in 0 ..< withNodes.count {
-            let n:NSXMLNode = withNodes[j]
+            let n:XMLNode = withNodes[j]
             n.detach()
-            self.insertChild(n, atIndex: i+j)
+            self.insertChild(n, at: i+j)
         }
         
         return i

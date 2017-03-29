@@ -14,54 +14,54 @@ internal protocol JavaScriptEvaluator:Evaluator { }
 
 extension JavaScriptEvaluator {
 
-    static func decode(propertyListEncoded:AnyObject?) -> Processable? {
+    static func decode(_ propertyListEncoded:Any?) -> Processable? {
         if let n = propertyListEncoded as? NSNumber {
             if n.isFloatingPoint {
-                return .DoubleData(n.doubleValue)
+                return .doubleData(n.doubleValue)
             }
             else if n.isBoolean {
-                return .BoolData(n.boolValue)
+                return .boolData(n.boolValue)
             }
             else {
-                return .IntData(n.integerValue)
+                return .intData(n.intValue)
             }
         }
         else if let s = propertyListEncoded as? String {
-            return .StringData(s)
+            return .stringData(s)
         }
         else if let a = propertyListEncoded as? [AnyObject] {
-            return .PListEncodableArray(a)
+            return .pListEncodableArray(a)
         }
         else if let propertyListEncoded = propertyListEncoded {
-            return .PListEncodableScalar(propertyListEncoded)
+            return .pListEncodableScalar(propertyListEncoded)
         }
         else {
             return nil
         }
     }
 
-    static func encode(processable:Processable?) -> AnyObject? {
+    static func encode(_ processable:Processable?) -> Any? {
         guard let input = processable else {
             return NSNull()
         }
         
         switch input {
-        case .DoubleData(let d):
-            return NSNumber(double: d)
+        case .doubleData(let d):
+            return NSNumber(value: d as Double)
         
-        case .IntData(let i):
-            return NSNumber(integer:i)
+        case .intData(let i):
+            return NSNumber(value: i as Int)
         
-        case .BoolData(let b):
-            return NSNumber(bool: b)
+        case .boolData(let b):
+            return NSNumber(value: b as Bool)
             
-        case .PListEncodableArray(let ps):
+        case .pListEncodableArray(let ps):
             return ps
         
-        case .PListEncodableScalar(let p):
+        case .pListEncodableScalar(let p):
             return p
         
-        case .StringData(let str):
+        case .stringData(let str):
             return str
         }
     }
@@ -70,10 +70,10 @@ extension JavaScriptEvaluator {
 // MARK:
 // MARK: WebKit
 
-enum JavaScriptEvaluatorWebKitError:ErrorType {
-    case InvalidEvaluator(Evaluator)
-    case MissingContainingExtension(Evaluator)
-    case MissingResource(NSURL)
+enum JavaScriptEvaluatorWebKitError:Error {
+    case invalidEvaluator(Evaluator)
+    case missingContainingExtension(Evaluator)
+    case missingResource(URL)
 }
 
 typealias OutputHandlerBlock = @convention(block) (AnyObject?) -> Void
@@ -81,12 +81,12 @@ typealias InputHandlerBlock = @convention(block) (AnyObject?, OutputHandlerBlock
 //typealias ErrorHandlerBlock = @convention(block) (Int, String) -> Void
 
 final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingDelegate {
-    private(set) internal var webView:WebView
-    private(set) internal var isPresented: Bool
+    fileprivate(set) internal var webView:WebView
+    fileprivate(set) internal var isPresented: Bool
     
     internal(set) internal weak var containingExtension:Extension?
     
-    private var isLoaded: Bool = false
+    fileprivate var isLoaded: Bool = false
     
     internal var fileExtensions: Set<String> {
         return ["js"]
@@ -94,7 +94,7 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
     
     internal required init(evaluator: Evaluator, containingExtension:Extension) throws {
         guard let jsEvaluator = evaluator as? JavaScriptEvaluatorWebKit else {
-            throw JavaScriptEvaluatorWebKitError.InvalidEvaluator(evaluator)
+            throw JavaScriptEvaluatorWebKitError.invalidEvaluator(evaluator)
         }
         
         self.containingExtension = containingExtension
@@ -111,7 +111,7 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
         }
     }
     
-    private class func initialize(webView:WebView?) -> (isPresented:Bool, webView:WebView) {
+    fileprivate class func initialize(_ webView:WebView?) -> (isPresented:Bool, webView:WebView) {
         var returnedWebView:WebView
         var isPresented:Bool = webView != nil
         
@@ -143,14 +143,14 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
         //try self.load()
     }
     
-    private func load() throws -> Void {
+    fileprivate func load() throws -> Void {
         if (!self.isPresented) {
             self.webView.frameLoadDelegate = self
             self.webView.resourceLoadDelegate = self
             self.webView.policyDelegate = self
-            self.webView.UIDelegate = self
+            self.webView.uiDelegate = self
             self.webView.editingDelegate = self
-            self.webView.editable = false
+            self.webView.isEditable = false
             
             // WUT? Would this help with the issue we have with a "shadow caret"
             //self.webView.maintainsInactiveSelection = false
@@ -158,31 +158,32 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
             self.webView.setMaintainsBackForwardList(false)
         }
         
-        guard let evaluatorHTMLURL = self.containingExtension?.rootURL.URLByAppendingPathComponent("Contents/Resources/index.html") else {
-            throw JavaScriptEvaluatorWebKitError.MissingContainingExtension(self)
+        guard let evaluatorHTMLURL = self.containingExtension?.rootURL.appendingPathComponent("Contents/Resources/index.html") else {
+            throw JavaScriptEvaluatorWebKitError.missingContainingExtension(self)
         }
         
         let evaluatorLoadedBlock: @convention(block) (Void) -> Void = {
             self.evaluatorLoaded()
         }
         
-        if evaluatorHTMLURL.fileURL {
-            guard let path = evaluatorHTMLURL.path where NSFileManager.defaultManager().fileExistsAtPath(path) else {
-                throw JavaScriptEvaluatorWebKitError.MissingResource(evaluatorHTMLURL)
+        if evaluatorHTMLURL.isFileURL {
+            let path = evaluatorHTMLURL.path
+            guard FileManager.default.fileExists(atPath: path) else {
+                throw JavaScriptEvaluatorWebKitError.missingResource(evaluatorHTMLURL)
             }
         }
         
         self.webView.mainFrame.javaScriptContext.globalObject.setValue(
-            unsafeBitCast(evaluatorLoadedBlock, AnyObject.self), forProperty: "evaluatorLoaded")
+            unsafeBitCast(evaluatorLoadedBlock, to: AnyObject.self), forProperty: "evaluatorLoaded")
         
         self.webView.mainFrame.javaScriptContext.exceptionHandler = { context, exception in
             print("JS Exception during loading: \(exception)\n\(context)");
         }
         
-        self.webView.mainFrame.loadRequest(NSURLRequest(URL: evaluatorHTMLURL))
+        self.webView.mainFrame.load(URLRequest(url: evaluatorHTMLURL))
     }
     
-    private func evaluatorLoaded() {
+    fileprivate func evaluatorLoaded() {
         precondition(!self.isLoaded, "Evaluator \(self) should be loaded only once.")
         print("JS (WebKit) Evaluator loaded.")
         self.isLoaded = true
@@ -192,49 +193,49 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
         return "org.javascript.webkit"
     }
     
-    func evaluate(source: String,
+    func evaluate(_ source: String,
                          input:Processable?,
-                         outputHandler: (Processable?) -> Void,
-                         errorHandler: (EvaluatorError) -> Void) {
+                         outputHandler: @escaping (Processable?) -> Void,
+                         errorHandler: @escaping (EvaluatorError) -> Void) {
         while !self.isLoaded {
-            NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate:NSDate(timeIntervalSinceNow:0.01))
+            RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before:Date(timeIntervalSinceNow:0.01))
         }
         
         precondition(self.isLoaded, "Evaluator should already be loaded.")
         
         // needed to wrap the passed in output handler to an Objective-C conventioned block.
         let outputBlock:OutputHandlerBlock = {
-            if let decodedVal = self.dynamicType.decode($0) {
+            if let decodedVal = type(of: self).decode($0) {
                 return outputHandler(decodedVal)
             }
             else {
-                errorHandler(EvaluatorError.MissingReturnValue)
+                errorHandler(EvaluatorError.missingReturnValue)
             }
         }
 
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             let exportsDict = NSMutableDictionary()
             
             self.webView.mainFrame.javaScriptContext.globalObject.setValue(exportsDict, forProperty: "exports")
             
             self.webView.mainFrame.javaScriptContext.exceptionHandler = { context, exception in
                 print("JS Exception during loading: \(exception)\n\(context)")
-                errorHandler(EvaluatorError.EvaluationFailed(self.containingExtension, self, exception))
+                errorHandler(EvaluatorError.evaluationFailed(self.containingExtension, self, exception))
             }
             
             self.webView.windowScriptObject.evaluateWebScript(source)
 
-            guard let encodedInput = self.dynamicType.encode(input) else {
-                errorHandler(EvaluatorError.UnexpectedNilInput(self.containingExtension, self))
+            guard let encodedInput = type(of: self).encode(input) else {
+                errorHandler(EvaluatorError.unexpectedNilInput(self.containingExtension, self))
                 return
             }
             
-            guard let processFunc = self.webView.mainFrame.javaScriptContext.globalObject.valueForProperty("exports").valueForProperty("process") else {
-                errorHandler(EvaluatorError.MissingProcessFunction(self.containingExtension, self))
+            guard let processFunc = self.webView.mainFrame.javaScriptContext.globalObject.forProperty("exports").forProperty("process") else {
+                errorHandler(EvaluatorError.missingProcessFunction(self.containingExtension, self))
                 return
             }
             
-            processFunc.callWithArguments([encodedInput, unsafeBitCast(outputBlock, AnyObject.self)])
+            processFunc.call(withArguments: [encodedInput, unsafeBitCast(outputBlock, to: AnyObject.self)])
             
             self.webView.mainFrame.javaScriptContext.globalObject.setValue(nil, forProperty: "exports")
         }
@@ -280,10 +281,10 @@ public final class JavaScriptEvaluatorJSC: NSObject, JavaScriptEvaluator {
         preconditionFailure("Implement")
     }
     
-    func evaluate(source: String,
+    func evaluate(_ source: String,
                   input: Processable?,
-                  outputHandler: (Processable?) -> Void,
-                  errorHandler: (EvaluatorError) -> Void) {
+                  outputHandler: @escaping (Processable?) -> Void,
+                  errorHandler: @escaping (EvaluatorError) -> Void) {
         preconditionFailure("Implement me.")
     }
 }

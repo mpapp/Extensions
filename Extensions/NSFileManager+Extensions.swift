@@ -8,16 +8,14 @@
 
 import Foundation
 
-extension NSFileManager {
+extension FileManager {
 
-    func enumerate(rootDirectoryURL rootURL: NSURL, fileHandler:(URL:NSURL)->Void) throws {
-        guard let rootPath = rootURL.path else {
-            preconditionFailure("Invalid root URL: \(rootURL)")
-        }
+    func enumerate(rootDirectoryURL rootURL: URL, fileHandler:(_ URL:URL)->Void) throws {
+        let rootPath = rootURL.path
         
-        let subs = try NSFileManager.defaultManager().subpathsOfDirectoryAtPath(rootPath)
+        let subs = try FileManager.default.subpathsOfDirectory(atPath: rootPath)
         for sub in subs {
-            fileHandler(URL: rootURL.URLByAppendingPathComponent(sub)!)
+            fileHandler(rootURL.appendingPathComponent(sub))
         }
     }
     

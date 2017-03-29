@@ -9,8 +9,8 @@
 import Foundation
 
 public protocol FragmentProcessor {
-    func process(textNode node:NSXMLNode) throws -> [NSXMLNode]
-    func processedResult(textNode:NSXMLNode, output:String) -> Void
+    func process(textNode node:XMLNode) throws -> [XMLNode]
+    func processedResult(_ textNode:XMLNode, output:String) -> Void
     
     // Overload these methods.
     
@@ -22,7 +22,7 @@ public protocol FragmentProcessor {
 }
 
 public extension FragmentProcessor {
-    func process(textNode node:NSXMLNode) throws -> [NSXMLNode] {
+    func process(textNode node:XMLNode) throws -> [XMLNode] {
         
         guard let stringValue = node.stringValue else {
             return [node]
@@ -37,8 +37,8 @@ public extension FragmentProcessor {
         }
         
         if self.producesNodesForReplacedResults {
-            let fragmentNodes = fragments.map { (str:String) -> NSXMLNode in
-                let newNode = NSXMLNode(kind: .TextKind)
+            let fragmentNodes = fragments.map { (str:String) -> XMLNode in
+                let newNode = XMLNode(kind: .text)
                 newNode.setStringValue(str, resolvingEntities: false)
                 
                 return newNode
@@ -50,7 +50,7 @@ public extension FragmentProcessor {
         return [node]
     }
     
-    func processedResult(textNode:NSXMLNode, output:String) -> Void {
+    func processedResult(_ textNode:XMLNode, output:String) -> Void {
         // Overload at will.
     }
 }

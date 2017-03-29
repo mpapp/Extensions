@@ -16,7 +16,7 @@ public protocol Element: class, HTMLSnippetRepresentable, CustomStringConvertibl
 
 public extension Element {
     var description:String {
-        return "<\(String(self.dynamicType)) tagName:\(tagName) contents:\(contents) attributes:\(attributes)>"
+        return "<\(String(describing: type(of: self))) tagName:\(tagName) contents:\(contents) attributes:\(attributes)>"
     }
 }
 

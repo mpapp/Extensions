@@ -9,150 +9,150 @@
 import Foundation
 import Freddy
 
-@objc public class SimpleBibliographyItem: NSObject, BibliographyItem, JSONDecodable, JSONEncodable {
+@objc open class SimpleBibliographyItem: NSObject, BibliographyItem, JSONDecodable, JSONEncodable {
 
-    public var author: [BibliographicName]? = nil
+    open var author: [BibliographicName]? = nil
     
-    public var accessed: BibliographicDate? = nil
+    open var accessed: BibliographicDate? = nil
     
-    public var eventDate: BibliographicDate? = nil
+    open var eventDate: BibliographicDate? = nil
     
-    public var submitted: BibliographicDate? = nil
+    open var submitted: BibliographicDate? = nil
     
-    public var issued: BibliographicDate? = nil
+    open var issued: BibliographicDate? = nil
 
-    public var originalDate: BibliographicDate? = nil
+    open var originalDate: BibliographicDate? = nil
     
-    public var abstract:String? = nil
+    open var abstract:String? = nil
     
-    public var annote:String? = nil
+    open var annote:String? = nil
     
-    public var archive:String? = nil
+    open var archive:String? = nil
     
-    public var archiveLocation:String? = nil
+    open var archiveLocation:String? = nil
     
-    public var archivePlace:String? = nil
+    open var archivePlace:String? = nil
     
-    public var authority:String? = nil
+    open var authority:String? = nil
     
-    public var callNumber:String? = nil
+    open var callNumber:String? = nil
     
-    public var chapterNumber:Int = 0
+    open var chapterNumber:Int = 0
     
-    public var citationLabel:String? = nil
+    open var citationLabel:String? = nil
     
-    public var collectionEditor:String? = nil
+    open var collectionEditor:String? = nil
     
-    public var collectionNumber:String? = nil
+    open var collectionNumber:String? = nil
     
-    public var collectionTitle:String? = nil
+    open var collectionTitle:String? = nil
     
-    public var composer:String? = nil
+    open var composer:String? = nil
     
-    public var containerAuthor:String? = nil
+    open var containerAuthor:String? = nil
     
-    public var containerTitle:String? = nil
+    open var containerTitle:String? = nil
     
-    public var containerTitleShort:String? = nil
+    open var containerTitleShort:String? = nil
     
-    public var dimensions:String? = nil
+    open var dimensions:String? = nil
     
-    public var director:String? = nil
+    open var director:String? = nil
     
-    public var DOI:String? = nil
+    open var DOI:String? = nil
     
-    public var edition:Int = 0
+    open var edition:Int = 0
     
-    public var editor:String? = nil
+    open var editor:String? = nil
     
-    public var editorialDirector:String? = nil
+    open var editorialDirector:String? = nil
     
-    public var event:String? = nil
+    open var event:String? = nil
     
-    public var eventPlace:String? = nil
+    open var eventPlace:String? = nil
     
-    public var genre:String? = nil
+    open var genre:String? = nil
     
-    public var illustrator:String? = nil
+    open var illustrator:String? = nil
     
-    public var interviewer:String? = nil
+    open var interviewer:String? = nil
     
-    public var ISBN:String? = nil
+    open var ISBN:String? = nil
     
-    public var ISSN:String? = nil
+    open var ISSN:String? = nil
     
-    public var issue:Int = 0
+    open var issue:Int = 0
     
-    public var jurisdiction:String? = nil
+    open var jurisdiction:String? = nil
     
-    public var keyword:String? = nil
+    open var keyword:String? = nil
     
-    public var language:String? = nil
+    open var language:String? = nil
     
-    public var locator:String? = nil
+    open var locator:String? = nil
     
-    public var medium:String? = nil
+    open var medium:String? = nil
     
-    public var note:String? = nil
+    open var note:String? = nil
     
-    public var number:Int = 0
+    open var number:Int = 0
     
-    public var numberOfPages:Int = 0
+    open var numberOfPages:Int = 0
     
-    public var numberOfVolumes:Int = 0
+    open var numberOfVolumes:Int = 0
     
-    public var originalPublisher:String? = nil
+    open var originalPublisher:String? = nil
     
-    public var originalPublisherPlace:String? = nil
+    open var originalPublisherPlace:String? = nil
     
-    public var originalTitle:String? = nil
+    open var originalTitle:String? = nil
     
-    public var page:String? = nil
+    open var page:String? = nil
     
-    public var pageFirst:String? = nil
+    open var pageFirst:String? = nil
     
-    public var PMCID:String? = nil
+    open var PMCID:String? = nil
     
-    public var PMID:String? = nil
+    open var PMID:String? = nil
     
-    public var publisher:String? = nil
+    open var publisher:String? = nil
     
-    public var publisherPlace:String? = nil
+    open var publisherPlace:String? = nil
     
-    public var recipient:String? = nil
+    open var recipient:String? = nil
     
-    public var references:String? = nil
+    open var references:String? = nil
     
-    public var reviewedAuthor:String? = nil
+    open var reviewedAuthor:String? = nil
     
-    public var reviewedTitle:String? = nil
+    open var reviewedTitle:String? = nil
      
-    public var scale:String? = nil
+    open var scale:String? = nil
     
-    public var section:String? = nil
+    open var section:String? = nil
     
-    public var source:String? = nil
+    open var source:String? = nil
     
-    public var status:String? = nil
+    open var status:String? = nil
     
-    public var title:String? = nil
+    open var title:String? = nil
     
-    public var titleShort:String? = nil
+    open var titleShort:String? = nil
     
-    public var translator:String? = nil
+    open var translator:String? = nil
     
-    public var URL:NSURL? = nil
+    open var URL:Foundation.URL? = nil
     
-    public var version:String? = nil
+    open var version:String? = nil
     
-    public var volume:String? = nil
+    open var volume:String? = nil
     
-    public var yearSuffix:String? = nil
+    open var yearSuffix:String? = nil
     
-    public var institution:String? = nil
+    open var institution:String? = nil
     
-    public func toJSON() -> JSON {
-        let data = try! NSJSONSerialization.dataWithJSONObject(self.dictionaryRepresentation, options: [])
+    open func toJSON() -> JSON {
+        let data = try! JSONSerialization.data(withJSONObject: self.dictionaryRepresentation, options: [])
         return try! JSON(data:data)
     }
     
@@ -161,124 +161,121 @@ import Freddy
     }
     
     public required init(json: JSON) throws {
-        do { self.author = try json.arrayOf("author", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicName.self) } catch { }
-        do { self.accessed = try json.decode("accessed", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
-        do { self.eventDate = try json.decode("event-date", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
-        do { self.submitted = try json.decode("submitted", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
-        do { self.issued = try json.decode("issued", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
-        do { self.originalDate = try json.decode("original-date", alongPath:[.MissingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
-        
-        do { self.abstract = try json.string("abstract", alongPath: [.MissingKeyBecomesNil]) } catch {}
 
-        do { self.annote = try json.string("annote", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.archive = try json.string("archive", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.archiveLocation = try json.string("archive-location", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.archivePlace = try json.string("archive-place", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.authority = try json.string("authority", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.callNumber = try json.string("call-number", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.author = try json.decodedArray(at: "author", alongPath:[.missingKeyBecomesNil], type:SimpleBibliographicName.self) } catch { }
+        do { self.accessed = try json.decode(at: "accessed", alongPath:[.missingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
+        do { self.eventDate = try json.decode(at: "event-date", alongPath:[.missingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
+        do { self.submitted = try json.decode(at: "submitted", alongPath:[.missingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
+        do { self.issued = try json.decode(at: "issued", alongPath:[.missingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
+        do { self.originalDate = try json.decode(at: "original-date", alongPath:[.missingKeyBecomesNil], type:SimpleBibliographicDate.self) } catch { }
+        
+        do { self.abstract = try json.getString(at: "abstract", alongPath: [.missingKeyBecomesNil]) } catch {}
+
+        do { self.annote = try json.getString(at: "annote", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.archive = try json.getString(at: "archive", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.archiveLocation = try json.getString(at: "archive-location", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.archivePlace = try json.getString(at: "archive-place", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.authority = try json.getString(at: "authority", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.callNumber = try json.getString(at: "call-number", alongPath: [.missingKeyBecomesNil]) } catch {}
         
         do {
-            if let chapterNumber = Int(try json.string("chapter-number")) {
+            if let chapterNumber = Int(try json.getString(at: "chapter-number")) {
                 self.chapterNumber = chapterNumber
             }
         } catch {}
         
-        do { self.citationLabel = try json.string("citation-label", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.collectionEditor = try json.string("collection-editor", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.collectionNumber = try json.string("collection-number", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.collectionTitle = try json.string("collection-title", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.composer = try json.string("composer", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.citationLabel = try json.getString(at: "citation-label", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.collectionEditor = try json.getString(at: "collection-editor", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.collectionNumber = try json.getString(at: "collection-number", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.collectionTitle = try json.getString(at: "collection-title", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.composer = try json.getString(at: "composer", alongPath: [.missingKeyBecomesNil]) } catch {}
         
-        do { self.containerAuthor = try json.string("container-author", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.containerTitle = try json.string("container-title", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.containerTitleShort = try json.string("container-title-short", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.dimensions = try json.string("dimensions", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.director = try json.string("director", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.DOI = try json.string("DOI", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.containerAuthor = try json.getString(at: "container-author", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.containerTitle = try json.getString(at: "container-title", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.containerTitleShort = try json.getString(at: "container-title-short", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.dimensions = try json.getString(at: "dimensions", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.director = try json.getString(at: "director", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.DOI = try json.getString(at: "DOI", alongPath: [.missingKeyBecomesNil]) } catch {}
         
         do {
-            if let edition = Int(try json.string("edition")) {
+            if let edition = Int(try json.getString(at: "edition")) {
                 self.edition = edition
             }
         } catch {}
         
-        do { self.editor = try json.string("editor", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.editorialDirector = try json.string("editorial-director", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.event = try json.string("event", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.eventPlace = try json.string("event-place", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.genre = try json.string("genre", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.illustrator = try json.string("illustrator", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.interviewer = try json.string("interviewer", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.ISBN = try json.string("ISBN", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.editor = try json.getString(at: "editor", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.editorialDirector = try json.getString(at: "editorial-director", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.event = try json.getString(at: "event", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.eventPlace = try json.getString(at: "event-place", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.genre = try json.getString(at: "genre", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.illustrator = try json.getString(at: "illustrator", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.interviewer = try json.getString(at: "interviewer", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.ISBN = try json.getString(at: "ISBN", alongPath: [.missingKeyBecomesNil]) } catch {}
         
         do {
-            self.ISSN = try json.string("ISSN", alongPath: [.MissingKeyBecomesNil])
+            self.ISSN = try json.getString(at: "ISSN", alongPath: [.missingKeyBecomesNil])
         }
         catch {
-            do { self.ISSN = try json.array("ISSN", alongPath: [.MissingKeyBecomesNil])?.first?.decode(type:String.self) }
+            do { self.ISSN = try json.getArray(at: "ISSN", alongPath: [.missingKeyBecomesNil])?.first?.decode(type:String.self) }
             catch { }
         }
 
-        do {
-            if let issue = Int(try json.string(issue)) {
-                self.issue = issue
-            }
-        } catch {}
+        do { if let issue = Int(try json.getString(at: "issue")) { self.issue = issue } } catch {}
             
-        do { self.jurisdiction = try json.string("jurisdiction", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.keyword = try json.string("keyword", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.language = try json.string("language", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.locator = try json.string("locator", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.medium = try json.string("medium", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.note = try json.string("note", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.jurisdiction = try json.getString(at: "jurisdiction", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.keyword = try json.getString(at: "keyword", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.language = try json.getString(at: "language", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.locator = try json.getString(at: "locator", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.medium = try json.getString(at: "medium", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.note = try json.getString(at: "note", alongPath: [.missingKeyBecomesNil]) } catch {}
         
-        do { if let number = Int(try json.string("number")) { self.number = number } } catch {}
-        do { if let numberOfPages = Int(try json.string("number-of-pages")) { self.numberOfPages = numberOfPages } } catch {}
-        do { if let numberOfVolumes = Int(try json.string("number-of-volumes")) { self.numberOfVolumes = numberOfVolumes } } catch {}
+        do { if let number = Int(try json.getString(at: "number")) { self.number = number } } catch {}
+        do { if let numberOfPages = Int(try json.getString(at: "number-of-pages")) { self.numberOfPages = numberOfPages } } catch {}
+        do { if let numberOfVolumes = Int(try json.getString(at: "number-of-volumes")) { self.numberOfVolumes = numberOfVolumes } } catch {}
         
-        do { self.originalPublisher = try json.string("original-publisher", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.originalPublisherPlace = try json.string("original-publisher-place", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.originalTitle = try json.string("original-title", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.page = try json.string("page", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.pageFirst = try json.string("page-first", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.PMCID = try json.string("PMCID", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.PMID = try json.string("PMID", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.publisher = try json.string("publisher", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.publisherPlace = try json.string("publisher-place", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.recipient = try json.string("recipient", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.references = try json.string("references", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.reviewedAuthor = try json.string("reviewed-author", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.reviewedTitle = try json.string("reviewed-title", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.scale = try json.string("scale", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.section = try json.string("section", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.source = try json.string("source", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.status = try json.string("status", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.title = try json.string("title", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.titleShort = try json.string("title-short", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.translator = try json.string("translator", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.originalPublisher = try json.getString(at: "original-publisher", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.originalPublisherPlace = try json.getString(at: "original-publisher-place", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.originalTitle = try json.getString(at: "original-title", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.page = try json.getString(at: "page", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.pageFirst = try json.getString(at: "page-first", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.PMCID = try json.getString(at: "PMCID", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.PMID = try json.getString(at: "PMID", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.publisher = try json.getString(at: "publisher", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.publisherPlace = try json.getString(at: "publisher-place", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.recipient = try json.getString(at: "recipient", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.references = try json.getString(at: "references", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.reviewedAuthor = try json.getString(at: "reviewed-author", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.reviewedTitle = try json.getString(at: "reviewed-title", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.scale = try json.getString(at: "scale", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.section = try json.getString(at: "section", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.source = try json.getString(at: "source", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.status = try json.getString(at: "status", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.title = try json.getString(at: "title", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.titleShort = try json.getString(at: "title-short", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.translator = try json.getString(at: "translator", alongPath: [.missingKeyBecomesNil]) } catch {}
         
         do {
-            if let url = NSURL(string:try json.string("URL")) {
+            if let url = Foundation.URL(string:try json.getString(at: "URL")) {
                 self.URL = url
             }
         } catch {}
             
-        do { self.version = try json.string("version", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.volume = try json.string("volume", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.yearSuffix = try json.string("year-suffix", alongPath: [.MissingKeyBecomesNil]) } catch {}
-        do { self.institution = try json.string("institution", alongPath: [.MissingKeyBecomesNil]) } catch {}
+        do { self.version = try json.getString(at: "version", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.volume = try json.getString(at: "volume", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.yearSuffix = try json.getString(at: "year-suffix", alongPath: [.missingKeyBecomesNil]) } catch {}
+        do { self.institution = try json.getString(at: "institution", alongPath: [.missingKeyBecomesNil]) } catch {}
     }
     
     deinit {
         
     }
     
-    public var dictionaryRepresentation:[String : AnyObject] {
-        var dict = [String:AnyObject]()
+    open var dictionaryRepresentation:[String : Any] {
+        var dict = [String:Any]()
         
         if let authors = self.author {
             let authorDicts = authors.map { $0.dictionaryRepresentation }
-            dict["author"] = authorDicts
+            dict["author"] = authorDicts as AnyObject?
         }
         
         if let abstract = self.abstract { dict["abstract"] = abstract }
@@ -293,7 +290,7 @@ import Freddy
         if let collectionEditor = self.collectionEditor { dict["collection-editor"] = collectionEditor }
         if let collectionNumber = self.collectionNumber { dict["collection-number"] = collectionNumber }
         if let collectionTitle = self.collectionTitle { dict["collection-title"] = collectionTitle }
-        if let composer = self.composer { dict["composer"] = composer }
+        if let composer = self.composer { dict["composer"] = composer as AnyObject? }
         
         if let containerAuthor = self.containerAuthor { dict["container-author"] = containerAuthor }
         if let containerTitle = self.containerTitle { dict["container-title"] = containerTitle }
@@ -351,30 +348,30 @@ import Freddy
         return dict
     }
     
-    public var tagName:String {
+    open var tagName:String {
         return "span"
     }
     
-    public var innerHTML:String {
+    open var innerHTML:String {
         if let citationLabel = self.citationLabel {
             return "\(citationLabel)"
         }
-        else if let author = self.author?.first where author.family != nil {
+        else if let author = self.author?.first, author.family != nil {
             var str = "\(author.family)"
             
-            let authorCount = self.author?.count
-            
-            if authorCount == 2 {
-                if let secondAuthor = self.author?[1] where secondAuthor.family != nil {
-                    str += " & \(secondAuthor.family)"
+            if let authorCount = self.author?.count {
+                if authorCount == 2 {
+                    if let secondAuthor = self.author?[1], secondAuthor.family != nil {
+                        str += " & \(secondAuthor.family)"
+                    }
                 }
-            }
-            else if authorCount > 2 {
-                str += " et al."
+                else if authorCount > 2 {
+                    str += " et al."
+                }
             }
             
             if let issuedDate = self.issued {
-                if let dateParts = issuedDate.dateParts where dateParts.count > 0 {
+                if let dateParts = issuedDate.dateParts, dateParts.count > 0 {
                     str += " (\(dateParts.first))"
                 }
                 else if let literal = issuedDate.literal {
@@ -391,7 +388,7 @@ import Freddy
         return "Unknown"
     }
     
-    public var attributes: [String : String] {
+    open var attributes: [String : String] {
         return [:]
     }
 }

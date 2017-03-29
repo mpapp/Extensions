@@ -14,8 +14,8 @@ public struct DigitalObjectIdentifier:Resolvable {
     public let originatingString: String
     
     public init(originatingString: String) throws {
-        guard (originatingString as NSString).isMatchedByRegex(self.dynamicType.capturingPattern()) else {
-            throw ResolvingError.NotResolvable("\(originatingString) does not look like a PDB ID.")
+        guard (originatingString as NSString).isMatched(byRegex: type(of: self).capturingPattern()) else {
+            throw ResolvingError.notResolvable("\(originatingString) does not look like a PDB ID.")
         }
         
         self.originatingString = originatingString
@@ -28,12 +28,12 @@ public struct DigitalObjectIdentifier:Resolvable {
 
 public struct DigitalObjectIdentifierResolver: URLBasedResolver {
     
-    private let _baseURL:NSURL
-    public func baseURL() -> NSURL {
+    fileprivate let _baseURL:URL
+    public func baseURL() -> URL {
         return self._baseURL
     }
     
-    public init(baseURL:NSURL = NSURL(string:"http://dx.doi.org")!) {
+    public init(baseURL:URL = URL(string:"http://dx.doi.org")!) {
         self._baseURL = baseURL
     }
     
@@ -43,37 +43,37 @@ public struct DigitalObjectIdentifierResolver: URLBasedResolver {
         return DigitalObjectIdentifier.self
     }()
     
-    public func resolve(string: String) throws -> ResolvedResult {
+    public func resolve(_ string: String) throws -> ResolvedResult {
         let DOI = try DigitalObjectIdentifier(originatingString:string)
         let items = try self.bibliographyItems(DOI: DOI)
         guard items.count > 0 else {
-            return ResolvedResult(resolvable:DOI, result:.None)
+            return ResolvedResult(resolvable:DOI, result:.none)
         }
         
-        return ResolvedResult(resolvable:DOI, result:.BibliographyItems(items))
+        return ResolvedResult(resolvable:DOI, result:.bibliographyItems(items))
     }
     
-    private func bibliographyItems(DOI DOI:DigitalObjectIdentifier) throws -> [BibliographyItem] {
+    fileprivate func bibliographyItems(DOI:DigitalObjectIdentifier) throws -> [BibliographyItem] {
         let baseURL = self.baseURL()
-        guard let components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: false) else {
-            throw ResolvingError.InvalidResolverURL(baseURL)
+        guard var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false) else {
+            throw ResolvingError.invalidResolverURL(baseURL)
         }
-        components.path = components.path?.stringByAppendingString("/").stringByAppendingString(DOI.identifier)
+        components.path = (components.path + "/") + DOI.identifier
         
-        guard let queryURL = components.URL else {
-            throw ResolvingError.InvalidResolverURLComponents(components)
+        guard let queryURL = components.url else {
+            throw ResolvingError.invalidResolverURLComponents(components)
         }
         
-        let req = NSMutableURLRequest(URL: queryURL)
+        var req = URLRequest(url: queryURL)
         req.setValue("application/citeproc+json", forHTTPHeaderField: "Accept")
         
         let response = try NSURLConnection.sendRateLimitedSynchronousRequest(req, rateLimitLabel: self.rateLimitLabel, rateLimit: self.rateLimit)
         
         guard response.statusCode.marksSuccess else {
-            throw ResolvingError.UnexpectedStatusCode(response.statusCode)
+            throw ResolvingError.unexpectedStatusCode(response.statusCode)
         }
         
-        let responseString = String(data:response.data, encoding:NSUTF8StringEncoding)
+        let responseString = String(data:response.data, encoding:String.Encoding.utf8)
         print("Response:\n\n\(responseString)")
         
         let json = try JSON(data: response.data)
