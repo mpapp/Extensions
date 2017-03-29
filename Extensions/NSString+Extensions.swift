@@ -16,7 +16,7 @@ public extension NSString {
             return NSRange(location: characterView.distance(from: characterView.startIndex, to: range.lowerBound),
                            length: characterView.distance(from: range.lowerBound, to: range.upperBound))
         }
-        
+
         return items as NSArray
     }
 }

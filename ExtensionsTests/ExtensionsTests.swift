@@ -18,8 +18,11 @@ extension String {
         }
         let characterView = self.characters
         let p = Int(maxPadding)
-        let r = characterView.index(range.lowerBound, offsetBy: -p, limitedBy: self.startIndex)!
-            ..< characterView.index(range.upperBound, offsetBy: p, limitedBy: self.endIndex)!
+        
+        let r = (characterView.index(range.lowerBound, offsetBy: -p, limitedBy: characterView.startIndex) ?? characterView.startIndex)
+                ..<
+                (characterView.index(range.upperBound, offsetBy: p, limitedBy: characterView.endIndex) ?? characterView.endIndex)
+        
         return self.substring(with: r)
     }
 }
