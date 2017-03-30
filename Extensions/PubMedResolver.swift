@@ -25,7 +25,7 @@ public struct PubMedIdentifier: Resolvable {
             evaluatedID = uppercaseString
         }
         
-        guard (evaluatedID as NSString).isMatchedBy(regex: type(of: self).capturingPattern()) else {
+        guard (evaluatedID as NSString).isMatched(byRegex: type(of: self).capturingPattern()) else {
             throw ResolvingError.notResolvable(evaluatedID)
         }
         

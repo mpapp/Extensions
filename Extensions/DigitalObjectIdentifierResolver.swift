@@ -14,7 +14,7 @@ public struct DigitalObjectIdentifier:Resolvable {
     public let originatingString: String
     
     public init(originatingString: String) throws {
-        guard (originatingString as NSString).isMatchedBy(regex: type(of: self).capturingPattern()) else {
+        guard (originatingString as NSString).isMatched(byRegex: type(of: self).capturingPattern()) else {
             throw ResolvingError.notResolvable("\(originatingString) does not look like a PDB ID.")
         }
         

@@ -31,7 +31,7 @@ extension String {
         let capturedRanges = patterns.flatMap { pattern -> [CountableClosedRange<UInt>] in
             var ranges = [CountableClosedRange<UInt>]()
             
-            (self as NSString).enumerate(stringsMatchingRegex: pattern, with: { (captureCount, _, capturedRanges:UnsafePointer<NSRange>?, _) in
+            (self as NSString).enumerateStrings(matchingRegex: pattern, with: { (captureCount, _, capturedRanges:UnsafePointer<NSRange>?, _) in
                 guard let captRanges = capturedRanges else {
                     return
                 }
@@ -58,7 +58,7 @@ extension String {
     public func componentsSeparated(tokenizingPatterns patterns:[String]) -> [String] {
         var tokenizedStrings = [self]
         for p in patterns {
-            let cs = (self as NSString).components(separatedByRegex: p) as! [String]
+            let cs = (self as NSString).componentsSeparated(byRegex: p) as! [String]
             if cs.count > 1 {
                 tokenizedStrings = cs
                 break

@@ -20,12 +20,12 @@ public struct ProteinDataBankIdentifier:Resolvable {
             throw ResolvingError.notResolvable("\(originatingString) contains lowercase characters and therefore cannot be a PDB ID.")
         }
         
-        guard (originatingString as NSString).isMatchedBy(regex: type(of: self).identifierValidationPattern()) else {
+        guard (originatingString as NSString).isMatched(byRegex: type(of: self).identifierValidationPattern()) else {
             throw ResolvingError.notResolvable("\(originatingString) does not look like a PDB ID.")
         }
         
         self.originatingString = originatingString
-        self.identifier = (originatingString as NSString).replacing(occurrencesOfRegex: "PDB\\s{0,1}I{0,1}D{0,1}\\s{0,1}", with: "")
+        self.identifier = (originatingString as NSString).replacingOccurrences(ofRegex: "PDB\\s{0,1}I{0,1}D{0,1}\\s{0,1}", with: "")
     }
     
     // Some examples of matching strings:

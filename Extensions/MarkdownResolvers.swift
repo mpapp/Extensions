@@ -14,7 +14,7 @@ open class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
     
     public required init(originatingString: String) throws {
         // pattern matches paired * *'s in between one or more characters between word boundaries.
-        guard (originatingString as NSString).isMatchedBy(regex: type(of: self).capturingPattern()) else {
+        guard (originatingString as NSString).isMatched(byRegex: type(of: self).capturingPattern()) else {
             throw ResolvingError.notResolvable(originatingString)
         }
         
