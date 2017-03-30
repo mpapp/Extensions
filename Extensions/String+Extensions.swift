@@ -30,7 +30,8 @@ extension String {
     public func capturedCharacterIndexRanges(capturingPatterns patterns:[String]) -> [CountableClosedRange<UInt>] {
         let capturedRanges = patterns.flatMap { pattern -> [CountableClosedRange<UInt>] in
             var ranges = [CountableClosedRange<UInt>]()
-            (self as NSString).enumerateStringsMatched(byRegex: pattern, using: { (captureCount, _, capturedRanges:UnsafePointer<NSRange>?, _) in
+            
+            (self as NSString).enumerate(stringsMatchingRegex: pattern, with: { (captureCount, _, capturedRanges:UnsafePointer<NSRange>?, _) in
                 guard let captRanges = capturedRanges else {
                     return
                 }
@@ -70,7 +71,7 @@ extension String {
     public func componentsCaptured(capturingPatterns patterns:[String]) -> [String] {
         var capturedStrings = [String]()
         for p in patterns {
-            guard let cs = (self as NSString).captureComponentsMatched(byRegex: p) as? [String], cs.count > 0 else {
+            guard let cs = (self as NSString).captureComponents(matchedByRegex: p) as? [String], cs.count > 0 else {
                 continue
             }
             

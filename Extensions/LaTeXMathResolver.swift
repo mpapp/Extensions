@@ -14,12 +14,12 @@ public struct InlineLaTeXFragment:Resolvable {
     public let originatingString: String
     
     public init(originatingString: String) throws {
-        guard (originatingString as NSString).isMatched(byRegex: type(of: self).capturingPattern()) else {
+        guard (originatingString as NSString).isMatchedBy(regex: type(of: self).capturingPattern()) else {
             throw ResolvingError.notResolvable("\(originatingString) does not look like a PDB ID.")
         }
         
         self.originatingString = originatingString
-        self.identifier = (originatingString as NSString).captureComponentsMatched(byRegex: type(of: self).contentCapturingPattern())[1] as! String
+        self.identifier = (originatingString as NSString).captureComponents(matchedByRegex: type(of: self).contentCapturingPattern())[1] as! String
     }
     
     public static func capturingPattern() -> String { return "(\\b\\$.+\\$\\b)" }

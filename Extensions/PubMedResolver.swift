@@ -25,12 +25,12 @@ public struct PubMedIdentifier: Resolvable {
             evaluatedID = uppercaseString
         }
         
-        guard (evaluatedID as NSString).isMatched(byRegex: type(of: self).capturingPattern()) else {
+        guard (evaluatedID as NSString).isMatchedBy(regex: type(of: self).capturingPattern()) else {
             throw ResolvingError.notResolvable(evaluatedID)
         }
         
         self.originatingString = originatingString
-        self.identifier = (evaluatedID as NSString).captureComponentsMatched(byRegex: type(of: self).contentCapturingPattern())[1] as! String
+        self.identifier = (evaluatedID as NSString).captureComponents(matchedByRegex: type(of: self).contentCapturingPattern())[1] as! String
     }
     
     public static func capturingPattern() -> String {

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RegexKitLite
 
 public enum DocumentProcessorError : Error {
     case referenceIDAttributeMissing(XMLElement)
