@@ -42,7 +42,7 @@ public protocol DocumentProcessor {
     
     func processedDocument(inputDocument doc:XMLDocument, inPlace:Bool) throws -> XMLDocument
     
-    func processedDocumentString(inputDocumentString docString:NSString) throws -> String
+    func processedDocumentString(inputDocumentString docString:String) throws -> String
 }
 
 
@@ -58,8 +58,8 @@ public extension DocumentProcessor {
         return outputDoc
     }
     
-    public func processedDocumentString(inputDocumentString docString:NSString) throws -> String {
-        guard let docData = docString.data(using: String.Encoding.utf8.rawValue) else {
+    public func processedDocumentString(inputDocumentString docString:String) throws -> String {
+        guard let docData = docString.data(using: .utf8) else {
             throw DocumentProcessorError.failedToRepresentStringAsData(docString)
         }
         
