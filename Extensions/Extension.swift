@@ -114,7 +114,7 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
     
     fileprivate func sourceContents(_ procedure:Procedure) throws -> String {
         let URL = self.rootURL.appendingPathComponent("Contents/Resources").appendingPathComponent(procedure.source)
-        return try NSString(contentsOf: URL, encoding: String.Encoding.utf8.rawValue) as String
+        return try String(contentsOf: URL, encoding: .utf8)
     }
     
     fileprivate func outputHandler(_ state:ExtensionState) -> (_ output: Processable?) -> Void {

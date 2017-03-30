@@ -24,7 +24,7 @@ extension NSURLConnection {
         
         var responseData:Data? = nil
         var responseCode:HTTPStatusCode? = nil
-        var responseError:NSError? = nil
+        var responseError:Swift.Error? = nil
         
         let group = DispatchGroup()
         group.enter()
@@ -35,7 +35,7 @@ extension NSURLConnection {
                 responseData = data
             }
             
-            responseError = err as NSError?
+            responseError = err
             group.leave()
         }).resume()
         

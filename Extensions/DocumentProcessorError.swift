@@ -10,10 +10,10 @@ import Foundation
 
 public enum DocumentProcessorError : Error {
     case referenceIDAttributeMissing(XMLElement)
-    case referenceUnresolvable(NSString)
+    case referenceUnresolvable(String)
     case unexpectedParentNode(XMLNode?)
     case unexpectedChildIndex(XMLNode)
-    case failedToRepresentStringAsData(NSString)
+    case failedToRepresentStringAsData(String)
     case unexpectedNodeType(XMLNode)
     case failedToRepresentDataInUTF8(Data)
 }
