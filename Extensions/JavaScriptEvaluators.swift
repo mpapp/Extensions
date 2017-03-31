@@ -177,7 +177,7 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
             unsafeBitCast(evaluatorLoadedBlock, to: AnyObject.self), forProperty: "evaluatorLoaded")
         
         self.webView.mainFrame.javaScriptContext.exceptionHandler = { context, exception in
-            print("JS Exception during loading: \(exception)\n\(context)");
+            print("JS Exception during loading: \(exception!)\n\(context!)");
         }
         
         self.webView.mainFrame.load(URLRequest(url: evaluatorHTMLURL))
@@ -219,7 +219,7 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
             self.webView.mainFrame.javaScriptContext.globalObject.setValue(exportsDict, forProperty: "exports")
             
             self.webView.mainFrame.javaScriptContext.exceptionHandler = { context, exception in
-                print("JS Exception during loading: \(exception)\n\(context)")
+                print("JS Exception during loading: \(exception!)\ncontext:\(context!)")
                 errorHandler(EvaluatorError.evaluationFailed(self.containingExtension, self, exception))
             }
             

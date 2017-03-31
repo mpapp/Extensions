@@ -118,7 +118,7 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
     }
     
     fileprivate func outputHandler(_ state:ExtensionState) -> (_ output: Processable?) -> Void {
-        precondition(state.lastError == nil, "State already has lastError set to \(state.lastError)")
+        precondition(state.lastError == nil, "State already has lastError set to \(String(describing: state.lastError))")
 
         return {
             let input = state.processable
@@ -147,7 +147,7 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
     }
     
     fileprivate func errorHandler(_ state:ExtensionState) -> (EvaluatorError) -> Void {
-        precondition(state.lastError == nil, "State already has lastError set to \(state.lastError)")
+        precondition(state.lastError == nil, "State already has lastError set to \(String(describing: state.lastError))")
         
         return {
             state.lastError = ExtensionError.evaluationFailed($0)

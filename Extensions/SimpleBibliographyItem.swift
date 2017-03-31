@@ -357,12 +357,12 @@ import Freddy
             return "\(citationLabel)"
         }
         else if let author = self.author?.first, author.family != nil {
-            var str = "\(author.family)"
+            var str = author.family ?? ""
             
             if let authorCount = self.author?.count {
                 if authorCount == 2 {
                     if let secondAuthor = self.author?[1], secondAuthor.family != nil {
-                        str += " & \(secondAuthor.family)"
+                        str += " & \(secondAuthor.family ?? "")"
                     }
                 }
                 else if authorCount > 2 {
@@ -372,7 +372,7 @@ import Freddy
             
             if let issuedDate = self.issued {
                 if let dateParts = issuedDate.dateParts, dateParts.count > 0 {
-                    str += " (\(dateParts.first))"
+                    str += " (\(dateParts.first ?? ""))"
                 }
                 else if let literal = issuedDate.literal {
                     str += " (\(literal))"

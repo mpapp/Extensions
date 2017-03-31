@@ -73,9 +73,6 @@ public struct DigitalObjectIdentifierResolver: URLBasedResolver {
             throw ResolvingError.unexpectedStatusCode(response.statusCode)
         }
         
-        let responseString = String(data:response.data, encoding:String.Encoding.utf8)
-        print("Response:\n\n\(responseString)")
-        
         let json = try JSON(data: response.data)
         
         let item = try SimpleBibliographyItem(json: json)

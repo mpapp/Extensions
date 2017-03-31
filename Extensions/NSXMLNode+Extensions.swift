@@ -77,7 +77,7 @@ extension XMLNode {
         
         let extractedNode = split[1]
         guard let parent = extractedNode.parent as? XMLElement else {
-            preconditionFailure("Parent of \(extractedNode) is expected to be an element: \(extractedNode.parent)")
+            preconditionFailure("Parent of \(extractedNode) is expected to be an element: \(extractedNode.parent?.xmlString ?? "nil")")
         }
         
         let str = extractedNode.xmlString(withOptions: Int(MPDefaultXMLDocumentParsingOptions))
@@ -149,7 +149,7 @@ extension XMLNode {
                                                   contents:elemContents,
                                                   attributes: attribs)
             
-            let advanceBefore = advance
+            //let advanceBefore = advance
             
             advance += Int(adjustedRange.upperBound)
             
@@ -159,7 +159,7 @@ extension XMLNode {
             // Second element from a split is added only on last split.
             let emitted = i < lastIndex ? [splitNodes.before, splitNodes.extracted] : [splitNodes.before, splitNodes.extracted, splitNodes.after]
             
-            print("advance:\(advance) before:\(advanceBefore) emitted:\(emitted) range:\(adjustedRange) remainder:\(currentSplit.stringValue)")
+            //print("advance:\(advance) before:\(advanceBefore) emitted:\(emitted) range:\(adjustedRange) remainder:\(currentSplit.stringValue)")
             
             return emitted
         }
