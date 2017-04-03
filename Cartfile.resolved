@@ -1,5 +1,5 @@
 github "bignerdranch/Freddy" "3.0.2"
-github "mz2/MPRateLimiter" "1.0"
+github "mz2/MPRateLimiter" "d0fc4da69b7a70dbd0f9d0dd6b9d68f5ef8373c7"
 github "mpapp/MPTimer" "7cc1b8b5c84f0216dee23ef5aaee17a7f52a6e8d"
 github "AliSoftware/OHHTTPStubs" "5.2.3-swift3"
 github "mpapp/RegexKitLite" "21404878f46d14d5c86beee5288c9d1c78dc1e10"
