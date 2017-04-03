@@ -21,6 +21,6 @@ import Foundation
 
 extension BibliographicName {
     var description: String {
-            return "<BibliographicName given:\(given) family:\(family)>"
+            return "<BibliographicName given:\(given ?? "") family:\(family ?? "")>"
     }
 }
