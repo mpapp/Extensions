@@ -63,7 +63,7 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
         return self.identifier.hashValue ^ rootURL.hashValue ^ procedures.reduce(0) { $0 ^ $1.hashValue }
     }
     
-    fileprivate static let timeoutInterval:TimeInterval = 10.0
+    fileprivate static let timeoutInterval: TimeInterval = 10.0
     
     public func evaluate(_ input:Processable?,
                          procedureHandler:@escaping ProcedureHandler,
@@ -80,7 +80,7 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
             state.evaluationTimer = timer
         }
         
-        timer.after(delay: self.evaluationTimeout) { (state: ExtensionState) in
+        timer.after(delay: Extension.timeoutInterval) { (state: ExtensionState) in
             let e = ExtensionError.evaluationTimedOut(self)
             state.lastError = e
             state.timedOut = true
@@ -96,11 +96,15 @@ public final class Extension: ExtensionLike, Hashable, Equatable {
         let evaluator = try EvaluatorRegistry.sharedInstance.createEvaluator(identifier:procedure.evaluatorID, containingExtension: self)
         
         let contents = try self.sourceContents(procedure)
-        evaluator.evaluate(contents, input:input, outputHandler:self.outputHandler(state), errorHandler: self.errorHandler(state))
-    }
-    
-    fileprivate var evaluationTimeout:TimeInterval {
-        return 10.0
+        evaluator.evaluate(contents, input:input,
+                           outputHandler: { (_ input:Processable?) in
+                            timer.cancel()
+                            self.outputHandler(state)(input)
+                            },
+                           errorHandler: { (_ error:EvaluatorError) in
+                            timer.cancel()
+                            self.errorHandler(state)(error)
+        })
     }
     
     // MARK: -

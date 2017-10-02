@@ -8,7 +8,7 @@
 
 import Foundation
 
-public let MPDefaultXMLDocumentParsingOptions:UInt =
+public let MPDefaultXMLDocumentParsingOptions =
                 XMLNode.Options.nodeLoadExternalEntitiesNever
                     .union(XMLNode.Options.nodePreserveNamespaceOrder)
                     .union(XMLNode.Options.nodePreserveAttributeOrder)
@@ -18,9 +18,9 @@ public let MPDefaultXMLDocumentParsingOptions:UInt =
                     .union(XMLNode.Options.nodePreserveWhitespace)
                     .union(XMLNode.Options.nodePromoteSignificantWhitespace)
                     .union(XMLNode.Options.nodePreserveEmptyElements)
-                    .union(XMLNode.Options.nodeUseDoubleQuotes).rawValue
+                    .union(XMLNode.Options.nodeUseDoubleQuotes)
 
-public let MPDefaultXMLDocumentOutputOptions:UInt =
+public let MPDefaultXMLDocumentOutputOptions =
                 XMLNode.Options.nodePreserveNamespaceOrder
                     .union(XMLNode.Options.nodePreserveAttributeOrder)
                     .union(XMLNode.Options.nodePreserveEntities)
@@ -29,11 +29,11 @@ public let MPDefaultXMLDocumentOutputOptions:UInt =
                     .union(XMLNode.Options.nodePreserveWhitespace)
                     .union(XMLNode.Options.nodePromoteSignificantWhitespace)
                     .union(XMLNode.Options.nodePreserveEmptyElements)
-                    .union(XMLNode.Options.nodeUseDoubleQuotes).rawValue
+                    .union(XMLNode.Options.nodeUseDoubleQuotes)
 
 open class DocumentProcessorConstants {
-    static func defaultXMLDocumentParsingOptions() -> UInt { return MPDefaultXMLDocumentParsingOptions }
-    static func defaultXMLDocumentOutputOptions() -> UInt { return MPDefaultXMLDocumentOutputOptions }
+    static func defaultXMLDocumentParsingOptions() -> XMLNode.Options { return MPDefaultXMLDocumentParsingOptions }
+    static func defaultXMLDocumentOutputOptions() -> XMLNode.Options { return MPDefaultXMLDocumentOutputOptions }
 }
 
 public protocol DocumentProcessor {
@@ -63,11 +63,10 @@ public extension DocumentProcessor {
             throw DocumentProcessorError.failedToRepresentStringAsData(docString)
         }
         
-        let doc = try XMLDocument(data: docData, options: XMLNode.Options(rawValue: XMLNode.Options.RawValue(Int(MPDefaultXMLDocumentParsingOptions))))
-        
-        let options = Int(MPDefaultXMLDocumentOutputOptions)
+        let doc = try XMLDocument(data: docData, options: MPDefaultXMLDocumentParsingOptions)
         let processedDoc = try processedDocument(inputDocument: doc, inPlace:false)
-        return processedDoc.xmlString(options: XMLNode.Options(rawValue: XMLNode.Options.RawValue(options)))
+
+        return processedDoc.xmlString(options: MPDefaultXMLDocumentOutputOptions)
     }
     
 }
