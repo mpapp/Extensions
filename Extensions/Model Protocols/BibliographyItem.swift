@@ -13,7 +13,7 @@ public protocol BibliographyItemObject: class, BibliographyItem {
     
 }
 
-public protocol BibliographyItem: DictionaryRepresentable, HTMLSnippetRepresentable, CustomStringConvertible {
+public protocol BibliographyItem: DictionaryRepresentable, HTMLSnippetRepresentable {
     // Abstract of the item (e.g. the abstract of a journal article).
     var abstract:String? { get }
 

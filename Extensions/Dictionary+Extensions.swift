@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Dictionary where Key:Hashable, Value:Any {
+extension Dictionary {
     
     fileprivate static func JSONEncodableValue(_ value:Any) -> Any {
         if let v = value as? URL {

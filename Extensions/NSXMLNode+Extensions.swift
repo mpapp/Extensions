@@ -80,7 +80,7 @@ extension XMLNode {
             preconditionFailure("Parent of \(extractedNode) is expected to be an element: \(extractedNode.parent?.xmlString ?? "nil")")
         }
         
-        let str = extractedNode.xmlString(withOptions: Int(MPDefaultXMLDocumentParsingOptions))
+        let str = extractedNode.xmlString(options: MPDefaultXMLDocumentParsingOptions)
         let elem = XMLElement(name: elementName, stringValue: contents ?? str)
         _ = parent.replace(extractedNode, withNodes: [elem])
         

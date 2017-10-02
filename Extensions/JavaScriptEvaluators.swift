@@ -162,7 +162,7 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
             throw JavaScriptEvaluatorWebKitError.missingContainingExtension(self)
         }
         
-        let evaluatorLoadedBlock: @convention(block) (Void) -> Void = {
+        let evaluatorLoadedBlock: @convention(block) () -> Void = {
             self.evaluatorLoaded()
         }
         

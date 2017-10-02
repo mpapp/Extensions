@@ -25,7 +25,7 @@ extension NSView {
         _ = self.mp_addEdgeConstraint(.bottom, constantOffset: bottomOffset, subview: aView)
     }
     
-    public func mp_addEdgeConstraint(_ edge:NSLayoutAttribute,
+    public func mp_addEdgeConstraint(_ edge:NSLayoutConstraint.Attribute,
                                      constantOffset:CGFloat = 0,
                                      subview:NSView) -> NSLayoutConstraint {
         let constraint:NSLayoutConstraint

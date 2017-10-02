@@ -65,7 +65,7 @@ open class PubMedResolver: URLBasedResolver {
         
         let articleSet = doc["PubmedArticleSet"]
         switch articleSet {
-        case .XMLError(let error): throw error
+        case .xmlError(let error): throw error
         default: break
         }
         
@@ -75,13 +75,13 @@ open class PubMedResolver: URLBasedResolver {
         
         let pubmedArticle = articleSet["PubmedArticle"]
         switch articleSet {
-        case .XMLError(let error): throw error
+        case .xmlError(let error): throw error
         default: break
         }
         
         let citation = pubmedArticle["MedlineCitation"]
         switch citation {
-            case .XMLError(let error): throw error
+            case .xmlError(let error): throw error
             default: break
         }
         

@@ -38,10 +38,9 @@ class ExtensionsTests: XCTestCase {
         //_ = EvaluatorDebugWindowController.sharedInstance()
 
         let bundleURL = Bundle(for: type(of: self)).bundleURL
-        try! ExtensionRegistry.sharedInstance.loadExtensions(bundleURL, loadFailureHandler:{
-            XCTFail("Load failure: \($0)")
+        try! ExtensionRegistry.sharedInstance.loadExtensions(bundleURL, loadFailureHandler:{ (url, extensionError) in
+            XCTFail("Load failure (URL: \(url), error: \(extensionError)")
         })
-        
     }
     
     override func tearDown() {
@@ -63,18 +62,17 @@ class ExtensionsTests: XCTestCase {
             try ext.evaluate(Processable.stringData("foo"), procedureHandler: { _,_ in
                 //print("Input \($0) -> Output:\($1)")
                 exp.fulfill()
-            }, errorHandler: {
-                XCTFail("Evaluation error: \($0)")
+            }, errorHandler: { err in
+                XCTFail("Evaluation error: \(err)")
             })
         }
         catch {
             XCTFail("Unexpected evaluation error: \(error)")
         }
 
-        waitForExpectations(timeout: 50.0) { (err:Error?) in
-            XCTAssertNil(err, "Unexpected error \(err)")
+        waitForExpectations(timeout: 11.0) { (err:Error?) in
+            XCTAssertNil(err, "Unexpected error \(String(describing:err))")
         }
-
     }
     
     func testResolvingPMIDIdentifier() {
@@ -90,7 +88,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:XMLDocument? = nil
         do {
-            doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue))
+            doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML))
         }
         catch {
             XCTFail("Failed to initialize test document from URL \(URL).")
@@ -107,7 +105,7 @@ class ExtensionsTests: XCTestCase {
                     case .bibliographyItems(let items):
                         count += 1
                         XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                        XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
+                        XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(String(describing: items.first?.title))'")
                     default:
                         XCTFail("Failed to resolve a bibliography item for \(resultRange)")
                     }
@@ -141,7 +139,7 @@ class ExtensionsTests: XCTestCase {
         var count = 0
         var doc:XMLDocument? = nil
         do {
-            doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue))
+            doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML))
         }
         catch {
             XCTFail("Failed to initialize test document from URL \(URL).")
@@ -155,7 +153,7 @@ class ExtensionsTests: XCTestCase {
                     switch resultRange.result.result {
                     case .bibliographyItems(let items):
                         XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                        XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(items.first?.title)'")
+                        XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(String(describing: items.first?.title))'")
                     default:
                         XCTFail("Failed to resolve a bibliography item for \(resultRange)")
                     }
@@ -199,7 +197,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:XMLDocument? = nil
         let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        do { doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue)) }
+        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
@@ -211,7 +209,7 @@ class ExtensionsTests: XCTestCase {
                                                                 switch resultRange.result.result {
                                                                 case .bibliographyItems(let items):
                                                                     XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                                                                    XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(items.first?.title)'")
+                                                                    XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(String(describing: items.first?.title))'")
                                                                 default:
                                                                     XCTFail("Failed to resolve a bibliography item for \(resultRange)")
                                                                 }
@@ -256,8 +254,10 @@ class ExtensionsTests: XCTestCase {
         
         var doc:XMLDocument? = nil
         let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        do { doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue)) }
-        catch { XCTFail("Failed to initialize test document from URL \(URL).") }
+        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
+        catch {
+            XCTFail("Failed to initialize test document from URL \(URL).")
+        }
         
         var elementEncounters = 0
         do {
@@ -270,12 +270,12 @@ class ExtensionsTests: XCTestCase {
                                                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                                                 
                                                 if let item = items.first {
-                                                    XCTAssert(item.title == "Network Concepts", "Unexpected title: '\(item.title)'")
+                                                    XCTAssert(item.title == "Network Concepts", "Unexpected title: '\(String(describing: item.title))'")
                                                     
-                                                    XCTAssertEqual(item.DOI!, "10.1002/0470841559.ch1", "Unexpected DOI: '\(item.DOI)'")
-                                                    XCTAssertEqual(item.URL!, Foundation.URL(string:"http://dx.doi.org/10.1002/0470841559.ch1"), "Unexpected URL: '\(item.URL!)'")
-                                                    XCTAssertEqual(item.containerTitle, "Internetworking LANs and WANs", "Unexpected container title: \(item.containerTitle)")
-                                                    XCTAssert(item.publisher! == "Wiley-Blackwell", "Unexpected publisher: '\(item.publisher)'")
+                                                    XCTAssertEqual(item.DOI!, "10.1002/0470841559.ch1", "Unexpected DOI: '\(String(describing: item.DOI))'")
+                                                    XCTAssertEqual(item.URL!, Foundation.URL(string:"http://dx.doi.org/10.1002/0470841559.ch1"), "Unexpected URL: '\(String(describing: item.URL))'")
+                                                    XCTAssertEqual(item.containerTitle, "Internetworking LANs and WANs", "Unexpected container title: \(String(describing: item.containerTitle))")
+                                                    XCTAssert(item.publisher! == "Wiley-Blackwell", "Unexpected publisher: '\(String(describing: item.publisher))'")
                                                 }
                                             default:
                                                 XCTFail("Failed to resolve a bibliography item for \(resultRange)")
@@ -322,7 +322,7 @@ class ExtensionsTests: XCTestCase {
         var doc:XMLDocument? = nil
         let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
         
-        do { doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue)) }
+        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
@@ -336,12 +336,12 @@ class ExtensionsTests: XCTestCase {
                                                 XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
                                                 
                                                 if let item = items.first {
-                                                    XCTAssert(item.title == "Understanding how perceptions of tobacco constituents and the FDA relate to effective and credible tobacco risk messaging: A national phone survey of U.S. adults, 2014–2015", "Unexpected title: '\(item.title)'")
+                                                    XCTAssert(item.title == "Understanding how perceptions of tobacco constituents and the FDA relate to effective and credible tobacco risk messaging: A national phone survey of U.S. adults, 2014–2015", "Unexpected title: '\(String(describing: item.title))'")
                                                     
-                                                    XCTAssertEqual(item.DOI!, "10.1186/s12889-016-3151-5", "Unexpected DOI: '\(item.DOI)'")
+                                                    XCTAssertEqual(item.DOI!, "10.1186/s12889-016-3151-5", "Unexpected DOI: '\(String(describing: item.DOI))'")
                                                     XCTAssertEqual(item.URL!, Foundation.URL(string:"http://dx.doi.org/10.1186/s12889-016-3151-5"), "Unexpected URL: '\(item.URL!)'")
                                                     XCTAssertEqual((item.issued!.dateParts! as NSArray) as! [NSArray], [[2016, 6, 23]] as [NSArray], "Unexpected date parts: \(item.issued!)")
-                                                    XCTAssert(item.publisher! == "Springer Nature", "Unexpected publisher: '\(item.publisher)'")
+                                                    XCTAssert(item.publisher! == "Springer Nature", "Unexpected publisher: '\(String(describing: item.publisher))'")
                                                 }
                                             default:
                                                 XCTFail("Failed to resolve a bibliography item for \(resultRange)")
@@ -394,7 +394,7 @@ class ExtensionsTests: XCTestCase {
     
     func testXMLElementExtraction() {
         let str = "foobarbaz"
-        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
+        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
@@ -413,7 +413,7 @@ class ExtensionsTests: XCTestCase {
     
     func testSimpleMultipleXMLElementExtraction() {
         let str = "foobarbaz"
-        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
+        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
@@ -421,13 +421,13 @@ class ExtensionsTests: XCTestCase {
         let splitNodes = elem.children!.first!.extract(elementsWithName:"strong", ranges: [3 ..< 6])
         
         XCTAssertTrue(splitNodes[0].xmlString == "foo")
-        XCTAssertTrue(splitNodes[1].xmlString == "<strong>bar</strong>", "Unexpected string value: \(splitNodes[1].stringValue)")
+        XCTAssertTrue(splitNodes[1].xmlString == "<strong>bar</strong>", "Unexpected string value: \(String(describing: splitNodes[1].stringValue))")
         XCTAssertTrue(splitNodes[2].xmlString == "baz")
     }
     
     func testComplexMultipleXMLElementExtractions() {
         let str = "foobarbazadoo"
-        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: Int(MPDefaultXMLDocumentParsingOptions))
+        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
@@ -446,7 +446,7 @@ class ExtensionsTests: XCTestCase {
         // foobarbazadoo
         // fo|ob|a|r|b|az|adoo
         XCTAssertTrue(splitNodes[0].xmlString == "fo")
-        XCTAssertTrue(splitNodes[1].xmlString == "<em>ob</em>", "Unexpected string value: \(splitNodes[1].stringValue)")
+        XCTAssertTrue(splitNodes[1].xmlString == "<em>ob</em>", "Unexpected string value: \(String(describing: splitNodes[1].stringValue))")
         XCTAssertTrue(splitNodes[2].xmlString == "a")
         XCTAssertTrue(splitNodes[3].xmlString == "<em>r</em>")
         XCTAssertTrue(splitNodes[4].xmlString == "b")
@@ -465,7 +465,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:XMLDocument? = nil
         let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        do { doc = try XMLDocument(contentsOf: URL, options: Int(Extensions.MPDefaultXMLDocumentOutputOptions) | Int(XMLNode.Options.documentTidyHTML.rawValue)) }
+        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         _ = try! docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { (elementProcessor, capturedResultRanges) in
@@ -523,8 +523,7 @@ class ExtensionsTests: XCTestCase {
         
         XCTAssert("foobarfoobar".ranges("foobar").count == 2, "String.ranges is not behaving as expected")
         
-        
-        let xmlStr = doc?.xmlString(withOptions: Int(MPDefaultXMLDocumentOutputOptions))
+        let xmlStr = doc?.xmlString(options: MPDefaultXMLDocumentOutputOptions)
         
         XCTAssert(xmlStr!.contains("<em>"), "XML string contains no instances of <em>")
         print(xmlStr!.stringAroundOccurrence(ofString: "delivers", maxPadding: 9) == " <strong>delivers</strong>")
