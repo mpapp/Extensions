@@ -63,11 +63,11 @@ public extension DocumentProcessor {
             throw DocumentProcessorError.failedToRepresentStringAsData(docString)
         }
         
-        let doc = try XMLDocument(data: docData, options: Int(MPDefaultXMLDocumentParsingOptions))
+        let doc = try XMLDocument(data: docData, options: XMLNode.Options(rawValue: XMLNode.Options.RawValue(Int(MPDefaultXMLDocumentParsingOptions))))
         
         let options = Int(MPDefaultXMLDocumentOutputOptions)
         let processedDoc = try processedDocument(inputDocument: doc, inPlace:false)
-        return processedDoc.xmlString(withOptions: options)
+        return processedDoc.xmlString(options: XMLNode.Options(rawValue: XMLNode.Options.RawValue(options)))
     }
     
 }

@@ -26,7 +26,7 @@ open class EvaluatorDebugWindowController: NSWindowController {
     
     open static func sharedInstance() -> EvaluatorDebugWindowController {
         if _sharedInstance == nil {
-            _sharedInstance = EvaluatorDebugWindowController(windowNibName: "EvaluatorDebugWindowController")
+            _sharedInstance = EvaluatorDebugWindowController(windowNibName: NSNib.Name(rawValue: "EvaluatorDebugWindowController"))
             _sharedInstance!.showWindow(self)
             _sharedInstance!.window?.makeKeyAndOrderFront(self)
         }

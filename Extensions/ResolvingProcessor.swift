@@ -144,6 +144,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
             }
             
             let capturedResultRanges:[CapturedResultRange] = try capturedRanges.flatMap { range in
+                
                 let capture = stringValue.substring(with: characterViewRange(range, string:stringValue))
                 
                 do {

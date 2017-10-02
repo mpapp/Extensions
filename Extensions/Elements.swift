@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol Element: class, HTMLSnippetRepresentable, CustomStringConvertible {
+public protocol Element: class, HTMLSnippetRepresentable {
     var contents:String { get }
     var tagName: String { get }
     var attributes:[String:String] { get }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Collection where Indices.Iterator.Element == Index {
+extension Collection {
     
     public typealias ElementPair = (Iterator.Element, Iterator.Element)
     
@@ -16,8 +16,7 @@ extension Collection where Indices.Iterator.Element == Index {
         for i in self.indices {
             for j in self.suffix(from: self.index(after: i)) {
                 let a = self[i]
-                let b = j as! Iterator.Element
-                try body((a, b: b))
+                try body((a, b: j))
             }
         }
     }

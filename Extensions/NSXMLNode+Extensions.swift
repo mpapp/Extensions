@@ -19,11 +19,11 @@ extension XMLNode {
         
         let splitIndex = stringValue.characters.index(stringValue.startIndex, offsetBy: Int(index))
         
-        let firstPartStr = stringValue.substring(to: splitIndex)
+        let firstPartStr = String(stringValue[..<splitIndex])
         let firstPartNode = XMLNode(kind: .text)
         firstPartNode.stringValue = firstPartStr
         
-        let secondPartStr = stringValue.substring(from: splitIndex)
+        let secondPartStr = String(stringValue[splitIndex...])
         let secondPartNode = XMLNode(kind: .text)
         secondPartNode.stringValue = secondPartStr
         
@@ -80,7 +80,7 @@ extension XMLNode {
             preconditionFailure("Parent of \(extractedNode) is expected to be an element: \(extractedNode.parent?.xmlString ?? "nil")")
         }
         
-        let str = extractedNode.xmlString(withOptions: Int(MPDefaultXMLDocumentParsingOptions))
+        let str = extractedNode.xmlString(options: XMLNode.Options(rawValue: XMLNode.Options.RawValue(Int(MPDefaultXMLDocumentParsingOptions))))
         let elem = XMLElement(name: elementName, stringValue: contents ?? str)
         _ = parent.replace(extractedNode, withNodes: [elem])
         
