@@ -8,7 +8,7 @@
 
 import Foundation
 
-public let MPDefaultXMLDocumentParsingOptions =
+public let defaultXMLDocumentParsingOptions =
                 XMLNode.Options.nodeLoadExternalEntitiesNever
                     .union(XMLNode.Options.nodePreserveNamespaceOrder)
                     .union(XMLNode.Options.nodePreserveAttributeOrder)
@@ -20,7 +20,7 @@ public let MPDefaultXMLDocumentParsingOptions =
                     .union(XMLNode.Options.nodePreserveEmptyElements)
                     .union(XMLNode.Options.nodeUseDoubleQuotes)
 
-public let MPDefaultXMLDocumentOutputOptions =
+public let defaultXMLDocumentOutputOptions =
                 XMLNode.Options.nodePreserveNamespaceOrder
                     .union(XMLNode.Options.nodePreserveAttributeOrder)
                     .union(XMLNode.Options.nodePreserveEntities)
@@ -32,8 +32,8 @@ public let MPDefaultXMLDocumentOutputOptions =
                     .union(XMLNode.Options.nodeUseDoubleQuotes)
 
 open class DocumentProcessorConstants {
-    static func defaultXMLDocumentParsingOptions() -> XMLNode.Options { return MPDefaultXMLDocumentParsingOptions }
-    static func defaultXMLDocumentOutputOptions() -> XMLNode.Options { return MPDefaultXMLDocumentOutputOptions }
+    static func defaultXMLDocumentParsingOptions() -> XMLNode.Options { return Extensions.defaultXMLDocumentParsingOptions }
+    static func defaultXMLDocumentOutputOptions() -> XMLNode.Options { return Extensions.defaultXMLDocumentOutputOptions }
 }
 
 public protocol DocumentProcessor {
@@ -63,10 +63,10 @@ public extension DocumentProcessor {
             throw DocumentProcessorError.failedToRepresentStringAsData(docString)
         }
         
-        let doc = try XMLDocument(data: docData, options: MPDefaultXMLDocumentParsingOptions)
+        let doc = try XMLDocument(data: docData, options: Extensions.defaultXMLDocumentParsingOptions)
         let processedDoc = try processedDocument(inputDocument: doc, inPlace:false)
 
-        return processedDoc.xmlString(options: MPDefaultXMLDocumentOutputOptions)
+        return processedDoc.xmlString(options: Extensions.defaultXMLDocumentOutputOptions)
     }
     
 }

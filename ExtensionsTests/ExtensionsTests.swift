@@ -88,7 +88,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:XMLDocument? = nil
         do {
-            doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML))
+            doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML))
         }
         catch {
             XCTFail("Failed to initialize test document from URL \(URL).")
@@ -139,7 +139,7 @@ class ExtensionsTests: XCTestCase {
         var count = 0
         var doc:XMLDocument? = nil
         do {
-            doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML))
+            doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML))
         }
         catch {
             XCTFail("Failed to initialize test document from URL \(URL).")
@@ -197,7 +197,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:XMLDocument? = nil
         let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
+        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
@@ -254,7 +254,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:XMLDocument? = nil
         let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
+        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
         catch {
             XCTFail("Failed to initialize test document from URL \(URL).")
         }
@@ -322,7 +322,7 @@ class ExtensionsTests: XCTestCase {
         var doc:XMLDocument? = nil
         let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
         
-        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
+        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         var elementEncounters = 0
@@ -394,7 +394,7 @@ class ExtensionsTests: XCTestCase {
     
     func testXMLElementExtraction() {
         let str = "foobarbaz"
-        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
+        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: Extensions.defaultXMLDocumentParsingOptions)
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
@@ -413,7 +413,7 @@ class ExtensionsTests: XCTestCase {
     
     func testSimpleMultipleXMLElementExtraction() {
         let str = "foobarbaz"
-        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
+        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: Extensions.defaultXMLDocumentParsingOptions)
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
@@ -427,7 +427,7 @@ class ExtensionsTests: XCTestCase {
     
     func testComplexMultipleXMLElementExtractions() {
         let str = "foobarbazadoo"
-        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: MPDefaultXMLDocumentParsingOptions)
+        let doc = try! XMLDocument(xmlString: "<p>\(str)</p>", options: Extensions.defaultXMLDocumentParsingOptions)
         let elem = doc.rootElement()!
         XCTAssertTrue(elem.name == "p")
         XCTAssertTrue(elem.children!.first!.stringValue == str)
@@ -465,7 +465,7 @@ class ExtensionsTests: XCTestCase {
         
         var doc:XMLDocument? = nil
         let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.MPDefaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
+        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
         catch { XCTFail("Failed to initialize test document from URL \(URL).") }
         
         _ = try! docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { (elementProcessor, capturedResultRanges) in
@@ -523,7 +523,7 @@ class ExtensionsTests: XCTestCase {
         
         XCTAssert("foobarfoobar".ranges("foobar").count == 2, "String.ranges is not behaving as expected")
         
-        let xmlStr = doc?.xmlString(options: MPDefaultXMLDocumentOutputOptions)
+        let xmlStr = doc?.xmlString(options: Extensions.defaultXMLDocumentOutputOptions)
         
         XCTAssert(xmlStr!.contains("<em>"), "XML string contains no instances of <em>")
         print(xmlStr!.stringAroundOccurrence(ofString: "delivers", maxPadding: 9) == " <strong>delivers</strong>")

@@ -65,7 +65,7 @@ func element(tagName:String, contents:String, attributes:[String:String] = [:]) 
 }
 
 func element(HTMLSnippet snippet:String) throws -> Element {
-    let doc = try XMLDocument(xmlString: snippet, options: MPDefaultXMLDocumentParsingOptions)
+    let doc = try XMLDocument(xmlString: snippet, options: Extensions.defaultXMLDocumentParsingOptions)
     
     if let root = doc.rootElement(), let rootTagName = root.name, let children = root.children {
         
@@ -77,7 +77,7 @@ func element(HTMLSnippet snippet:String) throws -> Element {
         }
         
         let str = children.map {
-            return $0.xmlString(options: MPDefaultXMLDocumentOutputOptions)
+            return $0.xmlString(options: Extensions.defaultXMLDocumentOutputOptions)
         }.joined(separator: "")
         
         return try element(tagName:rootTagName, contents:str, attributes: attribs)
