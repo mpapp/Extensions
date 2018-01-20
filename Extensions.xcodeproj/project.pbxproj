@@ -79,7 +79,6 @@
 		5F7EE4811CB7F89D00F4B7EA /* ExtensionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4801CB7F89D00F4B7EA /* ExtensionRegistry.swift */; };
 		5F7EE4861CB8374F00F4B7EA /* Procedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4851CB8374F00F4B7EA /* Procedure.swift */; };
 		5F7EE4911CB85C5600F4B7EA /* JavaScriptEvaluatorWebKit.html in Copy JS Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE48E1CB85C2B00F4B7EA /* JavaScriptEvaluatorWebKit.html */; };
-		5F7EE4A21CBA9BAA00F4B7EA /* JSExample.extension in Copy Extensions */ = {isa = PBXBuildFile; fileRef = 5F7EE49B1CBA9B8D00F4B7EA /* JSExample.extension */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F7EE4AB1CBAD42200F4B7EA /* example-1.js in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE4A61CBAC4A100F4B7EA /* example-1.js */; };
 		5F7EE4AC1CBAD42200F4B7EA /* example-2.js in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE4A81CBAC4A800F4B7EA /* example-2.js */; };
 		5F7EE4AE1CBAD43E00F4B7EA /* Freddy.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -127,7 +126,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				5F7EE4A21CBA9BAA00F4B7EA /* JSExample.extension in Copy Extensions */,
 			);
 			name = "Copy Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -936,7 +934,7 @@
 		5F7EE49F1CBA9B8D00F4B7EA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = JSExample/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -950,7 +948,7 @@
 		5F7EE4A01CBA9B8D00F4B7EA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = JSExample/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
