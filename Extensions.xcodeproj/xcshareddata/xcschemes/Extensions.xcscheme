@@ -38,6 +38,11 @@
                BlueprintName = "ExtensionsTests"
                ReferencedContainer = "container:Extensions.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ExtensionsTests/testLoadingWebKitExtension()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
