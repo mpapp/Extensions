@@ -17,7 +17,7 @@ extension XMLNode {
             preconditionFailure("Node \(self) has no string value and cannot be split at \(index)")
         }
         
-        let splitIndex = stringValue.characters.index(stringValue.startIndex, offsetBy: Int(index))
+        let splitIndex = stringValue.index(stringValue.startIndex, offsetBy: Int(index))
         
         let firstPartStr = String(stringValue[..<splitIndex])
         let firstPartNode = XMLNode(kind: .text)
@@ -55,7 +55,7 @@ extension XMLNode {
             
             let splitNodes = currentSplit.split(atIndex: UInt(adjustedIndex))
             
-            advance += splitNodes.0.stringValue!.characters.count
+            advance += splitNodes.0.stringValue!.count
             currentSplit = splitNodes.1
             
             // First element is always added to output.

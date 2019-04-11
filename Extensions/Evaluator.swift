@@ -36,7 +36,7 @@ internal protocol Evaluator {
 }
 
 public protocol ExtensionContained {
-    weak var containingExtension:Extension? { get set }
+    var containingExtension:Extension? { get set }
 }
 
 internal protocol ExtensionContainedEvaluator:Evaluator, ExtensionContained { }

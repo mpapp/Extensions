@@ -20,10 +20,10 @@ public extension Element {
     }
 }
 
-public protocol InlineElement: class, Element {
+public protocol InlineElement: Element {
 }
 
-public protocol BlockElement: class, Element {
+public protocol BlockElement: Element {
 }
 
 // implements HTMLSnippetRepresentable
