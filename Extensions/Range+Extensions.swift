@@ -12,11 +12,11 @@ extension CountableClosedRange {
 }
  */
 
-func characterViewRange(_ range:CountableClosedRange<UInt>, string:String) -> Range<String.CharacterView.Index> {
+func characterViewRange(_ range:CountableClosedRange<UInt>, string:String) -> Range<String.Index> {
     
-    return string.characters.index(string.characters.startIndex,
-                                   offsetBy: Int(range.lowerBound))
+    return string.index(string.startIndex,
+                        offsetBy: Int(range.lowerBound))
            ..<
-           string.characters.index(string.characters.startIndex,
-                                   offsetBy: Int(range.upperBound))
+           string.index(string.startIndex,
+                        offsetBy: Int(range.upperBound))
 }

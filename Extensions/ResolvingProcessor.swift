@@ -47,7 +47,7 @@ public struct ResolvableFragmentProcessor: FragmentProcessor {
     }
 }
 
-public typealias CapturedResultRange = (ranges:[Range<String.CharacterView.Index>], result:ResolvedResult)
+public typealias CapturedResultRange = (ranges:[Range<String.Index>], result:ResolvedResult)
 
 public typealias ResolvedResultHandler = (_ elementProcessor:ResolvableElementProcessor, _ capturedResultRanges:[CapturedResultRange]) -> Void
 
@@ -143,24 +143,24 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 }
             }
             
-            let capturedResultRanges:[CapturedResultRange] = try capturedRanges.flatMap { range in
+            let capturedResultRanges:[CapturedResultRange] = try capturedRanges.compactMap { range in
                 
-                let capture = stringValue.substring(with: characterViewRange(range, string:stringValue))
+                let capture = stringValue[characterViewRange(range, string:stringValue)]
+                let captureString = String(capture)
                 
                 do {
-                    let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: capture)
-                    let identifierRanges = capture.ranges(result.resolvable.originatingString)
+                    let result:ResolvedResult = try self.fragmentProcessor.process(textFragment: captureString)
+                    let identifierRanges = captureString.ranges(result.resolvable.originatingString)
                     
-                    let adjustedRanges = identifierRanges.map { identifierRange -> Range<String.CharacterView.Index> in
-                        let characterView = stringValue.characters
+                    let adjustedRanges = identifierRanges.map { identifierRange -> Range<String.Index> in
                         
-                        let captureStartToIdentifierStart = capture.characters.distance(from: capture.characters.startIndex, to: identifierRange.lowerBound)
-                        let captureStartToIdentifierEnd = capture.characters.distance(from: capture.characters.startIndex, to: identifierRange.upperBound)
+                        let captureStartToIdentifierStart = capture.distance(from: capture.startIndex, to: identifierRange.lowerBound)
+                        let captureStartToIdentifierEnd = capture.distance(from: capture.startIndex, to: identifierRange.upperBound)
                         
-                        let start = characterView.index(characterView.index(characterView.startIndex, offsetBy: captureStartToIdentifierStart),
-                                                        offsetBy: Int(range.lowerBound))
-                        let end = characterView.index(stringValue.characters.index(stringValue.characters.startIndex, offsetBy: captureStartToIdentifierEnd),
+                        let start = stringValue.index(stringValue.index(stringValue.startIndex, offsetBy: captureStartToIdentifierStart),
                                                       offsetBy: Int(range.lowerBound))
+                        let end = stringValue.index(stringValue.index(stringValue.startIndex, offsetBy: captureStartToIdentifierEnd),
+                                                    offsetBy: Int(range.lowerBound))
                         return start ..< end
                     }
                     
@@ -198,8 +198,8 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 }
                 
                 let stringRanges = ranges.map { range -> CountableRange<UInt> in
-                    let start = stringValue.characters.distance(from: stringValue.characters.startIndex, to: range.lowerBound)
-                    let end = stringValue.characters.distance(from: stringValue.characters.startIndex, to: range.upperBound)
+                    let start = stringValue.distance(from: stringValue.startIndex, to: range.lowerBound)
+                    let end = stringValue.distance(from: stringValue.startIndex, to: range.upperBound)
                     return UInt(start) ..< UInt(end)
                 }
                 

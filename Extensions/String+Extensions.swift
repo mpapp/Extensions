@@ -18,7 +18,7 @@ extension Character {
 
 extension String {
     public func isUpper() -> Bool {
-        for chr in self.characters {
+        for chr in self {
             if !chr.isUpper() {
                 return false
             }
@@ -49,9 +49,9 @@ extension String {
         return capturedRanges
     }
     
-    public func capturedRanges(capturingPatterns patterns:[String]) -> [Range<String.CharacterView.Index>] {
-        return self.capturedCharacterIndexRanges(capturingPatterns: patterns).map { range -> Range<String.CharacterView.Index> in
-            return self.characters.index(self.characters.startIndex, offsetBy: Int(range.lowerBound)) ..< self.characters.index(self.characters.startIndex, offsetBy: Int(range.lowerBound + range.upperBound))
+    public func capturedRanges(capturingPatterns patterns:[String]) -> [Range<String.Index>] {
+        return self.capturedCharacterIndexRanges(capturingPatterns: patterns).map { range -> Range<String.Index> in
+            return self.index(self.startIndex, offsetBy: Int(range.lowerBound)) ..< self.index(self.startIndex, offsetBy: Int(range.lowerBound + range.upperBound))
         }
     }
     
@@ -84,7 +84,7 @@ extension String {
         return capturedStrings
     }
     
-    public func ranges(_ string:String, options:NSString.CompareOptions = [], locale:Locale? = nil) -> [(Range<String.CharacterView.Index>)] {
+    public func ranges(_ string:String, options:NSString.CompareOptions = [], locale:Locale? = nil) -> [(Range<String.Index>)] {
         var ranges = [Range<String.Index>]()
         var range:Range<String.Index>? = nil
         
