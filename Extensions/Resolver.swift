@@ -29,15 +29,15 @@ public protocol URLBasedResolver:Resolver {
 
 public extension Resolver {
     
-    public var rateLimitLabel:String {
+    var rateLimitLabel: String {
         return String(describing: type(of: self))
     }
     
-    public var rateLimit:TimeInterval {
+    var rateLimit: TimeInterval {
         return 1.0
     }
     
-    public var replaceMatches:Bool {
+    var replaceMatches: Bool {
         return true // override in your resolver to limit whether the resolver ever results in replacing.
     }
 }

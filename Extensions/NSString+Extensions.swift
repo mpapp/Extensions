@@ -9,7 +9,7 @@
 import Foundation
 
 public extension NSString {
-    public func mp_capturedRanges(capturingPatterns patterns:[String]) -> NSArray {
+    func mp_capturedRanges(capturingPatterns patterns: [String]) -> NSArray {
         let items = (self as String).capturedRanges(capturingPatterns: patterns).map { range -> NSRange in
             let string = (self as String)
             

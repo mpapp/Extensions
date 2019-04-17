@@ -84,7 +84,7 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
     fileprivate(set) internal var webView:WebView
     fileprivate(set) internal var isPresented: Bool
     
-    internal(set) internal weak var containingExtension:Extension?
+    internal weak var containingExtension: Extension?
     
     fileprivate var isLoaded: Bool = false
     
@@ -198,7 +198,7 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
                          outputHandler: @escaping (Processable?) -> Void,
                          errorHandler: @escaping (EvaluatorError) -> Void) {
         while !self.isLoaded {
-            RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before:Date(timeIntervalSinceNow:0.01))
+            RunLoop.current.run(mode: .default, before: Date(timeIntervalSinceNow: 0.01))
         }
         
         precondition(self.isLoaded, "Evaluator should already be loaded.")

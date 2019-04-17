@@ -103,7 +103,7 @@ public struct ResolvableElementProcessor: ElementProcessor {
                 throw DocumentProcessorError.unexpectedParentNode(node)
             }
             
-            guard let nodeIndex = parentNode.children?.index(of: node) else {
+            guard let nodeIndex = parentNode.children?.firstIndex(of: node) else {
                 throw DocumentProcessorError.unexpectedParentNode(node)
             }
             
@@ -154,8 +154,8 @@ public struct ResolvableElementProcessor: ElementProcessor {
                     
                     let adjustedRanges = identifierRanges.map { identifierRange -> Range<String.Index> in
                         
-                        let captureStartToIdentifierStart = capture.distance(from: capture.startIndex, to: identifierRange.lowerBound)
-                        let captureStartToIdentifierEnd = capture.distance(from: capture.startIndex, to: identifierRange.upperBound)
+                        let captureStartToIdentifierStart = captureString.distance(from: captureString.startIndex, to: identifierRange.lowerBound)
+                        let captureStartToIdentifierEnd = captureString.distance(from: captureString.startIndex, to: identifierRange.upperBound)
                         
                         let start = stringValue.index(stringValue.index(stringValue.startIndex, offsetBy: captureStartToIdentifierStart),
                                                       offsetBy: Int(range.lowerBound))

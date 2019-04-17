@@ -20,13 +20,13 @@ open class EvaluatorDebugWindowController: NSWindowController {
     // couldn't think of another way of making this lazily initialized?
     fileprivate static var _sharedInstance:EvaluatorDebugWindowController? = nil
     
-    open static func sharedInstanceExists() -> Bool {
+    public static func sharedInstanceExists() -> Bool {
         return _sharedInstance != nil
     }
     
-    open static func sharedInstance() -> EvaluatorDebugWindowController {
+    public static func sharedInstance() -> EvaluatorDebugWindowController {
         if _sharedInstance == nil {
-            _sharedInstance = EvaluatorDebugWindowController(windowNibName: NSNib.Name(rawValue: "EvaluatorDebugWindowController"))
+            _sharedInstance = EvaluatorDebugWindowController(windowNibName: NSNib.Name("EvaluatorDebugWindowController"))
             _sharedInstance!.showWindow(self)
             _sharedInstance!.window?.makeKeyAndOrderFront(self)
         }

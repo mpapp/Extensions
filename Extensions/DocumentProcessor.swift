@@ -58,7 +58,7 @@ public extension DocumentProcessor {
         return outputDoc
     }
     
-    public func processedDocumentString(inputDocumentString docString:String) throws -> String {
+    func processedDocumentString(inputDocumentString docString: String) throws -> String {
         guard let docData = docString.data(using: .utf8) else {
             throw DocumentProcessorError.failedToRepresentStringAsData(docString)
         }
