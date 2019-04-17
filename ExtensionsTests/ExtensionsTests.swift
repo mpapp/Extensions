@@ -23,7 +23,7 @@ extension String {
                 ..<
                 (self.index(range.upperBound, offsetBy: p, limitedBy: self.endIndex) ?? self.endIndex)
         
-        return self.substring(with: r)
+        return String(self[r])
     }
 }
 
@@ -161,7 +161,7 @@ class ExtensionsTests: XCTestCase {
                 }
             }, elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
                 elementEncounters += 1
-                let elem = SimpleInlineElement(contents: textNode.stringValue!.substring(with: capturedResultRange.ranges[0]), tagName: "span")
+                let elem = SimpleInlineElement(contents: String(textNode.stringValue![capturedResultRange.ranges[0]]), tagName: "span")
                 return elem
             })
         }
@@ -218,7 +218,7 @@ class ExtensionsTests: XCTestCase {
                                                         },
                                        elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
                                             elementEncounters += 1
-                                            let elem = SimpleInlineElement(contents: textNode.stringValue!.substring(with: capturedResultRange.ranges[0]), tagName: "span")
+                                            let elem = SimpleInlineElement(contents: String(textNode.stringValue![capturedResultRange.ranges[0]]), tagName: "span")
                                             return elem
                                        })
         }
@@ -285,7 +285,7 @@ class ExtensionsTests: XCTestCase {
                 },
                                        elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
                                         elementEncounters += 1
-                                        let elem = SimpleInlineElement(contents: textNode.stringValue!.substring(with: capturedResultRange.ranges[0]), tagName: "span")
+                                        let elem = SimpleInlineElement(contents: String(textNode.stringValue![capturedResultRange.ranges[0]]), tagName: "span")
                                         return elem
             })
         }
@@ -351,7 +351,7 @@ class ExtensionsTests: XCTestCase {
                 },
                                        elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
                                         elementEncounters += 1
-                                        let elem = SimpleInlineElement(contents: textNode.stringValue!.substring(with: capturedResultRange.ranges[0]), tagName: "span")
+                                        let elem = SimpleInlineElement(contents: String(textNode.stringValue![capturedResultRange.ranges[0]]), tagName: "span")
                                         return elem
             })
         }
@@ -400,7 +400,7 @@ class ExtensionsTests: XCTestCase {
         XCTAssertTrue(elem.children!.first!.stringValue == str)
         
         let range = elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 3) ..< elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 6)
-        XCTAssertTrue(elem.stringValue?.substring(with: range) == "bar", "Got my arithmetic wrong.")
+        XCTAssertTrue(String(elem.stringValue?[range] ?? "") == "bar", "Got my arithmetic wrong.")
         XCTAssertTrue(elem.children!.count == 1)
         XCTAssertTrue(elem.children!.first!.kind == .text)
         
@@ -434,13 +434,13 @@ class ExtensionsTests: XCTestCase {
         
         let splitNodes = elem.children!.first!.extract(elementsWithName:"em", ranges: [2 ..< 4, 5 ..< 6, 7 ..< 9])
         
-        let firstElemSubstr = str.substring(with: elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 2) ..< elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 4))
+        let firstElemSubstr = String(str[elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 2) ..< elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 4)])
         XCTAssertTrue(firstElemSubstr == "ob")
         
-        let secondElemSubstr = str.substring(with: elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 5) ..< elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 6))
+        let secondElemSubstr = String(str[elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 5) ..< elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 6)])
         XCTAssertTrue(secondElemSubstr == "r")
         
-        let thirdElemSubstr = str.substring(with: elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 7) ..< elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 9))
+        let thirdElemSubstr = String(str[elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 7) ..< elem.stringValue!.index(elem.stringValue!.startIndex, offsetBy: 9)])
         XCTAssertTrue(thirdElemSubstr == "az")
 
         // foobarbazadoo
