@@ -71,8 +71,8 @@ extension Result: CustomStringConvertible {
 }
 
 @objc open class ResolvedResult: NSObject, DictionaryRepresentable, ElementRepresentable {
-    open let resolvable:Resolvable
-    open let result:Result
+    public let resolvable: Resolvable
+    public let result: Result
     
     public init(resolvable:Resolvable, result:Result) {
         self.resolvable = resolvable

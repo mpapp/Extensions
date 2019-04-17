@@ -14,9 +14,9 @@ enum ElementError:Error {
 }
 
 open class SimpleInlineElement: NSObject, InlineElement {
-    open let contents: String
-    open let tagName: String
-    open let attributes: [String:String]
+    public let contents: String
+    public let tagName: String
+    public let attributes: [String: String]
     
     public init(contents:String, tagName:String = "span", attributes:[String:String] = [:]) {
         self.contents = contents
@@ -34,9 +34,9 @@ open class SimpleInlineElement: NSObject, InlineElement {
 }
 
 open class SimpleBlockElement: NSObject, BlockElement {
-    open let contents: String
-    open let tagName: String
-    open let attributes: [String : String]
+    public let contents: String
+    public let tagName: String
+    public let attributes: [String: String]
     
     public init(contents:String, tagName:String = "div", attributes: [String : String] = [:]) {
         self.contents = contents

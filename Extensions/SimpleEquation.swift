@@ -19,7 +19,7 @@ open class SimpleEquation: NSObject, Equation, JSONDecodable, JSONEncodable {
         return self.contents
     }
     
-    open let contents:String
+    public let contents: String
     
     public init(TeXRepresentation:String) {
         self.contents = TeXRepresentation

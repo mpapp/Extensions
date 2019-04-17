@@ -9,8 +9,8 @@
 import Foundation
 
 open class MarkdownSyntaxComponent: Resolvable, HTMLSnippetRepresentable {
-    open let identifier: String
-    open let originatingString: String
+    public let identifier: String
+    public let originatingString: String
     
     public required init(originatingString: String) throws {
         // pattern matches paired * *'s in between one or more characters between word boundaries.

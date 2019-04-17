@@ -43,7 +43,7 @@ public struct PubMedIdentifier: Resolvable {
 
 open class PubMedResolver: URLBasedResolver {
     
-    open let resolvableType: Resolvable.Type = {
+    public let resolvableType: Resolvable.Type = {
         return PubMedIdentifier.self
     }()
     
@@ -58,7 +58,7 @@ open class PubMedResolver: URLBasedResolver {
         self._baseURL = baseURL
     }
     
-    open static var identifier:String = "gov.nih.nlm.ncbi.eutils"
+    public static var identifier: String = "gov.nih.nlm.ncbi.eutils"
     
     fileprivate func bibliographyItem(_ doc:XMLIndexer) throws -> BibliographyItem {
         let b = SimpleBibliographyItem()
