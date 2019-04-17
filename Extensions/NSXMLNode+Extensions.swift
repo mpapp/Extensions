@@ -27,7 +27,7 @@ extension XMLNode {
         let secondPartNode = XMLNode(kind: .text)
         secondPartNode.stringValue = secondPartStr
         
-        if let parentElem = self.parent as? XMLElement, let nodeIndex = parentElem.children?.index(of: self) {
+        if let parentElem = self.parent as? XMLElement, let nodeIndex = parentElem.children?.firstIndex(of: self) {
             parentElem.removeChild(at: nodeIndex)
             parentElem.insertChild(secondPartNode, at: nodeIndex)
             parentElem.insertChild(firstPartNode, at: nodeIndex)
@@ -172,7 +172,7 @@ extension XMLNode {
 extension XMLElement {
     
     public func replace(_ child:XMLNode, withNodes:[XMLNode]) -> Int {
-        let iOpt = self.children?.index(of: child)
+        let iOpt = self.children?.firstIndex(of: child)
         
         guard let i = iOpt else {
             preconditionFailure("Cannot find \(child) amongst children of \(self)")

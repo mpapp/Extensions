@@ -48,7 +48,7 @@ extension ElementProcessor {
                 throw DocumentProcessorError.unexpectedParentNode(node)
             }
             
-            guard let nodeIndex = parentNode.children?.index(of: node) else {
+            guard let nodeIndex = parentNode.children?.firstIndex(of: node) else {
                 throw DocumentProcessorError.unexpectedParentNode(node)
             }
             
