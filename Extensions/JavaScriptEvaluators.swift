@@ -84,7 +84,7 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
     fileprivate(set) internal var webView:WebView
     fileprivate(set) internal var isPresented: Bool
     
-    internal(set) internal weak var containingExtension:Extension?
+    internal weak var containingExtension: Extension?
     
     fileprivate var isLoaded: Bool = false
     
