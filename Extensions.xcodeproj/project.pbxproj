@@ -597,11 +597,11 @@
 			};
 			buildConfigurationList = 5F1996851CB5AE8F00B1C5DB /* Build configuration list for PBXProject "Extensions" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = 5F1996811CB5AE8F00B1C5DB;
 			productRefGroup = 5F19968C1CB5AE8F00B1C5DB /* Products */;
