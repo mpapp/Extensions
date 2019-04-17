@@ -198,7 +198,7 @@ final class JavaScriptEvaluatorWebKit:NSObject, JavaScriptEvaluator, WebEditingD
                          outputHandler: @escaping (Processable?) -> Void,
                          errorHandler: @escaping (EvaluatorError) -> Void) {
         while !self.isLoaded {
-            RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before:Date(timeIntervalSinceNow:0.01))
+            RunLoop.current.run(mode: .default, before: Date(timeIntervalSinceNow: 0.01))
         }
         
         precondition(self.isLoaded, "Evaluator should already be loaded.")
