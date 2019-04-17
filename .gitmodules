@@ -1,6 +1,6 @@
 [submodule "Carthage/Checkouts/Freddy"]
 	path = Carthage/Checkouts/Freddy
-	url = ssh://git@github.com/bignerdranch/Freddy.git
+	url = ssh://git@github.com/mpapp/Freddy.git
 [submodule "Carthage/Checkouts/MPTimer"]
 	path = Carthage/Checkouts/MPTimer
 	url = ssh://git@github.com/mpapp/MPTimer.git

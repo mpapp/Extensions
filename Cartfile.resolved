@@ -1,6 +1,6 @@
 github "AliSoftware/OHHTTPStubs" "7.0.0"
-github "bignerdranch/Freddy" "3.0.2"
 github "drmohundro/SWXMLHash" "4.9.0"
+github "mpapp/Freddy" "3.0.4"
 github "mpapp/MPRateLimiter" "1.1"
 github "mpapp/MPTimer" "1.2"
 github "mpapp/RegexKitLite" "21404878f46d14d5c86beee5288c9d1c78dc1e10"
