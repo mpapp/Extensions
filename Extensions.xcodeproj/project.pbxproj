@@ -104,6 +104,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5347ADC322FDD9F6008D148D /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Extensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F19968E1CB5AE8F00B1C5DB /* Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Extensions.h; sourceTree = "<group>"; };
 		5F1996901CB5AE8F00B1C5DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -201,6 +202,7 @@
 		5F1996811CB5AE8F00B1C5DB = {
 			isa = PBXGroup;
 			children = (
+				5347ADC322FDD9F6008D148D /* Package.swift */,
 				5F19968D1CB5AE8F00B1C5DB /* Extensions */,
 				5F1996B61CB5B58400B1C5DB /* ExtensionsTests */,
 				5F1996D71CB7E1EC00B1C5DB /* Frameworks */,
