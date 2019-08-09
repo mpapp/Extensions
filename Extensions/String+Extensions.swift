@@ -89,13 +89,30 @@ extension String {
     public func componentsCaptured(capturingPatterns patterns:[String]) -> [String] {
         var capturedStrings = [String]()
         for p in patterns {
-            guard let cs = (self as NSString).captureComponents(matchedByRegex: p) as? [String], cs.count > 0 else {
+            var stringsForPattern = [String]()
+            guard let regex = try? NSRegularExpression(pattern: p, options: []) else {
+                return []
+            }
+            regex.enumerateMatches(in: self,
+                                   options: [],
+                                   range: NSRange(self.startIndex..<self.endIndex, in: self)) { (checkingResult, _, stop) in
+                                    if let checkingResult = checkingResult {
+                                        for capturedRangeIndex in 0..<(checkingResult.numberOfRanges - 1) {
+                                            if let capturedRange = Range(checkingResult.range(at: capturedRangeIndex), in: self) {
+                                                stringsForPattern.append(String(self[capturedRange]))
+                                            }
+                                        }
+                                    }
+                                    stop.pointee = true
+            }
+
+            guard stringsForPattern.count > 0 else {
                 continue
             }
-            
+
             // the first element needs excluding if matches were found (it represents the start of the match – the rest are capture groups)
-            if cs.count > 1 {
-                capturedStrings.append(contentsOf: cs[1..<cs.count])
+            if stringsForPattern.count > 1 {
+                capturedStrings.append(contentsOf: stringsForPattern[1..<stringsForPattern.count])
             }
         }
         
