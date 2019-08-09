@@ -10,9 +10,3 @@
 [submodule "Carthage/Checkouts/OHHTTPStubs"]
 	path = Carthage/Checkouts/OHHTTPStubs
 	url = ssh://git@github.com/AliSoftware/OHHTTPStubs.git
-[submodule "Carthage/Checkouts/MPTimer"]
-	path = Carthage/Checkouts/MPTimer
-	url = ssh://git@github.com/mpapp/MPTimer.git
-[submodule "Carthage/Checkouts/MPRateLimiter"]
-	path = Carthage/Checkouts/MPRateLimiter
-	url = ssh://git@github.com/mpapp/MPRateLimiter.git
