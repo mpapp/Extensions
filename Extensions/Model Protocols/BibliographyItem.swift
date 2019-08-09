@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Freddy
 
 public protocol BibliographyItemObject: class, BibliographyItem {
     
