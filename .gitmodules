@@ -1,12 +1,3 @@
-[submodule "Carthage/Checkouts/Freddy"]
-	path = Carthage/Checkouts/Freddy
-	url = ssh://git@github.com/mpapp/Freddy.git
 [submodule "Carthage/Checkouts/RegexKitLite"]
 	path = Carthage/Checkouts/RegexKitLite
 	url = ssh://git@github.com/mpapp/RegexKitLite.git
-[submodule "Carthage/Checkouts/SWXMLHash"]
-	path = Carthage/Checkouts/SWXMLHash
-	url = ssh://git@github.com/drmohundro/SWXMLHash.git
-[submodule "Carthage/Checkouts/OHHTTPStubs"]
-	path = Carthage/Checkouts/OHHTTPStubs
-	url = ssh://git@github.com/AliSoftware/OHHTTPStubs.git
