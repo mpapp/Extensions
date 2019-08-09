@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		536C47A222FDB129004281C6 /* MPRateLimiter in Frameworks */ = {isa = PBXBuildFile; productRef = 536C47A122FDB129004281C6 /* MPRateLimiter */; };
+		536C47A522FDB13C004281C6 /* MPTimer in Frameworks */ = {isa = PBXBuildFile; productRef = 536C47A422FDB13C004281C6 /* MPTimer */; };
 		5F19968F1CB5AE8F00B1C5DB /* Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F19968E1CB5AE8F00B1C5DB /* Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F1996A21CB5AF2100B1C5DB /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996A11CB5AF2100B1C5DB /* Extension.swift */; };
 		5F1996A41CB5AF6D00B1C5DB /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996A31CB5AF6D00B1C5DB /* Evaluator.swift */; };
@@ -60,12 +62,10 @@
 		5F44B8441CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */; };
 		5F4D73421D1E982E00A12225 /* 10.1002-0470841559.ch1.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D73411D1E982E00A12225 /* 10.1002-0470841559.ch1.citeproc-json */; };
 		5F4D73441D1E9DEE00A12225 /* 10.13039-100000054.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D73431D1E9DEE00A12225 /* 10.13039-100000054.citeproc-json */; };
-		5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; };
 		5F571C7E1CC32780003471D5 /* MPTimer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F571C7A1CC32774003471D5 /* MPTimer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F571C901CC41942003471D5 /* DocumentProcessorError.swift */; };
 		5F57FB441CCCDC2000EBF750 /* MPRateLimiter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; };
 		5F57FB461CCCDC2A00EBF750 /* MPRateLimiter.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5F57FB471CCCDC2D00EBF750 /* MPRateLimiter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */; };
 		5F57FB491CCCE39500EBF750 /* MarkdownResolvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB481CCCE39500EBF750 /* MarkdownResolvers.swift */; };
 		5F57FB4D1CCD491800EBF750 /* LaTeXMathResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB4A1CCD491800EBF750 /* LaTeXMathResolver.swift */; };
 		5F57FB4E1CCD491800EBF750 /* SimpleEquation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB4B1CCD491800EBF750 /* SimpleEquation.swift */; };
@@ -245,12 +245,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FEB0D3C1CF329AC00D304B1 /* Cocoa.framework in Frameworks */,
-				5F57FB471CCCDC2D00EBF750 /* MPRateLimiter.framework in Frameworks */,
+				536C47A522FDB13C004281C6 /* MPTimer in Frameworks */,
 				5F44B81A1CCACCE20047A4F0 /* SWXMLHash.framework in Frameworks */,
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
 				5F7EE47E1CB7E52700F4B7EA /* Freddy.framework in Frameworks */,
 				5F1996AC1CB5B31D00B1C5DB /* WebKit.framework in Frameworks */,
-				5F571C7C1CC32774003471D5 /* MPTimer.framework in Frameworks */,
+				536C47A222FDB129004281C6 /* MPRateLimiter in Frameworks */,
 				5F44B81C1CCACCFF0047A4F0 /* RegexKitLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -529,6 +529,10 @@
 			dependencies = (
 			);
 			name = Extensions;
+			packageProductDependencies = (
+				536C47A122FDB129004281C6 /* MPRateLimiter */,
+				536C47A422FDB13C004281C6 /* MPTimer */,
+			);
 			productName = Extensions;
 			productReference = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */;
 			productType = "com.apple.product-type.framework";
@@ -604,6 +608,10 @@
 				Base,
 			);
 			mainGroup = 5F1996811CB5AE8F00B1C5DB;
+			packageReferences = (
+				536C47A022FDB129004281C6 /* XCRemoteSwiftPackageReference "MPRateLimiter" */,
+				536C47A322FDB13C004281C6 /* XCRemoteSwiftPackageReference "MPTimer" */,
+			);
 			productRefGroup = 5F19968C1CB5AE8F00B1C5DB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -844,7 +852,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -867,7 +876,11 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Extensions/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.manuscriptsapp.Extensions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -894,7 +907,11 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Extensions/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.manuscriptsapp.Extensions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -913,7 +930,11 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = ExtensionsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.manuscriptsapp.ExtensionsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
@@ -930,7 +951,11 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = ExtensionsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.manuscriptsapp.ExtensionsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
@@ -1006,6 +1031,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		536C47A022FDB129004281C6 /* XCRemoteSwiftPackageReference "MPRateLimiter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mpapp/MPRateLimiter";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		536C47A322FDB13C004281C6 /* XCRemoteSwiftPackageReference "MPTimer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mpapp/MPTimer";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		536C47A122FDB129004281C6 /* MPRateLimiter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 536C47A022FDB129004281C6 /* XCRemoteSwiftPackageReference "MPRateLimiter" */;
+			productName = MPRateLimiter;
+		};
+		536C47A422FDB13C004281C6 /* MPTimer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 536C47A322FDB13C004281C6 /* XCRemoteSwiftPackageReference "MPTimer" */;
+			productName = MPTimer;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5F1996821CB5AE8F00B1C5DB /* Project object */;
 }
