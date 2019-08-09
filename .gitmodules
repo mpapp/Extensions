@@ -1,3 +1,0 @@
-[submodule "Carthage/Checkouts/RegexKitLite"]
-	path = Carthage/Checkouts/RegexKitLite
-	url = ssh://git@github.com/mpapp/RegexKitLite.git
