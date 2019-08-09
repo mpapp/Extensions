@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RegexKitLite
 
 extension Character {
     public func isUpper() -> Bool {
@@ -30,18 +29,22 @@ extension String {
     public func capturedCharacterIndexRanges(capturingPatterns patterns:[String]) -> [CountableClosedRange<UInt>] {
         let capturedRanges = patterns.flatMap { pattern -> [CountableClosedRange<UInt>] in
             var ranges = [CountableClosedRange<UInt>]()
-            
-            (self as NSString).enumerateStrings(matchingRegex: pattern, with: { (captureCount, _, capturedRanges:UnsafePointer<NSRange>?, _) in
-                guard let captRanges = capturedRanges else {
-                    return
-                }
-                
-                for c in 1 ..< captureCount {
-                    let r = captRanges.advanced(by: c).pointee
-                    let range = UInt(r.location) ... UInt(r.location + r.length)
-                    ranges.append(range)
-                }
-            })
+
+            guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else {
+                return []
+            }
+            regex.enumerateMatches(in: self,
+                                   options: [],
+                                   range: NSRange(self.startIndex..<self.endIndex, in: self)) { (checkingResult, _, stop) in
+                                    if let checkingResult = checkingResult {
+                                        for capturedRangeIndex in 0..<(checkingResult.numberOfRanges - 1) {
+                                            let nsRange = checkingResult.range(at: capturedRangeIndex)
+                                            let capturedRange = UInt(nsRange.lowerBound)...UInt(nsRange.upperBound)
+                                            ranges.append(capturedRange)
+                                        }
+                                    }
+                                    stop.pointee = true
+            }
             
             return ranges
         }
@@ -58,14 +61,29 @@ extension String {
     public func componentsSeparated(tokenizingPatterns patterns:[String]) -> [String] {
         var tokenizedStrings = [self]
         for p in patterns {
-            let cs = (self as NSString).componentsSeparated(byRegex: p) as! [String]
-            if cs.count > 1 {
-                tokenizedStrings = cs
+
+            let components = self.componentsSeparated(byRegex: p)
+            if components.count > 1 {
+                tokenizedStrings = components
                 break
             }
         }
         
         return tokenizedStrings
+    }
+
+    public func componentsSeparated(byRegex regex: String) -> [String] {
+        var ranges: [Range<String.Index>] = []
+        var startIndex = self.startIndex
+
+        while startIndex < self.endIndex,
+            let range = self[startIndex...].range(of: regex, options: .regularExpression) {
+                ranges.append(range)
+                startIndex = range.lowerBound < range.upperBound ? range.upperBound :
+                    index(range.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
+        }
+
+        return ranges.map { String(self[$0]) }
     }
     
     public func componentsCaptured(capturingPatterns patterns:[String]) -> [String] {
