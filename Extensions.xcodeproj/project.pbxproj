@@ -16,9 +16,6 @@
 		5F1996BA1CB5B58400B1C5DB /* Extensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */; };
 		5F1BA9B41D00722100D1A99C /* NSString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BA9B31D00722100D1A99C /* NSString+Extensions.swift */; };
 		5F34E2C01CC7E84B00A5DAF1 /* biolit.html in Resources */ = {isa = PBXBuildFile; fileRef = 5F34E2BF1CC7E84B00A5DAF1 /* biolit.html */; };
-		5F34E2C31CC7E88D00A5DAF1 /* RegexKitLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F34E2C11CC7E88D00A5DAF1 /* RegexKitLite.framework */; };
-		5F34E2C41CC7E88D00A5DAF1 /* RegexKitLite.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5F34E2C21CC7E88D00A5DAF1 /* RegexKitLite.framework.dSYM */; };
-		5F34E2C51CC7E8F200A5DAF1 /* RegexKitLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F34E2C11CC7E88D00A5DAF1 /* RegexKitLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F34E2CF1CC7F0D900A5DAF1 /* BibliographyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */; };
 		5F44B8001CCA6D700047A4F0 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */; };
 		5F44B8071CCA7C940047A4F0 /* Mathematical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8061CCA7C940047A4F0 /* Mathematical.swift */; };
@@ -27,7 +24,6 @@
 		5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8111CCA912F0047A4F0 /* DocumentProcessor.swift */; };
 		5F44B8141CCA91370047A4F0 /* ElementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8131CCA91370047A4F0 /* ElementProcessor.swift */; };
 		5F44B8161CCA913E0047A4F0 /* FragmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8151CCA913E0047A4F0 /* FragmentProcessor.swift */; };
-		5F44B81C1CCACCFF0047A4F0 /* RegexKitLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F34E2C11CC7E88D00A5DAF1 /* RegexKitLite.framework */; };
 		5F44B81F1CCAD09B0047A4F0 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */; };
 		5F44B8211CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8201CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift */; };
 		5F44B8231CCAE7260047A4F0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F1996AB1CB5B31D00B1C5DB /* WebKit.framework */; };
@@ -95,7 +91,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5F34E2C51CC7E8F200A5DAF1 /* RegexKitLite.framework in Copy Frameworks */,
 				5F7EE4AF1CBAD44100F4B7EA /* Extensions.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -175,7 +170,6 @@
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
 				5F1996AC1CB5B31D00B1C5DB /* WebKit.framework in Frameworks */,
 				536C47A222FDB129004281C6 /* MPRateLimiter in Frameworks */,
-				5F44B81C1CCACCFF0047A4F0 /* RegexKitLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,7 +178,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F1996BA1CB5B58400B1C5DB /* Extensions.framework in Frameworks */,
-				5F34E2C31CC7E88D00A5DAF1 /* RegexKitLite.framework in Frameworks */,
 				5F44B8231CCAE7260047A4F0 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -479,7 +472,6 @@
 				5F44B82D1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml in Resources */,
 				5F44B8351CCBAABB0047A4F0 /* 1304383.pubmed-xml in Resources */,
 				5F34E2C01CC7E84B00A5DAF1 /* biolit.html in Resources */,
-				5F34E2C41CC7E88D00A5DAF1 /* RegexKitLite.framework.dSYM in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
