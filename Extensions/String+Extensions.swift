@@ -26,36 +26,26 @@ extension String {
         return true
     }
     
-    public func capturedCharacterIndexRanges(capturingPatterns patterns:[String]) -> [CountableClosedRange<UInt>] {
-        let capturedRanges = patterns.flatMap { pattern -> [CountableClosedRange<UInt>] in
-            var ranges = [CountableClosedRange<UInt>]()
-
-            guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else {
+    public func capturedRanges(capturingPatterns patterns:[String]) -> [Range<String.Index>] {
+        var capturedRanges = [Range<String.Index>]()
+        for p in patterns {
+            guard let regex = try? NSRegularExpression(pattern: p, options: []) else {
                 return []
             }
-            regex.enumerateMatches(in: self,
-                                   options: [],
-                                   range: NSRange(self.startIndex..<self.endIndex, in: self)) { (checkingResult, _, stop) in
-                                    if let checkingResult = checkingResult {
-                                        for capturedRangeIndex in 0..<(checkingResult.numberOfRanges - 1) {
-                                            let nsRange = checkingResult.range(at: capturedRangeIndex)
-                                            let capturedRange = UInt(nsRange.lowerBound)...UInt(nsRange.upperBound)
-                                            ranges.append(capturedRange)
-                                        }
-                                    }
-                                    stop.pointee = true
+
+            let results = regex.matches(in: self,
+                                        options: [],
+                                        range: NSRange(self.startIndex..., in: self))
+            for checkingResult in results {
+                for capturedRangeIndex in 0..<checkingResult.numberOfRanges {
+                    if let capturedRange = Range(checkingResult.range(at: capturedRangeIndex), in: self) {
+                        capturedRanges.append(capturedRange)
+                    }
+                }
             }
-            
-            return ranges
         }
-        
+
         return capturedRanges
-    }
-    
-    public func capturedRanges(capturingPatterns patterns:[String]) -> [Range<String.Index>] {
-        return self.capturedCharacterIndexRanges(capturingPatterns: patterns).map { range -> Range<String.Index> in
-            return self.index(self.startIndex, offsetBy: Int(range.lowerBound)) ..< self.index(self.startIndex, offsetBy: Int(range.lowerBound + range.upperBound))
-        }
     }
     
     public func componentsSeparated(tokenizingPatterns patterns:[String]) -> [String] {
@@ -77,46 +67,22 @@ extension String {
         var startIndex = self.startIndex
 
         while startIndex < self.endIndex,
-            let range = self[startIndex...].range(of: regex, options: .regularExpression) {
-                ranges.append(range)
-                startIndex = range.lowerBound < range.upperBound ? range.upperBound :
-                    index(range.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
+            let regexRange = self[startIndex...].range(of: regex, options: .regularExpression) {
+                ranges.append(startIndex..<regexRange.lowerBound)
+                startIndex = regexRange.lowerBound < regexRange.upperBound ? regexRange.upperBound :
+                    index(regexRange.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
         }
+
+        // Last component range
+        ranges.append(startIndex..<endIndex)
 
         return ranges.map { String(self[$0]) }
     }
     
     public func componentsCaptured(capturingPatterns patterns:[String]) -> [String] {
-        var capturedStrings = [String]()
-        for p in patterns {
-            var stringsForPattern = [String]()
-            guard let regex = try? NSRegularExpression(pattern: p, options: []) else {
-                return []
-            }
-            regex.enumerateMatches(in: self,
-                                   options: [],
-                                   range: NSRange(self.startIndex..<self.endIndex, in: self)) { (checkingResult, _, stop) in
-                                    if let checkingResult = checkingResult {
-                                        for capturedRangeIndex in 0..<(checkingResult.numberOfRanges - 1) {
-                                            if let capturedRange = Range(checkingResult.range(at: capturedRangeIndex), in: self) {
-                                                stringsForPattern.append(String(self[capturedRange]))
-                                            }
-                                        }
-                                    }
-                                    stop.pointee = true
-            }
-
-            guard stringsForPattern.count > 0 else {
-                continue
-            }
-
-            // the first element needs excluding if matches were found (it represents the start of the match – the rest are capture groups)
-            if stringsForPattern.count > 1 {
-                capturedStrings.append(contentsOf: stringsForPattern[1..<stringsForPattern.count])
-            }
+        return capturedRanges(capturingPatterns: patterns).map { range -> String in
+            return String(self[range])
         }
-        
-        return capturedStrings
     }
     
     public func ranges(_ string:String, options:NSString.CompareOptions = [], locale:Locale? = nil) -> [(Range<String.Index>)] {

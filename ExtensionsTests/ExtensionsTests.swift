@@ -114,4 +114,32 @@ class ExtensionsTests: XCTestCase {
         XCTAssertTrue(splitNodes[4].xmlString == "b")
         XCTAssertTrue(splitNodes[5].xmlString == "<em>az</em>")
     }
+
+    func testComponentsSeparated() {
+        let str = "foogbargbaz"
+        let tokenizedComponents = str.componentsSeparated(tokenizingPatterns: ["g"])
+        let noComponents = str.componentsSeparated(tokenizingPatterns: ["q"])
+
+        XCTAssertEqual(tokenizedComponents, ["foo", "bar", "baz"])
+        XCTAssertEqual(noComponents, [str])
+    }
+
+    func testComponentsCaptured() {
+        let str = "foogbargbaz"
+        let capturedComponents = str.componentsCaptured(capturingPatterns: [".g"])
+        let noComponents = str.componentsCaptured(capturingPatterns: [".q"])
+
+        XCTAssertEqual(capturedComponents, ["og", "rg"])
+        XCTAssertEqual(noComponents, [])
+    }
+
+    func testCapturedRanges() {
+        let str = "foogbargbaz"
+        let capturedRanges = str.capturedRanges(capturingPatterns: [".g"])
+        let noRanges = str.capturedRanges(capturingPatterns: [".q"])
+
+        XCTAssertEqual(capturedRanges, [str.range(of: "og"),
+                                        str.range(of: "rg")])
+        XCTAssertEqual(noRanges, [])
+    }
 }
