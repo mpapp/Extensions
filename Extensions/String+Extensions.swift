@@ -5,9 +5,23 @@
 //  Created by Matias Piipari on 22/04/2016.
 //  Copyright © 2016 Manuscripts.app Limited. All rights reserved.
 //
+//  ---------------------------------------------------------------------------
+//
+//  © 2019 Atypon Systems LLC
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 
 import Foundation
-import RegexKitLite
 
 extension Character {
     public func isUpper() -> Bool {
@@ -27,61 +41,63 @@ extension String {
         return true
     }
     
-    public func capturedCharacterIndexRanges(capturingPatterns patterns:[String]) -> [CountableClosedRange<UInt>] {
-        let capturedRanges = patterns.flatMap { pattern -> [CountableClosedRange<UInt>] in
-            var ranges = [CountableClosedRange<UInt>]()
-            
-            (self as NSString).enumerateStrings(matchingRegex: pattern, with: { (captureCount, _, capturedRanges:UnsafePointer<NSRange>?, _) in
-                guard let captRanges = capturedRanges else {
-                    return
-                }
-                
-                for c in 1 ..< captureCount {
-                    let r = captRanges.advanced(by: c).pointee
-                    let range = UInt(r.location) ... UInt(r.location + r.length)
-                    ranges.append(range)
-                }
-            })
-            
-            return ranges
-        }
-        
-        return capturedRanges
-    }
-    
     public func capturedRanges(capturingPatterns patterns:[String]) -> [Range<String.Index>] {
-        return self.capturedCharacterIndexRanges(capturingPatterns: patterns).map { range -> Range<String.Index> in
-            return self.index(self.startIndex, offsetBy: Int(range.lowerBound)) ..< self.index(self.startIndex, offsetBy: Int(range.lowerBound + range.upperBound))
+        var capturedRanges = [Range<String.Index>]()
+        for p in patterns {
+            guard let regex = try? NSRegularExpression(pattern: p, options: []) else {
+                return []
+            }
+
+            let results = regex.matches(in: self,
+                                        options: [],
+                                        range: NSRange(self.startIndex..., in: self))
+            for checkingResult in results {
+                for capturedRangeIndex in 0..<checkingResult.numberOfRanges {
+                    if let capturedRange = Range(checkingResult.range(at: capturedRangeIndex), in: self) {
+                        capturedRanges.append(capturedRange)
+                    }
+                }
+            }
         }
+
+        return capturedRanges
     }
     
     public func componentsSeparated(tokenizingPatterns patterns:[String]) -> [String] {
         var tokenizedStrings = [self]
         for p in patterns {
-            let cs = (self as NSString).componentsSeparated(byRegex: p) as! [String]
-            if cs.count > 1 {
-                tokenizedStrings = cs
+
+            let components = self.componentsSeparated(byRegex: p)
+            if components.count > 1 {
+                tokenizedStrings = components
                 break
             }
         }
         
         return tokenizedStrings
     }
+
+    public func componentsSeparated(byRegex regex: String) -> [String] {
+        var ranges: [Range<String.Index>] = []
+        var startIndex = self.startIndex
+
+        while startIndex < self.endIndex,
+            let regexRange = self[startIndex...].range(of: regex, options: .regularExpression) {
+                ranges.append(startIndex..<regexRange.lowerBound)
+                startIndex = regexRange.lowerBound < regexRange.upperBound ? regexRange.upperBound :
+                    index(regexRange.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
+        }
+
+        // Last component range
+        ranges.append(startIndex..<endIndex)
+
+        return ranges.map { String(self[$0]) }
+    }
     
     public func componentsCaptured(capturingPatterns patterns:[String]) -> [String] {
-        var capturedStrings = [String]()
-        for p in patterns {
-            guard let cs = (self as NSString).captureComponents(matchedByRegex: p) as? [String], cs.count > 0 else {
-                continue
-            }
-            
-            // the first element needs excluding if matches were found (it represents the start of the match – the rest are capture groups)
-            if cs.count > 1 {
-                capturedStrings.append(contentsOf: cs[1..<cs.count])
-            }
+        return capturedRanges(capturingPatterns: patterns).map { range -> String in
+            return String(self[range])
         }
-        
-        return capturedStrings
     }
     
     public func ranges(_ string:String, options:NSString.CompareOptions = [], locale:Locale? = nil) -> [(Range<String.Index>)] {

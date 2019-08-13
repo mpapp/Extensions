@@ -5,11 +5,25 @@
 //  Created by Matias Piipari on 06/04/2016.
 //  Copyright © 2016 Manuscripts.app Limited. All rights reserved.
 //
+//  ---------------------------------------------------------------------------
+//
+//  © 2019 Atypon Systems LLC
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 
 import XCTest
 import Foundation
 import Extensions
-import OHHTTPStubs
 
 extension String {
     func stringAroundOccurrence(ofString str:String, maxPadding:UInt, options:NSString.CompareOptions = []) -> String? {
@@ -29,352 +43,15 @@ extension String {
 
 class ExtensionsTests: XCTestCase {
     
-    fileprivate var debugWindowController:EvaluatorDebugWindowController?
-    
     override func setUp() {
         super.setUp()
 
         UserDefaults.standard.set(true, forKey: "WebKitDeveloperExtras")
-        //_ = EvaluatorDebugWindowController.sharedInstance()
-
-        let bundleURL = Bundle(for: type(of: self)).bundleURL
-        try! ExtensionRegistry.sharedInstance.loadExtensions(bundleURL, loadFailureHandler:{ (url, extensionError) in
-            XCTFail("Load failure (URL: \(url), error: \(extensionError)")
-        })
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
-    }
-    
-    func testLoadingWebKitExtension() {
-        let extensions = ExtensionRegistry.sharedInstance.extensionSet
-        XCTAssertTrue(extensions.count > 0, "No extensions have been loaded.")
-        
-        let ext = try! ExtensionRegistry.sharedInstance.extensionWithIdentifier("com.manuscriptsapp.JSExample")
-        
-        XCTAssertTrue(ext.procedures.count == 2, "Unexpected procedure count: \(ext.procedures.count) != 2")
-        
-        let exp = expectation(description: "Evaluation ended successfully.")
-        
-        do {
-            try ext.evaluate(Processable.stringData("foo"), procedureHandler: { _,_ in
-                //print("Input \($0) -> Output:\($1)")
-                exp.fulfill()
-            }, errorHandler: { err in
-                XCTFail("Evaluation error: \(err)")
-            })
-        }
-        catch {
-            XCTFail("Unexpected evaluation error: \(error)")
-        }
-
-        waitForExpectations(timeout: 11.0) { (err:Error?) in
-            XCTAssertNil(err, "Unexpected error \(String(describing:err))")
-        }
-    }
-    
-    func testResolvingPMIDIdentifier() {
-        stub(condition: isHost("eutils.ncbi.nlm.nih.gov")) { (_) in
-            let stubPath = OHPathForFile("1304383.pubmed-xml", type(of: self))!
-            return fixture(filePath: stubPath, headers: [:])
-        }
-        
-        let pdb = ResolvableElementProcessor(resolver: PubMedResolver(), tokenizingPatterns: [], capturingPatterns:[PubMedIdentifier.capturingPattern()])
-        let docP = ResolvingDocumentProcessor(resolver: PubMedResolver(), elementProcessors: [pdb])
-        
-        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "PMID-reference-example", withExtension: "html")!
-        
-        var doc:XMLDocument? = nil
-        do {
-            doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML))
-        }
-        catch {
-            XCTFail("Failed to initialize test document from URL \(URL).")
-        }
-        
-        var count = 0
-        do {
-            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { _, capturedResultRanges in
-                for resultRange in capturedResultRanges {
-                    
-                    XCTAssert(resultRange.result.resolvable.originatingString.hasPrefix("PMID:"))
-                    
-                    switch resultRange.result.result {
-                    case .bibliographyItems(let items):
-                        count += 1
-                        XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                        XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(String(describing: items.first?.title))'")
-                    default:
-                        XCTFail("Failed to resolve a bibliography item for \(resultRange)")
-                    }
-                    print("Result range:\(resultRange)")
-                }
-            })
-        }
-        catch {
-            XCTFail("Failed to process document from URL \(URL).")
-        }
-        
-        XCTAssert(count > 0, "No parsing events fired.")
-    }
-    
-    func testResolvingPDBIdentifier() {
-        stub(condition: isHost("www.rcsb.org")) { (_) in
-            let stubPath = OHPathForFile("1HIV.rcsb-xml", type(of: self))!
-            return fixture(filePath: stubPath, headers: [:])
-        }
-        
-        stub(condition: isHost("eutils.ncbi.nlm.nih.gov")) { (_) in
-            let stubPath = OHPathForFile("1304383.pubmed-xml", type(of: self))!
-            return fixture(filePath: stubPath, headers: [:])
-        }
-        
-        let pdb = ResolvableElementProcessor(resolver: ProteinDataBankResolver(), tokenizingPatterns: [], capturingPatterns:[ProteinDataBankIdentifier.capturingPattern()], replaceMatches: true)
-        let docP = ResolvingDocumentProcessor(resolver: ProteinDataBankResolver(), elementProcessors: [pdb])
-        
-        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        
-        var count = 0
-        var doc:XMLDocument? = nil
-        do {
-            doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML))
-        }
-        catch {
-            XCTFail("Failed to initialize test document from URL \(URL).")
-        }
-        
-        var elementEncounters = 0
-        do {
-            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { _, capturedResultRanges in
-                count += 1
-                for resultRange in capturedResultRanges {
-                    switch resultRange.result.result {
-                    case .bibliographyItems(let items):
-                        XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                        XCTAssert(items.first?.title == "Crystal structure of a complex of HIV-1 protease with a dihydroxyethylene-containing inhibitor: comparisons with molecular modeling.", "Unexpected title: '\(String(describing: items.first?.title))'")
-                    default:
-                        XCTFail("Failed to resolve a bibliography item for \(resultRange)")
-                    }
-                    print("Result range:\(resultRange)")
-                }
-            }, elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
-                elementEncounters += 1
-                let elem = SimpleInlineElement(contents: String(textNode.stringValue![capturedResultRange.ranges[0]]), tagName: "span")
-                return elem
-            })
-        }
-        catch {
-            XCTFail("Failed to process document from URL \(URL):\(error)")
-        }
-        
-        XCTAssert(elementEncounters > 0)
-        XCTAssert(count > 0)
-    }
-    
-    func testResolvingDOI1() {
-        stub(condition: isHost("dx.doi.org")) { (_) in
-            let stubPath = OHPathForFile("10.1038-nrd842.citeproc-json", type(of: self))!
-            return fixture(filePath: stubPath, headers: [:])
-        }
-        
-        let DOIResolver = DigitalObjectIdentifierResolver()
-        
-        switch try! DOIResolver.resolve("10.1038/nrd84").result {
-        case .bibliographyItems(let items):
-            XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
-        default:
-            XCTFail("Failed to parse bibliography items.")
-        }
-        
-        var count = 0
-        let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
-                                                      tokenizingPatterns: [],
-                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()],
-                                                      replaceMatches: true)
-        let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
-        
-        var doc:XMLDocument? = nil
-        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
-        catch { XCTFail("Failed to initialize test document from URL \(URL).") }
-        
-        var elementEncounters = 0
-        do {
-            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true,
-                                       resultHandler: { _, capturedResultRanges in
-                                                            count += 1
-                                                            for resultRange in capturedResultRanges {
-                                                                switch resultRange.result.result {
-                                                                case .bibliographyItems(let items):
-                                                                    XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                                                                    XCTAssert(items.first?.title == "From the analyst\'s couch: Selective anticancer drugs", "Unexpected title: '\(String(describing: items.first?.title))'")
-                                                                default:
-                                                                    XCTFail("Failed to resolve a bibliography item for \(resultRange)")
-                                                                }
-                                                                print("Result range: \(resultRange)")
-                                                            }
-                                                        },
-                                       elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
-                                            elementEncounters += 1
-                                            let elem = SimpleInlineElement(contents: String(textNode.stringValue![capturedResultRange.ranges[0]]), tagName: "span")
-                                            return elem
-                                       })
-        }
-        catch {
-            XCTFail("Failed to process document from URL \(URL).")
-        }
-        
-        XCTAssert(elementEncounters > 0)
-        XCTAssert(count > 0)
-    }
-    
-    func testResolvingDOI2() {
-        stub(condition: isHost("dx.doi.org")) { (_) in
-            let stubPath = OHPathForFile("10.1002-0470841559.ch1.citeproc-json", type(of: self))!
-            return fixture(filePath: stubPath, headers: [:])
-        }
-        
-        let DOIResolver = DigitalObjectIdentifierResolver()
-        
-        switch try! DOIResolver.resolve("10.1002/0470841559.ch1").result {
-        case .bibliographyItems(let items):
-            XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
-        default:
-            XCTFail("Failed to parse bibliography items.")
-        }
-        
-        var count = 0
-        let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
-                                                      tokenizingPatterns: [],
-                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()],
-                                                      replaceMatches: true)
-        let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
-        
-        var doc:XMLDocument? = nil
-        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
-        catch {
-            XCTFail("Failed to initialize test document from URL \(URL).")
-        }
-        
-        var elementEncounters = 0
-        do {
-            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true,
-                                       resultHandler: { _, capturedResultRanges in
-                                        count += 1
-                                        for resultRange in capturedResultRanges {
-                                            switch resultRange.result.result {
-                                            case .bibliographyItems(let items):
-                                                XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                                                
-                                                if let item = items.first {
-                                                    XCTAssert(item.title == "Network Concepts", "Unexpected title: '\(String(describing: item.title))'")
-                                                    
-                                                    XCTAssertEqual(item.DOI!, "10.1002/0470841559.ch1", "Unexpected DOI: '\(String(describing: item.DOI))'")
-                                                    XCTAssertEqual(item.URL!, Foundation.URL(string:"http://dx.doi.org/10.1002/0470841559.ch1"), "Unexpected URL: '\(String(describing: item.URL))'")
-                                                    XCTAssertEqual(item.containerTitle, "Internetworking LANs and WANs", "Unexpected container title: \(String(describing: item.containerTitle))")
-                                                    XCTAssert(item.publisher! == "Wiley-Blackwell", "Unexpected publisher: '\(String(describing: item.publisher))'")
-                                                }
-                                            default:
-                                                XCTFail("Failed to resolve a bibliography item for \(resultRange)")
-                                            }
-                                            print("Result range: \(resultRange)")
-                                        }
-                },
-                                       elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
-                                        elementEncounters += 1
-                                        let elem = SimpleInlineElement(contents: String(textNode.stringValue![capturedResultRange.ranges[0]]), tagName: "span")
-                                        return elem
-            })
-        }
-        catch {
-            XCTFail("Failed to process document from URL \(URL).")
-        }
-        
-        XCTAssert(elementEncounters > 0)
-        XCTAssert(count > 0)
-    }
-    
-    func testResolvingDOI3() {
-        stub(condition: isHost("dx.doi.org")) { (_) in
-            let stubPath = OHPathForFile("10.13039-100000054.citeproc-json", type(of: self))!
-            return fixture(filePath: stubPath, headers: [:])
-        }
-        
-        let DOIResolver = DigitalObjectIdentifierResolver()
-        
-        switch try! DOIResolver.resolve("10.13039/100000054").result {
-        case .bibliographyItems(let items):
-            XCTAssert(items.count == 1, "Unexpected item count \(items.count)")
-        default:
-            XCTFail("Failed to parse bibliography items.")
-        }
-        
-        var count = 0
-        let DOIProcessor = ResolvableElementProcessor(resolver: DOIResolver,
-                                                      tokenizingPatterns: [],
-                                                      capturingPatterns:[DigitalObjectIdentifier.capturingPattern()],
-                                                      replaceMatches: true)
-        let docP = ResolvingDocumentProcessor(resolver: DOIResolver, elementProcessors: [DOIProcessor])
-        
-        var doc:XMLDocument? = nil
-        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        
-        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
-        catch { XCTFail("Failed to initialize test document from URL \(URL).") }
-        
-        var elementEncounters = 0
-        do {
-            _ = try docP.processedDocument(inputDocument: doc!, inPlace: true,
-                                       resultHandler: { _, capturedResultRanges in
-                                        count += 1
-                                        for resultRange in capturedResultRanges {
-                                            switch resultRange.result.result {
-                                            case .bibliographyItems(let items):
-                                                XCTAssert(items.count == 1, "Unexpected number of items resolved: \(items)")
-                                                
-                                                if let item = items.first {
-                                                    XCTAssert(item.title == "Understanding how perceptions of tobacco constituents and the FDA relate to effective and credible tobacco risk messaging: A national phone survey of U.S. adults, 2014–2015", "Unexpected title: '\(String(describing: item.title))'")
-                                                    
-                                                    XCTAssertEqual(item.DOI!, "10.1186/s12889-016-3151-5", "Unexpected DOI: '\(String(describing: item.DOI))'")
-                                                    XCTAssertEqual(item.URL!, Foundation.URL(string:"http://dx.doi.org/10.1186/s12889-016-3151-5"), "Unexpected URL: '\(item.URL!)'")
-                                                    XCTAssertEqual((item.issued!.dateParts! as NSArray) as! [NSArray], [[2016, 6, 23]] as [NSArray], "Unexpected date parts: \(item.issued!)")
-                                                    XCTAssert(item.publisher! == "Springer Nature", "Unexpected publisher: '\(String(describing: item.publisher))'")
-                                                }
-                                            default:
-                                                XCTFail("Failed to resolve a bibliography item for \(resultRange)")
-                                            }
-                                            print("Result range: \(resultRange)")
-                                        }
-                },
-                                       elementRepresentationProvider: { (elementProcessor:ResolvableElementProcessor, capturedResultRange:CapturedResultRange, textNode) -> Element in
-                                        elementEncounters += 1
-                                        let elem = SimpleInlineElement(contents: String(textNode.stringValue![capturedResultRange.ranges[0]]), tagName: "span")
-                                        return elem
-            })
-        }
-        catch {
-            XCTFail("Failed to process document from URL \(URL).")
-        }
-        
-        XCTAssert(elementEncounters > 0)
-        XCTAssert(count > 0)
-    }
-    
-    func testResolvingMarkdown() {
-        do { _ = try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self).resolve("**foobar**") }
-        catch (let error) { XCTFail("Error: \(error)") }
-        
-        do { _ = try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self).resolve("*foobar*") }
-        catch (let error) { XCTFail("Error: \(error)") }
-        
-        do { _ = try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self).resolve("__foobar__") }
-        catch (let error) { XCTFail("Error: \(error)") }
-        
-        do { _ = try MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self).resolve("_foobar_") }
-        catch (let error) { XCTFail("Error: \(error)") }
     }
     
     func testXMLNodeSplitting() {
@@ -452,86 +129,32 @@ class ExtensionsTests: XCTestCase {
         XCTAssertTrue(splitNodes[4].xmlString == "b")
         XCTAssertTrue(splitNodes[5].xmlString == "<em>az</em>")
     }
-    
-    func testProcessingMarkdown() {
-        let resolvers:[Resolver] = [ MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskStrong.self),
-                                     MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreStrong.self),
-                                     MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownAsteriskEmphasis.self),
-                                     MarkdownSyntaxComponentResolver(markdownComponentType:MarkdownUnderscoreEmphasis.self) ]
-        
-        var encounteredIDs:Set<String> = []
-        
-        let docP = ResolvingCompoundDocumentProcessor(resolvers: resolvers, replaceMatches: true)
-        
-        var doc:XMLDocument? = nil
-        let URL:Foundation.URL = Bundle(for: type(of: self)).url(forResource: "biolit", withExtension: "html")!
-        do { doc = try XMLDocument(contentsOf: URL, options: Extensions.defaultXMLDocumentOutputOptions.union(.documentTidyHTML)) }
-        catch { XCTFail("Failed to initialize test document from URL \(URL).") }
-        
-        _ = try! docP.processedDocument(inputDocument: doc!, inPlace: true, resultHandler: { (elementProcessor, capturedResultRanges) in
-            
-            for range in capturedResultRanges {
-                switch range.result.result {
-                case .inlineElements(let elems):
-                    guard let resolvable = range.result.resolvable as? MarkdownSyntaxComponent else {
-                        XCTFail("Resolvable is unexpectedly not a MarkdownSyntaxComponent: \(range.result.resolvable).")
-                        break
-                    }
-                    
-                    XCTAssert(elems.count == 1, "Unexpected inline element count: \(elems)")
-                    
-                    encounteredIDs.insert(resolvable.identifier)
-                    
-                    switch resolvable.identifier {
-                    case "**delivers**":
-                        XCTAssert(resolvable.innerHTML == "delivers", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                        XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
-                        
-                    case "__that__":
-                        XCTAssert(resolvable.innerHTML == "that", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                        XCTAssert(resolvable.tagName == "strong", "Unexpected tagName: \(resolvable.tagName).")
-                        
-                    case "*resource*":
-                        XCTAssert(resolvable.innerHTML == "resource", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                        XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
-                        
-                    case "_semantically_":
-                        XCTAssert(resolvable.innerHTML == "semantically", "Unexpected innerHTML: \(resolvable.innerHTML).")
-                        XCTAssert(resolvable.tagName == "em", "Unexpected tagName: \(resolvable.tagName).")
-                        
-                    default:
-                        break
-                    }
-                    
-                case .bibliographyItems(_):
-                    break
-                    
-                default:
-                    XCTFail("There should be no failed resolve calls.")
-                }
-            }
-        })
-        
-        for identifier in ["**delivers**", "__that__", "*resource*", "_semantically_"] {
-            XCTAssert(encounteredIDs.contains(identifier), "Failed to resolve identifier \(identifier)")
-        }
-        
-        let paddedBy2 = "foobar123foobar".stringAroundOccurrence(ofString: "123", maxPadding: 2)
-        let paddedBy12 = "foobar123foobar".stringAroundOccurrence(ofString: "123", maxPadding: 12)
-        XCTAssert(paddedBy2 == "ar123fo", "String matching")
-        XCTAssert(paddedBy12 == "foobar123foobar", "String matching")
-        
-        XCTAssert("foobarfoobar".ranges("foobar").count == 2, "String.ranges is not behaving as expected")
-        
-        let xmlStr = doc?.xmlString(options: Extensions.defaultXMLDocumentOutputOptions)
-        
-        XCTAssert(xmlStr!.contains("<em>"), "XML string contains no instances of <em>")
-        print(xmlStr!.stringAroundOccurrence(ofString: "delivers", maxPadding: 9) == " <strong>delivers</strong>")
+
+    func testComponentsSeparated() {
+        let str = "foogbargbaz"
+        let tokenizedComponents = str.componentsSeparated(tokenizingPatterns: ["g"])
+        let noComponents = str.componentsSeparated(tokenizingPatterns: ["q"])
+
+        XCTAssertEqual(tokenizedComponents, ["foo", "bar", "baz"])
+        XCTAssertEqual(noComponents, [str])
     }
-    
-    func testElementHTMLSnippetRepresentation() {
-        let snippetRep = SimpleInlineElement(contents: "foo", tagName: "span", attributes: ["id":"bar"]).HTMLSnippetRepresentation
-        XCTAssert(snippetRep == "<span id=\"bar\">foo</span>")
-        
+
+    func testComponentsCaptured() {
+        let str = "foogbargbaz"
+        let capturedComponents = str.componentsCaptured(capturingPatterns: [".g"])
+        let noComponents = str.componentsCaptured(capturingPatterns: [".q"])
+
+        XCTAssertEqual(capturedComponents, ["og", "rg"])
+        XCTAssertEqual(noComponents, [])
+    }
+
+    func testCapturedRanges() {
+        let str = "foogbargbaz"
+        let capturedRanges = str.capturedRanges(capturingPatterns: [".g"])
+        let noRanges = str.capturedRanges(capturingPatterns: [".q"])
+
+        XCTAssertEqual(capturedRanges, [str.range(of: "og"),
+                                        str.range(of: "rg")])
+        XCTAssertEqual(noRanges, [])
     }
 }
