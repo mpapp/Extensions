@@ -7,6 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5301943B2304154300F479AF /* DocumentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194232304154000F479AF /* DocumentProcessor.swift */; };
+		5301943C2304154300F479AF /* HTMLSnippetRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194242304154000F479AF /* HTMLSnippetRepresentable.swift */; };
+		5301943D2304154300F479AF /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194252304154000F479AF /* Dictionary+Extensions.swift */; };
+		5301943E2304154300F479AF /* SequenceType+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194262304154000F479AF /* SequenceType+Extensions.swift */; };
+		5301943F2304154300F479AF /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194272304154000F479AF /* Elements.swift */; };
+		530194402304154300F479AF /* Mathematical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194282304154000F479AF /* Mathematical.swift */; };
+		530194412304154300F479AF /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194292304154000F479AF /* NSView+Extensions.swift */; };
+		530194422304154300F479AF /* NSNumber+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942A2304154100F479AF /* NSNumber+Extensions.swift */; };
+		530194432304154300F479AF /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942B2304154100F479AF /* Int+Extensions.swift */; };
+		530194442304154300F479AF /* BibliographicName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942C2304154100F479AF /* BibliographicName.swift */; };
+		530194452304154300F479AF /* ElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942D2304154100F479AF /* ElementRepresentable.swift */; };
+		530194462304154300F479AF /* BibliographyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942F2304154100F479AF /* BibliographyItem.swift */; };
+		530194472304154300F479AF /* DictionaryRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194302304154100F479AF /* DictionaryRepresentable.swift */; };
+		530194482304154300F479AF /* Range+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194312304154100F479AF /* Range+Extensions.swift */; };
+		530194492304154300F479AF /* ElementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194322304154100F479AF /* ElementProcessor.swift */; };
+		5301944A2304154300F479AF /* NSXMLNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194332304154200F479AF /* NSXMLNode+Extensions.swift */; };
+		5301944B2304154300F479AF /* BibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194342304154200F479AF /* BibliographicDate.swift */; };
+		5301944C2304154300F479AF /* NSFileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194352304154200F479AF /* NSFileManager+Extensions.swift */; };
+		5301944D2304154300F479AF /* FragmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194362304154200F479AF /* FragmentProcessor.swift */; };
+		5301944E2304154300F479AF /* NSString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194372304154200F479AF /* NSString+Extensions.swift */; };
+		5301944F2304154300F479AF /* NSURLConnection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194382304154200F479AF /* NSURLConnection+Extensions.swift */; };
+		530194502304154300F479AF /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194392304154200F479AF /* String+Extensions.swift */; };
+		530194512304154300F479AF /* DocumentProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301943A2304154200F479AF /* DocumentProcessorError.swift */; };
 		536C47A222FDB129004281C6 /* MPRateLimiter in Frameworks */ = {isa = PBXBuildFile; productRef = 536C47A122FDB129004281C6 /* MPRateLimiter */; };
 		536C47A522FDB13C004281C6 /* MPTimer in Frameworks */ = {isa = PBXBuildFile; productRef = 536C47A422FDB13C004281C6 /* MPTimer */; };
 		5F19968F1CB5AE8F00B1C5DB /* Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F19968E1CB5AE8F00B1C5DB /* Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -14,39 +37,16 @@
 		5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F1996AD1CB5B32100B1C5DB /* JavaScriptCore.framework */; };
 		5F1996B81CB5B58400B1C5DB /* ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1996B71CB5B58400B1C5DB /* ExtensionsTests.swift */; };
 		5F1996BA1CB5B58400B1C5DB /* Extensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */; };
-		5F1BA9B41D00722100D1A99C /* NSString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BA9B31D00722100D1A99C /* NSString+Extensions.swift */; };
 		5F34E2C01CC7E84B00A5DAF1 /* biolit.html in Resources */ = {isa = PBXBuildFile; fileRef = 5F34E2BF1CC7E84B00A5DAF1 /* biolit.html */; };
-		5F34E2CF1CC7F0D900A5DAF1 /* BibliographyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */; };
-		5F44B8001CCA6D700047A4F0 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */; };
-		5F44B8071CCA7C940047A4F0 /* Mathematical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8061CCA7C940047A4F0 /* Mathematical.swift */; };
-		5F44B80E1CCA7DC20047A4F0 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B80D1CCA7DC20047A4F0 /* Elements.swift */; };
-		5F44B8101CCA87700047A4F0 /* DictionaryRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */; };
-		5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8111CCA912F0047A4F0 /* DocumentProcessor.swift */; };
-		5F44B8141CCA91370047A4F0 /* ElementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8131CCA91370047A4F0 /* ElementProcessor.swift */; };
-		5F44B8161CCA913E0047A4F0 /* FragmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8151CCA913E0047A4F0 /* FragmentProcessor.swift */; };
-		5F44B81F1CCAD09B0047A4F0 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */; };
-		5F44B8211CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8201CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift */; };
 		5F44B8231CCAE7260047A4F0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F1996AB1CB5B31D00B1C5DB /* WebKit.framework */; };
 		5F44B82D1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml in Resources */ = {isa = PBXBuildFile; fileRef = 5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */; };
 		5F44B8351CCBAABB0047A4F0 /* 1304383.pubmed-xml in Resources */ = {isa = PBXBuildFile; fileRef = 5F44B8341CCBAABB0047A4F0 /* 1304383.pubmed-xml */; };
-		5F44B8381CCBCC850047A4F0 /* BibliographicName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */; };
-		5F44B83A1CCBCCA10047A4F0 /* BibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */; };
 		5F44B8441CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */; };
 		5F4D73421D1E982E00A12225 /* 10.1002-0470841559.ch1.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D73411D1E982E00A12225 /* 10.1002-0470841559.ch1.citeproc-json */; };
 		5F4D73441D1E9DEE00A12225 /* 10.13039-100000054.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D73431D1E9DEE00A12225 /* 10.13039-100000054.citeproc-json */; };
-		5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F571C901CC41942003471D5 /* DocumentProcessorError.swift */; };
-		5F57FB511CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F57FB501CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift */; };
-		5F6140E81CE5D411008B288C /* SequenceType+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6140E71CE5D411008B288C /* SequenceType+Extensions.swift */; };
-		5F6813EF1CCE497100AA2C29 /* ElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6813EE1CCE497100AA2C29 /* ElementRepresentable.swift */; };
 		5F7EE4AB1CBAD42200F4B7EA /* example-1.js in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE4A61CBAC4A100F4B7EA /* example-1.js */; };
 		5F7EE4AC1CBAD42200F4B7EA /* example-2.js in Resources */ = {isa = PBXBuildFile; fileRef = 5F7EE4A81CBAC4A800F4B7EA /* example-2.js */; };
 		5F7EE4AF1CBAD44100F4B7EA /* Extensions.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5F7EE4B11CBAD9D200F4B7EA /* NSFileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */; };
-		5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */; };
-		5FA223531CE33F2F00C38E72 /* NSXMLNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA223521CE33F2F00C38E72 /* NSXMLNode+Extensions.swift */; };
-		5FA223551CE37ADA00C38E72 /* Range+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA223541CE37ADA00C38E72 /* Range+Extensions.swift */; };
-		5FC2B2C51CBC9B02001F77FB /* NSNumber+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */; };
-		5FC2B2CE1CBCAA75001F77FB /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */; };
 		5FC2B2DE1CBD3C49001F77FB /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2DD1CBD3C49001F77FB /* index.html */; };
 		5FC2B2E11CBD3D33001F77FB /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2DF1CBD3D33001F77FB /* scripts */; };
 		5FC2B2E21CBD3D33001F77FB /* styles in Resources */ = {isa = PBXBuildFile; fileRef = 5FC2B2E01CBD3D33001F77FB /* styles */; };
@@ -99,6 +99,29 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		530194232304154000F479AF /* DocumentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DocumentProcessor.swift; path = Sources/DocumentProcessor.swift; sourceTree = SOURCE_ROOT; };
+		530194242304154000F479AF /* HTMLSnippetRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTMLSnippetRepresentable.swift; path = Sources/HTMLSnippetRepresentable.swift; sourceTree = SOURCE_ROOT; };
+		530194252304154000F479AF /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Dictionary+Extensions.swift"; path = "Sources/Dictionary+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		530194262304154000F479AF /* SequenceType+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SequenceType+Extensions.swift"; path = "Sources/SequenceType+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		530194272304154000F479AF /* Elements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Elements.swift; path = Sources/Elements.swift; sourceTree = SOURCE_ROOT; };
+		530194282304154000F479AF /* Mathematical.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mathematical.swift; path = Sources/Mathematical.swift; sourceTree = SOURCE_ROOT; };
+		530194292304154000F479AF /* NSView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSView+Extensions.swift"; path = "Sources/NSView+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		5301942A2304154100F479AF /* NSNumber+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSNumber+Extensions.swift"; path = "Sources/NSNumber+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		5301942B2304154100F479AF /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Int+Extensions.swift"; path = "Sources/Int+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		5301942C2304154100F479AF /* BibliographicName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographicName.swift; path = Sources/BibliographicName.swift; sourceTree = SOURCE_ROOT; };
+		5301942D2304154100F479AF /* ElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElementRepresentable.swift; path = Sources/ElementRepresentable.swift; sourceTree = SOURCE_ROOT; };
+		5301942F2304154100F479AF /* BibliographyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographyItem.swift; path = "../Sources/Model Protocols/BibliographyItem.swift"; sourceTree = "<group>"; };
+		530194302304154100F479AF /* DictionaryRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DictionaryRepresentable.swift; path = Sources/DictionaryRepresentable.swift; sourceTree = SOURCE_ROOT; };
+		530194312304154100F479AF /* Range+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Range+Extensions.swift"; path = "Sources/Range+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		530194322304154100F479AF /* ElementProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElementProcessor.swift; path = Sources/ElementProcessor.swift; sourceTree = SOURCE_ROOT; };
+		530194332304154200F479AF /* NSXMLNode+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSXMLNode+Extensions.swift"; path = "Sources/NSXMLNode+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		530194342304154200F479AF /* BibliographicDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographicDate.swift; path = Sources/BibliographicDate.swift; sourceTree = SOURCE_ROOT; };
+		530194352304154200F479AF /* NSFileManager+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Extensions.swift"; path = "Sources/NSFileManager+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		530194362304154200F479AF /* FragmentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FragmentProcessor.swift; path = Sources/FragmentProcessor.swift; sourceTree = SOURCE_ROOT; };
+		530194372304154200F479AF /* NSString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSString+Extensions.swift"; path = "Sources/NSString+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		530194382304154200F479AF /* NSURLConnection+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLConnection+Extensions.swift"; path = "Sources/NSURLConnection+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		530194392304154200F479AF /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Extensions.swift"; path = "Sources/String+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		5301943A2304154200F479AF /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DocumentProcessorError.swift; path = Sources/DocumentProcessorError.swift; sourceTree = SOURCE_ROOT; };
 		5347ADC322FDD9F6008D148D /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Extensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F19968E1CB5AE8F00B1C5DB /* Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Extensions.h; sourceTree = "<group>"; };
@@ -108,51 +131,28 @@
 		5F1996B51CB5B58400B1C5DB /* ExtensionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExtensionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F1996B71CB5B58400B1C5DB /* ExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsTests.swift; sourceTree = "<group>"; };
 		5F1996B91CB5B58400B1C5DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5F1BA9B31D00722100D1A99C /* NSString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+Extensions.swift"; sourceTree = "<group>"; };
 		5F34E2BF1CC7E84B00A5DAF1 /* biolit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = biolit.html; sourceTree = "<group>"; };
 		5F34E2C11CC7E88D00A5DAF1 /* RegexKitLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RegexKitLite.framework; path = Carthage/Build/Mac/RegexKitLite.framework; sourceTree = "<group>"; };
 		5F34E2C21CC7E88D00A5DAF1 /* RegexKitLite.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RegexKitLite.framework.dSYM; path = Carthage/Build/Mac/RegexKitLite.framework.dSYM; sourceTree = "<group>"; };
-		5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographyItem.swift; path = "Model Protocols/BibliographyItem.swift"; sourceTree = "<group>"; };
-		5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
-		5F44B8061CCA7C940047A4F0 /* Mathematical.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mathematical.swift; sourceTree = "<group>"; };
-		5F44B80D1CCA7DC20047A4F0 /* Elements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
-		5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryRepresentable.swift; sourceTree = "<group>"; };
-		5F44B8111CCA912F0047A4F0 /* DocumentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessor.swift; sourceTree = "<group>"; };
-		5F44B8131CCA91370047A4F0 /* ElementProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementProcessor.swift; sourceTree = "<group>"; };
-		5F44B8151CCA913E0047A4F0 /* FragmentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentProcessor.swift; sourceTree = "<group>"; };
 		5F44B8181CCACCE20047A4F0 /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SWXMLHash.framework; path = ../../Build/Mac/SWXMLHash.framework; sourceTree = "<group>"; };
 		5F44B8191CCACCE20047A4F0 /* SWXMLHash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SWXMLHash.framework.dSYM; path = ../../Build/Mac/SWXMLHash.framework.dSYM; sourceTree = "<group>"; };
-		5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
-		5F44B8201CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLConnection+Extensions.swift"; sourceTree = "<group>"; };
 		5F44B82C1CCBA4BA0047A4F0 /* 1HIV.rcsb-xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "1HIV.rcsb-xml"; sourceTree = "<group>"; };
 		5F44B82F1CCBA79A0047A4F0 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Build/Mac/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		5F44B8301CCBA79A0047A4F0 /* OHHTTPStubs.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OHHTTPStubs.framework.dSYM; path = ../../Build/Mac/OHHTTPStubs.framework.dSYM; sourceTree = "<group>"; };
 		5F44B8341CCBAABB0047A4F0 /* 1304383.pubmed-xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "1304383.pubmed-xml"; sourceTree = "<group>"; };
-		5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BibliographicName.swift; sourceTree = "<group>"; };
-		5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BibliographicDate.swift; sourceTree = "<group>"; };
 		5F44B8431CCBF9060047A4F0 /* 10.1038-nrd842.citeproc-json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "10.1038-nrd842.citeproc-json"; sourceTree = "<group>"; };
 		5F4D73411D1E982E00A12225 /* 10.1002-0470841559.ch1.citeproc-json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "10.1002-0470841559.ch1.citeproc-json"; sourceTree = "<group>"; };
 		5F4D73431D1E9DEE00A12225 /* 10.13039-100000054.citeproc-json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "10.13039-100000054.citeproc-json"; sourceTree = "<group>"; };
 		5F571C7A1CC32774003471D5 /* MPTimer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPTimer.framework; path = Carthage/Build/Mac/MPTimer.framework; sourceTree = "<group>"; };
 		5F571C7B1CC32774003471D5 /* MPTimer.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPTimer.framework.dSYM; path = Carthage/Build/Mac/MPTimer.framework.dSYM; sourceTree = "<group>"; };
-		5F571C901CC41942003471D5 /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentProcessorError.swift; sourceTree = "<group>"; };
 		5F57FB421CCCDC2000EBF750 /* MPRateLimiter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MPRateLimiter.framework; path = ../../Build/Mac/MPRateLimiter.framework; sourceTree = "<group>"; };
 		5F57FB431CCCDC2000EBF750 /* MPRateLimiter.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MPRateLimiter.framework.dSYM; path = ../../Build/Mac/MPRateLimiter.framework.dSYM; sourceTree = "<group>"; };
-		5F57FB501CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLSnippetRepresentable.swift; sourceTree = "<group>"; };
-		5F6140E71CE5D411008B288C /* SequenceType+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SequenceType+Extensions.swift"; sourceTree = "<group>"; };
-		5F6813EE1CCE497100AA2C29 /* ElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementRepresentable.swift; sourceTree = "<group>"; };
 		5F7EE47C1CB7E52700F4B7EA /* Freddy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Freddy.framework; path = Carthage/Build/Mac/Freddy.framework; sourceTree = "<group>"; };
 		5F7EE47D1CB7E52700F4B7EA /* Freddy.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Freddy.framework.dSYM; path = Carthage/Build/Mac/Freddy.framework.dSYM; sourceTree = "<group>"; };
 		5F7EE49B1CBA9B8D00F4B7EA /* JSExample.extension */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSExample.extension; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F7EE49D1CBA9B8D00F4B7EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F7EE4A61CBAC4A100F4B7EA /* example-1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "example-1.js"; sourceTree = "<group>"; };
 		5F7EE4A81CBAC4A800F4B7EA /* example-2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "example-2.js"; sourceTree = "<group>"; };
-		5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFileManager+Extensions.swift"; sourceTree = "<group>"; };
-		5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
-		5FA223521CE33F2F00C38E72 /* NSXMLNode+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSXMLNode+Extensions.swift"; sourceTree = "<group>"; };
-		5FA223541CE37ADA00C38E72 /* Range+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Range+Extensions.swift"; sourceTree = "<group>"; };
-		5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNumber+Extensions.swift"; sourceTree = "<group>"; };
-		5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
 		5FC2B2DD1CBD3C49001F77FB /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = app/index.html; sourceTree = "<group>"; };
 		5FC2B2DF1CBD3D33001F77FB /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = dist/scripts; sourceTree = "<group>"; };
 		5FC2B2E01CBD3D33001F77FB /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = styles; path = dist/styles; sourceTree = "<group>"; };
@@ -267,14 +267,14 @@
 		5F34E2D01CC7FD7E00A5DAF1 /* Model Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				5F44B8391CCBCCA10047A4F0 /* BibliographicDate.swift */,
-				5F44B8371CCBCC850047A4F0 /* BibliographicName.swift */,
-				5F34E2CE1CC7F0D900A5DAF1 /* BibliographyItem.swift */,
-				5F44B80F1CCA87700047A4F0 /* DictionaryRepresentable.swift */,
-				5F6813EE1CCE497100AA2C29 /* ElementRepresentable.swift */,
-				5F44B80D1CCA7DC20047A4F0 /* Elements.swift */,
-				5F57FB501CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift */,
-				5F44B8061CCA7C940047A4F0 /* Mathematical.swift */,
+				530194342304154200F479AF /* BibliographicDate.swift */,
+				5301942C2304154100F479AF /* BibliographicName.swift */,
+				5301942F2304154100F479AF /* BibliographyItem.swift */,
+				530194302304154100F479AF /* DictionaryRepresentable.swift */,
+				5301942D2304154100F479AF /* ElementRepresentable.swift */,
+				530194272304154000F479AF /* Elements.swift */,
+				530194242304154000F479AF /* HTMLSnippetRepresentable.swift */,
+				530194282304154000F479AF /* Mathematical.swift */,
 			);
 			name = "Model Protocols";
 			sourceTree = "<group>";
@@ -282,17 +282,17 @@
 		5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				5F7EE4B91CBB2BE600F4B7EA /* Dictionary+Extensions.swift */,
-				5F44B81E1CCAD09B0047A4F0 /* Int+Extensions.swift */,
-				5F7EE4B01CBAD9D200F4B7EA /* NSFileManager+Extensions.swift */,
-				5FC2B2C41CBC9B02001F77FB /* NSNumber+Extensions.swift */,
-				5F44B8201CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift */,
-				5FC2B2CD1CBCAA75001F77FB /* NSView+Extensions.swift */,
-				5F44B7FF1CCA6D700047A4F0 /* String+Extensions.swift */,
-				5FA223521CE33F2F00C38E72 /* NSXMLNode+Extensions.swift */,
-				5FA223541CE37ADA00C38E72 /* Range+Extensions.swift */,
-				5F6140E71CE5D411008B288C /* SequenceType+Extensions.swift */,
-				5F1BA9B31D00722100D1A99C /* NSString+Extensions.swift */,
+				530194252304154000F479AF /* Dictionary+Extensions.swift */,
+				5301942B2304154100F479AF /* Int+Extensions.swift */,
+				530194352304154200F479AF /* NSFileManager+Extensions.swift */,
+				5301942A2304154100F479AF /* NSNumber+Extensions.swift */,
+				530194372304154200F479AF /* NSString+Extensions.swift */,
+				530194382304154200F479AF /* NSURLConnection+Extensions.swift */,
+				530194292304154000F479AF /* NSView+Extensions.swift */,
+				530194332304154200F479AF /* NSXMLNode+Extensions.swift */,
+				530194312304154100F479AF /* Range+Extensions.swift */,
+				530194262304154000F479AF /* SequenceType+Extensions.swift */,
+				530194392304154200F479AF /* String+Extensions.swift */,
 			);
 			name = "Cocoa Extensions";
 			sourceTree = "<group>";
@@ -300,10 +300,10 @@
 		5F571C921CC41975003471D5 /* Processor Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				5F44B8111CCA912F0047A4F0 /* DocumentProcessor.swift */,
-				5F571C901CC41942003471D5 /* DocumentProcessorError.swift */,
-				5F44B8131CCA91370047A4F0 /* ElementProcessor.swift */,
-				5F44B8151CCA913E0047A4F0 /* FragmentProcessor.swift */,
+				530194232304154000F479AF /* DocumentProcessor.swift */,
+				5301943A2304154200F479AF /* DocumentProcessorError.swift */,
+				530194322304154100F479AF /* ElementProcessor.swift */,
+				530194362304154200F479AF /* FragmentProcessor.swift */,
 			);
 			name = "Processor Protocols";
 			sourceTree = "<group>";
@@ -494,29 +494,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FA223531CE33F2F00C38E72 /* NSXMLNode+Extensions.swift in Sources */,
-				5F7EE4B11CBAD9D200F4B7EA /* NSFileManager+Extensions.swift in Sources */,
-				5F44B8071CCA7C940047A4F0 /* Mathematical.swift in Sources */,
-				5F57FB511CCD5BEA00EBF750 /* HTMLSnippetRepresentable.swift in Sources */,
-				5F44B8161CCA913E0047A4F0 /* FragmentProcessor.swift in Sources */,
-				5F44B8211CCAD56E0047A4F0 /* NSURLConnection+Extensions.swift in Sources */,
-				5F44B8381CCBCC850047A4F0 /* BibliographicName.swift in Sources */,
-				5FC2B2CE1CBCAA75001F77FB /* NSView+Extensions.swift in Sources */,
-				5FC2B2C51CBC9B02001F77FB /* NSNumber+Extensions.swift in Sources */,
-				5F44B8141CCA91370047A4F0 /* ElementProcessor.swift in Sources */,
-				5F44B81F1CCAD09B0047A4F0 /* Int+Extensions.swift in Sources */,
-				5F34E2CF1CC7F0D900A5DAF1 /* BibliographyItem.swift in Sources */,
-				5F44B80E1CCA7DC20047A4F0 /* Elements.swift in Sources */,
-				5F44B8001CCA6D700047A4F0 /* String+Extensions.swift in Sources */,
-				5FA223551CE37ADA00C38E72 /* Range+Extensions.swift in Sources */,
-				5F571C911CC41942003471D5 /* DocumentProcessorError.swift in Sources */,
-				5F6140E81CE5D411008B288C /* SequenceType+Extensions.swift in Sources */,
-				5F1BA9B41D00722100D1A99C /* NSString+Extensions.swift in Sources */,
-				5F44B83A1CCBCCA10047A4F0 /* BibliographicDate.swift in Sources */,
-				5F44B8121CCA912F0047A4F0 /* DocumentProcessor.swift in Sources */,
-				5F6813EF1CCE497100AA2C29 /* ElementRepresentable.swift in Sources */,
-				5F7EE4BA1CBB2BE600F4B7EA /* Dictionary+Extensions.swift in Sources */,
-				5F44B8101CCA87700047A4F0 /* DictionaryRepresentable.swift in Sources */,
+				5301943E2304154300F479AF /* SequenceType+Extensions.swift in Sources */,
+				5301943B2304154300F479AF /* DocumentProcessor.swift in Sources */,
+				530194462304154300F479AF /* BibliographyItem.swift in Sources */,
+				530194512304154300F479AF /* DocumentProcessorError.swift in Sources */,
+				530194422304154300F479AF /* NSNumber+Extensions.swift in Sources */,
+				530194452304154300F479AF /* ElementRepresentable.swift in Sources */,
+				5301944D2304154300F479AF /* FragmentProcessor.swift in Sources */,
+				530194482304154300F479AF /* Range+Extensions.swift in Sources */,
+				5301943F2304154300F479AF /* Elements.swift in Sources */,
+				5301944F2304154300F479AF /* NSURLConnection+Extensions.swift in Sources */,
+				530194412304154300F479AF /* NSView+Extensions.swift in Sources */,
+				5301944A2304154300F479AF /* NSXMLNode+Extensions.swift in Sources */,
+				530194432304154300F479AF /* Int+Extensions.swift in Sources */,
+				5301943C2304154300F479AF /* HTMLSnippetRepresentable.swift in Sources */,
+				530194472304154300F479AF /* DictionaryRepresentable.swift in Sources */,
+				5301944C2304154300F479AF /* NSFileManager+Extensions.swift in Sources */,
+				5301944B2304154300F479AF /* BibliographicDate.swift in Sources */,
+				530194492304154300F479AF /* ElementProcessor.swift in Sources */,
+				5301943D2304154300F479AF /* Dictionary+Extensions.swift in Sources */,
+				530194402304154300F479AF /* Mathematical.swift in Sources */,
+				530194502304154300F479AF /* String+Extensions.swift in Sources */,
+				5301944E2304154300F479AF /* NSString+Extensions.swift in Sources */,
+				530194442304154300F479AF /* BibliographicName.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
