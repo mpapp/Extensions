@@ -10,10 +10,11 @@ let package = Package(
             targets: ["Extensions"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/mpapp/MPRateLimiter", branch: "master")
     ],
     targets: [
         .target(
             name: "Extensions",
-            dependencies: [])
+            dependencies: ["MPRateLimiter"])
     ]
 )
