@@ -5,9 +5,9 @@
         "package": "MPRateLimiter",
         "repositoryURL": "https://github.com/mpapp/MPRateLimiter",
         "state": {
-          "branch": "master",
+          "branch": null,
           "revision": "d3335e4a7feaeb851e427463255449acb9551735",
-          "version": null
+          "version": "1.2.0"
         }
       }
     ]
