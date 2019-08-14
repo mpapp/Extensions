@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		536C47A222FDB129004281C6 /* MPRateLimiter in Frameworks */ = {isa = PBXBuildFile; productRef = 536C47A122FDB129004281C6 /* MPRateLimiter */; };
-		536C47A522FDB13C004281C6 /* MPTimer in Frameworks */ = {isa = PBXBuildFile; productRef = 536C47A422FDB13C004281C6 /* MPTimer */; };
 		539BF6E0230425A1009F15A9 /* Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 539BF6DF230425A1009F15A9 /* Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		539BF6EC230425CF009F15A9 /* Range+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E1230425CE009F15A9 /* Range+Extensions.swift */; };
 		539BF6ED230425CF009F15A9 /* NSString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E2230425CE009F15A9 /* NSString+Extensions.swift */; };
@@ -125,12 +124,12 @@
 		539BF70923042638009F15A9 /* ElementProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElementProcessor.swift; path = Sources/Extensions/ElementProcessor.swift; sourceTree = SOURCE_ROOT; };
 		539BF70A23042638009F15A9 /* FragmentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FragmentProcessor.swift; path = Sources/Extensions/FragmentProcessor.swift; sourceTree = SOURCE_ROOT; };
 		539BF70F23042653009F15A9 /* PMID-reference-example.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "PMID-reference-example.html"; path = "Tests/Resources/PMID-reference-example.html"; sourceTree = SOURCE_ROOT; };
-		539BF71023042654009F15A9 /* 10.1002-0470841559.ch1.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = file; name = "10.1002-0470841559.ch1.citeproc-json"; path = "Tests/Resources/10.1002-0470841559.ch1.citeproc-json"; sourceTree = SOURCE_ROOT; };
-		539BF71123042654009F15A9 /* 1HIV.rcsb-xml */ = {isa = PBXFileReference; lastKnownFileType = file; name = "1HIV.rcsb-xml"; path = "Tests/Resources/1HIV.rcsb-xml"; sourceTree = SOURCE_ROOT; };
+		539BF71023042654009F15A9 /* 10.1002-0470841559.ch1.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = text; name = "10.1002-0470841559.ch1.citeproc-json"; path = "Tests/Resources/10.1002-0470841559.ch1.citeproc-json"; sourceTree = SOURCE_ROOT; };
+		539BF71123042654009F15A9 /* 1HIV.rcsb-xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "1HIV.rcsb-xml"; path = "Tests/Resources/1HIV.rcsb-xml"; sourceTree = SOURCE_ROOT; };
 		539BF71223042654009F15A9 /* biolit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = biolit.html; path = Tests/Resources/biolit.html; sourceTree = SOURCE_ROOT; };
-		539BF71323042654009F15A9 /* 10.1038-nrd842.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = file; name = "10.1038-nrd842.citeproc-json"; path = "Tests/Resources/10.1038-nrd842.citeproc-json"; sourceTree = SOURCE_ROOT; };
-		539BF71423042654009F15A9 /* 10.13039-100000054.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = file; name = "10.13039-100000054.citeproc-json"; path = "Tests/Resources/10.13039-100000054.citeproc-json"; sourceTree = SOURCE_ROOT; };
-		539BF71523042654009F15A9 /* 1304383.pubmed-xml */ = {isa = PBXFileReference; lastKnownFileType = file; name = "1304383.pubmed-xml"; path = "Tests/Resources/1304383.pubmed-xml"; sourceTree = SOURCE_ROOT; };
+		539BF71323042654009F15A9 /* 10.1038-nrd842.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = text; name = "10.1038-nrd842.citeproc-json"; path = "Tests/Resources/10.1038-nrd842.citeproc-json"; sourceTree = SOURCE_ROOT; };
+		539BF71423042654009F15A9 /* 10.13039-100000054.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = text; name = "10.13039-100000054.citeproc-json"; path = "Tests/Resources/10.13039-100000054.citeproc-json"; sourceTree = SOURCE_ROOT; };
+		539BF71523042654009F15A9 /* 1304383.pubmed-xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "1304383.pubmed-xml"; path = "Tests/Resources/1304383.pubmed-xml"; sourceTree = SOURCE_ROOT; };
 		539BF71623042654009F15A9 /* ExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionsTests.swift; path = Tests/ExtensionsTests/ExtensionsTests.swift; sourceTree = SOURCE_ROOT; };
 		5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Extensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F1996901CB5AE8F00B1C5DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -166,7 +165,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FEB0D3C1CF329AC00D304B1 /* Cocoa.framework in Frameworks */,
-				536C47A522FDB13C004281C6 /* MPTimer in Frameworks */,
 				5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */,
 				5F1996AC1CB5B31D00B1C5DB /* WebKit.framework in Frameworks */,
 				536C47A222FDB129004281C6 /* MPRateLimiter in Frameworks */,
@@ -361,7 +359,6 @@
 			name = Extensions;
 			packageProductDependencies = (
 				536C47A122FDB129004281C6 /* MPRateLimiter */,
-				536C47A422FDB13C004281C6 /* MPTimer */,
 			);
 			productName = Extensions;
 			productReference = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */;
@@ -440,7 +437,6 @@
 			mainGroup = 5F1996811CB5AE8F00B1C5DB;
 			packageReferences = (
 				536C47A022FDB129004281C6 /* XCRemoteSwiftPackageReference "MPRateLimiter" */,
-				536C47A322FDB13C004281C6 /* XCRemoteSwiftPackageReference "MPTimer" */,
 			);
 			productRefGroup = 5F19968C1CB5AE8F00B1C5DB /* Products */;
 			projectDirPath = "";
@@ -841,14 +837,6 @@
 				kind = branch;
 			};
 		};
-		536C47A322FDB13C004281C6 /* XCRemoteSwiftPackageReference "MPTimer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mpapp/MPTimer";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -856,11 +844,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 536C47A022FDB129004281C6 /* XCRemoteSwiftPackageReference "MPRateLimiter" */;
 			productName = MPRateLimiter;
-		};
-		536C47A422FDB13C004281C6 /* MPTimer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 536C47A322FDB13C004281C6 /* XCRemoteSwiftPackageReference "MPTimer" */;
-			productName = MPTimer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
