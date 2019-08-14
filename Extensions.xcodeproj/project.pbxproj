@@ -7,40 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5301943B2304154300F479AF /* DocumentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194232304154000F479AF /* DocumentProcessor.swift */; };
-		5301943C2304154300F479AF /* HTMLSnippetRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194242304154000F479AF /* HTMLSnippetRepresentable.swift */; };
-		5301943D2304154300F479AF /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194252304154000F479AF /* Dictionary+Extensions.swift */; };
-		5301943E2304154300F479AF /* SequenceType+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194262304154000F479AF /* SequenceType+Extensions.swift */; };
-		5301943F2304154300F479AF /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194272304154000F479AF /* Elements.swift */; };
-		530194402304154300F479AF /* Mathematical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194282304154000F479AF /* Mathematical.swift */; };
-		530194412304154300F479AF /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194292304154000F479AF /* NSView+Extensions.swift */; };
-		530194422304154300F479AF /* NSNumber+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942A2304154100F479AF /* NSNumber+Extensions.swift */; };
-		530194432304154300F479AF /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942B2304154100F479AF /* Int+Extensions.swift */; };
-		530194442304154300F479AF /* BibliographicName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942C2304154100F479AF /* BibliographicName.swift */; };
-		530194452304154300F479AF /* ElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942D2304154100F479AF /* ElementRepresentable.swift */; };
-		530194462304154300F479AF /* BibliographyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301942F2304154100F479AF /* BibliographyItem.swift */; };
-		530194472304154300F479AF /* DictionaryRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194302304154100F479AF /* DictionaryRepresentable.swift */; };
-		530194482304154300F479AF /* Range+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194312304154100F479AF /* Range+Extensions.swift */; };
-		530194492304154300F479AF /* ElementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194322304154100F479AF /* ElementProcessor.swift */; };
-		5301944A2304154300F479AF /* NSXMLNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194332304154200F479AF /* NSXMLNode+Extensions.swift */; };
-		5301944B2304154300F479AF /* BibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194342304154200F479AF /* BibliographicDate.swift */; };
-		5301944C2304154300F479AF /* NSFileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194352304154200F479AF /* NSFileManager+Extensions.swift */; };
-		5301944D2304154300F479AF /* FragmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194362304154200F479AF /* FragmentProcessor.swift */; };
-		5301944E2304154300F479AF /* NSString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194372304154200F479AF /* NSString+Extensions.swift */; };
-		5301944F2304154300F479AF /* NSURLConnection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194382304154200F479AF /* NSURLConnection+Extensions.swift */; };
-		530194502304154300F479AF /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530194392304154200F479AF /* String+Extensions.swift */; };
-		530194512304154300F479AF /* DocumentProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301943A2304154200F479AF /* DocumentProcessorError.swift */; };
 		536C47A222FDB129004281C6 /* MPRateLimiter in Frameworks */ = {isa = PBXBuildFile; productRef = 536C47A122FDB129004281C6 /* MPRateLimiter */; };
 		536C47A522FDB13C004281C6 /* MPTimer in Frameworks */ = {isa = PBXBuildFile; productRef = 536C47A422FDB13C004281C6 /* MPTimer */; };
-		53BF7A6A23041A110016A3A7 /* 10.13039-100000054.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 53BF7A6223041A110016A3A7 /* 10.13039-100000054.citeproc-json */; };
-		53BF7A6B23041A110016A3A7 /* ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BF7A6323041A110016A3A7 /* ExtensionsTests.swift */; };
-		53BF7A6C23041A110016A3A7 /* 10.1038-nrd842.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 53BF7A6423041A110016A3A7 /* 10.1038-nrd842.citeproc-json */; };
-		53BF7A6D23041A120016A3A7 /* biolit.html in Resources */ = {isa = PBXBuildFile; fileRef = 53BF7A6523041A110016A3A7 /* biolit.html */; };
-		53BF7A6E23041A120016A3A7 /* 1304383.pubmed-xml in Resources */ = {isa = PBXBuildFile; fileRef = 53BF7A6623041A110016A3A7 /* 1304383.pubmed-xml */; };
-		53BF7A6F23041A120016A3A7 /* 10.1002-0470841559.ch1.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 53BF7A6723041A110016A3A7 /* 10.1002-0470841559.ch1.citeproc-json */; };
-		53BF7A7023041A120016A3A7 /* PMID-reference-example.html in Resources */ = {isa = PBXBuildFile; fileRef = 53BF7A6823041A110016A3A7 /* PMID-reference-example.html */; };
-		53BF7A7123041A120016A3A7 /* 1HIV.rcsb-xml in Resources */ = {isa = PBXBuildFile; fileRef = 53BF7A6923041A110016A3A7 /* 1HIV.rcsb-xml */; };
-		53BF7A7323041ED50016A3A7 /* Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 53BF7A7223041ED50016A3A7 /* Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		539BF6E0230425A1009F15A9 /* Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 539BF6DF230425A1009F15A9 /* Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		539BF6EC230425CF009F15A9 /* Range+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E1230425CE009F15A9 /* Range+Extensions.swift */; };
+		539BF6ED230425CF009F15A9 /* NSString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E2230425CE009F15A9 /* NSString+Extensions.swift */; };
+		539BF6EE230425CF009F15A9 /* NSFileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E3230425CE009F15A9 /* NSFileManager+Extensions.swift */; };
+		539BF6EF230425CF009F15A9 /* NSNumber+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E4230425CE009F15A9 /* NSNumber+Extensions.swift */; };
+		539BF6F0230425CF009F15A9 /* SequenceType+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E5230425CF009F15A9 /* SequenceType+Extensions.swift */; };
+		539BF6F1230425CF009F15A9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E6230425CF009F15A9 /* String+Extensions.swift */; };
+		539BF6F2230425CF009F15A9 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E7230425CF009F15A9 /* Int+Extensions.swift */; };
+		539BF6F3230425CF009F15A9 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E8230425CF009F15A9 /* Dictionary+Extensions.swift */; };
+		539BF6F4230425CF009F15A9 /* NSURLConnection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6E9230425CF009F15A9 /* NSURLConnection+Extensions.swift */; };
+		539BF6F5230425CF009F15A9 /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6EA230425CF009F15A9 /* NSView+Extensions.swift */; };
+		539BF6F6230425CF009F15A9 /* NSXMLNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6EB230425CF009F15A9 /* NSXMLNode+Extensions.swift */; };
+		539BF6FF23042626009F15A9 /* BibliographicName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6F723042626009F15A9 /* BibliographicName.swift */; };
+		539BF70023042626009F15A9 /* Mathematical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6F823042626009F15A9 /* Mathematical.swift */; };
+		539BF70123042626009F15A9 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6F923042626009F15A9 /* Elements.swift */; };
+		539BF70223042626009F15A9 /* DictionaryRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6FA23042626009F15A9 /* DictionaryRepresentable.swift */; };
+		539BF70323042626009F15A9 /* BibliographicDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6FB23042626009F15A9 /* BibliographicDate.swift */; };
+		539BF70423042626009F15A9 /* ElementRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6FC23042626009F15A9 /* ElementRepresentable.swift */; };
+		539BF70523042626009F15A9 /* HTMLSnippetRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6FD23042626009F15A9 /* HTMLSnippetRepresentable.swift */; };
+		539BF70623042626009F15A9 /* BibliographyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF6FE23042626009F15A9 /* BibliographyItem.swift */; };
+		539BF70B23042638009F15A9 /* DocumentProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF70723042638009F15A9 /* DocumentProcessorError.swift */; };
+		539BF70C23042638009F15A9 /* DocumentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF70823042638009F15A9 /* DocumentProcessor.swift */; };
+		539BF70D23042638009F15A9 /* ElementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF70923042638009F15A9 /* ElementProcessor.swift */; };
+		539BF70E23042638009F15A9 /* FragmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF70A23042638009F15A9 /* FragmentProcessor.swift */; };
+		539BF71723042654009F15A9 /* PMID-reference-example.html in Resources */ = {isa = PBXBuildFile; fileRef = 539BF70F23042653009F15A9 /* PMID-reference-example.html */; };
+		539BF71823042654009F15A9 /* 10.1002-0470841559.ch1.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 539BF71023042654009F15A9 /* 10.1002-0470841559.ch1.citeproc-json */; };
+		539BF71923042654009F15A9 /* 1HIV.rcsb-xml in Resources */ = {isa = PBXBuildFile; fileRef = 539BF71123042654009F15A9 /* 1HIV.rcsb-xml */; };
+		539BF71A23042654009F15A9 /* biolit.html in Resources */ = {isa = PBXBuildFile; fileRef = 539BF71223042654009F15A9 /* biolit.html */; };
+		539BF71B23042654009F15A9 /* 10.1038-nrd842.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 539BF71323042654009F15A9 /* 10.1038-nrd842.citeproc-json */; };
+		539BF71C23042654009F15A9 /* 10.13039-100000054.citeproc-json in Resources */ = {isa = PBXBuildFile; fileRef = 539BF71423042654009F15A9 /* 10.13039-100000054.citeproc-json */; };
+		539BF71D23042654009F15A9 /* 1304383.pubmed-xml in Resources */ = {isa = PBXBuildFile; fileRef = 539BF71523042654009F15A9 /* 1304383.pubmed-xml */; };
+		539BF71E23042654009F15A9 /* ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539BF71623042654009F15A9 /* ExtensionsTests.swift */; };
 		5F1996AC1CB5B31D00B1C5DB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F1996AB1CB5B31D00B1C5DB /* WebKit.framework */; };
 		5F1996AE1CB5B32100B1C5DB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F1996AD1CB5B32100B1C5DB /* JavaScriptCore.framework */; };
 		5F1996BA1CB5B58400B1C5DB /* Extensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */; };
@@ -99,39 +99,39 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		530194232304154000F479AF /* DocumentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DocumentProcessor.swift; path = Sources/DocumentProcessor.swift; sourceTree = SOURCE_ROOT; };
-		530194242304154000F479AF /* HTMLSnippetRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTMLSnippetRepresentable.swift; path = Sources/HTMLSnippetRepresentable.swift; sourceTree = SOURCE_ROOT; };
-		530194252304154000F479AF /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Dictionary+Extensions.swift"; path = "Sources/Dictionary+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		530194262304154000F479AF /* SequenceType+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SequenceType+Extensions.swift"; path = "Sources/SequenceType+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		530194272304154000F479AF /* Elements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Elements.swift; path = Sources/Elements.swift; sourceTree = SOURCE_ROOT; };
-		530194282304154000F479AF /* Mathematical.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mathematical.swift; path = Sources/Mathematical.swift; sourceTree = SOURCE_ROOT; };
-		530194292304154000F479AF /* NSView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSView+Extensions.swift"; path = "Sources/NSView+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		5301942A2304154100F479AF /* NSNumber+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSNumber+Extensions.swift"; path = "Sources/NSNumber+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		5301942B2304154100F479AF /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Int+Extensions.swift"; path = "Sources/Int+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		5301942C2304154100F479AF /* BibliographicName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographicName.swift; path = Sources/BibliographicName.swift; sourceTree = SOURCE_ROOT; };
-		5301942D2304154100F479AF /* ElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElementRepresentable.swift; path = Sources/ElementRepresentable.swift; sourceTree = SOURCE_ROOT; };
-		5301942F2304154100F479AF /* BibliographyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographyItem.swift; path = "../Sources/Model Protocols/BibliographyItem.swift"; sourceTree = "<group>"; };
-		530194302304154100F479AF /* DictionaryRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DictionaryRepresentable.swift; path = Sources/DictionaryRepresentable.swift; sourceTree = SOURCE_ROOT; };
-		530194312304154100F479AF /* Range+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Range+Extensions.swift"; path = "Sources/Range+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		530194322304154100F479AF /* ElementProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElementProcessor.swift; path = Sources/ElementProcessor.swift; sourceTree = SOURCE_ROOT; };
-		530194332304154200F479AF /* NSXMLNode+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSXMLNode+Extensions.swift"; path = "Sources/NSXMLNode+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		530194342304154200F479AF /* BibliographicDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographicDate.swift; path = Sources/BibliographicDate.swift; sourceTree = SOURCE_ROOT; };
-		530194352304154200F479AF /* NSFileManager+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Extensions.swift"; path = "Sources/NSFileManager+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		530194362304154200F479AF /* FragmentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FragmentProcessor.swift; path = Sources/FragmentProcessor.swift; sourceTree = SOURCE_ROOT; };
-		530194372304154200F479AF /* NSString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSString+Extensions.swift"; path = "Sources/NSString+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		530194382304154200F479AF /* NSURLConnection+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLConnection+Extensions.swift"; path = "Sources/NSURLConnection+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		530194392304154200F479AF /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Extensions.swift"; path = "Sources/String+Extensions.swift"; sourceTree = SOURCE_ROOT; };
-		5301943A2304154200F479AF /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DocumentProcessorError.swift; path = Sources/DocumentProcessorError.swift; sourceTree = SOURCE_ROOT; };
 		5347ADC322FDD9F6008D148D /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		53BF7A6223041A110016A3A7 /* 10.13039-100000054.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = text; name = "10.13039-100000054.citeproc-json"; path = "Tests/10.13039-100000054.citeproc-json"; sourceTree = SOURCE_ROOT; };
-		53BF7A6323041A110016A3A7 /* ExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionsTests.swift; path = Tests/ExtensionsTests.swift; sourceTree = SOURCE_ROOT; };
-		53BF7A6423041A110016A3A7 /* 10.1038-nrd842.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = text; name = "10.1038-nrd842.citeproc-json"; path = "Tests/10.1038-nrd842.citeproc-json"; sourceTree = SOURCE_ROOT; };
-		53BF7A6523041A110016A3A7 /* biolit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = biolit.html; path = Tests/biolit.html; sourceTree = SOURCE_ROOT; };
-		53BF7A6623041A110016A3A7 /* 1304383.pubmed-xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "1304383.pubmed-xml"; path = "Tests/1304383.pubmed-xml"; sourceTree = SOURCE_ROOT; };
-		53BF7A6723041A110016A3A7 /* 10.1002-0470841559.ch1.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = text; name = "10.1002-0470841559.ch1.citeproc-json"; path = "Tests/10.1002-0470841559.ch1.citeproc-json"; sourceTree = SOURCE_ROOT; };
-		53BF7A6823041A110016A3A7 /* PMID-reference-example.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "PMID-reference-example.html"; path = "Tests/PMID-reference-example.html"; sourceTree = SOURCE_ROOT; };
-		53BF7A6923041A110016A3A7 /* 1HIV.rcsb-xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "1HIV.rcsb-xml"; path = "Tests/1HIV.rcsb-xml"; sourceTree = SOURCE_ROOT; };
-		53BF7A7223041ED50016A3A7 /* Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Extensions.h; path = Sources/Extensions.h; sourceTree = SOURCE_ROOT; };
+		539BF6DF230425A1009F15A9 /* Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Extensions.h; path = Sources/Extensions/Extensions.h; sourceTree = SOURCE_ROOT; };
+		539BF6E1230425CE009F15A9 /* Range+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Range+Extensions.swift"; path = "Sources/Extensions/Range+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6E2230425CE009F15A9 /* NSString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSString+Extensions.swift"; path = "Sources/Extensions/NSString+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6E3230425CE009F15A9 /* NSFileManager+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Extensions.swift"; path = "Sources/Extensions/NSFileManager+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6E4230425CE009F15A9 /* NSNumber+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSNumber+Extensions.swift"; path = "Sources/Extensions/NSNumber+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6E5230425CF009F15A9 /* SequenceType+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SequenceType+Extensions.swift"; path = "Sources/Extensions/SequenceType+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6E6230425CF009F15A9 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Extensions.swift"; path = "Sources/Extensions/String+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6E7230425CF009F15A9 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Int+Extensions.swift"; path = "Sources/Extensions/Int+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6E8230425CF009F15A9 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Dictionary+Extensions.swift"; path = "Sources/Extensions/Dictionary+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6E9230425CF009F15A9 /* NSURLConnection+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLConnection+Extensions.swift"; path = "Sources/Extensions/NSURLConnection+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6EA230425CF009F15A9 /* NSView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSView+Extensions.swift"; path = "Sources/Extensions/NSView+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6EB230425CF009F15A9 /* NSXMLNode+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSXMLNode+Extensions.swift"; path = "Sources/Extensions/NSXMLNode+Extensions.swift"; sourceTree = SOURCE_ROOT; };
+		539BF6F723042626009F15A9 /* BibliographicName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographicName.swift; path = Sources/Extensions/BibliographicName.swift; sourceTree = SOURCE_ROOT; };
+		539BF6F823042626009F15A9 /* Mathematical.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mathematical.swift; path = Sources/Extensions/Mathematical.swift; sourceTree = SOURCE_ROOT; };
+		539BF6F923042626009F15A9 /* Elements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Elements.swift; path = Sources/Extensions/Elements.swift; sourceTree = SOURCE_ROOT; };
+		539BF6FA23042626009F15A9 /* DictionaryRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DictionaryRepresentable.swift; path = Sources/Extensions/DictionaryRepresentable.swift; sourceTree = SOURCE_ROOT; };
+		539BF6FB23042626009F15A9 /* BibliographicDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographicDate.swift; path = Sources/Extensions/BibliographicDate.swift; sourceTree = SOURCE_ROOT; };
+		539BF6FC23042626009F15A9 /* ElementRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElementRepresentable.swift; path = Sources/Extensions/ElementRepresentable.swift; sourceTree = SOURCE_ROOT; };
+		539BF6FD23042626009F15A9 /* HTMLSnippetRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTMLSnippetRepresentable.swift; path = Sources/Extensions/HTMLSnippetRepresentable.swift; sourceTree = SOURCE_ROOT; };
+		539BF6FE23042626009F15A9 /* BibliographyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BibliographyItem.swift; path = Sources/Extensions/BibliographyItem.swift; sourceTree = SOURCE_ROOT; };
+		539BF70723042638009F15A9 /* DocumentProcessorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DocumentProcessorError.swift; path = Sources/Extensions/DocumentProcessorError.swift; sourceTree = SOURCE_ROOT; };
+		539BF70823042638009F15A9 /* DocumentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DocumentProcessor.swift; path = Sources/Extensions/DocumentProcessor.swift; sourceTree = SOURCE_ROOT; };
+		539BF70923042638009F15A9 /* ElementProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElementProcessor.swift; path = Sources/Extensions/ElementProcessor.swift; sourceTree = SOURCE_ROOT; };
+		539BF70A23042638009F15A9 /* FragmentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FragmentProcessor.swift; path = Sources/Extensions/FragmentProcessor.swift; sourceTree = SOURCE_ROOT; };
+		539BF70F23042653009F15A9 /* PMID-reference-example.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "PMID-reference-example.html"; path = "Tests/Resources/PMID-reference-example.html"; sourceTree = SOURCE_ROOT; };
+		539BF71023042654009F15A9 /* 10.1002-0470841559.ch1.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = file; name = "10.1002-0470841559.ch1.citeproc-json"; path = "Tests/Resources/10.1002-0470841559.ch1.citeproc-json"; sourceTree = SOURCE_ROOT; };
+		539BF71123042654009F15A9 /* 1HIV.rcsb-xml */ = {isa = PBXFileReference; lastKnownFileType = file; name = "1HIV.rcsb-xml"; path = "Tests/Resources/1HIV.rcsb-xml"; sourceTree = SOURCE_ROOT; };
+		539BF71223042654009F15A9 /* biolit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = biolit.html; path = Tests/Resources/biolit.html; sourceTree = SOURCE_ROOT; };
+		539BF71323042654009F15A9 /* 10.1038-nrd842.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = file; name = "10.1038-nrd842.citeproc-json"; path = "Tests/Resources/10.1038-nrd842.citeproc-json"; sourceTree = SOURCE_ROOT; };
+		539BF71423042654009F15A9 /* 10.13039-100000054.citeproc-json */ = {isa = PBXFileReference; lastKnownFileType = file; name = "10.13039-100000054.citeproc-json"; path = "Tests/Resources/10.13039-100000054.citeproc-json"; sourceTree = SOURCE_ROOT; };
+		539BF71523042654009F15A9 /* 1304383.pubmed-xml */ = {isa = PBXFileReference; lastKnownFileType = file; name = "1304383.pubmed-xml"; path = "Tests/Resources/1304383.pubmed-xml"; sourceTree = SOURCE_ROOT; };
+		539BF71623042654009F15A9 /* ExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionsTests.swift; path = Tests/ExtensionsTests/ExtensionsTests.swift; sourceTree = SOURCE_ROOT; };
 		5F19968B1CB5AE8F00B1C5DB /* Extensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Extensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F1996901CB5AE8F00B1C5DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F1996AB1CB5B31D00B1C5DB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -217,7 +217,7 @@
 		5F19968D1CB5AE8F00B1C5DB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				53BF7A7223041ED50016A3A7 /* Extensions.h */,
+				539BF6DF230425A1009F15A9 /* Extensions.h */,
 				5F1996901CB5AE8F00B1C5DB /* Info.plist */,
 				5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */,
 				5F34E2D01CC7FD7E00A5DAF1 /* Model Protocols */,
@@ -229,14 +229,14 @@
 		5F1996B61CB5B58400B1C5DB /* ExtensionsTests */ = {
 			isa = PBXGroup;
 			children = (
-				53BF7A6923041A110016A3A7 /* 1HIV.rcsb-xml */,
-				53BF7A6723041A110016A3A7 /* 10.1002-0470841559.ch1.citeproc-json */,
-				53BF7A6623041A110016A3A7 /* 1304383.pubmed-xml */,
-				53BF7A6423041A110016A3A7 /* 10.1038-nrd842.citeproc-json */,
-				53BF7A6223041A110016A3A7 /* 10.13039-100000054.citeproc-json */,
-				53BF7A6523041A110016A3A7 /* biolit.html */,
-				53BF7A6323041A110016A3A7 /* ExtensionsTests.swift */,
-				53BF7A6823041A110016A3A7 /* PMID-reference-example.html */,
+				539BF71123042654009F15A9 /* 1HIV.rcsb-xml */,
+				539BF71323042654009F15A9 /* 10.1038-nrd842.citeproc-json */,
+				539BF71423042654009F15A9 /* 10.13039-100000054.citeproc-json */,
+				539BF71523042654009F15A9 /* 1304383.pubmed-xml */,
+				539BF71023042654009F15A9 /* 10.1002-0470841559.ch1.citeproc-json */,
+				539BF71223042654009F15A9 /* biolit.html */,
+				539BF71623042654009F15A9 /* ExtensionsTests.swift */,
+				539BF70F23042653009F15A9 /* PMID-reference-example.html */,
 				5F1996B91CB5B58400B1C5DB /* Info.plist */,
 			);
 			path = ExtensionsTests;
@@ -267,14 +267,14 @@
 		5F34E2D01CC7FD7E00A5DAF1 /* Model Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				530194342304154200F479AF /* BibliographicDate.swift */,
-				5301942C2304154100F479AF /* BibliographicName.swift */,
-				5301942F2304154100F479AF /* BibliographyItem.swift */,
-				530194302304154100F479AF /* DictionaryRepresentable.swift */,
-				5301942D2304154100F479AF /* ElementRepresentable.swift */,
-				530194272304154000F479AF /* Elements.swift */,
-				530194242304154000F479AF /* HTMLSnippetRepresentable.swift */,
-				530194282304154000F479AF /* Mathematical.swift */,
+				539BF6FB23042626009F15A9 /* BibliographicDate.swift */,
+				539BF6F723042626009F15A9 /* BibliographicName.swift */,
+				539BF6FE23042626009F15A9 /* BibliographyItem.swift */,
+				539BF6FA23042626009F15A9 /* DictionaryRepresentable.swift */,
+				539BF6FC23042626009F15A9 /* ElementRepresentable.swift */,
+				539BF6F923042626009F15A9 /* Elements.swift */,
+				539BF6FD23042626009F15A9 /* HTMLSnippetRepresentable.swift */,
+				539BF6F823042626009F15A9 /* Mathematical.swift */,
 			);
 			name = "Model Protocols";
 			sourceTree = "<group>";
@@ -282,17 +282,17 @@
 		5F44B82E1CCBA58C0047A4F0 /* Cocoa Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				530194252304154000F479AF /* Dictionary+Extensions.swift */,
-				5301942B2304154100F479AF /* Int+Extensions.swift */,
-				530194352304154200F479AF /* NSFileManager+Extensions.swift */,
-				5301942A2304154100F479AF /* NSNumber+Extensions.swift */,
-				530194372304154200F479AF /* NSString+Extensions.swift */,
-				530194382304154200F479AF /* NSURLConnection+Extensions.swift */,
-				530194292304154000F479AF /* NSView+Extensions.swift */,
-				530194332304154200F479AF /* NSXMLNode+Extensions.swift */,
-				530194312304154100F479AF /* Range+Extensions.swift */,
-				530194262304154000F479AF /* SequenceType+Extensions.swift */,
-				530194392304154200F479AF /* String+Extensions.swift */,
+				539BF6E8230425CF009F15A9 /* Dictionary+Extensions.swift */,
+				539BF6E7230425CF009F15A9 /* Int+Extensions.swift */,
+				539BF6E3230425CE009F15A9 /* NSFileManager+Extensions.swift */,
+				539BF6E4230425CE009F15A9 /* NSNumber+Extensions.swift */,
+				539BF6E2230425CE009F15A9 /* NSString+Extensions.swift */,
+				539BF6E9230425CF009F15A9 /* NSURLConnection+Extensions.swift */,
+				539BF6EA230425CF009F15A9 /* NSView+Extensions.swift */,
+				539BF6EB230425CF009F15A9 /* NSXMLNode+Extensions.swift */,
+				539BF6E1230425CE009F15A9 /* Range+Extensions.swift */,
+				539BF6E5230425CF009F15A9 /* SequenceType+Extensions.swift */,
+				539BF6E6230425CF009F15A9 /* String+Extensions.swift */,
 			);
 			name = "Cocoa Extensions";
 			sourceTree = "<group>";
@@ -300,10 +300,10 @@
 		5F571C921CC41975003471D5 /* Processor Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				530194232304154000F479AF /* DocumentProcessor.swift */,
-				5301943A2304154200F479AF /* DocumentProcessorError.swift */,
-				530194322304154100F479AF /* ElementProcessor.swift */,
-				530194362304154200F479AF /* FragmentProcessor.swift */,
+				539BF70823042638009F15A9 /* DocumentProcessor.swift */,
+				539BF70723042638009F15A9 /* DocumentProcessorError.swift */,
+				539BF70923042638009F15A9 /* ElementProcessor.swift */,
+				539BF70A23042638009F15A9 /* FragmentProcessor.swift */,
 			);
 			name = "Processor Protocols";
 			sourceTree = "<group>";
@@ -336,7 +336,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53BF7A7323041ED50016A3A7 /* Extensions.h in Headers */,
+				539BF6E0230425A1009F15A9 /* Extensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,13 +465,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53BF7A6A23041A110016A3A7 /* 10.13039-100000054.citeproc-json in Resources */,
-				53BF7A6D23041A120016A3A7 /* biolit.html in Resources */,
-				53BF7A6F23041A120016A3A7 /* 10.1002-0470841559.ch1.citeproc-json in Resources */,
-				53BF7A6E23041A120016A3A7 /* 1304383.pubmed-xml in Resources */,
-				53BF7A6C23041A110016A3A7 /* 10.1038-nrd842.citeproc-json in Resources */,
-				53BF7A7023041A120016A3A7 /* PMID-reference-example.html in Resources */,
-				53BF7A7123041A120016A3A7 /* 1HIV.rcsb-xml in Resources */,
+				539BF71B23042654009F15A9 /* 10.1038-nrd842.citeproc-json in Resources */,
+				539BF71D23042654009F15A9 /* 1304383.pubmed-xml in Resources */,
+				539BF71823042654009F15A9 /* 10.1002-0470841559.ch1.citeproc-json in Resources */,
+				539BF71C23042654009F15A9 /* 10.13039-100000054.citeproc-json in Resources */,
+				539BF71723042654009F15A9 /* PMID-reference-example.html in Resources */,
+				539BF71A23042654009F15A9 /* biolit.html in Resources */,
+				539BF71923042654009F15A9 /* 1HIV.rcsb-xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,29 +494,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5301943E2304154300F479AF /* SequenceType+Extensions.swift in Sources */,
-				5301943B2304154300F479AF /* DocumentProcessor.swift in Sources */,
-				530194462304154300F479AF /* BibliographyItem.swift in Sources */,
-				530194512304154300F479AF /* DocumentProcessorError.swift in Sources */,
-				530194422304154300F479AF /* NSNumber+Extensions.swift in Sources */,
-				530194452304154300F479AF /* ElementRepresentable.swift in Sources */,
-				5301944D2304154300F479AF /* FragmentProcessor.swift in Sources */,
-				530194482304154300F479AF /* Range+Extensions.swift in Sources */,
-				5301943F2304154300F479AF /* Elements.swift in Sources */,
-				5301944F2304154300F479AF /* NSURLConnection+Extensions.swift in Sources */,
-				530194412304154300F479AF /* NSView+Extensions.swift in Sources */,
-				5301944A2304154300F479AF /* NSXMLNode+Extensions.swift in Sources */,
-				530194432304154300F479AF /* Int+Extensions.swift in Sources */,
-				5301943C2304154300F479AF /* HTMLSnippetRepresentable.swift in Sources */,
-				530194472304154300F479AF /* DictionaryRepresentable.swift in Sources */,
-				5301944C2304154300F479AF /* NSFileManager+Extensions.swift in Sources */,
-				5301944B2304154300F479AF /* BibliographicDate.swift in Sources */,
-				530194492304154300F479AF /* ElementProcessor.swift in Sources */,
-				5301943D2304154300F479AF /* Dictionary+Extensions.swift in Sources */,
-				530194402304154300F479AF /* Mathematical.swift in Sources */,
-				530194502304154300F479AF /* String+Extensions.swift in Sources */,
-				5301944E2304154300F479AF /* NSString+Extensions.swift in Sources */,
-				530194442304154300F479AF /* BibliographicName.swift in Sources */,
+				539BF6F0230425CF009F15A9 /* SequenceType+Extensions.swift in Sources */,
+				539BF6FF23042626009F15A9 /* BibliographicName.swift in Sources */,
+				539BF70323042626009F15A9 /* BibliographicDate.swift in Sources */,
+				539BF70123042626009F15A9 /* Elements.swift in Sources */,
+				539BF6F2230425CF009F15A9 /* Int+Extensions.swift in Sources */,
+				539BF70E23042638009F15A9 /* FragmentProcessor.swift in Sources */,
+				539BF70B23042638009F15A9 /* DocumentProcessorError.swift in Sources */,
+				539BF6F3230425CF009F15A9 /* Dictionary+Extensions.swift in Sources */,
+				539BF70423042626009F15A9 /* ElementRepresentable.swift in Sources */,
+				539BF6EE230425CF009F15A9 /* NSFileManager+Extensions.swift in Sources */,
+				539BF70023042626009F15A9 /* Mathematical.swift in Sources */,
+				539BF6ED230425CF009F15A9 /* NSString+Extensions.swift in Sources */,
+				539BF6EF230425CF009F15A9 /* NSNumber+Extensions.swift in Sources */,
+				539BF6F4230425CF009F15A9 /* NSURLConnection+Extensions.swift in Sources */,
+				539BF6EC230425CF009F15A9 /* Range+Extensions.swift in Sources */,
+				539BF70523042626009F15A9 /* HTMLSnippetRepresentable.swift in Sources */,
+				539BF6F1230425CF009F15A9 /* String+Extensions.swift in Sources */,
+				539BF70623042626009F15A9 /* BibliographyItem.swift in Sources */,
+				539BF70C23042638009F15A9 /* DocumentProcessor.swift in Sources */,
+				539BF6F5230425CF009F15A9 /* NSView+Extensions.swift in Sources */,
+				539BF6F6230425CF009F15A9 /* NSXMLNode+Extensions.swift in Sources */,
+				539BF70223042626009F15A9 /* DictionaryRepresentable.swift in Sources */,
+				539BF70D23042638009F15A9 /* ElementProcessor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,7 +524,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53BF7A6B23041A110016A3A7 /* ExtensionsTests.swift in Sources */,
+				539BF71E23042654009F15A9 /* ExtensionsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
